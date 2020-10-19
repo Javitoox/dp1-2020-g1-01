@@ -56,7 +56,7 @@
 		 </roles> 
  		</developer>
  		<developer>
-		 <id>Javi</id>
+		 <id>Javitoox</id>
 		 <name>Javi</name>
 		 <email>javmarfer3@alum.us.es</email>
 		 <url></url>
@@ -64,9 +64,8 @@
 		 <role>leader</role>
 		 </roles> 
 		 <properties>
-                <picUrl>
-
-                </picUrl>
+          <picUrl>
+          </picUrl>
          </properties>
  		</developer>
  		
