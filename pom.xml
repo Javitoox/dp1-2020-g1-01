@@ -32,7 +32,20 @@
 
     </properties>
 <developers>
-		
+		<developer>
+            <id>gonalvgar</id>
+            <name>Gonzalo</name>
+            <email>gonalvgar.alumno@gmail.com</email>
+            <url></url>
+            <roles>
+                <role>leader</role>
+            </roles>
+            <properties>
+                <picUrl>
+
+                </picUrl>
+            </properties>
+        </developer>
 		 <developer>
 		 <id>javvilmay</id>
 		 <name>Javi</name>
