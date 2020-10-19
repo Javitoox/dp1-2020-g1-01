@@ -65,6 +65,33 @@
 		 </roles> 
  		</developer>
  		
+ 		<developer>
+	 <id>marrambla2</id>
+	 <name>Maribel</name>
+	 <email>marrambla2@alum.us.es</email>
+	 <url></url>
+	 <roles>
+	 <role>leader</role>
+	 </roles>
+	 <properties>
+	 <picUrl>
+	 </picUrl>
+	 </properties>
+	 </developer>
+	 
+	 <developer>
+	 <id>eveyugyug</id>
+	 <name>Evelyn</name>
+	 <email>evelynyugsiyugsi@gmail.com</email>
+	 <url></url>
+	 <roles>
+	 	<role>leader</role>
+	 </roles>
+	 <properties>
+	    <picUrl></picUrl>
+	 </properties>
+ 	</developer>
+ 		
  <!-- More developers ...-->
 </developers>
     <dependencies>
@@ -293,4 +320,3 @@
 
 
 </project>
-
