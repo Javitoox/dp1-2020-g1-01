@@ -31,7 +31,42 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
+<developers>
+		<developer>
+            <id>gonalvgar</id>
+            <name>Gonzalo</name>
+            <email>gonalvgar.alumno@gmail.com</email>
+            <url></url>
+            <roles>
+                <role>leader</role>
+            </roles>
+            <properties>
+                <picUrl>
 
+                </picUrl>
+            </properties>
+        </developer>
+		 <developer>
+		 <id>javvilmay</id>
+		 <name>Javi</name>
+		 <email>javiervilarinyomayo.cr@gmail.com</email>
+		 <url>https://github.com/javivm17</url>
+		 <roles>
+		 <role>leader</role>
+		 </roles> 
+ 		</developer>
+ 		<developer>
+		 <id>Javi</id>
+		 <name>Javi</name>
+		 <email>javmarfer3@alum.us.es</email>
+		 <url></url>
+		 <roles>
+		 <role>leader</role>
+		 </roles> 
+ 		</developer>
+ 		
+ <!-- More developers ...-->
+</developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
