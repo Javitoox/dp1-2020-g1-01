@@ -18,7 +18,7 @@ public class WelcomeController {
 		  List<Person> persons = new ArrayList<Person>();
 		  Person person = new Person();
 		  person.setFirstName("Javier ");
-		  person.setLastName("Martínez Fernández");
+		  person.setLastName("Martínez  Fernández");
 		  
 		  Person person1 = new Person();
 		  person1.setFirstName("Evelyn ");
