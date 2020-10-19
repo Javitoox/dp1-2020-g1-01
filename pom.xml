@@ -78,6 +78,20 @@
 	 </picUrl>
 	 </properties>
 	 </developer>
+	 
+	 <developers>
+	 <developer>
+	 <id>eveyugyug</id>
+	 <name>Evelyn</name>
+	 <email>evelynyugsiyugsi@gmail.com</email>
+	 <url></url>
+	 <roles>
+	 	<role>leader</role>
+	 </roles>
+	 <properties>
+	    <picUrl></picUrl>
+	 </properties>
+ 	</developer>
  		
  <!-- More developers ...-->
 </developers>
