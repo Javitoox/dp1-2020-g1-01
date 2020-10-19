@@ -31,7 +31,25 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-
+    
+	<developers>
+	 <developer>
+	 <id>marrambla2</id>
+	 <name>Maribel</name>
+	 <email>marrambla2@alum.us.es</email>
+	 <url></url>
+	 <roles>
+	 <role>leader</role>
+	 </roles>
+	 <properties>
+	 <picUrl>
+	 </picUrl>
+	 </properties>
+	 </developer>
+	
+	 <!-- More developers ...-->
+	</developers>
+	
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
