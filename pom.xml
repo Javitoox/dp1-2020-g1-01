@@ -63,6 +63,11 @@
 		 <roles>
 		 <role>leader</role>
 		 </roles> 
+		 <properties>
+                <picUrl>
+
+                </picUrl>
+         </properties>
  		</developer>
  		
  		<developer>
