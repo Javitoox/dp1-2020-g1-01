@@ -25,7 +25,7 @@ public class WelcomeController {
 		  person1.setLastName("Yugsi Yugsi");
 		  
 		  Person person2 = new Person();
-		  person2.setFirstName("Maria Isabel ");
+		  person2.setFirstName("Maria  Isabel ");
 		  person2.setLastName("Ramos Blanco");
 		  
 		  Person person3 = new Person();
