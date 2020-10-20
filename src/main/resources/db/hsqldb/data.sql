@@ -15,6 +15,10 @@ INSERT INTO authorities(id,username,authority) VALUES (4,'gonalvgar','owner');
 INSERT INTO users(username,password,enabled) VALUES ('Javitoox','Javitoox',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (5,'Javitoox','owner');
 
+--usuario eveyugyug
+INSERT INTO users(username,password,enabled) VALUES ('eveyugyug','eveyugyug',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (6,'eveyugyug','owner');
+
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
 INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
