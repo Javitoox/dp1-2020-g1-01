@@ -23,6 +23,10 @@ INSERT INTO authorities(id,username,authority) VALUES (6,'eveyugyug','owner');
 INSERT INTO users(username,password,enabled) VALUES ('marrambla2','marrambla2',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (7,'marrambla2','owner');
 
+--usuario javvilmay
+INSERT INTO users(username,password,enabled) VALUES ('javivm17','calvo',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (8,'javivm17','owner');
+
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
 INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
@@ -46,9 +50,9 @@ INSERT INTO types VALUES (3, 'lizard');
 INSERT INTO types VALUES (4, 'snake');
 INSERT INTO types VALUES (5, 'bird');
 INSERT INTO types VALUES (6, 'hamster');
+INSERT INTO types VALUES (7, 'platypus');
 
-INSERT INTO owners VALUES (12, 'Javi', 'Martínez', '110 W. Liberty St.', 'Madison', '622119555', 'owner1');
-INSERT INTO owners VALUES (11, 'Gonzalo', 'Alvarez', '110 W. Liberty St.', 'Madison', '622119555', 'owner1');
+
 INSERT INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
 INSERT INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749', 'owner1');
 INSERT INTO owners VALUES (3, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763', 'owner1');
@@ -59,7 +63,10 @@ INSERT INTO owners VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085
 INSERT INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683', 'owner1');
 INSERT INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435', 'owner1');
 INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487', 'owner1');
+INSERT INTO owners VALUES (11, 'Gonzalo', 'Alvarez', '110 W. Liberty St.', 'Madison', '622119555', 'owner1');
+INSERT INTO owners VALUES (12, 'Javi', 'Martínez', '110 W. Liberty St.', 'Madison', '622119555', 'owner1');
 INSERT INTO owners VALUES (13, 'Maribel', 'Ramos', '110 W. Liberty St.', 'Madison', '622119556', 'owner1');
+INSERT INTO owners VALUES (14, 'Javi', 'Vilariño', 'Mi casa', 'Madison', '622119550', 'owner1');
 
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
@@ -76,10 +83,12 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (11, 'Freddy', '201
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Covid', '2020-03-17', 1, 13);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (15, 'Perry', '2020-03-17', 7, 14);
 
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
+
 
