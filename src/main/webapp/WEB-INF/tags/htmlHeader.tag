@@ -19,7 +19,12 @@ PetClinic :: a Spring Framework demonstration
     <%-- CSS generated from LESS --%>
     <spring:url value="/resources/css/petclinic.css" var="petclinicCss"/>
     <link href="${petclinicCss}" rel="stylesheet"/>
+    
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 
+    <spring:url value="/js/like_button.js" var="react"/>
+    <link href="${react}" rel="stylesheet"/>
 
     <%-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --%>
     <!--[if lt IE 9]>

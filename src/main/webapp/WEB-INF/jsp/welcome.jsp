@@ -21,6 +21,6 @@
             <spring:url value="/resources/images/apple.png" htmlEscape="true" var="petsImage"/>
             <img class="img-responsive" src="${petsImage}"/>
         </div>
-      
+      <div id="like_button_container"></div>
     </div>
 </petclinic:layout>
