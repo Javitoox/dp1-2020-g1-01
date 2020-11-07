@@ -1,6 +1,6 @@
 # T.E.A aplication
 
-Requisitos para nuestra aplicación implementada con React:<br></br>
+Requisitos para nuestra aplicación implementada con React:<br>
   1.Instalación de la última versión de node: 14.15.0 LTS.
   2.Tener npm instalado. Instalar con el comando: npm install.
  
