@@ -11,20 +11,14 @@ PetClinic :: a Spring Framework demonstration
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags --%>
 
-    <spring:url value="/resources/images/favicon.png" var="favicon"/>
+    <spring:url value="/resources/images/tea.png" var="favicon"/>
     <link rel="shortcut icon" type="image/x-icon" href="${favicon}">
 
-    <title>PetClinic :: a Spring Framework demonstration</title>
+    <title>T.E.A</title>
 
     <%-- CSS generated from LESS --%>
     <spring:url value="/resources/css/petclinic.css" var="petclinicCss"/>
     <link href="${petclinicCss}" rel="stylesheet"/>
-    
-    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-
-    <spring:url value="/js/like_button.js" var="react"/>
-    <link href="${react}" rel="stylesheet"/>
 
     <%-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --%>
     <!--[if lt IE 9]>

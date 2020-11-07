@@ -48,12 +48,12 @@
                 </td> 
                 <td>
                    <a href="/alumnos/${alumno.id}/edit">
-                   	<span class="glyphicon glyphicon-pencil"></span>
+                   	<span class="glyphicon glyphicon-pencil" style="color:#38B6D5;"></span>
                    </a>
                 </td>
                 <td>
                    <a href="/alumnos/${alumno.id}/delete">
-                   	<span class="glyphicon glyphicon-trash"></span>
+                   	<span class="glyphicon glyphicon-trash" style="color:#38B6D5;"></span>
                    </a>
                 </td>
                 
