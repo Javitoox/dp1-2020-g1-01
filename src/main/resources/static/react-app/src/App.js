@@ -1,32 +1,35 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import {AlumnoComponent} from './components/AlumnoComponent';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <span>Primer Sprint realizado por:</span>
-		<br></br>
-        <span>Alonso Martín, Fernando</span>
-		<span>Álvarez García, Gonzalo</span>
-		<span>Martínez Fernández, Javier</span>
-		<span>Ramos Blanco, María Isabel</span>
-		<span>Vilariño Mayo, Javier</span>
-		<span>Yugsi Yugsi, Evelyn</span>
-		<br></br>
-		<br></br>
-        <a
-          className="App-link"
-          href="http://localhost:8081/alumnos"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Accede a nuestra primera funcionalidad
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+	constructor(){
+		super();
+		this.state = {}
+		this.alumnoComponent = new AlumnoComponent();
+	}
+	componentDidMount(){
+		this.alumnoComponent.getAllAlumnos().then(data => this.setState({alumnos:data}));
+	}
+	render(){
+		return(
+			<React.Fragment>
+				<h2>LISTA DE ALUMNOS</h2>
+				<DataTable value={this.state.alumnos}> 
+		            <Column field="id" header="ID"></Column>
+		            <Column field="name" header="name"></Column>
+		            <Column field="dni" header="dni"></Column>
+		            <Column field="correo" header="correo"></Column>
+		            <Column field="telefono" header="telefono"></Column>
+		            <Column field="telefono2" header="telefono2"></Column>
+		            <Column field="direccion" header="direccion"></Column>
+		            <Column field="fechanacimiento" header="fechanacimiento"></Column>
+		        </DataTable>
+			</React.Fragment>
+		)
+	}
 }
 
 export default App;

@@ -20,7 +20,6 @@ public class AlumnoService {
 	
 	public Optional<Alumno>findById(int id){
 		return alumnoRepo.findById(id);
-		
 	}
 	
 	public void saveAlumno(Alumno a){
@@ -30,6 +29,5 @@ public class AlumnoService {
 	public void deleteAlumno(Alumno a) {
 		alumnoRepo.deleteById(a.getId());
 	}
-	
 	
 }

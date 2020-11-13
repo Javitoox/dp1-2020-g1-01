@@ -6,9 +6,18 @@
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.2.0",
+    "axios": "^0.21.0",
+    "classname": "0.0.0",
+    "classnames": "^2.2.6",
+    "column": "0.0.2",
+    "datatable": "^2.0.2",
+    "formik": "^2.2.5",
+    "primereact": "^5.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
+    "react-transition-group": "^4.4.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

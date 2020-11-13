@@ -1,34 +1,27 @@
 package org.springframework.samples.petclinic.web;
 
-import java.util.Optional;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.BeanUtils;
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.service.AlumnoService;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@CrossOrigin("*")
+@RestController
 @RequestMapping("/alumnos")
 public class AlumnoController {
    @Autowired
    AlumnoService alumnoServ;
    
-   @GetMapping
-   public String getAlumnos(ModelMap model) {
-	   model.addAttribute("alumnos",alumnoServ.getAlumnos());
-	   return "alumnos/AlumnosList";
+   @GetMapping("/all")
+   public Collection<Alumno> getAlumnos(ModelMap model) {
+	   return alumnoServ.getAlumnos();
    }
-   
+/*   
    @GetMapping("/{id}/edit")
    public String sendFormAlumno(ModelMap model, @PathVariable("id")int id ) {
 	  Optional<Alumno>alumno = alumnoServ.findById(id);
@@ -66,6 +59,6 @@ public class AlumnoController {
 		  return getAlumnos(model);
 	  }
    }
-
+*/
    
 }
