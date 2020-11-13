@@ -13,18 +13,12 @@
     
     <spring:url value="/resources/images/tea.png" var="tea"/>
     <link rel="shortcut icon" type="image/x-icon" href="${tea}">
-    
-    <!-- React -->
-    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
-    
-    <!-- JSX ha sido instalado en el propio proyecto a través de un preprocesador -->
 
 </head>
 
 <body>
 
-<% response.sendRedirect("http://localhost:3000/"); %>
+<h1>Bienvenido a la api de T.E.A</h1>
 
 </body>
 </html>
