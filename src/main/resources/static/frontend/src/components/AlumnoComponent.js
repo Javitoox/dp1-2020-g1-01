@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {Component} from 'react';
+import {Component} from 'react';
 
 export class AlumnoComponent extends Component{
 	baseUrl = "http://localhost:8081/alumnos";
