@@ -2,7 +2,7 @@ import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
-import '../index.css';
+import '../menu.css';
 import { Component } from 'react';
 import { TabMenu } from 'primereact/tabmenu';
 
