@@ -3,6 +3,7 @@ import './App.css';
 import {AlumnoComponent} from './components/AlumnoComponent';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
+import {MenubarDemo} from './components/MenubarDemo';
 
 class App extends Component {
 	constructor(){
@@ -16,6 +17,7 @@ class App extends Component {
 	render(){
 		return(
 			<React.Fragment>
+				<MenubarDemo></MenubarDemo>
 				<h2>LISTA DE ALUMNOS</h2>
 				<DataTable value={this.state.alumnos}> 
 		            <Column field="id" header="ID"></Column>
