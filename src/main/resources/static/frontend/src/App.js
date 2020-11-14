@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
-import './App.css';
-import {AlumnoComponent} from './components/AlumnoComponent';
-import {DataTable} from 'primereact/datatable';
-import {Column} from 'primereact/column';
-import {MenubarDemo} from './components/MenubarDemo';
+/* import {AlumnoComponent} from './components/AlumnoComponent'; */
+/* import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column'; */
+import {MenubarResponsive} from './components/MenubarResponsive';
+import './index.css';
 
 class App extends Component {
 	constructor(){
 		super();
 		this.state = {}
-		this.alumnoComponent = new AlumnoComponent();
+		/* this.alumnoComponent = new AlumnoComponent(); */
 	}
-	componentDidMount(){
+	/* componentDidMount(){
 		this.alumnoComponent.getAllAlumnos().then(data => this.setState({alumnos:data}));
-	}
+	} */
 	render(){
 		return(
 			<React.Fragment>
-				<MenubarDemo></MenubarDemo>
-				<h2>LISTA DE ALUMNOS</h2>
+				<MenubarResponsive></MenubarResponsive>
+				{/* <h2>LISTA DE ALUMNOS</h2>
 				<DataTable value={this.state.alumnos}> 
 		            <Column field="id" header="ID"></Column>
 		            <Column field="name" header="name"></Column>
@@ -28,7 +28,7 @@ class App extends Component {
 		            <Column field="telefono2" header="telefono2"></Column>
 		            <Column field="direccion" header="direccion"></Column>
 		            <Column field="fechanacimiento" header="fechanacimiento"></Column>
-		        </DataTable>
+		        </DataTable> */}
 			</React.Fragment>
 		)
 	}
