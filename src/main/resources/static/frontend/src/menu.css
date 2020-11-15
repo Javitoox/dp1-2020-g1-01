@@ -195,4 +195,8 @@ span.flag {
 
 img.flag {
   width:30px
-}                 
+}       
+
+.button-login{
+  text-decoration: none;
+}

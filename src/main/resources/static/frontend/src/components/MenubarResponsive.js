@@ -8,25 +8,51 @@ import { Menubar } from 'primereact/menubar';
 import { Button } from 'primereact/button';
 
 export class MenubarResponsive extends Component {
+    state = {
+        items1: [
+            { label: 'Home', icon: 'pi pi-fw pi-home', command: (event) => {
+                window.location = "/";
+            }},
+            { label: 'Enrolment´s requests', icon: 'pi pi-fw pi-file', command: (event) => {
+                window.location = "requests";
+            }},
+            { label: 'About us', icon: 'pi pi-fw pi-question' }
+        ],
+        items2: [
+            { label: 'Home', icon: 'pi pi-fw pi-home', command: (event) => {
+                window.location = "/";
+            }},
+            { label: 'Enrolment´s requests', icon: 'pi pi-fw pi-file', command: (event) => {
+                window.location = "requests";
+            }},
+            { label: 'Students', icon: 'pi pi-fw pi-users' },
+            { label: 'Payments', icon: 'pi pi-fw pi-dollar' },
+            { label: 'Material', icon: 'pi pi-fw pi-pencil' },
+            { label: 'Wall of Fame', icon: 'pi pi-fw pi-star' },
+            { label: 'School calendar', icon: 'pi pi-fw pi-calendar' },
+            { label: 'About us', icon: 'pi pi-fw pi-question' }
+        ],
+        items3: [
+            { label: 'Home', icon: 'pi pi-fw pi-home', command: (event) => {
+                window.location = "/";
+            }},
+            { label: 'My students', icon: 'pi pi-fw pi-pencil' },
+            { label: 'About us', icon: 'pi pi-fw pi-question' }
+        ]
+    };
 
-    constructor(props) {
-        super(props);
+    redirectLogin(){
+        return window.location="/";
+    }
 
-        this.state = {
-            items1: [
-                {label: 'Inicio', icon: 'pi pi-fw pi-home'},
-                {label: 'Solicitudes de matrícula', icon: 'pi pi-fw pi-file'},
-                {label: 'Sobre notrosos', icon: 'pi pi-fw pi-question'},
-            ],
-            items2: [
-                {label: 'Alumnos', icon: 'pi pi-fw pi-users'},
-                {label: 'Pagos', icon: 'pi pi-fw pi-dollar'},
-                {label: 'Material', icon: 'pi pi-fw pi-pencil'},
-                {label: 'Wall of Fame', icon: 'pi pi-fw pi-star'},
-                {label: 'Calendario escolar', icon: 'pi pi-fw pi-calendar'}
-            ]
-            
-        };
+    tipoDeUsuario(){
+        if(this.props.tipoDeUsuario==="usuario"){
+            return this.state.items1;
+        }else if(this.props.tipoDeUsuario==="alumno"){
+            return this.state.items2;
+        }else if(this.props.tipoDeUsuario==="tutor"){
+            return this.state.items3;
+        }
     }
 
     render() {
@@ -34,7 +60,8 @@ export class MenubarResponsive extends Component {
         return (
             <div>
                 <div className="card">
-                    <Menubar model={true ? this.state.items1:this.state.items1.concat(this.state.items2)} start={start} end={false ? <Button className="p-button-secondary" label="Cerrar sesión" icon="pi pi-power-off"/>:<Button className="p-button-secondary" label="Inicio sesión" icon="pi pi-fw pi-users"/>}/>
+                    <Menubar model={this.tipoDeUsuario()} start={start} end={false ? <a href="/"><Button className="button-login p-button-secondary" 
+                    label="Logout" icon="pi pi-power-off"/></a> : <a href="/login"><Button className="button-login p-button-secondary" label="Login" icon="pi pi-fw pi-users" /></a> } />
                 </div>
             </div>
         );
