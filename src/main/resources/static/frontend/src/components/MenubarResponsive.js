@@ -5,6 +5,7 @@ import 'primeflex/primeflex.css';
 import '../menu.css';
 import { Component } from 'react';
 import { Menubar } from 'primereact/menubar';
+import { Button } from 'primereact/button';
 
 export class MenubarResponsive extends Component {
 
@@ -15,7 +16,7 @@ export class MenubarResponsive extends Component {
             items1: [
                 {label: 'Inicio', icon: 'pi pi-fw pi-home'},
                 {label: 'Solicitudes de matrícula', icon: 'pi pi-fw pi-file'},
-                {label: 'Sobre notrosos', icon: 'pi pi-fw pi-question'}
+                {label: 'Sobre notrosos', icon: 'pi pi-fw pi-question'},
             ],
             items2: [
                 {label: 'Alumnos', icon: 'pi pi-fw pi-users'},
@@ -24,16 +25,16 @@ export class MenubarResponsive extends Component {
                 {label: 'Wall of Fame', icon: 'pi pi-fw pi-star'},
                 {label: 'Calendario escolar', icon: 'pi pi-fw pi-calendar'}
             ]
+            
         };
     }
 
     render() {
         const start = <img alt="logo" src="https://static.wixstatic.com/media/8d86d1_1e825f1702a2414eba98748ce4fc56b3~mv2.png/v1/fill/w_121,h_106,al_c,q_85,usm_0.66_1.00_0.01/8d86d1_1e825f1702a2414eba98748ce4fc56b3~mv2.webp" height="40" className="p-mr-2"></img>;
-
         return (
             <div>
                 <div className="card">
-                    <Menubar model={false ? this.state.items1:this.state.items1.concat(this.state.items2)} start={start}/>
+                    <Menubar model={true ? this.state.items1:this.state.items1.concat(this.state.items2)} start={start} end={false ? <Button className="p-button-secondary" label="Cerrar sesión" icon="pi pi-power-off"/>:<Button className="p-button-secondary" label="Inicio sesión" icon="pi pi-fw pi-users"/>}/>
                 </div>
             </div>
         );
