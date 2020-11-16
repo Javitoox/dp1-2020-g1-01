@@ -1,40 +1,42 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
 @Entity
 @Data
 @Table(name="alumno")
-public class Alumno extends NamedEntity{
-	
-	@Column(name="dni")
-	@NotEmpty
-	private String dni;
-	
-	@Column(name="correo")
-	@NotEmpty
-	private String correo;
-	
-	@Column(name="telefono")
-	@NotEmpty
-	private String telefono;
-	
-	@Column(name="telefono2")
-	@NotEmpty
-	private String telefono2;
-	
-	@Column(name="direccion")
-	@NotEmpty
-	private String direccion;
-	
-	@Column(name="fechanacimiento")
-	@NotEmpty
-	private String fechanacimiento;
-	
 
+public class Alumno extends Usuario{
+	
+	@Column(name="numtareasentregadas")
+	private Integer numtareasentregadas;
+	
+	@Column(name="fechamatriculacion")
+	@NotBlank
+	@NotEmpty
+	@NotNull
+	private String fechamatriculacion;
+	
+    @ManyToOne
+    @JoinColumn(name = "nicktutor")
+    private Tutor tutor;
+    
+    @OneToMany(mappedBy = "alumno")
+    private List<Premiado> premiados;
+    
+    @ManyToOne
+    @JoinColumn(name = "nombregrupo")
+    private Grupo grupo;
 }
