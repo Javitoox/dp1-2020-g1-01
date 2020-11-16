@@ -1,10 +1,14 @@
 package org.springframework.samples.petclinic.model;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -39,4 +43,15 @@ public class Alumno extends Usuario{
     @ManyToOne
     @JoinColumn(name = "nombregrupo")
     private Grupo grupo;
+    
+    @OneToMany(mappedBy = "alumno")
+    private List<Feedback> feedbacks;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "materialalumno", joinColumns = @JoinColumn(name = "nickusuario"),
+			inverseJoinColumns = @JoinColumn(name = "id"))
+	private Set<Material> materiales;
+    
+    @OneToMany(mappedBy = "alumno")
+    private List<Pago> pagos;
 }

@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,21 +19,20 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="grupo")
-public class Grupo {
+@Table(name="curso")
+public class Curso {
+
 	@Id
-	@Column(name="nombregrupo")
-	private String nombregrupo;
+	@Enumerated(EnumType.STRING)
+	@Column(name="cursodeingles")
+	private CursoDeIngles cursodeingles;
 	
-	@ManyToOne
-    @JoinColumn(name="cursodeingles")
-    private Curso curso;
-	
-	@OneToMany(mappedBy = "grupo")
-    private List<Alumno> alumnos;
+	@OneToMany(mappedBy = "curso")
+	private List<Grupo>grupos;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "eventogrupo", joinColumns = @JoinColumn(name = "nombregrupo"),
-			inverseJoinColumns = @JoinColumn(name = "idevento"))
-	private Set<Evento> eventos;
+	@JoinTable(name = "cursomaterial", joinColumns = @JoinColumn(name = "cursodeingles"),
+			inverseJoinColumns = @JoinColumn(name = "id"))
+	private Set<Curso> cursos;
+
 }
