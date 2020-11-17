@@ -5,8 +5,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -37,4 +35,9 @@ public class Grupo {
 	@JoinTable(name = "eventogrupo", joinColumns = @JoinColumn(name = "nombregrupo"),
 			inverseJoinColumns = @JoinColumn(name = "idevento"))
 	private Set<Evento> eventos;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "profesorgrupo", joinColumns = @JoinColumn(name = "nombregrupo"),
+			inverseJoinColumns = @JoinColumn(name = "nickusuario"))
+	private Set<Profesor> profesores;
 }
