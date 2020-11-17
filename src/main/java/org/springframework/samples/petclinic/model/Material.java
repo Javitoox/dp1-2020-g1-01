@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Data
+@Data 
 @Table(name="material")
 public class Material extends BaseEntity{
 	

@@ -35,4 +35,9 @@ public class Grupo {
 	@JoinTable(name = "eventogrupo", joinColumns = @JoinColumn(name = "nombregrupo"),
 			inverseJoinColumns = @JoinColumn(name = "idevento"))
 	private Set<Evento> eventos;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "profesorgrupo", joinColumns = @JoinColumn(name = "nombregrupo"),
+			inverseJoinColumns = @JoinColumn(name = "nickusuario"))
+	private Set<Profesor> profesores;
 }

@@ -20,6 +20,8 @@ INSERT INTO calendario(id) VALUES(1);
 insert INTO curso  VALUES ('b2');
 
 INSERT INTO grupo(nombregrupo,cursodeingles) VALUES('grupo1', 'b2');
+
+INSERT INTO PROFESORGRUPO(nickusuario,nombregrupo)values('SergioSegura','grupo1');
 INSERT INTO evento(idevento, nombreevento, descripcionevento,fechaevento,id) VALUES(1,'Examen el 25/12/2020','El examen será tipo test','15/12/2020',1);
 INSERT INTO eventogrupo(idevento,nombregrupo) VALUES(1,'grupo1');
 
