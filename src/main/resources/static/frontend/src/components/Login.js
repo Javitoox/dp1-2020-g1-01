@@ -16,7 +16,7 @@ export class Login extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user"></i>
                                     </span>
-                                    <InputText placeholder="Username" type="text"/>
+                                    <InputText placeholder="Username" name="username" type="text"/>
                                 </div>
                             </div>
 
@@ -25,7 +25,7 @@ export class Login extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-lock"></i>
                                     </span>
-                                    <InputText placeholder="Password" type="text"/>
+                                    <InputText placeholder="Password" name="password" type="text"/>
                                 </div>
                             </div>
                             <div className="b">
