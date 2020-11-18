@@ -28,6 +28,6 @@ public class Premiado{
 	
 	@ManyToOne
 	@JoinColumn(name = "id") 
-	private WallofFame walloffames;
+	private WallofFame wall_of_fames;
 	 
 }

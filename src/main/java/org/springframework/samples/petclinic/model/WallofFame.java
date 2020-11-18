@@ -10,9 +10,9 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="walloffames")
+@Table(name="wall_of_fames")
 public class WallofFame extends BaseEntity{
 
-	@OneToMany(mappedBy = "walloffames")
+	@OneToMany(mappedBy = "wall_of_fames")
     private List<Premiado> premiados;	
 }
