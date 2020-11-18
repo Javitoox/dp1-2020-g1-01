@@ -23,7 +23,7 @@ public class Premiado{
 	
 	@ManyToOne
     @JoinColumn(name = "nick_usuario")
-    private Alumno alumno;
+    private Alumno alumnos;
 	
 	
 	@ManyToOne

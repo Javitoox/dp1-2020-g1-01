@@ -39,5 +39,5 @@ public class Evento {
 	
 	@ManyToOne
     @JoinColumn(name = "id")
-    private Calendario calendario;
+    private Calendario calendarios;
 }

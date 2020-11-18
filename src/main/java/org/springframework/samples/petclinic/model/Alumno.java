@@ -35,14 +35,14 @@ public class Alumno extends Usuario{
 	
     @ManyToOne
     @JoinColumn(name = "nick_tutor")
-    private Tutor tutor;
+    private Tutor tutores;
     
     @OneToMany(mappedBy = "alumnos")
     private List<Premiado> premiados;
     
     @ManyToOne
     @JoinColumn(name = "nombre_grupo")
-    private Grupo grupo;
+    private Grupo grupos;
     
     @OneToMany(mappedBy = "alumnos")
     private List<Feedback> feedbacks;

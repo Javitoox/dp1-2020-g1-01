@@ -26,7 +26,7 @@ public class Grupo {
 	
 	@ManyToOne
     @JoinColumn(name="curso_de_ingles")
-    private Curso curso;
+    private Curso cursos;
 	
 	@OneToMany(mappedBy = "grupos")
     private List<Alumno> alumnos;
