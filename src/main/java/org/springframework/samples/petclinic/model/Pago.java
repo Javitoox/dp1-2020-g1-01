@@ -27,7 +27,7 @@ public class Pago extends BaseEntity{
 	
 	@ManyToOne
 	@JoinColumn(name="nick_usuario")
-	private Alumno alumno;
+	private Alumno alumnos;
 	
 
 }

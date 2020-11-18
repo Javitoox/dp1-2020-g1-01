@@ -32,7 +32,7 @@ public class Material extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name="nick_usuario")
-    private Profesor profesor;
+    private Profesor profesores;
     
     @OneToMany(mappedBy = "materiales")
     private List<Feedback> feedbacks;
