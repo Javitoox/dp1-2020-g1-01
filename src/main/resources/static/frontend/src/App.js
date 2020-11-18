@@ -10,7 +10,7 @@ class App extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<MenubarResponsive tipoDeUsuario="usuario"></MenubarResponsive>
+				<MenubarResponsive tipoDeUsuario="integrante"></MenubarResponsive>
 				<Router>
 					<Route path="/requests" render={()=> 
 					<Solicitudes tipoDeUsuario="usuario"></Solicitudes>
