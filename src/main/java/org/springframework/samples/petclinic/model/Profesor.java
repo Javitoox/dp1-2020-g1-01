@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 @Table(name="profesores")
 public class Profesor extends Usuario{
-	@OneToMany(mappedBy = "profesor")
+	@OneToMany(mappedBy = "profesores")
     private List<Material> materiales;
 	
 	

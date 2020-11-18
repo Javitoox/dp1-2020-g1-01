@@ -37,14 +37,14 @@ public class Alumno extends Usuario{
     @JoinColumn(name = "nick_tutor")
     private Tutor tutor;
     
-    @OneToMany(mappedBy = "alumno")
+    @OneToMany(mappedBy = "alumnos")
     private List<Premiado> premiados;
     
     @ManyToOne
     @JoinColumn(name = "nombre_grupo")
     private Grupo grupo;
     
-    @OneToMany(mappedBy = "alumno")
+    @OneToMany(mappedBy = "alumnos")
     private List<Feedback> feedbacks;
     
     @ManyToMany(fetch = FetchType.EAGER)
@@ -52,6 +52,6 @@ public class Alumno extends Usuario{
 			inverseJoinColumns = @JoinColumn(name = "id"))
 	private Set<Material> materiales;
     
-    @OneToMany(mappedBy = "alumno")
+    @OneToMany(mappedBy = "alumnos")
     private List<Pago> pagos;
 }

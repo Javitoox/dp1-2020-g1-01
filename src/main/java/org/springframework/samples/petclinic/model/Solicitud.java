@@ -18,5 +18,5 @@ public class Solicitud extends BaseEntity{
 	
 	@ManyToOne
     @JoinColumn(name = "nick_usuario")
-    private Usuario usuario;
+    private Usuario usuarios;
 }

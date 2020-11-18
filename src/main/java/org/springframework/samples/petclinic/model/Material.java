@@ -34,7 +34,7 @@ public class Material extends BaseEntity{
     @JoinColumn(name="nick_usuario")
     private Profesor profesor;
     
-    @OneToMany(mappedBy = "material")
+    @OneToMany(mappedBy = "materiales")
     private List<Feedback> feedbacks;
     
     @ManyToMany(fetch = FetchType.EAGER)
