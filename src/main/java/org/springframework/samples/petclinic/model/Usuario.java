@@ -75,7 +75,7 @@ public class Usuario{
 	@NotNull
 	private String fechaNacimiento;
 	
-	@OneToMany(mappedBy = "usuario")
+	@OneToMany(mappedBy = "usuarios")
     private List<Solicitud> solicitudes;
 }
 

@@ -31,7 +31,7 @@ public class Tutor{
 	@Column(name="num_telefono_tutor")
 	private String numTelefonoTutor;
 	
-    @OneToMany(mappedBy = "tutor")
+    @OneToMany(mappedBy = "tutores")
     private List<Alumno> alumnos;
     
 }

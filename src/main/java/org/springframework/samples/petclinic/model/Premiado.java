@@ -25,9 +25,9 @@ public class Premiado{
     @JoinColumn(name = "nick_usuario")
     private Alumno alumno;
 	
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name = "id") private WallofFame wallOfFame;
-	 */
+	
+	@ManyToOne
+	@JoinColumn(name = "id") 
+	private WallofFame walloffames;
+	 
 }

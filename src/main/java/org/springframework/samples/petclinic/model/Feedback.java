@@ -29,9 +29,9 @@ public class Feedback {
 	
 	@ManyToOne
     @JoinColumn(name = "nick_usuario")
-    private Alumno alumno;
+    private Alumno alumnos;
 	
 	@ManyToOne
     @JoinColumn(name = "id")
-    private Material material;
+    private Material materiales;
 }

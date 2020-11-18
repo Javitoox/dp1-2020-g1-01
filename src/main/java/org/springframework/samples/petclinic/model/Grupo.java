@@ -28,7 +28,7 @@ public class Grupo {
     @JoinColumn(name="curso_de_ingles")
     private Curso curso;
 	
-	@OneToMany(mappedBy = "grupo")
+	@OneToMany(mappedBy = "grupos")
     private List<Alumno> alumnos;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
