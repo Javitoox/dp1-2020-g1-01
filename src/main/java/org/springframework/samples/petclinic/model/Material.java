@@ -20,30 +20,30 @@ import lombok.Data;
 
 @Entity
 @Data 
-@Table(name="material")
+@Table(name="materiales")
 public class Material extends BaseEntity{
 	
 	@Enumerated(EnumType.STRING)
-    @Column(name="tipomaterial")
+    @Column(name="tipo_material")
     private TipoMaterial tipoMaterial;
 
-    @Column(name="nombrematerial")
+    @Column(name="nombre_material")
     private String nombreMaterial;
 
     @ManyToOne
-    @JoinColumn(name="nickusuario")
+    @JoinColumn(name="nick_usuario")
     private Profesor profesor;
     
     @OneToMany(mappedBy = "material")
     private List<Feedback> feedbacks;
     
     @ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "materialalumno", joinColumns = @JoinColumn(name = "id"),
-			inverseJoinColumns = @JoinColumn(name = "nickusuario"))
+	@JoinTable(name = "material_alumno", joinColumns = @JoinColumn(name = "id"),
+			inverseJoinColumns = @JoinColumn(name = "nick_usuario"))
 	private Set<Alumno> alumnos;
     
     @ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "cursomaterial", joinColumns = @JoinColumn(name = "id"),
-			inverseJoinColumns = @JoinColumn(name = "cursodeingles"))
+	@JoinTable(name = "curso_material", joinColumns = @JoinColumn(name = "id"),
+			inverseJoinColumns = @JoinColumn(name = "curso_de_ingles"))
 	private Set<Curso> cursos;
 }

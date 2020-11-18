@@ -11,21 +11,23 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="premiado")
+@Table(name="premiados")
 public class Premiado{
 	
 	@Column(name="descripcion")
 	private String descripcion;
 	
 	@Id
-	@Column(name="fechapremiado")
-	private String fechapremiado;
+	@Column(name="fecha_premiado")
+	private String fechaPremiado;
 	
 	@ManyToOne
-    @JoinColumn(name = "nickusuario")
+    @JoinColumn(name = "nick_usuario")
     private Alumno alumno;
 	
-	@ManyToOne
-    @JoinColumn(name = "id")
-    private WallofFame walloffame;
+	/*
+	 * @ManyToOne
+	 * 
+	 * @JoinColumn(name = "id") private WallofFame wallOfFame;
+	 */
 }

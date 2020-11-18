@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="calendario")
+@Table(name="calendarios")
 public class Calendario extends BaseEntity{
 	@OneToMany(mappedBy = "calendario")
     private List<Evento> eventos;

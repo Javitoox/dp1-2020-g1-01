@@ -12,24 +12,24 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="tutor")
+@Table(name="tutores")
 public class Tutor{
 	
 	@Id
-	@Column(name="nicktutor", unique=true)
-	private String nicktutor;
+	@Column(name="nick_tutor", unique=true)
+	private String nickTutor;
 	
-	@Column(name="contraseñatutor")
-	private String contraseñatutor;
+	@Column(name="contraseya_tutor")
+	private String contraseyaTutor;
 	
-	@Column(name="dnitutor", unique=true)
-	private String dnitutor;
+	@Column(name="dni_tutor", unique=true)
+	private String dniTutor;
 	
-	@Column(name="correoelectronicotutor")
-	private String correoelectronicotutor;
+	@Column(name="correo_electronico_tutor")
+	private String correoElectronicoTutor;
 	
-	@Column(name="numtelefonotutor")
-	private String numtelefonotutor;
+	@Column(name="num_telefono_tutor")
+	private String numTelefonoTutor;
 	
     @OneToMany(mappedBy = "tutor")
     private List<Alumno> alumnos;

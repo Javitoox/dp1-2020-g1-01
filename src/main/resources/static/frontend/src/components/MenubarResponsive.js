@@ -16,6 +16,7 @@ export class MenubarResponsive extends Component {
             { label: 'Enrolment´s requests', icon: 'pi pi-fw pi-file', command: (event) => {
                 window.location = "requests";
             }},
+            { label: 'Wall of Fame', icon: 'pi pi-fw pi-star' },
             { label: 'About us', icon: 'pi pi-fw pi-question' }
         ],
         items2: [
@@ -28,8 +29,8 @@ export class MenubarResponsive extends Component {
             { label: 'Students', icon: 'pi pi-fw pi-users' },
             { label: 'Payments', icon: 'pi pi-fw pi-dollar' },
             { label: 'Material', icon: 'pi pi-fw pi-pencil' },
-            { label: 'Wall of Fame', icon: 'pi pi-fw pi-star' },
             { label: 'School calendar', icon: 'pi pi-fw pi-calendar' },
+            { label: 'Wall of Fame', icon: 'pi pi-fw pi-star' },
             { label: 'About us', icon: 'pi pi-fw pi-question' }
         ],
         items3: [
@@ -37,18 +38,15 @@ export class MenubarResponsive extends Component {
                 window.location = "/";
             }},
             { label: 'My students', icon: 'pi pi-fw pi-pencil' },
+            { label: 'Wall of Fame', icon: 'pi pi-fw pi-star' },
             { label: 'About us', icon: 'pi pi-fw pi-question' }
         ]
     };
 
-    redirectLogin(){
-        return window.location="/";
-    }
-
     tipoDeUsuario(){
         if(this.props.tipoDeUsuario==="usuario"){
             return this.state.items1;
-        }else if(this.props.tipoDeUsuario==="alumno"){
+        }else if(this.props.tipoDeUsuario==="integrante"){
             return this.state.items2;
         }else if(this.props.tipoDeUsuario==="tutor"){
             return this.state.items3;

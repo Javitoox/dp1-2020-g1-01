@@ -16,25 +16,25 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="evento")
+@Table(name="eventos")
 public class Evento {
 	
 	@Id
-	@Column(name="idevento")
-	private Integer idevento;
+	@Column(name="id_evento")
+	private Integer idEvento;
 	
-	@Column(name="nombreevento")
-	private String nombreevento;
+	@Column(name="nombre_evento")
+	private String nombreEvento;
 	
-	@Column(name="fechaevento")
-	private String fechaevento;
+	@Column(name="fecha_evento")
+	private String fechaEvento;
 	
-	@Column(name="descripcionevento")
-	private String descripcionevento;
+	@Column(name="descripcion_evento")
+	private String descripcionEvento;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "eventogrupo", joinColumns = @JoinColumn(name = "idevento"),
-			inverseJoinColumns = @JoinColumn(name = "nombregrupo"))
+	@JoinTable(name = "evento_grupo", joinColumns = @JoinColumn(name = "id_evento"),
+			inverseJoinColumns = @JoinColumn(name = "nombre_grupo"))
 	private Set<Grupo> grupos;
 	
 	@ManyToOne

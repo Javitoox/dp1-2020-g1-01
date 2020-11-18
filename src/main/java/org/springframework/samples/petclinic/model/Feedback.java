@@ -13,22 +13,22 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="feedback")
+@Table(name="feedbacks")
 public class Feedback {
 
 	@Id
-	@Column(name="idfeedback")
-	private Integer idfeedback;
+	@Column(name="id_feedback")
+	private Integer idFeedback;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="numestrellas")
-	private NumEstrellas numestrellas;
+	@Column(name="num_estrellas")
+	private NumEstrellas numEstrellas;
 	
 	@Column(name="comentario")
 	private String comentario;
 	
 	@ManyToOne
-    @JoinColumn(name = "nickusuario")
+    @JoinColumn(name = "nick_usuario")
     private Alumno alumno;
 	
 	@ManyToOne

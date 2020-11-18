@@ -19,19 +19,19 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="curso")
+@Table(name="cursos")
 public class Curso {
 
 	@Id
 	@Enumerated(EnumType.STRING)
-	@Column(name="cursodeingles")
-	private CursoDeIngles cursodeingles;
+	@Column(name="curso_de_ingles")
+	private CursoDeIngles cursoDeIngles;
 	
 	@OneToMany(mappedBy = "curso")
-	private List<Grupo>grupos;
+	private List<Grupo> grupos;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "cursomaterial", joinColumns = @JoinColumn(name = "cursodeingles"),
+	@JoinTable(name = "curso_material", joinColumns = @JoinColumn(name = "curso_de_ingles"),
 			inverseJoinColumns = @JoinColumn(name = "id"))
 	private Set<Curso> cursos;
 

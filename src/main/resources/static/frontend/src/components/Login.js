@@ -9,36 +9,34 @@ export class Login extends Component {
             <div>
                 <div className="c">
                     <div className="login">
-                    <form action="" method="GET">
-                        <div className="t"><div><h5>Login</h5></div></div>
-                        <div className="i">
-                            <div className="p-inputgroup">
-                                <span className="p-inputgroup-addon">
-                                    <i className="pi pi-user"></i>
-                                </span>
-                                <InputText placeholder="Username" />
+                        <form action="/" method="GET">
+                            <div className="t"><div><h5>Login</h5></div></div>
+                            <div className="i">
+                                <div className="p-inputgroup">
+                                    <span className="p-inputgroup-addon">
+                                        <i className="pi pi-user"></i>
+                                    </span>
+                                    <InputText placeholder="Username" type="text"/>
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="i">
-                            <div className="p-inputgroup">
-                                <span className="p-inputgroup-addon">
-                                <i className="pi pi-lock"></i>
-                                </span>
-                                <InputText placeholder="Password" />
+                            <div className="i">
+                                <div className="p-inputgroup">
+                                    <span className="p-inputgroup-addon">
+                                        <i className="pi pi-lock"></i>
+                                    </span>
+                                    <InputText placeholder="Password" type="text"/>
+                                </div>
                             </div>
-                        </div>
-                        <div className="b">
-                        <div className="i">
-                        <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check"/>
-                        </div>
-                        </div>
+                            <div className="b">
+                                <div className="i">
+                                    <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check"/>
+                                </div>
+                            </div>
                         </form>
-                        </div>
-                        </div>
-                        
-                        
+                    </div>
                 </div>
+            </div>
         );
     }
 }

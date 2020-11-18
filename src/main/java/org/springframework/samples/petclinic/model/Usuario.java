@@ -18,62 +18,62 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="usuario")
+@Table(name="usuarios")
 @Inheritance(strategy=InheritanceType.JOINED)
 
 public class Usuario{
 	
 	@Id
-	@Column(name="nickusuario", unique=true)
+	@Column(name="nick_usuario", unique=true)
 	/*@Pattern(regexp = "^[a-zA-Z0-9]{5,20}$")*/
-	private String nickusuario;
+	private String nickUsuario;
 	
-	@Column(name="contraseña")
+	@Column(name="contraseya")
 	//Contraseña tiene que tener más de 8 caracteres, 2 números,
 	//2 mayusculas, 2 simbolos de puntuacion y 2 minusculas.
 	/*@Pattern(regexp = "^(?=(.*[0-9]){2})(?=(.*[!-\\.<-@_]){2})(?=(.*[A-Z]){2})(?=(.*[a-z]){2})\\S{8,100}$")*/
 	@NotBlank
 	@NotEmpty
 	@NotNull
-	private String contraseña;
+	private String contraseya;
 	
-	@Column(name="dniusuario", unique=true)
+	@Column(name="dni_usuario", unique=true)
 	@Pattern(regexp = "^[0-9]{8}[A-Z]$")
 	@NotBlank
 	@NotEmpty
 	@NotNull
-	private String dniusuario;
+	private String dniUsuario;
 	
-	@Column(name="nombrecompletousuario")
+	@Column(name="nombre_completo_usuario")
 	@NotBlank
 	@NotEmpty
 	@NotNull
-	private String nombrecompletousuario;
+	private String nombreCompletoUsuario;
 	
-	@Column(name="correoelectronicousuario")
+	@Column(name="correo_electronico_usuario")
 	@NotBlank
 	@NotEmpty
 	@NotNull
-	private String correoelectronicousuario;
+	private String correoElectronicoUsuario;
 	
-	@Column(name="numtelefonousuario")
+	@Column(name="num_telefono_usuario")
 	@NotBlank
 	@Pattern(regexp = "^[0-9]{9}$")
 	@NotNull
 	@NotEmpty
-	private String numtelefonousuario;
+	private String numTelefonoUsuario;
 	
-	@Column(name="direccionusuario")
+	@Column(name="direccion_usuario")
 	@NotBlank
 	@NotEmpty
 	@NotNull
-	private String direccionusuario;
+	private String direccionUsuario;
 	
-	@Column(name="fechanacimiento")
+	@Column(name="fecha_nacimiento")
 	@NotBlank
 	@NotEmpty
 	@NotNull
-	private String fechanacimiento;
+	private String fechaNacimiento;
 	
 	@OneToMany(mappedBy = "usuario")
     private List<Solicitud> solicitudes;

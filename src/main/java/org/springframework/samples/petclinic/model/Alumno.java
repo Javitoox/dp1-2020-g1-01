@@ -20,35 +20,35 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="alumno")
+@Table(name="alumnos")
 
 public class Alumno extends Usuario{
 	
-	@Column(name="numtareasentregadas")
-	private Integer numtareasentregadas;
+	@Column(name="num_tareas_entregadas")
+	private Integer numTareasEntregadas;
 	
-	@Column(name="fechamatriculacion")
+	@Column(name="fecha_matriculacion")
 	@NotBlank
 	@NotEmpty
 	@NotNull
-	private String fechamatriculacion;
+	private String fechaMatriculacion;
 	
     @ManyToOne
-    @JoinColumn(name = "nicktutor")
+    @JoinColumn(name = "nick_tutor")
     private Tutor tutor;
     
     @OneToMany(mappedBy = "alumno")
     private List<Premiado> premiados;
     
     @ManyToOne
-    @JoinColumn(name = "nombregrupo")
+    @JoinColumn(name = "nombre_grupo")
     private Grupo grupo;
     
     @OneToMany(mappedBy = "alumno")
     private List<Feedback> feedbacks;
     
     @ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "materialalumno", joinColumns = @JoinColumn(name = "nickusuario"),
+	@JoinTable(name = "material_alumno", joinColumns = @JoinColumn(name = "nick_usuario"),
 			inverseJoinColumns = @JoinColumn(name = "id"))
 	private Set<Material> materiales;
     

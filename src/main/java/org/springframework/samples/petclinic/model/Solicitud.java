@@ -10,13 +10,13 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="solicitud")
+@Table(name="solicitudes")
 public class Solicitud extends BaseEntity{
 
-	@Column(name="fechasolicitud")
-	private String fechasolicitud;
+	@Column(name="fecha_solicitud")
+	private String fechaSolicitud;
 	
 	@ManyToOne
-    @JoinColumn(name = "nickusuario")
+    @JoinColumn(name = "nick_usuario")
     private Usuario usuario;
 }

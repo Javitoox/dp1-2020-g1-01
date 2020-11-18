@@ -12,21 +12,21 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="pago")
+@Table(name="pagos")
 public class Pago extends BaseEntity{
 	
 	@Column(name="concepto")
 	private String concepto;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="tipopago")
+	@Column(name="tipo_pago")
 	private TipoPago tipo;
 	
 	@Column(name="fecha")
-	private String fechaemision;
+	private String fechaEmision;
 	
 	@ManyToOne
-	@JoinColumn(name="nickusuario")
+	@JoinColumn(name="nick_usuario")
 	private Alumno alumno;
 	
 

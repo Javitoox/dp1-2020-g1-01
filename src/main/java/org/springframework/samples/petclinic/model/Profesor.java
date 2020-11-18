@@ -15,14 +15,14 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="profesor")
+@Table(name="profesores")
 public class Profesor extends Usuario{
 	@OneToMany(mappedBy = "profesor")
     private List<Material> materiales;
 	
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "profesorgrupo", joinColumns = @JoinColumn(name = "nickusuario"),
-			inverseJoinColumns = @JoinColumn(name = "nombregrupo"))
+	@JoinTable(name = "profesor_grupo", joinColumns = @JoinColumn(name = "nick_usuario"),
+			inverseJoinColumns = @JoinColumn(name = "nombre_grupo"))
 	private Set<Grupo> grupos;
 }
