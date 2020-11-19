@@ -32,8 +32,8 @@ public class UsuarioService {
 		Alumno a = alumnoService.getAlumno(nickUsuario);
 		Profesor p = profesorService.getProfesor(nickUsuario);
 		Tutor t = tutorService.getTutor(nickUsuario);
-		if(a!=null) type = "alumno";
-		if(p!=null) type = "profesor";
+		if(a!=null) type = "integrante";
+		if(p!=null) type = "integrante";
 		if(t!=null) type = "tutor";
 		return type;
 	}
