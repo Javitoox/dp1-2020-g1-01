@@ -36,4 +36,5 @@ INSERT INTO solicitudes(fecha_solicitud,nick_usuario) VALUES('17/01/2020','JaviV
 --INSERT INTO wall_of_fames(id) VALUES(1);
 --INSERT INTO premiados(descripcion,fecha_premiado,nick_usuario,id) VALUES('El mejor alumnno de la semana!','12/09/2020','JaviV',1);
 
-INSERT INTO pagos(concepto, tipo_pago, fecha, nick_usuario) VALUES ('Primera cuota','BIZUM','16/11/2020','JaviV')
+INSERT INTO pagos(concepto, tipo_pago, fecha, nick_usuario) VALUES ('Primera cuota','BIZUM','16/11/2020','JaviV');
+INSERT INTO solicitudes(fecha_solicitud, nick_usuario) VALUES ('11/01/2010', 'JaviV');

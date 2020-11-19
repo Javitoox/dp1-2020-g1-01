@@ -14,7 +14,7 @@ export class Login extends Component {
        var type = axios.get(this.props.urlBase + "/login").then(res => res.data);
        if(type==="Username not exist" || type==="Incorrect password") this.setState({redirect:"/login"});
     }
-
+    
     render() {
         return (
             <div>
