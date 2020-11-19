@@ -6,17 +6,19 @@ import './index.css';
 import { Login } from './components/Login';
 
 class App extends Component {
-	
+	state = {
+		urlBase: "http://localhost:8081"
+	}
 	render() {
 		return (
 			<React.Fragment>
 				<MenubarResponsive tipoDeUsuario="usuario"></MenubarResponsive>
 				<Router>
-					<Route path="/requests" render={()=> 
-					<Solicitudes tipoDeUsuario="usuario"></Solicitudes>
+					<Route path="/requests" render={() =>
+						<Solicitudes tipoDeUsuario="usuario"></Solicitudes>
 					} />
-					<Route path="/login" render={()=> 
-					<Login></Login>
+					<Route path="/login" render={() =>
+						<Login urlBase={this.state.urlBase}></Login>
 					} />
 				</Router>
 			</React.Fragment>

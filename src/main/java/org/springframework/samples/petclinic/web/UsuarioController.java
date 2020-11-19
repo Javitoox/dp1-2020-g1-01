@@ -18,9 +18,15 @@ public class UsuarioController {
 	
 	@GetMapping(value = { "/login" })
 	public String typeOfUser(@RequestParam("username") String nickUsuario, @RequestParam("password") String contraseya) {
-		String type=usuarioService.typeOfUser(nickUsuario);
-		
-		return null;
+		String result;
+		String type = usuarioService.typeOfUser(nickUsuario);
+		if(type.equals("Username not exist")) {
+			result = type;
+		}else {
+			Boolean existPassword = usuarioService.existPassword(nickUsuario, contraseya);
+			result = existPassword ? type : "Incorrect password";
+		}
+		return result;
 	}
 	
 }

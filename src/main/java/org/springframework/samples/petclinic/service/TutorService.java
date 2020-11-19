@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.repository.TutorRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,4 +15,7 @@ public class TutorService {
 		this.tutorRepository=tutorRepository;
 	}
 
+	public Tutor getTutor(String nickUsuario) {
+		return tutorRepository.findByNick(nickUsuario);
+	}
 }
