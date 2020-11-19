@@ -2,6 +2,9 @@ package org.springframework.samples.petclinic.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Profesor;
+import org.springframework.samples.petclinic.model.Tutor;
+import org.springframework.samples.petclinic.model.Usuario;
 import org.springframework.samples.petclinic.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +28,19 @@ public class UsuarioService {
 	}
 	
 	public String typeOfUser(String nickUsuario) {
+		String type = "Username not exist";
 		Alumno a = alumnoService.getAlumno(nickUsuario);
-		return null;
+		Profesor p = profesorService.getProfesor(nickUsuario);
+		Tutor t = tutorService.getTutor(nickUsuario);
+		if(a!=null) type = "alumno";
+		if(p!=null) type = "profesor";
+		if(t!=null) type = "tutor";
+		return type;
+	}
+	
+	public Boolean existPassword(String nickUsuario, String contraseya) {
+		String p = usuarioRepository.findByNick(nickUsuario).getContraseya();
+		return p.equals(contraseya);
 	}
 	
 	
