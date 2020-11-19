@@ -4,18 +4,31 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Solicitudes } from './components/Solicitudes';
 import './index.css';
 import { Login } from './components/Login';
+import ExtraccionMensajes from './components/ExtraccionMensajes';
 
 class App extends Component {
+
+	extraccion = new ExtraccionMensajes();
+
 	state = {
-		urlBase: "http://localhost:8081"
+		urlBase: "http://localhost:8081",
+		tipoDeUsuario:"usuario"
 	}
+
+	componentDidMount(){
+		var m = this.extraccion.getParameterByName("message");
+		if(m!==""){
+			this.setState({tipoDeUsuario:m});
+		}
+	}
+
 	render() {
 		return (
 			<React.Fragment>
-				<MenubarResponsive tipoDeUsuario="usuario"></MenubarResponsive>
+				<MenubarResponsive tipoDeUsuario={this.state.tipoDeUsuario}></MenubarResponsive>
 				<Router>
 					<Route path="/requests" render={() =>
-						<Solicitudes tipoDeUsuario="usuario"></Solicitudes>
+						<Solicitudes tipoDeUsuario={this.state.tipoDeUsuario}></Solicitudes>
 					} />
 					<Route path="/login" render={() =>
 						<Login urlBase={this.state.urlBase}></Login>
