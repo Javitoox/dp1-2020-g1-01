@@ -7,6 +7,7 @@ import org.springframework.samples.petclinic.model.Usuario;
 
 public interface UsuarioRepository extends  CrudRepository<Usuario, String>{
 	
-	@Query("SELECT u FROM Usuario u WHERE u.nickUsuario = :nickUsuario")
+	/*@Query("SELECT u FROM Usuario u WHERE u.nickUsuario = :nickUsuario")
 	public Usuario findByNick(@Param("nickUsuario") String nickUsuario);
-}
+
+*/}

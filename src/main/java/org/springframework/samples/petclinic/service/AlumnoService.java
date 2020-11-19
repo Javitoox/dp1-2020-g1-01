@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
@@ -23,7 +23,7 @@ public class AlumnoService {
 	}
 	
 
-	public Collection<Alumno> getAlumnos() {
-		return alumnoRepository.getStudents();
+	public List<Alumno> getAlumnos() {
+		return alumnoRepository.findAll();
 	}
 }

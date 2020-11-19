@@ -1,13 +1,8 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -16,11 +11,9 @@ import javax.validation.constraints.Pattern;
 
 import lombok.Data;
 
-@Entity
-@Data
-@Table(name="usuarios")
-@Inheritance(strategy=InheritanceType.JOINED)
 
+@Data
+@MappedSuperclass
 public class Usuario{
 	
 	@Id
@@ -75,7 +68,5 @@ public class Usuario{
 	@NotNull
 	private String fechaNacimiento;
 	
-	@OneToMany(mappedBy = "usuarios")
-    private List<Solicitud> solicitudes;
 }
 

@@ -13,12 +13,12 @@ public class UsuarioService {
 	@Autowired
 	private AlumnoService alumnoService;
 	
-	@Autowired
+	/*@Autowired
 	private ProfesorService profesorService;
 	
 	@Autowired
 	private TutorService tutorService;
-	
+	*/
 	@Autowired
 	public UsuarioService(UsuarioRepository usuarioRepository) {
 		this.usuarioRepository=usuarioRepository;
