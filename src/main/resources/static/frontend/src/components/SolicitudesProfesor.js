@@ -17,15 +17,21 @@ export  class SolicitudesProfesor extends Component {
       }
 	
     render() {
+      const header = (
+        <div className="table-header">
+         Admission requests
+        </div>
+    );
+    const footer = `There's ${this.state.solicitudes ? this.state.solicitudes.length : 0} requests.`;
         return (
-          <React.Fragment>
-				<h2 style={{ color: 'white' }}>LISTA DE ALUMNOS</h2>
-        <DataTable value={this.state.solicitudes}> 
-		            <Column field="nickUsuario" header="Nombre"></Column>
-		            <Column field="fechaSolicitud" header="Fecha de la solicitud"></Column>
-		        </DataTable>
-			</React.Fragment>
-
+          <div className="datatable-templating-demo">
+          <div className="card">
+              <DataTable value={this.state.solicitudes} header={header} footer={footer}>
+                  <Column field="nickUsuario" header="Name"></Column>
+                  <Column field="fechaSolicitud" header="Application date"></Column>
+              </DataTable>
+          </div>
+          </div>
         )
     }
     

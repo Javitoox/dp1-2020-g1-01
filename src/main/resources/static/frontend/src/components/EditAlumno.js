@@ -75,14 +75,14 @@ state= {
     changeButton(event){
         this.setState({button: !this.state.button});
     }
-    baseUrl = "http://localhost:8081/alumnos/edit";
+    baseUrl = "http://localhost:8081/alumnos/{nick_usuario}/edit";
     
     render() {
         return (
             <div>
                 <div className="c">
                     <div className="login request">
-                        <form method="GET"  action={this.props.urlBase} >
+                        <form method="POST"  action={this.props.urlBase} >
                         <div className="t"><div><h5>Request</h5></div></div>
                             <div className="i">
                                 <div className="p-inputgroup">
