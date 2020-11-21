@@ -22,10 +22,6 @@ export class Login extends Component {
         this.setState({ password: event.target.value });
     }
 
-    componentDidMount(){
-        
-    }
-    
     render() {
         return (
             <div>

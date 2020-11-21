@@ -27,12 +27,11 @@ public class UsuarioController {
 	public void typeOfUser(@RequestParam("username") String nickUsuario, @RequestParam("password") String contraseya,
 			HttpServletResponse response) throws IOException {
 		String result="http://localhost:3000";
-		String type = usuarioService.typeOfUser(nickUsuario);
-		if(type.equals("Username not exist")) {
+		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
+		if(type.equals("Username not exist") || type.equals("Incorrect pasword")) {
 			result += "/login?message="+type;
 		}else {
-			Boolean existPassword = usuarioService.existPassword(nickUsuario, contraseya);
-			result += existPassword ? "?message="+type : "/login?message=Incorrect password";
+			result += "?message="+type;
 		}	
 		response.sendRedirect(result);
 	}
