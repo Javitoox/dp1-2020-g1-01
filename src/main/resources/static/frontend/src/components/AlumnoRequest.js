@@ -69,7 +69,86 @@ export class AlumnoRequest extends Component {
             <div>
                 <div className="c">
                     <div className="login request">
-                        <form method="GET" /* action={this.props.urlBase+"/request"} */>
+                        <form method="GET">
+                            <div className="t"><div><h5>Request</h5></div></div>
+                            <div className="i">
+                                <div className="p-inputgroup">
+                                    <span className="p-inputgroup-addon">
+                                        <i className="pi pi-user"></i>
+                                    </span>
+                                    <InputText placeholder="Username" name="nickUsuario" type="text" value={this.state.username} onChange={this.username}/>
+                                </div>
+                            </div>
+
+                            <div className="i">
+                                <div className="p-inputgroup">
+                                    <span className="p-inputgroup-addon">
+                                        <i className="pi pi-lock"></i>
+                                    </span>
+                                    <InputText placeholder="Password" name="contraseya" type="text" value={this.state.password} onChange={this.password}/>
+                                </div>
+                            </div>
+                            <div className="i">
+                                <div className="p-inputgroup">
+                                    <span className="p-inputgroup-addon">
+                                        <i className="pi pi-id-card"></i>
+                                    </span>
+                                    <InputText placeholder="Identity card" name="dniUsuario" type="text" value={this.state.card} onChange={this.card}/>
+                                </div>
+                            </div>
+                            <div className="i">
+                                <div className="p-inputgroup">
+                                    <span className="p-inputgroup-addon">
+                                        <i className="pi pi-user-plus"></i>
+                                    </span>
+                                    <InputText placeholder="Full Name" name="nombreCompletoUsuario" type="text" value={this.state.name} onChange={this.name}/>
+                                </div>
+                            </div>
+                            <div className="i">
+                                <div className="p-inputgroup">
+                                    <span className="p-inputgroup-addon">
+                                        <i className="pi pi-inbox"></i>
+                                    </span>
+                                    <InputText placeholder="Email" name="correoElectronicoUsuario" type="text" value={this.state.email} onChange={this.email}/>
+                                </div>
+                            </div>
+                            <div className="i">
+                                <div className="p-inputgroup">
+                                    <span className="p-inputgroup-addon">
+                                        <i className="pi pi-mobile"></i>
+                                    </span>
+                                    <InputText placeholder="Phone number" name="numTelefonoUsuario" type="text" value={this.state.telefono} onChange={this.telefono}/>
+                                </div>
+                            </div>
+                            <div className="i">
+                                <div className="p-inputgroup">
+                                    <span className="p-inputgroup-addon">
+                                        <i className="pi pi-home"></i>
+                                    </span>
+                                    <InputText placeholder="Address" name="direccionUsuario" type="text" value={this.state.address} onChange={this.address}/>
+                                </div>
+                            </div>
+                            <div className="i">
+                                <div className="p-inputgroup">
+                                    <span className="p-inputgroup-addon">
+                                        <i className="pi pi-calendar"></i>
+                                    </span>
+                                    <InputText placeholder="Birthdate" name="fechaNacimiento" type="text" value={this.state.birthdate} onChange={this.birthdate}/>
+                                </div>
+                            </div>
+                            <div className="i">
+                                <div className="p-field-checkbox">
+                                    <Checkbox inputId="menor" value="Menor" onChange={this.changeButton} checked={this.state.button}/>
+                                    <label htmlFor="menor">Menor de edad</label>
+                                </div>
+                            </div>
+                            <div className="b">
+                                <div className="i">
+                                    <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check" />
+                                </div>
+                            </div>
+                        </form>
+                        <form method="GET">
                             <div className="t"><div><h5>Request</h5></div></div>
                             <div className="i">
                                 <div className="p-inputgroup">

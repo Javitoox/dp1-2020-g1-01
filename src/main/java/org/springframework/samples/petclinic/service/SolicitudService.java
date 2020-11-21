@@ -22,4 +22,10 @@ public class SolicitudService {
 	public Collection<Solicitud> getAllSolicitudes() {
 	return solicitudRepository.findAll();
 	}
+	
+	public void insertByNick(String nickUsuario) {
+		Solicitud s = new Solicitud();
+		s.setNickUsuario(nickUsuario);
+		solicitudRepository.save(s);
+	}
 }
