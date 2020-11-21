@@ -19,7 +19,7 @@ export  class SolicitudesProfesor extends Component {
     render() {
       const header = (
         <div className="table-header">
-         Admission requests
+            Requests
         </div>
     );
     const footer = `There's ${this.state.solicitudes ? this.state.solicitudes.length : 0} requests.`;

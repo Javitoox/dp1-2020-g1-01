@@ -5,6 +5,7 @@ import { Solicitudes } from './components/Solicitudes';
 import './index.css';
 import { Login } from './components/Login';
 import ExtraccionMensajes from './components/ExtraccionMensajes';
+import { EditAlumno } from './components/EditAlumno';
 import { SolicitudesProfesor } from './components/SolicitudesProfesor';
 
 class App extends Component {
@@ -34,6 +35,9 @@ class App extends Component {
 					<Route path="/login" render={() =>
 						<Login urlBase={this.state.urlBase}></Login>
 					} />
+					<Route path="/solicitudesProfesor" render= {() =>
+					<SolicitudesProfesor></SolicitudesProfesor>
+					}/>
 				</Router>
 			</React.Fragment>
 		)
