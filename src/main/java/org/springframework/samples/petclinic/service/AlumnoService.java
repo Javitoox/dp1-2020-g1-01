@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
@@ -18,5 +20,10 @@ public class AlumnoService {
 	public Alumno getAlumno(String nickUsuario) {
 		return alumnoRepository.findByNick(nickUsuario);
 	}
+	
+	
+	public Collection<Alumno> getStudentsPerGroup(String nombreGrupo) {
+        return alumnoRepository.findByGroup(nombreGrupo);
+    }
 
 }
