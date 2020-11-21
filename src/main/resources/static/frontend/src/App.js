@@ -28,7 +28,7 @@ class App extends Component {
 				<MenubarResponsive tipoDeUsuario={this.state.tipoDeUsuario}></MenubarResponsive>
 				<Router>
 					<Route path="/requests" render={() =>
-						<Solicitudes tipoDeUsuario={this.state.tipoDeUsuario}></Solicitudes>
+						<Solicitudes tipoDeUsuario={this.state.tipoDeUsuario} urlBase={this.state.urlBase}></Solicitudes>
 					} />
 					<Route path="/login" render={() =>
 						<Login urlBase={this.state.urlBase}></Login>
