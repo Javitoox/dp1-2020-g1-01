@@ -4,7 +4,6 @@ import { FormularioSolicitud } from './FormularioSolicitud';
 import { SolicitudesProfesor } from './SolicitudesProfesor';
 
 export class Solicitudes extends React.Component{
-
     tipoDeUsuario(){
         if(this.props.tipoDeUsuario==="usuario"){
             return <FormularioSolicitud></FormularioSolicitud>;

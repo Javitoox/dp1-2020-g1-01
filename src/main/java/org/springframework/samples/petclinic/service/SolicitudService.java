@@ -20,7 +20,6 @@ public class SolicitudService {
 //	}
 
 	public Collection<Solicitud> getAllSolicitudes() {
-		// TODO Auto-generated method stub
 	return solicitudRepository.findAll();
 	}
 }
