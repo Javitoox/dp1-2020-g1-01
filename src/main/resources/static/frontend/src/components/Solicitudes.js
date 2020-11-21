@@ -1,21 +1,10 @@
-import React from 'react';
-import { EditarFormulario } from './EditarFormulario';
-import { FormularioSolicitud } from './FormularioSolicitud';
-import { SolicitudesProfesor } from './SolicitudesProfesor';
+import { Component } from 'react';
+import { AlumnoRequest } from './AlumnoRequest';
 
-export class Solicitudes extends React.Component{
+export class Solicitudes extends Component {
 
-    tipoDeUsuario(){
-        if(this.props.tipoDeUsuario==="usuario"){
-            return <FormularioSolicitud></FormularioSolicitud>;
-        }else if(this.props.tipoDeUsuario==="alumno"){
-            return <EditarFormulario></EditarFormulario>;
-        }else if(this.props.tipoDeUsuario==="profesor"){
-            return <SolicitudesProfesor></SolicitudesProfesor>;
-        }
+    render() {
+        return <AlumnoRequest urlBase={this.props.urlBase}></AlumnoRequest>;
     }
 
-    render(){
-        return this.tipoDeUsuario();
-    }
 }

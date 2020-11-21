@@ -30,7 +30,6 @@ public class Alumno extends Usuario{
 	@Column(name="fecha_matriculacion")
 	@NotBlank
 	@NotEmpty
-	@NotNull
 	private String fechaMatriculacion;
 	
     @ManyToOne
