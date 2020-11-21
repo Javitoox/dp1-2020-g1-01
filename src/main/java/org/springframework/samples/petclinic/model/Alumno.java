@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -28,8 +27,6 @@ public class Alumno extends Usuario{
 	private Integer numTareasEntregadas;
 	
 	@Column(name="fecha_matriculacion")
-	@NotBlank
-	@NotEmpty
 	private String fechaMatriculacion;
 	
     @ManyToOne

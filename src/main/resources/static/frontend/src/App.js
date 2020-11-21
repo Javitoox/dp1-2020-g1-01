@@ -5,7 +5,6 @@ import { Solicitudes } from './components/Solicitudes';
 import './index.css';
 import { Login } from './components/Login';
 import ExtraccionMensajes from './components/ExtraccionMensajes';
-import { SolicitudesProfesor } from './components/SolicitudesProfesor';
 
 class App extends Component {
 

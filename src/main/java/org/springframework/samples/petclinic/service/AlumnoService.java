@@ -18,5 +18,9 @@ public class AlumnoService {
 	public Alumno getAlumno(String nickUsuario) {
 		return alumnoRepository.findByNick(nickUsuario);
 	}
+	
+	public void insert(Alumno alumno) {
+		alumnoRepository.save(alumno);
+	}
 
 }

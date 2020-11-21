@@ -18,4 +18,9 @@ public class TutorService {
 	public Tutor getTutor(String nickUsuario) {
 		return tutorRepository.findByNick(nickUsuario);
 	}
+	
+	public void insert(Tutor tutor) {
+		tutorRepository.save(tutor);
+	}
+	
 }

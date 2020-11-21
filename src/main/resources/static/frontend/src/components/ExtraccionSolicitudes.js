@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import axios from 'axios';
 
 export default class ExtraccionSolicitudes extends Component {
     
     
     
-    baseUrl= "http://localhost:8081/solicitudes/all"
+    baseUrl= "http://localhost:8081/requests/all"
 
 
 
