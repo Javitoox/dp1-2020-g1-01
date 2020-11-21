@@ -30,10 +30,6 @@ public class Material extends BaseEntity{
     @Column(name="nombre_material")
     private String nombreMaterial;
 
-    @ManyToOne
-    @JoinColumn(name="nick_usuario")
-    private Profesor profesores;
-    
     @OneToMany(mappedBy = "materiales")
     private List<Feedback> feedbacks;
     
@@ -42,8 +38,5 @@ public class Material extends BaseEntity{
 			inverseJoinColumns = @JoinColumn(name = "nick_usuario"))
 	private Set<Alumno> alumnos;
     
-    @ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "curso_material", joinColumns = @JoinColumn(name = "id"),
-			inverseJoinColumns = @JoinColumn(name = "curso_de_ingles"))
-	private Set<Curso> cursos;
+ 
 }

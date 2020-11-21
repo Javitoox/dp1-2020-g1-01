@@ -32,12 +32,5 @@ public class Evento {
 	@Column(name="descripcion_evento")
 	private String descripcionEvento;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "evento_grupo", joinColumns = @JoinColumn(name = "id_evento"),
-			inverseJoinColumns = @JoinColumn(name = "nombre_grupo"))
-	private Set<Grupo> grupos;
 	
-	@ManyToOne
-    @JoinColumn(name = "id")
-    private Calendario calendarios;
 }

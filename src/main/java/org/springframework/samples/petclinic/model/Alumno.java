@@ -40,9 +40,6 @@ public class Alumno extends Usuario{
     @OneToMany(mappedBy = "alumnos")
     private List<Premiado> premiados;
     
-    @ManyToOne
-    @JoinColumn(name = "nombre_grupo")
-    private Grupo grupos;
     
     @OneToMany(mappedBy = "alumnos")
     private List<Feedback> feedbacks;

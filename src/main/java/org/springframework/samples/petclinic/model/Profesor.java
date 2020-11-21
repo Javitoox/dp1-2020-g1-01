@@ -17,12 +17,8 @@ import lombok.Data;
 @Data
 @Table(name="profesores")
 public class Profesor extends Usuario{
-	@OneToMany(mappedBy = "profesores")
-    private List<Material> materiales;
 	
 	
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "profesor_grupo", joinColumns = @JoinColumn(name = "nick_usuario"),
-			inverseJoinColumns = @JoinColumn(name = "nombre_grupo"))
-	private Set<Grupo> grupos;
+	
+	
 }
