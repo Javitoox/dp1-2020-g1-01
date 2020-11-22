@@ -11,7 +11,8 @@ import org.springframework.samples.petclinic.model.Grupo;
 public interface GrupoRepository extends CrudRepository<Grupo, Integer>{		
 	Collection<Grupo> findAll();
 	
-	@Query("SELECT nombre_grupo FROM Grupo nombre_grupo WHERE curso_de_ingles = :curso")
+	@Query(value = "SELECT nombre_grupo FROM Grupos WHERE curso.curso_de_ingles = :curso",
+			nativeQuery=true)
 	public List<Grupo> findByCurso(@Param("curso")String curso);
 
 }
