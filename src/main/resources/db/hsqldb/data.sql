@@ -1,5 +1,3 @@
-
-
 -----------------------------------------------
 INSERT INTO TUTORES(nick_usuario_tutor,contraseya_tutor,dni_usuario_tutor,nombre_completo_usuario_tutor,correo_electronico_usuario_tutor,num_telefono_usuario_tutor,direccion_usuario_tutor,fecha_nacimiento_tutor)values
 	('marrambla2','believer','88645678C','Maribel Ramos,','maribel.r@gmail.com','567825431','mi casa','22/06/2000');
@@ -11,6 +9,7 @@ INSERT INTO cursos(curso_de_ingles) values ('B2');
 
 INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo1', 'B1');
 INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo3', 'B2');
+
 
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario_tutor,grupos_nombre_grupo) VALUES 
     ('Javi','zzz','55635286F','Javie','jvii@gmail.com','955432565','Calle Junio de agosto','23/06/2000',1,'11/12/2012','marrambla2','grupo1');

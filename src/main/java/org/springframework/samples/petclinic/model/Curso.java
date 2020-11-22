@@ -18,5 +18,9 @@ public class Curso {
 	@Enumerated(EnumType.STRING)
 	@Column(name="curso_de_ingles")
 	private CursoDeIngles cursoDeIngles;
+	
+//	@OneToMany(mappedBy = "curso") //CascadeType.ALL, 
+//	private List<Grupo> grupos;
+	
 
 }

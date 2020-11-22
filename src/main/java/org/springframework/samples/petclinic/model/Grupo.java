@@ -12,10 +12,11 @@ import lombok.Data;
 @Data
 @Table(name="grupos")
 public class Grupo {
-    @Id
-    @Column(name="nombre_grupo")
-    private String nombreGrupo;
-
-    @ManyToOne(optional = false)
-    private Curso cursos;
+	@Id
+	@Column(name="nombre_grupo")
+	private String nombreGrupo;
+	
+	@ManyToOne(optional=true)
+    private Curso cursos;	
+	
 }
