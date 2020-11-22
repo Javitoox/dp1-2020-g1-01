@@ -1,11 +1,8 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -71,8 +68,5 @@ public class Tutor{
 	@NotNull
 	private String fechaNacimientoTutor;
 
-	@OneToMany(mappedBy = "tutores")
-    private List<Alumno> alumnos;
-    
 }
 

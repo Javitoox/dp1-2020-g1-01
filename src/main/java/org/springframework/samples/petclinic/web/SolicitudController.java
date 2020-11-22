@@ -61,7 +61,7 @@ public class SolicitudController {
 			   response.sendRedirect("http://localhost:3000/requests");
 		   }else {
 			   tutorService.insert(tutor);
-			   alumnoService.insert(alumno);
+			   alumnoService.saveAlumno(alumno);
 			   solicitudServ.insertByNick(alumno.getNickUsuario());
 			   solicitudServ.insertByNick(tutor.getNickUsuarioTutor());
 			   response.sendRedirect("http://localhost:3000");
@@ -73,7 +73,7 @@ public class SolicitudController {
 		   if(result.hasErrors()) {
 			   response.sendRedirect("http://localhost:3000/requests");
 		   }else {
-			   alumnoService.insert(alumno);
+			   alumnoService.saveAlumno(alumno);
 			   solicitudServ.insertByNick(alumno.getNickUsuario());
 			   response.sendRedirect("http://localhost:3000");
 		   }
