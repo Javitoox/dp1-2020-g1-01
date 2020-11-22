@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -12,24 +12,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AlumnoService {
 	
+	private AlumnoRepository alumnoRepository;
+	
 	@Autowired
-	AlumnoRepository alumnoRepository;
+	public AlumnoService(AlumnoRepository alumnoRepository) {
+		this.alumnoRepository=alumnoRepository;
+	}
 	
 	public Alumno getAlumno(String nickUsuario) {
 		return alumnoRepository.findByNick(nickUsuario);
 	}
-	public List<Alumno> getAllAlumnos() {
-		return alumnoRepository.findAll();
+	public Collection<Alumno> getAllAlumnos() {
+	return alumnoRepository.findAll();
 	} 
 	@Transactional
 	public void saveAlumno(Alumno alumno) throws DataAccessException {
 		//creating alumno
 		alumnoRepository.save(alumno);		
 	}		
-
-    public List<Alumno> getStudentsByCourse(String cursoDeIngles){
-        System.out.println("**"+cursoDeIngles+"**");
-        return alumnoRepository.findStudentsByCourse(cursoDeIngles);
-    }
 }
-

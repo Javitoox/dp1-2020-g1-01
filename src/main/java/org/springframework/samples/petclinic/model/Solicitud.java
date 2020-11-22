@@ -17,6 +17,8 @@ public class Solicitud extends BaseEntity {
 
 	@Column(name = "fecha_solicitud")
 	private String fechaSolicitud;
+
+
 	
 	@Column(name = "nick_usuario")
 	private String nickUsuario;
