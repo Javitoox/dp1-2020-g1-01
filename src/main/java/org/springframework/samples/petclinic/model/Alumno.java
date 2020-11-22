@@ -4,9 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -20,10 +17,10 @@ public class Alumno extends Usuario{
 	private Integer numTareasEntregadas;
 	
 	@Column(name="fecha_matriculacion")
-	@NotBlank
-	@NotEmpty
-	@NotNull
 	private String fechaMatriculacion;
+	
+    @ManyToOne(optional=true)
+    private Tutor tutores;
     
     @ManyToOne(optional=false)
     private Grupo grupos;

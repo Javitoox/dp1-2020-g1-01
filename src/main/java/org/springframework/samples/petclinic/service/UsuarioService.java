@@ -2,13 +2,12 @@ package org.springframework.samples.petclinic.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.repository.UsuarioRepository;
+import org.springframework.samples.petclinic.model.Profesor;
+import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UsuarioService {
-	
-	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
 	private AlumnoService alumnoService;
@@ -19,15 +18,15 @@ public class UsuarioService {
 	@Autowired
 	private TutorService tutorService;
 	
-	@Autowired
-	public UsuarioService(UsuarioRepository usuarioRepository) {
-		this.usuarioRepository=usuarioRepository;
-	}
-	
-	public String typeOfUser(String nickUsuario) {
+	public String typeOfUser(String nickUsuario, String contraseya) {
+		String type = "Username not exist";
 		Alumno a = alumnoService.getAlumno(nickUsuario);
-		return null;
+		Profesor p = profesorService.getProfesor(nickUsuario);
+		Tutor t = tutorService.getTutor(nickUsuario);
+		if(a!=null) type = a.getContraseya().equals(contraseya) ? "integrante":"Incorrect pasword";
+		if(p!=null) type = p.getContraseya().equals(contraseya) ? "integrante":"Incorrect pasword";
+		if(t!=null) type = t.getContraseyaTutor().equals(contraseya) ? "tutor":"Incorrect pasword";
+		return type;
 	}
-	
 	
 }

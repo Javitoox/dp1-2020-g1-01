@@ -19,8 +19,12 @@
     padding: 15px 0;
     background-color:white;
     border-radius: 3px;
-  
   }
+  .request {
+    margin-top: 100px;
+    width: 400px;
+  }
+  
   .login form{
     margin: 3px;
   }
