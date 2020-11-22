@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.web;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -40,7 +41,7 @@ public class AlumnoController {
 	 
 	 @GetMapping("/all")
 	    public List<Alumno> listAlumnos(){
-	        return alumnoServ.getAllAlumnos();
+	        return alumnoServ.getAllAlumnos().stream().filter(x->x.getGrupos()!=null).collect(Collectors.toList());
 	    }
 
     @GetMapping("/getByCourse/{course}")
