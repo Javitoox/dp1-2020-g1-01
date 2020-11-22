@@ -1,33 +1,37 @@
-import { Component } from 'react';
+import React, { Component } from 'react'
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import { Checkbox } from 'primereact/checkbox';
-import FormTutor from './FormTutor';
 
-export class Solicitudes extends Component {
 
+
+
+class EditAlumno extends Component {
     username = this.username.bind(this);
     password = this.password.bind(this);
     card = this.card.bind(this);
-    name = this.name.bind(this);
-    email = this.email.bind(this);
-    telefono = this.telefono.bind(this);
-    address = this.address.bind(this);
-    birthdate = this.birthdate.bind(this);
+    fechaMatriculacion = this.fechaMatriculacion.bind(this);
+    dniUsuario = this.dniUsuario.bind(this);
+    correoElectronicoUsuario = this.correoElectronicoUsuario.bind(this);
+    numTelefonoUsuario= this.numTelefonoUsuario.bind(this);
+    direccionUsuario = this.direccionUsuario.bind(this);
+    fechaNacimiento= this.fechaNacimiento.bind(this);
     changeButton = this.changeButton.bind(this);
+    nombreCompletoUsuario= this.nombreCompletoUsuario.bind(this);
+    
+state= {
 
-    state = {
-        username: "",
-        password: "",
-        card: "",
-        name: "",
-        email: "",
-        telefono: "",
-        address: "",
-        birthdate: "",
-        button: false
-    }
+    username: "Gonzalo",
+    password: "Holaaa",
+    card: "20502441B",
+    fechaMatriculacion: "01/01/2018",
+    nombreCompletoUsuario: "Gonzalo Alvarez Garcia",
+    dniUsuario: "20502441B",
+    correoElectronicoUsuario: "gonalvgar,alumno@gmail.com",
+    numTelefonoUsuario:"622119555",
+    direccionUsuario :"Yucatan nº 3",
+    fechaNacimiento: "03/10/1998"
 
+}
     username(event) {
         this.setState({ username: event.target.value });
     }
@@ -40,57 +44,52 @@ export class Solicitudes extends Component {
         this.setState({ card: event.target.value });
     }
 
-    name(event) {
-        this.setState({ name: event.target.value });
+    fechaMatriculacion(event) {
+        this.setState({ fechaMatriculacion: event.target.value });
     }
 
-    email(event) {
-        this.setState({ email: event.target.value });
+    nombreCompletoUsuario(event){
+        this.setState({ nombreCompletoUsuario: event.target.value})
     }
 
-    telefono(event) {
-        this.setState({ telefono: event.target.value });
+    dniUsuario(event) {
+        this.setState({ dniUsuario: event.target.value });
     }
 
-    address(event) {
-        this.setState({ address: event.target.value });
+    correoElectronicoUsuario(event) {
+        this.setState({ correoElectronicoUsuario: event.target.value });
     }
 
-    birthdate(event) {
-        this.setState({ birthdate: event.target.value });
+    numTelefonoUsuario(event) {
+        this.setState({ numTelefonoUsuario: event.target.value });
     }
 
-    changeButton(event) {
-        this.setState({ button: !this.state.button });
+    direccionUsuario(event) {
+        this.setState({ direccionUsuario: event.target.value });
     }
 
-    activeForm(){
-        if(this.state.button){
-            return <FormTutor></FormTutor>
-        }
+    fechaNacimiento(event) {
+        this.setState({ fechaNacimiento: event.target.value });
     }
 
-    calculateUrl(){
-        if(this.state.button){
-            return this.props.urlBase+"/requests/sendingAll";
-        }else{        
-            return this.props.urlBase+"/requests/sending";
-        }
+    changeButton(event){
+        this.setState({button: !this.state.button});
     }
-
+    baseUrl = "http://localhost:8081/alumnos/{nick_usuario}/edit";
+    
     render() {
         return (
             <div>
                 <div className="c">
                     <div className="login request">
-                        <form method="GET" action={this.calculateUrl()}>
-                            <div className="t"><div><h5>Request</h5></div></div>
+                        <form method="POST"  action={this.props.urlBase} >
+                        <div className="t"><div><h5>Request</h5></div></div>
                             <div className="i">
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user"></i>
                                     </span>
-                                    <InputText placeholder="Username" name="nickUsuario" type="text" value={this.state.username} onChange={this.username} />
+                                    <InputText placeholder="Username" name="nickUsuario" type="text" value={this.state.username} onChange={this.username}/>
                                 </div>
                             </div>
 
@@ -99,7 +98,7 @@ export class Solicitudes extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-lock"></i>
                                     </span>
-                                    <InputText placeholder="Password" name="contraseya" type="text" value={this.state.password} onChange={this.password} />
+                                    <InputText placeholder="Password" name="contraseya" type="text" value={this.state.password} onChange={this.password}/>
                                 </div>
                             </div>
                             <div className="i">
@@ -107,7 +106,7 @@ export class Solicitudes extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-id-card"></i>
                                     </span>
-                                    <InputText placeholder="Identity card" name="dniUsuario" type="text" value={this.state.card} onChange={this.card} />
+                                    <InputText placeholder="dniUsuario" name="dniUsuario" type="text" value={this.state.card} onChange={this.card}/>
                                 </div>
                             </div>
                             <div className="i">
@@ -115,7 +114,7 @@ export class Solicitudes extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user-plus"></i>
                                     </span>
-                                    <InputText placeholder="Full Name" name="nombreCompletoUsuario" type="text" value={this.state.name} onChange={this.name} />
+                                    <InputText placeholder="nombreCompletoUsuario" name="nombreCompletoUsuario" type="text" value={this.state.nombreCompletoUsuario} onChange={this.name}/>
                                 </div>
                             </div>
                             <div className="i">
@@ -123,7 +122,7 @@ export class Solicitudes extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-inbox"></i>
                                     </span>
-                                    <InputText placeholder="Email" name="correoElectronicoUsuario" type="text" value={this.state.email} onChange={this.email} />
+                                    <InputText placeholder="correoElectronicoUsuario" name="correoElectronicoUsuario" type="text" value={this.state.correoElectronicoUsuario} onChange={this.email}/>
                                 </div>
                             </div>
                             <div className="i">
@@ -131,7 +130,7 @@ export class Solicitudes extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-mobile"></i>
                                     </span>
-                                    <InputText placeholder="Phone number" name="numTelefonoUsuario" type="text" value={this.state.telefono} onChange={this.telefono} />
+                                    <InputText placeholder="numTelefonoUsuario" name="numTelefonoUsuario" type="text" value={this.state.numTelefonoUsuario} onChange={this.telefono}/>
                                 </div>
                             </div>
                             <div className="i">
@@ -139,7 +138,7 @@ export class Solicitudes extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-home"></i>
                                     </span>
-                                    <InputText placeholder="Address" name="direccionUsuario" type="text" value={this.state.address} onChange={this.address} />
+                                    <InputText placeholder="direccionUsuario" name="direccionUsuario" type="text" value={this.state.direccionUsuario} onChange={this.address}/>
                                 </div>
                             </div>
                             <div className="i">
@@ -147,16 +146,9 @@ export class Solicitudes extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-calendar"></i>
                                     </span>
-                                    <InputText placeholder="Birthdate" name="fechaNacimiento" type="text" value={this.state.birthdate} onChange={this.birthdate} />
+                                    <InputText placeholder="fechaNacimiento" name="fechaNacimiento" type="text" value={this.state.fechaNacimiento} onChange={this.birthdate}/>
                                 </div>
                             </div>
-                            <div className="i">
-                                <div className="p-field-checkbox">
-                                    <Checkbox inputId="menor" value="Menor" onChange={this.changeButton} checked={this.state.button} />
-                                    <label htmlFor="menor">Menor de edad</label>
-                                </div>
-                            </div>
-                            {this.activeForm()}
                             <div className="b">
                                 <div className="i">
                                     <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check" />
@@ -168,5 +160,5 @@ export class Solicitudes extends Component {
             </div>
         );
     }
-
 }
+export {EditAlumno}; 
