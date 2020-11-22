@@ -8,9 +8,8 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Data
 @Table(name="alumnos")
-
+@Data
 public class Alumno extends Usuario{
 	
 	@Column(name="num_tareas_entregadas")
