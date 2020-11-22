@@ -13,6 +13,4 @@ import lombok.Data;
 @Table(name="walloffames")
 public class WallofFame extends BaseEntity{
 
-	@OneToMany(mappedBy = "walloffames")
-    private List<Premiado> premiados;	
 }

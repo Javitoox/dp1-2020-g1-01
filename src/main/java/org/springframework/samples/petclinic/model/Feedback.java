@@ -27,11 +27,4 @@ public class Feedback {
 	@Column(name="comentario")
 	private String comentario;
 	
-	@ManyToOne
-    @JoinColumn(name = "nick_usuario")
-    private Alumno alumnos;
-	
-	@ManyToOne
-    @JoinColumn(name = "id")
-    private Material materiales;
 }

@@ -20,14 +20,4 @@ public class Premiado{
 	@Id
 	@Column(name="fecha_premiado")
 	private String fechaPremiado;
-	
-	@ManyToOne
-    @JoinColumn(name = "nick_usuario")
-    private Alumno alumnos;
-	
-	
-	@ManyToOne
-	@JoinColumn(name = "id") 
-	private WallofFame walloffames;
-	 
 }
