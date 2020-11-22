@@ -18,9 +18,8 @@ import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Entity
-@Data
 @Table(name="alumnos")
-
+@Data
 public class Alumno extends Usuario{
 	
 	@Column(name="num_tareas_entregadas")

@@ -23,9 +23,9 @@ public class UsuarioService {
 		Alumno a = alumnoService.getAlumno(nickUsuario);
 		Profesor p = profesorService.getProfesor(nickUsuario);
 		Tutor t = tutorService.getTutor(nickUsuario);
-		if(a!=null) type = a.getContraseya().equals(contraseya) ? "integrante":"Incorrect pasword";
-		if(p!=null) type = p.getContraseya().equals(contraseya) ? "integrante":"Incorrect pasword";
-		if(t!=null) type = t.getContraseyaTutor().equals(contraseya) ? "tutor":"Incorrect pasword";
+		if(a!=null) type = a.getContraseya().equals(contraseya) ? "integrante":"Incorrect password";
+		if(p!=null) type = p.getContraseya().equals(contraseya) ? "integrante":"Incorrect password";
+		if(t!=null) type = t.getContraseyaTutor().equals(contraseya) ? "tutor":"Incorrect password";
 		return type;
 	}
 	

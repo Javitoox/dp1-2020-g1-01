@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.repository.TutorRepository;
@@ -21,6 +23,10 @@ public class TutorService {
 	
 	public void insert(Tutor tutor) {
 		tutorRepository.save(tutor);
+	}
+	
+	public List<Tutor> getAllTutores() {
+		return tutorRepository.findAll();
 	}
 	
 }
