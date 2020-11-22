@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Grupo;
@@ -20,7 +21,7 @@ public class GrupoService {
 	public Collection<Grupo> findAll(){
 		return grupoRepository.findAll();
 	}
-	public Collection<Grupo> getGrupo(String curso) {
+	public List<Grupo> getGrupo(String curso) {
 		return grupoRepository.findByCurso(curso);
 	}
 	

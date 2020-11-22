@@ -1,8 +1,11 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.Collection;
+import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.stereotype.Service;
@@ -22,8 +25,14 @@ public class AlumnoService {
 	}
 	
 	
-	public Collection<Alumno> getStudentsPerGroup(String nombreGrupo) {
+	public List<Alumno> getStudentsPerGroup(String nombreGrupo) {
         return alumnoRepository.findByGroup(nombreGrupo);
+    }
+	
+	@Transactional
+    public void saveAlumno(Alumno alumno) throws DataAccessException {
+        //creating alumno
+        alumnoRepository.save(alumno);
     }
 
 }
