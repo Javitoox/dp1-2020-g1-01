@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -17,7 +16,7 @@ public class Grupo {
 	@Column(name="nombre_grupo")
 	private String nombreGrupo;
 	
-	@ManyToOne(optional=false)
-    private Curso curso;	
+	@ManyToOne(optional=true)
+    private Curso cursos;	
 	
 }

@@ -60,10 +60,10 @@ public class AlumnoController {
 			LOGGER.log(Level.INFO, "Esto no funciona :(");
 		}
 		else {
-			Curso curso= alumnoServ.getAlumno(nick_usuario).getGrupos().getCurso();
+			Curso curso= alumnoServ.getAlumno(nick_usuario).getGrupos().getCursos();
 			Grupo grupo = new Grupo();
 			grupo.setNombreGrupo(nombreGrupo);
-			grupo.setCurso(curso);
+			grupo.setCursos(curso);
 			alumno.setGrupos(grupo);
 			this.alumnoServ.saveAlumno(alumno);
 		}
