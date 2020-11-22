@@ -18,7 +18,6 @@ public class Grupo {
 	private String nombreGrupo;
 	
 	@ManyToOne(optional=false)
-    @JoinColumn(name="curso_de_ingles")
     private Curso curso;	
 	
 }
