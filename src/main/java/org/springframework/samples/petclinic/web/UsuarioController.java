@@ -16,12 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UsuarioController {
 	
-	private final UsuarioService usuarioService;
-	
 	@Autowired
-	public UsuarioController(UsuarioService usuarioService) {
-		this.usuarioService=usuarioService;
-	}
+	UsuarioService usuarioService;
 	
 	@GetMapping(value = { "/login" }, produces =  MediaType.APPLICATION_JSON_VALUE )
 	public void typeOfUser(@RequestParam("username") String nickUsuario, @RequestParam("password") String contraseya,
