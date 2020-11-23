@@ -13,16 +13,18 @@ import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
-@Controller
+@RestController
+@CrossOrigin("*")
 @RequestMapping("/grupos")
 public class GrupoController {
 	
@@ -45,9 +47,10 @@ public class GrupoController {
 		
 	}
 	
-	@GetMapping(value="/grupos/{curso}/lista")
+	@GetMapping("/{curso}")
 	public List<Grupo> listaGruposPorCurso(@PathVariable("curso") String curso) {
-	return grupoService.getGrupo(curso);
+		return grupoService.findAll().stream().filter(x->x.getCursos().getCursoDeIngles()
+				.toString().equals(curso)).collect(Collectors.toList());
 	}
 	
 	@GetMapping(value="/grupos?grupo={nombreGrupo}")	
