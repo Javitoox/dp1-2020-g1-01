@@ -24,10 +24,10 @@ public class UsuarioController {
 			HttpServletResponse response) throws IOException {
 		String result="http://localhost:3000";
 		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
-		if(type.equals("Username not exist") || type.equals("Incorrect pasword")) {
+		if(type.equals("Username not exist") || type.equals("Incorrect password")) {
 			result += "/login?message="+type;
 		}else {
-			result += "?message="+type;
+			result += "?message="+type+"&nickUsuario="+nickUsuario;
 		}	
 		response.sendRedirect(result);
 	}

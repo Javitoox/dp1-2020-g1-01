@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,12 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/tutor/{nickTutor}")
 public class TutorController {
 
-	@Autowired
-	AlumnoService alumnoService;
-	
-	@GetMapping("/allMyStudents")
-	public List<Alumno>getStudentsByTutor(ModelMap model, @PathVariable("nickTutor") String nick_tutor){
-		List<Alumno>listaAlumnos =  alumnoService.getAlumnos();
-		return listaAlumnos.stream().filter(x->x.getTutores().getNickTutor().equals(nick_tutor)).collect(Collectors.toList());
-	}
+    @Autowired
+    AlumnoService alumnoService;
+
+    @GetMapping("/allMyStudents")
+    public List<Alumno>getStudentsByTutor(ModelMap model, @PathVariable("nickTutor") String nick_tutor){
+        Collection<Alumno>listaAlumnos =  alumnoService.getAllAlumnos();
+        return listaAlumnos.stream().filter(x->x.getTutores().getNickUsuarioTutor().equals(nick_tutor)).collect(Collectors.toList());
+    }
 }
