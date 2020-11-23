@@ -22,7 +22,7 @@ export  class SolicitudesProfesor extends Component {
             Requests
         </div>
     );
-    const footer = `There's ${this.state.solicitudes ? this.state.solicitudes.length : 0} requests.`;
+    const footer = `There're ${this.state.solicitudes ? this.state.solicitudes.length : 0} requests.`;
         return (
           <div className="datatable-templating-demo">
           <div className="card">
