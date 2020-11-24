@@ -46,7 +46,7 @@ class App extends Component {
 						<SolicitudesProfesor></SolicitudesProfesor>
 					}/>
 					<Route path="/myStudents" render={()=>
-						<AlumnosPorTutor polla={this.state.nickUsuario} ></AlumnosPorTutor>
+						<AlumnosPorTutor nickUsuario={this.state.nickUsuario}></AlumnosPorTutor>
 					}>
 					</Route>
 				</Router>

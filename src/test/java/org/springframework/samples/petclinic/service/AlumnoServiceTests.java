@@ -1,10 +1,10 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -22,7 +22,7 @@ public class AlumnoServiceTests {
 	@Autowired
 	protected AlumnoService alumnoService;
 	
-	@BeforeAll
+	
 	@Transactional
 	void insertAlumno() {
 		Alumno alumno = new Alumno();
@@ -44,5 +44,11 @@ public class AlumnoServiceTests {
 		List<Alumno> alumnos = alumnoService.getAllAlumnos();
 		assertThat(alumnos.size()).isGreaterThan(0);
 	}
-
+	
+	@Test
+	void getStudentsByCourse() {
+		String cursoDeIngles = "B1";
+		List<Alumno> alumnos = alumnoService.getStudentsByCourse(cursoDeIngles);
+		assertFalse(alumnos.size() == 0);
+	}
 }

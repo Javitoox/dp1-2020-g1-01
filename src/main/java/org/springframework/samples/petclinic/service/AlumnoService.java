@@ -35,8 +35,8 @@ public class AlumnoService {
 	}		
 
     public List<Alumno> getStudentsByCourse(String cursoDeIngles){
-        System.out.println("**"+cursoDeIngles+"**");
         return alumnoRepository.findStudentsByCourse(cursoDeIngles);
     }
+   
 }
 
