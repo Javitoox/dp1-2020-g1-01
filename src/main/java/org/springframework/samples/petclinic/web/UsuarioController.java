@@ -27,7 +27,7 @@ public class UsuarioController {
 		if(type.equals("Username not exist") || type.equals("Incorrect password")) {
 			result += "/login?message="+type;
 		}else {
-			result += "?message="+type;
+			result += "?message="+type+"&nickUsuario="+nickUsuario;
 		}	
 		response.sendRedirect(result);
 	}

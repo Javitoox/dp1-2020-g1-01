@@ -10,9 +10,8 @@ import javax.validation.constraints.Pattern;
 
 import lombok.Data;
 
-@MappedSuperclass
 @Data
-
+@MappedSuperclass
 public class Usuario{
 	
 	@Id

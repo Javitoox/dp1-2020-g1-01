@@ -21,6 +21,6 @@ public class Alumno extends Usuario{
     @ManyToOne(optional=true)
     private Tutor tutores;
     
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=true)
     private Grupo grupos;
 }

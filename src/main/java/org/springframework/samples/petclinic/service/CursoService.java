@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.repository.CursoRepository;
@@ -13,5 +15,13 @@ public class CursoService {
 
     public Curso saveNewCourse(Curso curso) {
         return cursoRepository.save(curso);
+    }
+    
+    public void deleteCourse(Curso curso) {
+    	cursoRepository.delete(curso);
+    }
+    
+    public Optional<Curso> getCourseById(String nombreCurso) {
+    	return cursoRepository.findById(nombreCurso);
     }
 }

@@ -7,16 +7,21 @@ import { Login } from './components/Login';
 import ExtraccionMensajes from './components/ExtraccionMensajes';
 import { EditAlumno } from './components/EditAlumno';
 import { SolicitudesProfesor } from './components/SolicitudesProfesor';
+import { AlumnosPorTutor } from './components/AlumnosPorTutor';
+
 
 class App extends Component {
 
 	extraccion = new ExtraccionMensajes();
-
-	state = {
-		urlBase: "http://localhost:8081",
-		tipoDeUsuario:"usuario"
+	constructor(){
+		super()
+		this.state = {
+			urlBase: "http://localhost:8081",
+			tipoDeUsuario:"usuario",
+			nickUsuario: this.extraccion.getParameterByName("nickUsuario")
+		}
 	}
-
+	
 	componentDidMount(){
 		var m = this.extraccion.getParameterByName("message");
 		if(m!==""){
@@ -25,6 +30,8 @@ class App extends Component {
 	}
 
 	render() {
+		
+		console.log( this.state.nickUsuario)
 		return (
 			<React.Fragment>
 				<MenubarResponsive tipoDeUsuario={this.state.tipoDeUsuario}></MenubarResponsive>
@@ -36,8 +43,12 @@ class App extends Component {
 						<Login urlBase={this.state.urlBase}></Login>
 					} />
 					<Route path="/solicitudesProfesor" render= {() =>
-					<SolicitudesProfesor></SolicitudesProfesor>
+						<SolicitudesProfesor></SolicitudesProfesor>
 					}/>
+					<Route path="/myStudents" render={()=>
+						<AlumnosPorTutor nickUsuario={this.state.nickUsuario}></AlumnosPorTutor>
+					}>
+					</Route>
 				</Router>
 			</React.Fragment>
 		)
