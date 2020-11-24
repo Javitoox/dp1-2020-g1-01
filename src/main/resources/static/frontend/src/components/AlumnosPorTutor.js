@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 import ExtraccionAlumnosByTutor from './ExtraccionAlumnosByTutor';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';

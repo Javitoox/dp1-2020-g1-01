@@ -20,7 +20,7 @@ public class UsuarioController {
 	UsuarioService usuarioService;
 	
 	@GetMapping(value = { "/login" }, produces =  MediaType.APPLICATION_JSON_VALUE )
-	public void typeOfUser(@RequestParam("username") String nickUsuario, @RequestParam("password") String contraseya,
+	public String typeOfUser(@RequestParam("username") String nickUsuario, @RequestParam("password") String contraseya,
 			HttpServletResponse response) throws IOException {
 		String result="http://localhost:3000";
 		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
@@ -29,7 +29,7 @@ public class UsuarioController {
 		}else {
 			result += "?message="+type+"&nickUsuario="+nickUsuario;
 		}	
-		response.sendRedirect(result);
+		return type;
 	}
 	
 }
