@@ -37,7 +37,9 @@ export class MenubarResponsive extends Component {
             { label: 'Home', icon: 'pi pi-fw pi-home', command: (event) => {
                 window.location = "/";
             }},
-            { label: 'My students', icon: 'pi pi-fw pi-pencil' },
+            { label: 'My students', icon: 'pi pi-fw pi-pencil', command:(event)=>{
+                window.location= "/myStudents"
+            }},
             { label: 'Wall of Fame', icon: 'pi pi-fw pi-star' },
             { label: 'About us', icon: 'pi pi-fw pi-question' }
         ]

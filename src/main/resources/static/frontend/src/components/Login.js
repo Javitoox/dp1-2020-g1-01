@@ -1,12 +1,17 @@
 import { Component } from 'react';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
+import { withRouter } from "react-router-dom";
 import '../login.css';
+import { ExtraccionUsuarios } from './ExtraccionUsuarios';
 
-export class Login extends Component {
+ class Login extends Component {
 
     username = this.username.bind(this);
-    password = this.password.bind(this);    
+    password = this.password.bind(this);   
+    type = new ExtraccionUsuarios(this.props.urlBase); 
+    calculateRedirect = this.calculateRedirect.bind(this);
+    calculateType = this.calculateType.bind(this);
 
     state = {
         username: "",
@@ -22,12 +27,23 @@ export class Login extends Component {
         this.setState({ password: event.target.value });
     }
 
+    calculateRedirect(event){
+        if(this.state.type!==""){
+            this.props.history.push("/");
+        }
+    }
+
+    calculateType(event){
+        console.log("Entrada");
+        this.type.getType(this.state.username, this.state.password).then(data => this.setState({type:data}));
+    }
+
     render() {
         return (
             <div>
                 <div className="c">
                     <div className="login">
-                        <form method="GET" action={this.props.urlBase+"/login"}>
+                        <form method="GET">
                             <div className="t"><div><h5>Login</h5></div></div>
                             <div className="i">
                                 <div className="p-inputgroup">
@@ -48,7 +64,7 @@ export class Login extends Component {
                             </div>
                             <div className="b">
                                 <div className="i">
-                                    <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check" />
+                                    <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check" onClick={this.calculateRedirect} onMouseOver={this.calculateType}/>
                                 </div>
                             </div>
                         </form>
@@ -58,3 +74,5 @@ export class Login extends Component {
         );
     }
 }
+
+export default withRouter(Login);
