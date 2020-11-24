@@ -49,9 +49,14 @@ public class GrupoController {
 	
 	@GetMapping("/{curso}")
 	public List<Grupo> listaGruposPorCurso(@PathVariable("curso") String curso) {
-		return grupoService.findAll().stream().filter(x->x.getCursos().getCursoDeIngles()
-				.toString().equals(curso)).collect(Collectors.toList());
+		return grupoService.getGrupo(curso);		
 	}
+	
+	/*GESTIÓN DE GRUPOS*/
+	
+	
+	
+	/*FIN GESTIÓN DE GRUPOS*/
 	
 	@GetMapping(value="/grupos?grupo={nombreGrupo}")	
 	public List<Alumno> getPersonasByNameOfGroup(@RequestParam("nombreGrupo") String nombreGrupo){

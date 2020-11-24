@@ -25,6 +25,11 @@ public class GrupoService {
 		return grupoRepository.findByCurso(curso);
 	}
 	
+	/*Gestión de grupos*/
+	public void create(Grupo grupo) {
+		grupoRepository.save(grupo);		
+	}
+	
 	
 	
 
