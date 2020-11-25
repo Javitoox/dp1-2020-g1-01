@@ -1,10 +1,12 @@
 package org.springframework.samples.petclinic.web;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +32,16 @@ public class AlumnoController {
 	@Autowired
 	AlumnoService alumnoServ;
 	
-	 @PostMapping(value = "/{nick_usuario}/edit")
-		public void processUpdateAlumnoForm(@Valid Alumno alumno, BindingResult result,
-				@PathVariable("nick_usuario") String nick_usuario) {
+	  @GetMapping("/editStudent")
+		public void processUpdateAlumnoForm(@Valid Alumno alumno, BindingResult result, HttpServletResponse response) throws IOException
+				 {
 			if (result.hasErrors()) {
 				LOGGER.log(Level.INFO, "Esto no funciona :(");
 			}
 			else {
-				alumno.setNickUsuario(nick_usuario);
+				LOGGER.log(Level.INFO, "Ha funcionado ;)))");
 				this.alumnoServ.saveAlumno(alumno);
+				response.sendRedirect("http://localhost:3000");
 			}
 		}
 	 
