@@ -30,7 +30,6 @@ public class AlumnoService {
 	} 
 	@Transactional
 	public void saveAlumno(Alumno alumno) throws DataAccessException {
-		//creating alumno
 		alumnoRepository.save(alumno);		
 	}		
 

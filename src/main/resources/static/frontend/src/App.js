@@ -5,7 +5,7 @@ import { Solicitudes } from './components/Solicitudes';
 import './index.css';
 import { Login } from './components/Login';
 import ExtraccionMensajes from './components/ExtraccionMensajes';
-import { EditAlumno } from './components/EditAlumno';
+import { EditStudent } from './components/EditStudent';
 import { SolicitudesProfesor } from './components/SolicitudesProfesor';
 import { AlumnosPorTutor } from './components/AlumnosPorTutor';
 import { Alumnos } from './components/Alumnos';
@@ -51,6 +51,9 @@ class App extends Component {
 					} />
 					<Route path="/allStudents" render={()=>
 						<Alumnos urlBase={this.state.urlBase}></Alumnos>
+					} />
+					<Route path = "/editStudent" render={() =>
+						<EditStudent></EditStudent>
 					} />
 					
 				</Router>
