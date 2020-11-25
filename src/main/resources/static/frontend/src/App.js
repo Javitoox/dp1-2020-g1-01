@@ -3,10 +3,12 @@ import { MenubarResponsive } from './components/MenubarResponsive';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Solicitudes } from './components/Solicitudes';
 import './index.css';
-import Login from './components/Login';
+import { Login } from './components/Login';
 import ExtraccionMensajes from './components/ExtraccionMensajes';
+import { EditAlumno } from './components/EditAlumno';
 import { SolicitudesProfesor } from './components/SolicitudesProfesor';
 import { AlumnosPorTutor } from './components/AlumnosPorTutor';
+import { Alumnos } from './components/Alumnos';
 
 
 class App extends Component {
@@ -43,11 +45,14 @@ class App extends Component {
 					} />
 					<Route path="/solicitudesProfesor" render= {() =>
 						<SolicitudesProfesor></SolicitudesProfesor>
-					}/>
+					} />
 					<Route path="/myStudents" render={()=>
-						<AlumnosPorTutor nickUsuario={this.state.nickUsuario}></AlumnosPorTutor>
-					}>
-					</Route>
+						<AlumnosPorTutor urlBase={this.state.urlBase}></AlumnosPorTutor>
+					} />
+					<Route path="/allStudents" render={()=>
+						<Alumnos urlBase={this.state.urlBase}></Alumnos>
+					} />
+					
 				</Router>
 			</React.Fragment>
 		)

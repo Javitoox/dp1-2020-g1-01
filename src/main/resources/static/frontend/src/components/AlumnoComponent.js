@@ -1,11 +1,14 @@
 import axios from 'axios';
 import {Component} from 'react';
 
-export class AlumnoComponent extends Component{
-	baseUrl = "http://localhost:8081/alumnos";
-	
-	getAllAlumnos(){
-		return axios.get(this.baseUrl + "/all").then(res => res.data);
+export default class AlumnoComponent extends Component{
+		
+	getAllStudents(baseUrl){
+		return axios.get(baseUrl + "/alumnos/all").then(res => res.data);
+	}
+
+	getStudentsByCourse(baseUrl, course){
+		return axios.get(baseUrl + "/alumnos/getByCourse/"+course).then(res => res.data);
 	}
 }
 
