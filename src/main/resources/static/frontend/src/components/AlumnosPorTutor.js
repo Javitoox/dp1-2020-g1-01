@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ExtraccionAlumnosByTutor from './ExtraccionAlumnosByTutor';
+import MetodosTutor from './MetodosTutor';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 
@@ -9,10 +9,10 @@ export  class AlumnosPorTutor extends Component {
         this.state={
             nickUsuario:"marrambla2",
         }
-        this.alumnosPorTutorComponent = new ExtraccionAlumnosByTutor();
+        this.alumnosPorTutorComponent = new MetodosTutor();
     }
     componentDidMount(){
-        this.alumnosPorTutorComponent.getAlumnosPorTutor().then(data => this.setState({alumnos:data}));
+        this.alumnosPorTutorComponent.getAlumnosPorTutor(this.props.urlBase).then(data => this.setState({alumnos:data}));
     }
 
     render(){

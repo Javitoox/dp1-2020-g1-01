@@ -59,7 +59,7 @@ public class UsuarioServiceTests {
 	
 	@Test
 	@Transactional
-	void typeShouldBeIntegrante() {
+	void testTypeShouldBeIntegrante() {
 		String nickUsuario = "JaviMartinez";
 		String contraseya = "HolaBuenas777";
 		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
@@ -68,7 +68,7 @@ public class UsuarioServiceTests {
 	}
 	
 	@Test
-	void typeShouldBeUsernameNotExist() {
+	void testTypeShouldBeUsernameNotExist() {
 		String nickUsuario = "--------ImposibleQueExistaError---------";
 		String contraseya = "prueba";
 		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
@@ -78,7 +78,7 @@ public class UsuarioServiceTests {
 	
 	@Test
 	@Transactional
-	void typeShouldBeTutor() {
+	void testTypeShouldBeTutor() {
 		String nickUsuario = "PedroGar";
 		String contraseya = "EyEyHola6";
 		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
@@ -88,7 +88,7 @@ public class UsuarioServiceTests {
 	
 	@Test
 	@Transactional
-	void typeShouldBeIncorrectPassword() {
+	void testTypeShouldBeIncorrectPassword() {
 		String nickUsuario = "JaviMartinez";
 		String contraseya = "noExiste";
 		String contraseyaNoExistente = contraseya.concat("noExiste");

@@ -13,6 +13,7 @@
     "column": "0.0.2",
     "datatable": "^2.0.2",
     "formik": "^2.2.5",
+    "listbox": "^0.1.6",
     "primeflex": "^2.0.0",
     "primeicons": "^4.0.0",
     "primereact": "^5.0.1",

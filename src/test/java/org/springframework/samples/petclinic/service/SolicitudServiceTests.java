@@ -45,7 +45,7 @@ public class SolicitudServiceTests {
 	}
 	
 	@Test
-	void shouldGetAListWithSolicitudes() {
+	void testListWithSolicitudes() {
 		Collection<Solicitud> solicitudes = solicitudService.getAllSolicitudes();
 		assertThat(solicitudes.size()).isGreaterThan(0);
 	}

@@ -40,13 +40,13 @@ public class AlumnoServiceTests {
 	}
 	
 	@Test
-	void shouldGetAListWithAlumnos() {
+	void testListWithAlumnos() {
 		List<Alumno> alumnos = alumnoService.getAllAlumnos();
 		assertThat(alumnos.size()).isGreaterThan(0);
 	}
 	
 	@Test
-	void getStudentsByCourse() {
+	void testStudentsByCourse() {
 		String cursoDeIngles = "B1";
 		List<Alumno> alumnos = alumnoService.getStudentsByCourse(cursoDeIngles);
 		assertFalse(alumnos.size() == 0);
