@@ -3,7 +3,7 @@ import { MenubarResponsive } from './components/MenubarResponsive';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Solicitudes } from './components/Solicitudes';
 import './index.css';
-import { Login } from './components/Login';
+import Login from './components/Login';
 import ExtraccionMensajes from './components/ExtraccionMensajes';
 import { EditStudent } from './components/EditStudent';
 import { SolicitudesProfesor } from './components/SolicitudesProfesor';

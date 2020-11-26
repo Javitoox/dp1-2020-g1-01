@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import '../login.css';
 import { ExtraccionUsuarios } from './ExtraccionUsuarios';
 
-export class Login extends Component {
+class Login extends Component {
 
     username = this.username.bind(this);
     password = this.password.bind(this);   
