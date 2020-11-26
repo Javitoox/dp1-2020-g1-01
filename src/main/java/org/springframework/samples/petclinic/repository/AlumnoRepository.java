@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public interface AlumnoRepository extends CrudRepository<Alumno, String> {
 	
-	@Query("SELECT a FROM Alumno a WHERE a.nickUsuario = :nickUsuario")
+	@Query(value = "Select * from alumnos where (alumnos.nickUsuario = :nickUsuario)", nativeQuery = true)
 	public Alumno findByNick(@Param("nickUsuario") String nickUsuario);
 	
-	@Query("SELECT NICK_USUARIO FROM Alumno NICK_USUARIO WHERE NOMBRE_GRUPO= :nombreGrupo")
-    public List<Alumno> findByGroup(@RequestParam("nombreGrupo") String nombreGrupo);
+	@Query(value = "Select * from alumnos a natural join grupos where (grupos_nombre_grupo= :nombreGrupo)",nativeQuery = true)
+    public List<Alumno> findByGroup(@Param("nombreGrupo") String nombreGrupo);
 	
 	public List<Alumno>findAll();
 

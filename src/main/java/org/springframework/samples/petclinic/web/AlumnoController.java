@@ -14,6 +14,7 @@ import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.service.AlumnoService;
+import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,8 @@ public class AlumnoController {
 	
 	@Autowired
 	AlumnoService alumnoServ;
+	GrupoService grupoService;
+
 	
 	  @GetMapping("/editStudent")
 		public void processUpdateAlumnoForm(@Valid Alumno alumno, BindingResult result, HttpServletResponse response) throws IOException
@@ -56,19 +59,11 @@ public class AlumnoController {
     }
 
 
-	@PostMapping(value = "/{nick_usuario}/edit?grupo=nombreGrupo")
-	public void processUpdateStudentGroup(@Valid Alumno alumno, BindingResult result,
-			@PathVariable("nick_usuario") String nick_usuario, @RequestParam("nombreGrupo") String nombreGrupo) {
-		if (result.hasErrors()) {
-			LOGGER.log(Level.INFO, "Esto no funciona :(");
-		}
-		else {
-			Curso curso= alumnoServ.getAlumno(nick_usuario).getGrupos().getCursos();
-			Grupo grupo = new Grupo();
-			grupo.setNombreGrupo(nombreGrupo);
-			grupo.setCursos(curso);
-			alumno.setGrupos(grupo);
-			this.alumnoServ.saveAlumno(alumno);
-		}
-	}
+    @GetMapping(value = "/{nick_usuario}/edit/{nombreGrupo}")
+    public void processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario, @PathVariable("nombreGrupo") String nombreGrupo) {
+        	Alumno alumno1= alumnoServ.findById(nick_usuario);
+        	Grupo grupo= grupoService.getCourseById(nombreGrupo);       
+            alumno1.setGrupos(grupo);
+            this.alumnoServ.saveAlumno(alumno1);
+    }
 }
