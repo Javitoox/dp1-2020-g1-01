@@ -17,7 +17,9 @@ public interface AlumnoRepository extends CrudRepository<Alumno, String> {
 	@Query("SELECT NICK_USUARIO FROM Alumno NICK_USUARIO WHERE NOMBRE_GRUPO= :nombreGrupo")
     public List<Alumno> findByGroup(@RequestParam("nombreGrupo") String nombreGrupo);
 	
-	public List<Alumno>findAll();
+	
+	@Query(value="SELECT * FROM ALUMNOS WHERE FECHA_SOLICITUD IS NULL",nativeQuery = true)
+	public List<Alumno>findStudents();
 
     @Query(value = "Select * from alumnos natural join grupos where (cursos_curso_de_ingles = :cursoDeIngles "
             + "and grupos_nombre_grupo=nombre_grupo)", nativeQuery = true)

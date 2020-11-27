@@ -26,7 +26,7 @@ public class AlumnoService {
     }
 	
 	public List<Alumno> getAllAlumnos() {
-		return alumnoRepository.findAll();
+		return alumnoRepository.findStudents();
 	} 
 	@Transactional
 	public void saveAlumno(Alumno alumno) throws DataAccessException {
