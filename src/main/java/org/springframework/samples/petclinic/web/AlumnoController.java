@@ -50,7 +50,7 @@ public class AlumnoController {
 	 
 	 @GetMapping("/all")
 	    public List<Alumno> listAlumnos(){
-	        return alumnoServ.getAllAlumnos().stream().filter(x->x.getGrupos()!=null).collect(Collectors.toList());
+	        return alumnoServ.getAllAlumnos();
 	    }
 
     @GetMapping("/getByCourse/{course}")

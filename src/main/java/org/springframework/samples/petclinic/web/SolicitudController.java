@@ -3,12 +3,15 @@ package org.springframework.samples.petclinic.web;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -17,7 +20,6 @@ import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.SolicitudService;
@@ -38,21 +40,33 @@ public class SolicitudController {
 	   @Autowired
 	   TutorService tutorService;
 	   
+	   @GetMapping("/pending")
+	   public List<Alumno> getSolicitudes() {
+		   return solicitudServ.getAllSolicitudes();
+	   }
+	   
+	   @DeleteMapping("/decline/{nickUsuario}")
+	   public void declineRequest(@PathVariable("nickUsuario")String nickUsuario ){
+		   solicitudServ.declineRequest(nickUsuario);
+	   }
+	   
+	   
+	   /*
 	   @GetMapping("/all")
 	   public Collection<Solicitud> getSolicitudes(ModelMap model) {
 		   return solicitudServ.getAllSolicitudes();
 	   }
 	   
-//	   @GetMapping("/sending")
-//	   public void sending(Alumno alumno, @RequestParam("nickUsuarioTutor") String nickUsuarioTutor, 
-//			   @RequestParam("contraseyaTutor") String contraseyaTutor, @RequestParam("dniUsuarioTutor") String dniUsuarioTutor, 
-//			   @RequestParam("nombreCompletoUsuarioTutor") String nombreCompletoUsuarioTutor, @RequestParam("correoElectronicoUsuarioTutor") 
-//	           String correoElectronicoUsuarioTutor, @RequestParam("numTelefonoUsuarioTutor") String numTelefonoUsuarioTutor,  
-//	           @RequestParam("direccionUsuarioTutor") String direccionUsuarioTutor, @RequestParam("fechaNacimientoTutor") String fechaNacimientoTutor) {
-//		   alumnoService.insert(alumno);
-//		   tutorService.insertParams(nickUsuarioTutor, contraseyaTutor, dniUsuarioTutor, nombreCompletoUsuarioTutor, correoElectronicoUsuarioTutor, 
-//				   numTelefonoUsuarioTutor, direccionUsuarioTutor, fechaNacimientoTutor);
-//	   }
+	   @GetMapping("/sending")
+	   public void sending(Alumno alumno, @RequestParam("nickUsuarioTutor") String nickUsuarioTutor, 
+			   @RequestParam("contraseyaTutor") String contraseyaTutor, @RequestParam("dniUsuarioTutor") String dniUsuarioTutor, 
+			   @RequestParam("nombreCompletoUsuarioTutor") String nombreCompletoUsuarioTutor, @RequestParam("correoElectronicoUsuarioTutor") 
+	           String correoElectronicoUsuarioTutor, @RequestParam("numTelefonoUsuarioTutor") String numTelefonoUsuarioTutor,  
+	           @RequestParam("direccionUsuarioTutor") String direccionUsuarioTutor, @RequestParam("fechaNacimientoTutor") String fechaNacimientoTutor) {
+		   alumnoService.insert(alumno);
+		   tutorService.insertParams(nickUsuarioTutor, contraseyaTutor, dniUsuarioTutor, nombreCompletoUsuarioTutor, correoElectronicoUsuarioTutor, 
+				   numTelefonoUsuarioTutor, direccionUsuarioTutor, fechaNacimientoTutor);
+	   }
 	   
 	   @GetMapping("/sendingAll")
 	   public void sendingAll(@Valid Alumno alumno, BindingResult result1, @Valid Tutor tutor, BindingResult result2, 
@@ -77,6 +91,6 @@ public class SolicitudController {
 			   solicitudServ.insertByNick(alumno.getNickUsuario());
 			   response.sendRedirect("http://localhost:3000");
 		   }
-	   }
+	   }*/
 	   
 }
