@@ -23,6 +23,7 @@ INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,
     ('Gonzalo','aaa','20502441B','Gonzalo','gonalvgar.alumno@gmail.com','622119555','Calle Yucatan','03/10/1998',4,'11/12/2012','eveyugyug','grupo1');
 INSERT INTO solicitudes(fecha_solicitud,nick_usuario) VALUES('17/01/2020','Pepa2');
 
+
 --INSERT ANTIGUOS
 
 --Insercion de alumnos
