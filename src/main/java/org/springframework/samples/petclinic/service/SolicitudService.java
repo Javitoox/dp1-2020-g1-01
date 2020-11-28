@@ -27,6 +27,10 @@ public class SolicitudService {
 		
 	}
 	
+	public void acceptRequest(Alumno student) {
+		solicitudRepository.save(student);
+		
+	}
 //	public Solicitud getSolicitud(String nickUsuario) {
 //		return solicitudRepository.findByNick(nickUsuario);
 //	}

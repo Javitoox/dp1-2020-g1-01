@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public interface AlumnoRepository extends CrudRepository<Alumno, String> {
 	
-	@Query(value = "Select * from alumnos where (alumnos.nickUsuario = :nickUsuario)", nativeQuery = true)
+	@Query(value = "Select * from alumnos where (alumnos.nick_usuario = :nickUsuario)", nativeQuery = true)
 	public Alumno findByNick(@Param("nickUsuario") String nickUsuario);
 	
 	@Query(value = "Select * from alumnos a natural join grupos where (grupos_nombre_grupo= :nombreGrupo)",nativeQuery = true)
@@ -24,4 +24,7 @@ public interface AlumnoRepository extends CrudRepository<Alumno, String> {
     @Query(value = "Select * from alumnos natural join grupos where (cursos_curso_de_ingles = :cursoDeIngles "
             + "and grupos_nombre_grupo=nombre_grupo)", nativeQuery = true)
     public List<Alumno> findStudentsByCourse(@Param("cursoDeIngles") String cursoDeIngles);
+    
+    @Query(value = "SELECT * FROM ALUMNOS where(tutores_nick_usuario_tutor=:nickTutor and FECHA_SOLICITUD IS NULL)",nativeQuery = true)
+    public List<Alumno> findStudentsByTutor(@Param("nickTutor")String nickTutor);
 }

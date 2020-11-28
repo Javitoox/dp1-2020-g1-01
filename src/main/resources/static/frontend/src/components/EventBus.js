@@ -1,5 +1,5 @@
 const eventBus = {
-    async on(event, callback) {
+  async on(event, callback) {
       await  document.addEventListener(event, (e) => callback(e.detail));
     },
   async   dispatch(event, data) {

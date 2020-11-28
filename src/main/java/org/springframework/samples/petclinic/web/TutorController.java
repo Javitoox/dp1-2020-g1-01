@@ -23,8 +23,7 @@ public class TutorController {
     AlumnoService alumnoService;
 
     @GetMapping("/allMyStudents")
-    public List<Alumno>getStudentsByTutor(ModelMap model, @PathVariable("nickTutor") String nick_tutor){
-        Collection<Alumno>listaAlumnos =  alumnoService.getAllAlumnos();
-        return listaAlumnos.stream().filter(x->x.getTutores().getNickUsuarioTutor().equals(nick_tutor)).collect(Collectors.toList());
+    public List<Alumno>getStudentsByTutor(@PathVariable("nickTutor") String nickTutor){
+        return alumnoService.getAllMyStudents(nickTutor);
     }
 }
