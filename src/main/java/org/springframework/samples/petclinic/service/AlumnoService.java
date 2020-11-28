@@ -40,5 +40,9 @@ public class AlumnoService {
         return alumnoRepository.findStudentsByCourse(cursoDeIngles);
     }
    
+    public List<Alumno>getAllMyStudents(String nickTutor){
+    	
+    	return alumnoRepository.findStudentsByTutor(nickTutor);
+    }
 }
 

@@ -3,6 +3,9 @@ import ExtraccionSolicitudes from './ExtraccionSolicitudes';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {Button} from 'primereact/button';
+import { Redirect } from 'react-router-dom';
+
+
 
 
 export  class SolicitudesProfesor extends Component {
@@ -10,22 +13,41 @@ export  class SolicitudesProfesor extends Component {
 
     constructor(){
       super();
-         this.state= {};
+         this.state= {
+          redirect:false
+         };
          this.solicitudesComponent = new ExtraccionSolicitudes();
+         this.delete= this.delete.bind(this);
+         this.accept= this.accept.bind(this);
+         this.boton= this.boton.bind(this);
+         this.mostrarTabla= this.mostrarTabla.bind(this);
       }
     componentDidMount(){
-      this.solicitudesComponent.getSolicitudes(this.props.urlBase).then(data => this.setState({solicitudes:data}));
- 
+        this.mostrarTabla();
       }
-  
-    actionBodyTemplate(){
-      return (
+    
+    boton(rowData){
+      return (    
         <React.Fragment>
-            <Button  />
-            <Button  />
-        </React.Fragment>
-       )
+            <Button label="Deny"  onClick={() => this.delete(rowData)} />
+            <Button label="Accept"  onClick={() => this.accept(rowData)} />
+
+        </React.Fragment>)
     }
+
+    mostrarTabla(){
+      this.solicitudesComponent.getSolicitudes(this.props.urlBase).then(data => this.setState({solicitudes:data}));
+    }
+
+    delete(rowData){
+      this.solicitudesComponent.denyRequest(rowData.nickUsuario);
+      this.mostrarTabla();
+   }
+   
+   accept(rowData){
+    this.solicitudesComponent.acceptRequest(rowData.nickUsuario);
+    this.mostrarTabla();
+ }
 
     render() {
       const header = (
@@ -42,8 +64,8 @@ export  class SolicitudesProfesor extends Component {
                   <Column field="dniUsuario" header="DNI"></Column>
                   <Column field="nombreCompletoUsuario" header="Name"></Column>
                   <Column field="fechaSolicitud" header="Request date"></Column>
-                  <Column field="nickUsuarioTutor" header="Tutor username"></Column>
-                  <Column body={this.actionBodyTemplate}></Column>
+                  <Column field="tutores.nickUsuarioTutor" header="Tutor username"></Column>
+                  <Column body={this.boton}></Column>
               </DataTable>
           </div>
           </div>
