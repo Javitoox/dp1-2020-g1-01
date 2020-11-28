@@ -3,10 +3,6 @@ import ExtraccionSolicitudes from './ExtraccionSolicitudes';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {Button} from 'primereact/button';
-import { Redirect } from 'react-router-dom';
-
-
-
 
 export  class SolicitudesProfesor extends Component {
     

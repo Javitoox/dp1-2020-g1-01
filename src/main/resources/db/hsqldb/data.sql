@@ -1,8 +1,8 @@
 -----------------------------------------------
 INSERT INTO TUTORES(nick_usuario_tutor,contraseya_tutor,dni_usuario_tutor,nombre_completo_usuario_tutor,correo_electronico_usuario_tutor,num_telefono_usuario_tutor,direccion_usuario_tutor,fecha_nacimiento_tutor)values
 	('marrambla2','believer','88645678C','Maribel Ramos,','maribel.r@gmail.com','567825431','mi casa','22/06/2000');
-INSERT INTO TUTORES(nick_usuario_tutor,contraseya_tutor,dni_usuario_tutor,nombre_completo_usuario_tutor,correo_electronico_usuario_tutor,num_telefono_usuario_tutor,direccion_usuario_tutor,fecha_nacimiento_tutor)values
-	('eveyugyug','believer','88645678J','Evelyn Yugsi','ev.r@gmail.com','567825431','mi casa','04/07/2000');
+INSERT INTO TUTORES(nick_usuario_tutor,contraseya_tutor,dni_usuario_tutor,fecha_matriculacion_tutor,nombre_completo_usuario_tutor,correo_electronico_usuario_tutor,num_telefono_usuario_tutor,direccion_usuario_tutor,fecha_nacimiento_tutor)values
+	('eveyugyug','believer','88645678J','04/07/2000','Evelyn Yugsi','ev.r@gmail.com','567825431','mi casa','04/07/2000');
 
 INSERT INTO cursos(curso_de_ingles) values ('B1');
 INSERT INTO cursos(curso_de_ingles) values ('B2');
