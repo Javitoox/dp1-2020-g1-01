@@ -17,13 +17,10 @@ import org.springframework.samples.petclinic.service.CursoService;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -58,13 +55,13 @@ public class GrupoController {
 		return grupoService.getGrupos(curso);		
 	}
 	
-	@PostMapping("/new/{curso}/{nombregrupo}")
-	public Grupo newGroup(@RequestParam ("nombregrupo") String nombregrupo, @RequestParam("curso") String curso) {
+	@GetMapping("/new/{curso}/{nombregrupo}")
+	public void newGroup(@PathVariable ("nombregrupo") String nombregrupo, @PathVariable("curso") String curso) {
 		Grupo g = new Grupo();
 		Curso c = cursoService.getCourseById(curso).get();
 		g.setCursos(c);
 		g.setNombreGrupo(nombregrupo);
-		return grupoService.saveGroup(g);
+		grupoService.saveGroup(g);
 	}
 	
 	@PutMapping("/editGroup")
@@ -78,15 +75,13 @@ public class GrupoController {
 		}
 	}
 	
-	@DeleteMapping("/{nombreGrupo}/delete")
-	public void deleteGroup(@RequestParam("nombreGrupo") String nombreGrupo) throws IOException {
+	@GetMapping("/{nombreGrupo}/delete")
+	public void deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo) throws IOException {
 		Grupo g = grupoService.getGrupo(nombreGrupo).get();
 		grupoService.deleteGroup(g);
 		
 	}	
 	
-	@GetMapping(value="/grupos?grupo={nombreGrupo}")	
-	public List<Alumno> getPersonasByNameOfGroup(@RequestParam("nombreGrupo") String nombreGrupo){
 	@GetMapping(value="/getByNameOfGroup/{nombreGrupo}")	
 	public List<Alumno> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo){
         return alumnoService.getStudentsPerGroup(nombreGrupo);

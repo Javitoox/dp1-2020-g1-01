@@ -34,8 +34,8 @@ public class GrupoService {
 	}
 	
 	@Transactional
-	public Grupo saveGroup(Grupo grupo) {
-		return grupoRepository.save(grupo);		
+	public void saveGroup(Grupo grupo) {
+		grupoRepository.save(grupo);		
 	}
 	
 	public void deleteGroup(Grupo grupo) {
