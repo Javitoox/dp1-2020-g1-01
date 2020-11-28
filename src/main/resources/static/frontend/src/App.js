@@ -18,7 +18,7 @@ class App extends Component {
 		super()
 		this.state = {
 			urlBase: "http://localhost:8081",
-			tipoDeUsuario:"usuario",
+			tipoDeUsuario:"integrante",
 			nickUsuario: this.extraccion.getParameterByName("nickUsuario")
 		}
 	}
@@ -43,8 +43,8 @@ class App extends Component {
 					<Route path="/login" render={() =>
 						<Login urlBase={this.state.urlBase}></Login>
 					} />
-					<Route path="/solicitudesProfesor" render= {() =>
-						<SolicitudesProfesor></SolicitudesProfesor>
+					<Route path="/pendingRequests" render= {() =>
+						<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
 					} />
 					<Route path="/myStudents" render={()=>
 						<AlumnosPorTutor urlBase={this.state.urlBase}></AlumnosPorTutor>

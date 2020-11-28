@@ -28,5 +28,7 @@ public class TutorService {
 	public List<Tutor> getAllTutores() {
 		return tutorRepository.findAll();
 	}
-	
+	public void delete(String nickTutor) {
+		tutorRepository.deleteById(nickTutor);
+	}
 }

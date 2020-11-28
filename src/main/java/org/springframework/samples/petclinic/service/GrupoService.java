@@ -25,6 +25,9 @@ public class GrupoService {
 		return grupoRepository.findByCurso(curso);
 	}
 	
+	public Grupo getCourseById(String nombreCurso) {
+    	return grupoRepository.findById(nombreCurso).get();
+	}
 	
 	
 
