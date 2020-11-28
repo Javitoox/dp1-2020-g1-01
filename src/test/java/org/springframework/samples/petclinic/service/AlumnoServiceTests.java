@@ -23,6 +23,8 @@ public class AlumnoServiceTests {
 	
 	@Autowired
 	protected AlumnoService alumnoService;
+	
+	@Autowired
 	protected GrupoService grupoService;
 
 	
@@ -65,9 +67,9 @@ public class AlumnoServiceTests {
 	@Test
 	void editStudentGroup() {
 		Alumno alumno1 = alumnoService.findById("Javi");
-    	Grupo grupo= grupoService.getCourseById("grupo1");       
+    	Grupo grupo= grupoService.getCourseById("grupo3");       
         alumno1.setGrupos(grupo);
         alumnoService.saveAlumno(alumno1);
-		assertTrue(alumno1.getGrupos().getNombreGrupo() == "grupo1");
+		assertTrue(alumno1.getGrupos().getNombreGrupo() == "grupo3");
 	}
 }

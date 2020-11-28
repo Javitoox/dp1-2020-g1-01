@@ -40,9 +40,7 @@ public class GrupoService {
 	
 	public void deleteGroup(Grupo grupo) {
 		grupoRepository.delete(grupo);
-	}
-
-	
+	}	
 	
 	public Grupo getCourseById(String nombreCurso) {
     	return grupoRepository.findById(nombreCurso).get();
