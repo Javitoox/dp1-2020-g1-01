@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.service.UsuarioService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,7 @@ public class UsuarioController {
 	@Autowired
 	UsuarioService usuarioService;
 	
-	@GetMapping(value = { "/login" }, produces =  MediaType.APPLICATION_JSON_VALUE )
+	@GetMapping(value = { "/login" })
 	public String typeOfUser(@RequestParam("username") String nickUsuario, @RequestParam("password") String contraseya,
 			HttpServletResponse response) throws IOException {
 		String result="http://localhost:3000";
@@ -28,7 +27,7 @@ public class UsuarioController {
 			result += "/login?message="+type;
 		}else {
 			result += "?message="+type+"&nickUsuario="+nickUsuario;
-		}	
+		}
 		return type;
 	}
 	
