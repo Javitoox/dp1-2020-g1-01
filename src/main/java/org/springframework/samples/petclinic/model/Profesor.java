@@ -9,5 +9,5 @@ import lombok.Data;
 @Data
 @Table(name="profesores")
 public class Profesor extends Usuario{
-	
+
 }

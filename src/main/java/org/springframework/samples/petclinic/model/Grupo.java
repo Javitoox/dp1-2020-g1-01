@@ -17,6 +17,6 @@ public class Grupo {
 	private String nombreGrupo;
 	
 	@ManyToOne(optional=true)
-    private Curso cursos;	
+    private Curso cursos;		
 	
 }

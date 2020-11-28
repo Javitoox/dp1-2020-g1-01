@@ -2,6 +2,9 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Grupo;
@@ -21,14 +24,25 @@ public class GrupoService {
 	public Collection<Grupo> findAll(){
 		return grupoRepository.findAll();
 	}
-	public List<Grupo> getGrupo(String curso) {
+	
+	public Optional<Grupo> getGrupo(String id) {
+		return grupoRepository.findById(id);
+	}
+	
+	public List<Grupo> getGrupos(String curso) {
 		return grupoRepository.findByCurso(curso);
 	}
 	
-	/*Gestión de grupos*/
-	public void create(Grupo grupo) {
-		grupoRepository.save(grupo);		
+	@Transactional
+	public Grupo saveGroup(Grupo grupo) {
+		return grupoRepository.save(grupo);		
 	}
+	
+	public void deleteGroup(Grupo grupo) {
+		grupoRepository.delete(grupo);
+	}
+
+	
 	
 	
 	
