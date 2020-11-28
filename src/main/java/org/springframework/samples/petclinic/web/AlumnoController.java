@@ -57,7 +57,11 @@ public class AlumnoController {
     	public List<Alumno> listStudentsByCourse(@PathVariable("course") String cursoDeIngles){
         	return alumnoServ.getStudentsByCourse(cursoDeIngles);
     }
-
+    
+    @GetMapping(value="/getByNameOfGroup/{nombreGrupo}")	
+	public List<Alumno> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo){
+        return alumnoServ.getStudentsPerGroup(nombreGrupo);
+    }
 
     @GetMapping(value = "/{nick_usuario}/edit/{nombreGrupo}")
     public void processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario, @PathVariable("nombreGrupo") String nombreGrupo) {
