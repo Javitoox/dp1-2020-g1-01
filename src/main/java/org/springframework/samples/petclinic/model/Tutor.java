@@ -68,6 +68,8 @@ public class Tutor{
 	@NotNull
 	private String fechaNacimientoTutor;
 	
+	@Column(name="fecha_matriculacion_tutor")
+	private String fechaMatriculacionTutor;
 
 }
 
