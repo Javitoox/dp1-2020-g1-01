@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,8 @@ public class AlumnoServiceTests {
 	
 	@Autowired
 	protected AlumnoService alumnoService;
+	protected GrupoService grupoService;
+
 	
 	
 	@Transactional
@@ -40,15 +44,30 @@ public class AlumnoServiceTests {
 	}
 	
 	@Test
-	void shouldGetAListWithAlumnos() {
+	void testListWithAlumnos() {
 		List<Alumno> alumnos = alumnoService.getAllAlumnos();
 		assertThat(alumnos.size()).isGreaterThan(0);
 	}
 	
 	@Test
-	void getStudentsByCourse() {
+	void testStudentsByCourse() {
 		String cursoDeIngles = "B1";
 		List<Alumno> alumnos = alumnoService.getStudentsByCourse(cursoDeIngles);
 		assertFalse(alumnos.size() == 0);
+	}
+	@Test
+	void getStudentsByGroup() {
+		String nombreGrupo = "grupo1";
+		List<Alumno> alumnos = alumnoService.getStudentsPerGroup(nombreGrupo);
+		assertFalse(alumnos.size() == 0);
+	}
+	
+	@Test
+	void editStudentGroup() {
+		Alumno alumno1 = alumnoService.findById("Javi");
+    	Grupo grupo= grupoService.getCourseById("grupo1");       
+        alumno1.setGrupos(grupo);
+        alumnoService.saveAlumno(alumno1);
+		assertTrue(alumno1.getGrupos().getNombreGrupo() == "grupo1");
 	}
 }

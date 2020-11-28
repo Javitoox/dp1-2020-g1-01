@@ -44,19 +44,19 @@ public class TutorServiceTests {
 	}
 	
 	@Test
-	void shouldGetAListWithTutores() {
+	void testListWithTutores() {
 		List<Tutor> tutores = tutorService.getAllTutores();
 		assertThat(tutores.size()).isGreaterThan(0);
 	}
 	
 	@Test
-	void shouldGetATutor() {
+	void testGetATutor() {
 		Tutor tutor = tutorService.getTutor("PedroGar");
 		assertThat(tutor).isNotNull();
 	}
 	
 	@Test 
-	void getStudentsByTutor() {
+	void testStudentsByTutor() {
 		Tutor tutor = tutorService.getTutor("PedroGar");
 		Alumno alumno = new Alumno();
 		alumno.setNickUsuario("manu23");

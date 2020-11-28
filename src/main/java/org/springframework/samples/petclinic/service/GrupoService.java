@@ -44,6 +44,9 @@ public class GrupoService {
 
 	
 	
+	public Grupo getCourseById(String nombreCurso) {
+    	return grupoRepository.findById(nombreCurso).get();
+	}
 	
 	
 

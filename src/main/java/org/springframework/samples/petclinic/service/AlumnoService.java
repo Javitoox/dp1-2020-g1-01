@@ -20,17 +20,19 @@ public class AlumnoService {
 		return alumnoRepository.findByNick(nickUsuario);
 	}
 	
+	 public Alumno findById(String id) {
+	    	return alumnoRepository.findById(id).get();
+	}
 	
 	public List<Alumno> getStudentsPerGroup(String nombreGrupo) {
         return alumnoRepository.findByGroup(nombreGrupo);
     }
 	
 	public List<Alumno> getAllAlumnos() {
-		return alumnoRepository.findAll();
+		return alumnoRepository.findStudents();
 	} 
 	@Transactional
 	public void saveAlumno(Alumno alumno) throws DataAccessException {
-		//creating alumno
 		alumnoRepository.save(alumno);		
 	}		
 
@@ -38,5 +40,9 @@ public class AlumnoService {
         return alumnoRepository.findStudentsByCourse(cursoDeIngles);
     }
    
+    public List<Alumno>getAllMyStudents(String nickTutor){
+    	
+    	return alumnoRepository.findStudentsByTutor(nickTutor);
+    }
 }
 

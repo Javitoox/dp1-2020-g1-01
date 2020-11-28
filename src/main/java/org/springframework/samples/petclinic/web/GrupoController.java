@@ -87,23 +87,17 @@ public class GrupoController {
 	
 	@GetMapping(value="/grupos?grupo={nombreGrupo}")	
 	public List<Alumno> getPersonasByNameOfGroup(@RequestParam("nombreGrupo") String nombreGrupo){
+	@GetMapping(value="/getByNameOfGroup/{nombreGrupo}")	
+	public List<Alumno> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo){
         return alumnoService.getStudentsPerGroup(nombreGrupo);
     }
 	
-	@PostMapping(value = "/edit?grupo=nombreGrupo&nick_usuario=nick_usu")
-    public void processUpdateStudentGroup(@Valid Alumno alumno, BindingResult result,
-            @RequestParam("nick_usu") String nick_usuario, @RequestParam("nombreGrupo") String nombreGrupo) {
-        if (result.hasErrors()) {
-            LOGGER.log(Level.INFO, "Esto no funciona :(");
-        }
-        else {
-            Curso curso= alumnoService.getAlumno(nick_usuario).getGrupos().getCursos();
-            Grupo grupo = new Grupo();
-            grupo.setNombreGrupo(nombreGrupo);
-            grupo.setCursos(curso);
-            alumno.setGrupos(grupo);
-            this.alumnoService.saveAlumno(alumno);
-        }
+	@GetMapping(value = "/{nick_usuario}/edit/{nombreGrupo}")
+    public void processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario, @PathVariable("nombreGrupo") String nombreGrupo) {
+        	Alumno alumno1= alumnoService.findById(nick_usuario);
+        	Grupo grupo= grupoService.getCourseById(nombreGrupo);       
+            alumno1.setGrupos(grupo);
+            this.alumnoService.saveAlumno(alumno1);
     }
 	
 	

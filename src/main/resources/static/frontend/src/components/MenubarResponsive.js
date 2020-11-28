@@ -24,9 +24,11 @@ export class MenubarResponsive extends Component {
                 window.location = "/";
             }},
             { label: 'Enrolment´s requests', icon: 'pi pi-fw pi-file', command: (event) => {
-                window.location = "requests";
+                window.location = "/pendingRequests";
             }},
-            { label: 'Students', icon: 'pi pi-fw pi-users' },
+            { label: 'Students', icon: 'pi pi-fw pi-users', command:(event)=>{
+                window.location="/allStudents"
+            }},
             { label: 'Payments', icon: 'pi pi-fw pi-dollar' },
             { label: 'Material', icon: 'pi pi-fw pi-pencil' },
             { label: 'School calendar', icon: 'pi pi-fw pi-calendar' },

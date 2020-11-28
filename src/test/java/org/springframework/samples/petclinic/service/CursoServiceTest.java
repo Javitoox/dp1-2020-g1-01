@@ -24,7 +24,7 @@ public class CursoServiceTest {
 	
 	@BeforeAll
 	@Test
-	void createCourse() {
+	void testCreateCourse() {
 		Curso c = new Curso();
 		c.setCursoDeIngles("A1");
 		Curso newCourse = cursoService.saveNewCourse(c);
@@ -32,7 +32,7 @@ public class CursoServiceTest {
 	}
 	
 	@Test
-	void deleteCourse() {
+	void testDeleteCourse() {
 		Curso c = cursoService.getCourseById("A1").get();
 		cursoService.deleteCourse(c);
 		Optional<Curso> courseDeleted = cursoService.getCourseById("A1");

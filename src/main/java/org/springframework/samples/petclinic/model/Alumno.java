@@ -18,6 +18,9 @@ public class Alumno extends Usuario{
 	@Column(name="fecha_matriculacion")
 	private String fechaMatriculacion;
 	
+	@Column(name="fecha_solicitud")
+	private String fechaSolicitud;
+	
     @ManyToOne(optional=true)
     private Tutor tutores;
     

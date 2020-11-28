@@ -5,12 +5,11 @@ import { withRouter } from "react-router-dom";
 import '../login.css';
 import { ExtraccionUsuarios } from './ExtraccionUsuarios';
 
- class Login extends Component {
+class Login extends Component {
 
     username = this.username.bind(this);
     password = this.password.bind(this);   
-    type = new ExtraccionUsuarios(this.props.urlBase); 
-    calculateRedirect = this.calculateRedirect.bind(this);
+    type = new ExtraccionUsuarios(this.props.urlBase);
     calculateType = this.calculateType.bind(this);
 
     state = {
@@ -27,15 +26,15 @@ import { ExtraccionUsuarios } from './ExtraccionUsuarios';
         this.setState({ password: event.target.value });
     }
 
-    calculateRedirect(event){
-        if(this.state.type!==""){
+    async calculateType(event){
+        event.preventDefault();
+        await this.type.getType(this.state.username, this.state.password).then(data => this.setState({type:data}));
+        console.log(this.state.type);
+        if(this.state.type==="Username not exist" || this.state.type==="Incorrect password"){
+            this.props.history.push("/login");
+        }else{
             this.props.history.push("/");
         }
-    }
-
-    calculateType(event){
-        console.log("Entrada");
-        this.type.getType(this.state.username, this.state.password).then(data => this.setState({type:data}));
     }
 
     render() {
@@ -43,7 +42,7 @@ import { ExtraccionUsuarios } from './ExtraccionUsuarios';
             <div>
                 <div className="c">
                     <div className="login">
-                        <form method="GET">
+                        <form method="GET" onSubmit={this.calculateType}>
                             <div className="t"><div><h5>Login</h5></div></div>
                             <div className="i">
                                 <div className="p-inputgroup">
@@ -64,7 +63,7 @@ import { ExtraccionUsuarios } from './ExtraccionUsuarios';
                             </div>
                             <div className="b">
                                 <div className="i">
-                                    <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check" onClick={this.calculateRedirect} onMouseOver={this.calculateType}/>
+                                    <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check"/>
                                 </div>
                             </div>
                         </form>

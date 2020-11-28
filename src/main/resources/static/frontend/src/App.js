@@ -5,8 +5,10 @@ import { Solicitudes } from './components/Solicitudes';
 import './index.css';
 import Login from './components/Login';
 import ExtraccionMensajes from './components/ExtraccionMensajes';
+import { EditStudent } from './components/EditStudent';
 import { SolicitudesProfesor } from './components/SolicitudesProfesor';
 import { AlumnosPorTutor } from './components/AlumnosPorTutor';
+import { Alumnos } from './components/Alumnos';
 
 
 class App extends Component {
@@ -16,7 +18,7 @@ class App extends Component {
 		super()
 		this.state = {
 			urlBase: "http://localhost:8081",
-			tipoDeUsuario:"usuario",
+			tipoDeUsuario:"integrante",
 			nickUsuario: this.extraccion.getParameterByName("nickUsuario")
 		}
 	}
@@ -41,13 +43,19 @@ class App extends Component {
 					<Route path="/login" render={() =>
 						<Login urlBase={this.state.urlBase}></Login>
 					} />
-					<Route path="/solicitudesProfesor" render= {() =>
-						<SolicitudesProfesor></SolicitudesProfesor>
-					}/>
+					<Route path="/pendingRequests" render= {() =>
+						<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
+					} />
 					<Route path="/myStudents" render={()=>
-						<AlumnosPorTutor nickUsuario={this.state.nickUsuario}></AlumnosPorTutor>
-					}>
-					</Route>
+						<AlumnosPorTutor urlBase={this.state.urlBase}></AlumnosPorTutor>
+					} />
+					<Route path="/allStudents" render={()=>
+						<Alumnos urlBase={this.state.urlBase}></Alumnos>
+					} />
+					<Route path = "/editStudent" render={() =>
+						<EditStudent></EditStudent>
+					} />
+					
 				</Router>
 			</React.Fragment>
 		)
