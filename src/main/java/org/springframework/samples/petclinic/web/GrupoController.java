@@ -64,17 +64,6 @@ public class GrupoController {
 		grupoService.saveGroup(g);
 	}
 	
-	@PutMapping("/editGroup")
-	public void updateGroup(@Valid Grupo grupo, BindingResult result/*, HttpServletResponse response*/) throws IOException{
-		
-		if(result.hasErrors()) {
-			LOGGER.log(Level.INFO, "Error al editar el grupo");
-		}else {
-			LOGGER.log(Level.INFO, "Cambios realizados correctamente");
-			this.grupoService.saveGroup(grupo);
-		}
-	}
-	
 	@GetMapping("/{nombreGrupo}/delete")
 	public void deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo) throws IOException {
 		Grupo g = grupoService.getGrupo(nombreGrupo).get();
