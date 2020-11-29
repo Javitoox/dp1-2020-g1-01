@@ -15,7 +15,8 @@ class Login extends Component {
     state = {
         username: "",
         password: "",
-        type:""
+        type:"",
+        error: null
     }
 
     username(event) {
@@ -31,9 +32,10 @@ class Login extends Component {
         await this.type.getType(this.state.username, this.state.password).then(data => this.setState({type:data}));
         console.log(this.state.type);
         if(this.state.type==="Username not exist" || this.state.type==="Incorrect password"){
+            this.setState({error: <div className="alert alert-danger" role="alert">{this.state.type}</div>})
             this.props.history.push("/login");
         }else{
-            this.props.history.push("/");
+            this.props.history.push("/home?type="+this.state.type);
         }
     }
 
@@ -44,6 +46,7 @@ class Login extends Component {
                     <div className="login">
                         <form method="GET" onSubmit={this.calculateType}>
                             <div className="t"><div><h5>Login</h5></div></div>
+                            {this.state.error}
                             <div className="i">
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon">

@@ -1,9 +1,5 @@
 package org.springframework.samples.petclinic.web;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.service.UsuarioService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,15 +15,8 @@ public class UsuarioController {
 	UsuarioService usuarioService;
 	
 	@GetMapping(value = { "/login" })
-	public String typeOfUser(@RequestParam("username") String nickUsuario, @RequestParam("password") String contraseya,
-			HttpServletResponse response) throws IOException {
-		String result="http://localhost:3000";
+	public String typeOfUser(@RequestParam("username") String nickUsuario, @RequestParam("password") String contraseya) {
 		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
-		if(type.equals("Username not exist") || type.equals("Incorrect password")) {
-			result += "/login?message="+type;
-		}else {
-			result += "?message="+type+"&nickUsuario="+nickUsuario;
-		}
 		return type;
 	}
 	

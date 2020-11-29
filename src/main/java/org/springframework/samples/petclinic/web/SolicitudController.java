@@ -78,10 +78,10 @@ public class SolicitudController {
 		   alumno.setFechaSolicitud("sysdate");
 		   Tutor t2 = tutorService.getTutor(tutor.getNickUsuarioTutor());
 		   if(t2==null) {
+			   tutor.setFechaMatriculacionTutor("sysdate");
 			   tutorService.insert(tutor);
 		   }
 		   alumnoService.saveAlumno(alumno);
-
 	   }
 	   
 	   /*
