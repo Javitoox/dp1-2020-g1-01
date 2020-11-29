@@ -2,16 +2,16 @@ import React, { Component } from 'react'
 import AlumnoComponent from './AlumnoComponent';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ListBox } from 'primereact/listbox';
 import { Button } from 'primereact/button';
 import { Redirect } from 'react-router-dom';
 import eventBus from "./EventBus";
+import { ListBox } from 'primereact/listbox';
+import GrupoComponent from './GrupoComponent';
 
 export class Alumnos extends Component {
 
-
-    constructor() {
-        super()
+    constructor(props) {
+        super(props);
         this.state = {
             curso: "allCourses",
             grupo: "allGroups",
@@ -25,20 +25,29 @@ export class Alumnos extends Component {
             direccionUsuario: "",
             fechaNacimiento:"",
             numTareasEntregadas :"",
-            fechaMatriculacion: ""
+            fechaMatriculacion: "",
+
+            groupSelectItems: ""
+
+            //nodes: null,
+            //selectedKey: null,
         }
         this.alumnos = new AlumnoComponent();
         this.edicion = this.edicion.bind(this);
-        this.assignGroup = this.assignGroup.bind(this);
+        //this.assignGroup = this.assignGroup.bind(this);
         this.boton = this.boton.bind(this);
-        this.botonAssign = this.botonAssign.bind(this);
-
+        this.grupos = new GrupoComponent();
+        //this.botonAssign = this.botonAssign.bind(this);
+        //this.cursos = new CursoComponent();
+        //this.onNodeSelect = this.onNodeSelect.bind(this);
     }
-
 
     componentDidMount() {
         this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+        //this.grupos.getAllGroups().then(data => this.setState({ groupSelectItems: data }));
+        //this.cursos.getCourses().then(data => this.setState({ nodes: data }));
     }
+
     boton(rowData) {
         return (    
             <React.Fragment>
@@ -46,7 +55,7 @@ export class Alumnos extends Component {
             </React.Fragment>
         );
     }
-    
+    /* 
     botonAssign(rowData) {
         return (    
             <React.Fragment>
@@ -54,6 +63,7 @@ export class Alumnos extends Component {
             </React.Fragment>
         );
     }
+    */
     edicion(student) {
         eventBus.dispatch("guardandoEstudiante", { nickUsuario: student.nickUsuario,
             contraseya: student.contraseya,
@@ -80,14 +90,15 @@ export class Alumnos extends Component {
         });
        
     }
-
-        assignGroup(student) {
-            eventBus.dispatch("guardandoAsignacionAGrupo", { nickUsuario: student.nickUsuario});
-                this.setState({ 
-                    redirect: "/assignGroup",
-                    
-            });
-        }
+    /*
+    assignGroup(student) {
+        eventBus.dispatch("guardandoAsignacionAGrupo", { nickUsuario: student.nickUsuario});
+            this.setState({ 
+                redirect: "/assignGroup",
+                
+        });
+    }
+    */
     showSelectCourse(course) {
         console.log(course);
         if (course !== null) {
@@ -96,18 +107,6 @@ export class Alumnos extends Component {
                 this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
             } else {
                 this.alumnos.getStudentsByCourse(this.props.urlBase, course).then(data => this.setState({ alumnos: data }));
-            }
-        }
-        console.log(this.state.alumnos);
-    }
-    showSelectGroup(group) {
-        console.log(group);
-        if (group !== null) {
-            this.setState({ grupo: group });
-            if (group === "allGroups") {
-                this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
-            } else {
-                this.alumnos.getStudentsByNameOfGroup(this.props.urlBase, group).then(data => this.setState({ alumnos: data }));
             }
         }
         console.log(this.state.alumnos);
@@ -122,7 +121,6 @@ export class Alumnos extends Component {
      }}
    />
         }
-
         const courseSelectItems = [
             { label: 'All courses', value: 'allCourses' },
             { label: 'A1', value: 'A1' },
@@ -132,40 +130,34 @@ export class Alumnos extends Component {
             { label: 'Free learning', value: 'AprendizajeLibre' }
         ];
 
-        const groupSelectItems = [
-            { label: 'All groups', value: 'allGroups' },
-            { label: 'grupo1', value: 'grupo1' },
-            { label: 'grupo3', value: 'grupo3' }
-        ];
         return (
             <React.Fragment>
-
-                <div><ListBox value={this.state.curso} options={courseSelectItems} onChange={(e) => this.showSelectCourse(e.value)} />
-                </div>
-                <div>
-                <ListBox value={this.state.grupo} options={groupSelectItems} onChange={(e) => this.showSelectGroup(e.value)} />
-                </div>
                 <div className="datatable-templating-demo">
-                    <div className="card"></div>
+                    <div>
+                    <ListBox value={this.state.curso} options={courseSelectItems} onChange={(e) => this.showSelectCourse(e.value)} />
+                    {/* <ListBox value={this.state.grupo} options={this.state.groupSelectItems} onChange={(e) => this.showSelectCourse(e.value)} /> */}
+
+                        {/* <div className="card">
+                            { <Tree value={this.state.nodes} selectionMode="single" selectionKeys={this.state.selectedKey} onSelectionChange={e => this.setState({ selectedKey: e.value })} onSelect={this.onNodeSelect}/> }
+                        </div> */}
+                    </div>
 
                     <DataTable value={this.state.alumnos}>
-                        <Column field="nickUsuario" header="Nick"></Column>
+                        <Column field="nickUsuario" header="Nickname"></Column>
                         <Column field="contraseya" header="Contraseña"></Column>
                         <Column field="dniUsuario" header="DNI"></Column>
-                        <Column field="nombreCompletoUsuario" header="Nombre Completo"></Column>
-                        <Column field="correoElectronicoUsuario" header="Correo electrónico"></Column>
-                        <Column field="numTelefonoUsuario" header="Número de teléfono"></Column>
-                        <Column field="direccionUsuario" header="Dirección"></Column>
-                        <Column field="fechaNacimiento" header="Fecha de nacimiento"></Column>
-                        <Column field="numTareasEntregadas" header="Tareas entregadas"></Column>
-                        <Column field="fechaMatriculacion" header="Fecha matriculación"></Column>
+                        <Column field="nombreCompletoUsuario" header="Full name"></Column>
+                        <Column field="correoElectronicoUsuario" header="Email"></Column>
+                        <Column field="numTelefonoUsuario" header="Phone number"></Column>
+                        <Column field="direccionUsuario" header="Address"></Column>
+                        <Column field="fechaNacimiento" header="Birthdate"></Column>
+                        <Column field="numTareasEntregadas" header="Activities done"></Column>
+                        <Column field="fechaMatriculacion" header="Date of enrollment"></Column>
                         <Column body={this.boton}></Column>
                         <Column body={this.botonAssign}></Column>
-
                     </DataTable>
                 </div>
             </React.Fragment>
-
         )
     }
 }

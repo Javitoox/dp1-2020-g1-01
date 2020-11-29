@@ -11,8 +11,8 @@ export default class AlumnoComponent extends Component{
 		return axios.get(baseUrl + "/alumnos/getByCourse/"+course).then(res => res.data);
 	}
         
-        getStudentsByNameOfGroup(baseUrl, group){
-		return axios.get(baseUrl + "/alumnos/getByNameOfGroup/"+group).then(res => res.data);
+	getStudentsByNameOfGroup(baseUrl, group){
+	return axios.get(baseUrl + "/alumnos/getByNameOfGroup/"+group).then(res => res.data);
 	}
 }
 

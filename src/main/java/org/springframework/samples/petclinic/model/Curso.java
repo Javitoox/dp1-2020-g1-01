@@ -17,5 +17,4 @@ public class Curso {
 	@Id
 	@Column(name="curso_de_ingles")
 	private String cursoDeIngles;
-
 }

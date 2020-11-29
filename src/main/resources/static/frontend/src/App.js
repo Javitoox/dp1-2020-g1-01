@@ -17,7 +17,8 @@ class App extends Component {
 
 	state = {
 		urlBase: "http://localhost:8081",
-		tipoDeUsuario: this.home.state.type
+		//tipoDeUsuario: "integrante"
+		tipoDeUsuario: "this.home.state.type"
 	}
 
 	componentDidMount(){
@@ -27,7 +28,7 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				<MenubarResponsive tipoDeUsuario={this.home.state.type}></MenubarResponsive>
+				<MenubarResponsive tipoDeUsuario={this.state.tipoDeUsuario}></MenubarResponsive>
 				<Router>
 					<Route path="/home" render={() =>
 						<Home></Home>

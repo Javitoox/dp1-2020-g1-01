@@ -19,7 +19,7 @@ public class Usuario{
 	/*@Pattern(regexp = "^[a-zA-Z0-9]{5,20}$")*/
 	private String nickUsuario;
 	
-	@Column(name="contraseya")
+	@Column(name="contraseya") 
 	//Contraseña tiene que tener más de 8 caracteres, 2 números,
 	//2 mayusculas, 2 simbolos de puntuacion y 2 minusculas.
 	/*@Pattern(regexp = "^(?=(.*[0-9]){2})(?=(.*[!-\\.<-@_]){2})(?=(.*[A-Z]){2})(?=(.*[a-z]){2})\\S{8,100}$")*/
