@@ -27,7 +27,7 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				<MenubarResponsive tipoDeUsuario={this.home.state.type}></MenubarResponsive>
+				<MenubarResponsive tipoDeUsuario={"integrante"}></MenubarResponsive>
 				<Router>
 					<Route path="/home" render={() =>
 						<Home></Home>
