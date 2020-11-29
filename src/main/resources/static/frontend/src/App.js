@@ -18,7 +18,7 @@ class App extends Component {
 	state = {
 		urlBase: "http://localhost:8081",
 		//tipoDeUsuario: "integrante"
-		tipoDeUsuario: "this.home.state.type"
+		tipoDeUsuario: this.home.state.type
 	}
 
 	componentDidMount(){
