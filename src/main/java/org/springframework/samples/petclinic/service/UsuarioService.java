@@ -22,11 +22,11 @@ public class UsuarioService {
 		String type = "Username not exist";
 		Alumno a = alumnoService.getAlumno(nickUsuario);
 		if(a!=null && a.getFechaMatriculacion()!=null) { // Si se cumple esta condición, quiere decir que el username existe entre los alumnos registrados
-			type = a.getContraseya().equals(contraseya) ? "integrante":"Incorrect password";
+			type = a.getContraseya().equals(contraseya) ? "alumno":"Incorrect password";
 		}
 		Profesor p = profesorService.getProfesor(nickUsuario);
 		if(p!=null) { // Si se cumple esta condición, quiere decir que el username existe entre los profesores registrados
-			type = p.getContraseya().equals(contraseya) ? "integrante":"Incorrect password";
+			type = p.getContraseya().equals(contraseya) ? "profesor":"Incorrect password";
 		}
 		Tutor t = tutorService.getTutor(nickUsuario);
 		if(t!=null && t.getFechaMatriculacionTutor()!=null) { // Si se cumple esta condición, quiere decir que el username existe entre los tutores registrados
