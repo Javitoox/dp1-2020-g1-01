@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -74,7 +74,7 @@ public class Usuario{
 	@Past
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	private Date fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	
 }
 

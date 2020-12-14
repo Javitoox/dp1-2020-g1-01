@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,10 +15,10 @@ import lombok.Data;
 public class Tutor extends Usuario{
 	
 	@Column(name="fecha_matriculacion")
-	private Date fechaMatriculacion;
+	private LocalDate fechaMatriculacion;
 	
 	@NotNull
 	@Column(name="fecha_solicitud")
-	private Date fechaSolicitud;
+	private LocalDate fechaSolicitud;
 }
 

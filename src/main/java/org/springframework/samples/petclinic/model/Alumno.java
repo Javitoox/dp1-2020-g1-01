@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,14 +20,14 @@ public class Alumno extends Usuario{
 	private Integer numTareasEntregadas;
 	
 	@Column(name="fecha_matriculacion")
-	private Date fechaMatriculacion;
+	private LocalDate fechaMatriculacion;
 	
 	@NotNull
 	@Column(name="fecha_solicitud")
-	private Date fechaSolicitud;
+	private LocalDate fechaSolicitud;
 	
 	@Column(name="fecha_baja")
-	private Date fechaBaja;
+	private LocalDate fechaBaja;
 	
     @ManyToOne(optional=true)
     private Tutor tutores;

@@ -29,8 +29,8 @@ public class UsuarioService {
 			type = p.getContraseya().equals(contraseya) ? "profesor":"Incorrect password";
 		}
 		Tutor t = tutorService.getTutor(nickUsuario);
-		if(t!=null && t.getFechaMatriculacionTutor()!=null) { // Si se cumple esta condición, quiere decir que el username existe entre los tutores registrados
-			type = t.getContraseyaTutor().equals(contraseya) ? "tutor":"Incorrect password";
+		if(t!=null && t.getFechaMatriculacion()!=null) { // Si se cumple esta condición, quiere decir que el username existe entre los tutores registrados
+			type = t.getContraseya().equals(contraseya) ? "tutor":"Incorrect password";
 		}
 		return type;
 	}
