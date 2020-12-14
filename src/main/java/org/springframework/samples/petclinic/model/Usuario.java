@@ -1,11 +1,16 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
 import lombok.Data;
@@ -15,11 +20,11 @@ import lombok.Data;
 public class Usuario{
 	
 	@Id
-	@Column(name="nick_usuario", unique=true)
+	@Column(name="nick_usuario")
 	/*@Pattern(regexp = "^[a-zA-Z0-9]{5,20}$")*/
 	private String nickUsuario;
 	
-	@Column(name="contraseya") 
+	@Column(name="contraseya")
 	//Contraseña tiene que tener más de 8 caracteres, 2 números,
 	//2 mayusculas, 2 simbolos de puntuacion y 2 minusculas.
 	/*@Pattern(regexp = "^(?=(.*[0-9]){2})(?=(.*[!-\\.<-@_]){2})(?=(.*[A-Z]){2})(?=(.*[a-z]){2})\\S{8,100}$")*/
@@ -54,17 +59,22 @@ public class Usuario{
 	@NotEmpty
 	private String numTelefonoUsuario;
 	
+	@Column(name="num_telefono_usuario2")
+	@Pattern(regexp = "^[0-9]{9}$")
+	private String numTelefonoUsuario2;
+	
 	@Column(name="direccion_usuario")
 	@NotBlank
 	@NotEmpty
 	@NotNull
 	private String direccionUsuario;
 	
+	
 	@Column(name="fecha_nacimiento")
-	@NotBlank
-	@NotEmpty
+	@Past
+	@Temporal(TemporalType.DATE)
 	@NotNull
-	private String fechaNacimiento;
+	private Date fechaNacimiento;
 	
 }
 
