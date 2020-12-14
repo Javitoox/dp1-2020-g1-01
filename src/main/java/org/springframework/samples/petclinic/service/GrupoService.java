@@ -1,8 +1,8 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -21,8 +21,8 @@ public class GrupoService {
 		this.grupoRepository = grupoRepository;
 	}
 	
-	public Collection<Grupo> findAll(){
-		return grupoRepository.findAll();
+	public List<Grupo> findAll(){
+		return grupoRepository.findAll().stream().collect(Collectors.toList());
 	}
 	
 	public Optional<Grupo> getGrupo(String id) {
@@ -44,6 +44,11 @@ public class GrupoService {
 	
 	public Grupo getCourseById(String nombreCurso) {
     	return grupoRepository.findById(nombreCurso).get();
+	}
+
+	public Grupo crearGrupo(Grupo grupo) {
+		// TODO Auto-generated method stub
+		return grupoRepository.save(grupo);
 	}
 	
 	
