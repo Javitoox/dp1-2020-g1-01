@@ -36,8 +36,8 @@ public class AlumnoServiceTests {
 		alumno.setCorreoElectronicoUsuario("javikuka7@gmail.com");
 		alumno.setDireccionUsuario("Calle error");
 		alumno.setDniUsuario("76766776Y");
-		alumno.setFechaMatriculacion("13/8/2020");
-		alumno.setFechaNacimiento("13/8/2000");
+		alumno.setFechaMatriculacion(null);
+		alumno.setFechaNacimiento(null);
 		alumno.setNickUsuario("JaviMartinez");
 		alumno.setNombreCompletoUsuario("Javi Martínez");
 		alumno.setNumTelefonoUsuario("635096767");

@@ -16,7 +16,7 @@ public class Grupo {
 	@Column(name="nombre_grupo")
 	private String nombreGrupo;
 	
-	@ManyToOne(optional=true)
+	@ManyToOne
     private Curso cursos;		
 	
 }

@@ -63,7 +63,7 @@ export default class FormTutor extends Component {
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-user"></i>
                         </span>
-                        <InputText placeholder="Username" name="nickUsuarioTutor" type="text" value={this.state.username} onChange={this.username} />
+                        <InputText placeholder="Username" name="nickUsuario" type="text" value={this.state.username} onChange={this.username} />
                     </div>
                 </div>
 
@@ -72,7 +72,7 @@ export default class FormTutor extends Component {
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-lock"></i>
                         </span>
-                        <InputText placeholder="Password" name="contraseyaTutor" type="text" value={this.state.password} onChange={this.password} />
+                        <InputText placeholder="Password" name="contraseya" type="text" value={this.state.password} onChange={this.password} />
                     </div>
                 </div>
                 <div className="i">
@@ -80,7 +80,7 @@ export default class FormTutor extends Component {
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-id-card"></i>
                         </span>
-                        <InputText placeholder="Identity card" name="dniUsuarioTutor" type="text" value={this.state.card} onChange={this.card} />
+                        <InputText placeholder="Identity card" name="dniUsuario" type="text" value={this.state.card} onChange={this.card} />
                     </div>
                 </div>
                 <div className="i">
@@ -88,7 +88,7 @@ export default class FormTutor extends Component {
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-user-plus"></i>
                         </span>
-                        <InputText placeholder="Full Name" name="nombreCompletoUsuarioTutor" type="text" value={this.state.name} onChange={this.name} />
+                        <InputText placeholder="Full Name" name="nombreCompletoUsuario" type="text" value={this.state.name} onChange={this.name} />
                     </div>
                 </div>
                 <div className="i">
@@ -96,7 +96,7 @@ export default class FormTutor extends Component {
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-inbox"></i>
                         </span>
-                        <InputText placeholder="Email" name="correoElectronicoUsuarioTutor" type="text" value={this.state.email} onChange={this.email} />
+                        <InputText placeholder="Email" name="correoElectronicoUsuario" type="text" value={this.state.email} onChange={this.email} />
                     </div>
                 </div>
                 <div className="i">
@@ -104,7 +104,7 @@ export default class FormTutor extends Component {
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-mobile"></i>
                         </span>
-                        <InputText placeholder="Phone number" name="numTelefonoUsuarioTutor" type="text" value={this.state.telefono} onChange={this.telefono} />
+                        <InputText placeholder="Phone number" name="numTelefonoUsuario" type="text" value={this.state.telefono} onChange={this.telefono} />
                     </div>
                 </div>
                 <div className="i">
@@ -112,7 +112,7 @@ export default class FormTutor extends Component {
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-home"></i>
                         </span>
-                        <InputText placeholder="Address" name="direccionUsuarioTutor" type="text" value={this.state.address} onChange={this.address} />
+                        <InputText placeholder="Address" name="direccionUsuario" type="text" value={this.state.address} onChange={this.address} />
                     </div>
                 </div>
                 <div className="i">
@@ -120,7 +120,7 @@ export default class FormTutor extends Component {
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-calendar"></i>
                         </span>
-                        <InputText placeholder="Birthdate" name="fechaNacimientoTutor" type="text" value={this.state.birthdate} onChange={this.birthdate} />
+                        <InputText placeholder="Birthdate" name="fechaNacimiento" type="date" value={this.state.birthdate} onChange={this.birthdate} />
                     </div>
                 </div>
             </div>

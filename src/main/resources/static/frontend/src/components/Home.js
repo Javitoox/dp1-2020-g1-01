@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import ExtraccionMensajes from './ExtraccionMensajes';
-import { Redirect } from "react-router-dom";
 
 export class Home extends Component {
 
@@ -18,6 +17,6 @@ export class Home extends Component {
     }
 
     render() {
-        return <Redirect to="/"/>
+        return null;
     }
 }

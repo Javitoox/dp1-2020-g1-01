@@ -9,7 +9,7 @@ import org.springframework.samples.petclinic.model.Tutor;
 
 public interface TutorRepository extends CrudRepository<Tutor, String>{
 
-	@Query("SELECT t FROM Tutor t WHERE t.nickUsuarioTutor = :nickUsuario")
+	@Query("SELECT t FROM Tutor t WHERE t.nickUsuario = :nickUsuario")
 	public Tutor findByNick(@Param("nickUsuario") String nickUsuario);
 	
 	public List<Tutor>findAll();
