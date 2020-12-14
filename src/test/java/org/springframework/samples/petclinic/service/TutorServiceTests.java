@@ -23,6 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class TutorServiceTests {
 	
 	@Autowired
+	protected SolicitudService solicitudService;
+	
+	@Autowired
 	protected TutorService tutorService;
 	
 	@Autowired
@@ -40,7 +43,7 @@ public class TutorServiceTests {
 		tutor.setNickUsuario("PedroGar");
 		tutor.setNombreCompletoUsuario("Pedro García");
 		tutor.setNumTelefonoUsuario("676767453");
-		tutorService.insert(tutor);
+		solicitudService.saveTutor(tutor);
 	}
 	
 	@Test
@@ -51,13 +54,13 @@ public class TutorServiceTests {
 	
 	@Test
 	void testGetATutor() {
-		Tutor tutor = tutorService.getTutor("PedroGar");
+		Tutor tutor = solicitudService.getTutor("PedroGar");
 		assertThat(tutor).isNotNull();
 	}
 	
 	@Test 
 	void testStudentsByTutor() {
-		Tutor tutor = tutorService.getTutor("PedroGar");
+		Tutor tutor = solicitudService.getTutor("PedroGar");
 		Alumno alumno = new Alumno();
 		alumno.setNickUsuario("manu23");
 		alumno.setContraseya("holaquepasa");
@@ -68,7 +71,7 @@ public class TutorServiceTests {
 		alumno.setCorreoElectronicoUsuario("manolito@gmail.com");
 		alumno.setFechaNacimiento(null);
 		alumno.setTutores(tutor);
-		alumnoService.saveAlumno(alumno);
+		solicitudService.saveAlumno(alumno);
 		
 		List<Alumno>listStudents =  alumnoService.getAllAlumnos().stream()
 				.filter(x->x.getTutores().getNickUsuario().equals(tutor.getNickUsuario())).collect(Collectors.toList());

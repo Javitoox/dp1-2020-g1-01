@@ -15,14 +15,12 @@ import lombok.Data;
 @Data
 public class Alumno extends Usuario{
 	
-	@NotNull
 	@Column(name="num_tareas_entregadas")
 	private Integer numTareasEntregadas;
 	
 	@Column(name="fecha_matriculacion")
 	private LocalDate fechaMatriculacion;
 	
-	@NotNull
 	@Column(name="fecha_solicitud")
 	private LocalDate fechaSolicitud;
 	

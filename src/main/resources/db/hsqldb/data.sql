@@ -16,8 +16,8 @@ INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo1', 'B1')
 INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo3', 'B2');
 
 
-INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario,grupos_nombre_grupo) VALUES 
-    ('Javi','zzz','55635286F','Javie','jvii@gmail.com','955432565','Calle Junio de agosto','2000-06-23',1,'2012-12-11','marrambla2','grupo1');
+INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario,grupos_nombre_grupo,fecha_matriculacion) VALUES 
+    ('Javi','zzz','55635286F','Javie','jvii@gmail.com','955432565','Calle Junio de agosto','2000-06-23',1,'2012-12-11','marrambla2','grupo1','2020-2-7');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario,grupos_nombre_grupo) VALUES 
     ('antoniope','bbb','55635286U','Javie','jvii@gmail.com','955432565','Calle Junio de agosto','2000-06-23',1,'2012-12-11','marrambla2','grupo1');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario,grupos_nombre_grupo) VALUES 
