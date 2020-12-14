@@ -5,12 +5,9 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
 import lombok.Data;
@@ -69,10 +66,7 @@ public class Usuario{
 	@NotNull
 	private String direccionUsuario;
 	
-	
 	@Column(name="fecha_nacimiento")
-	@Past
-	@Temporal(TemporalType.DATE)
 	@NotNull
 	private LocalDate fechaNacimiento;
 	

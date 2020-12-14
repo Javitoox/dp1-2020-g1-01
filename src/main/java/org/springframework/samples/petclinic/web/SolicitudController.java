@@ -83,9 +83,6 @@ public class SolicitudController {
 	   public Collection<Solicitud> getSolicitudes(ModelMap model) {
 		   return solicitudServ.getAllSolicitudes();
 	   }
-	   
-	  
-	   
 	 
 	   @GetMapping("/sending")
 	   public void sending(@Valid Alumno alumno, BindingResult result, HttpServletResponse response) throws IOException {
