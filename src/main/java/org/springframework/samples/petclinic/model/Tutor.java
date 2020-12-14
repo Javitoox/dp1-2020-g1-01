@@ -17,7 +17,6 @@ public class Tutor extends Usuario{
 	@Column(name="fecha_matriculacion")
 	private LocalDate fechaMatriculacion;
 	
-	@NotNull
 	@Column(name="fecha_solicitud")
 	private LocalDate fechaSolicitud;
 }

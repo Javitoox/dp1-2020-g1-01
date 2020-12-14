@@ -7,17 +7,18 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AlumnoService {
 	
-	@Autowired
 	AlumnoRepository alumnoRepository;
 	
-	public Alumno getAlumno(String nickUsuario) {
-		return alumnoRepository.findByNick(nickUsuario);
+	@Autowired
+	public AlumnoService(AlumnoRepository alumnoRepository) {
+		this.alumnoRepository = alumnoRepository;
 	}
 	
 	 public Alumno findById(String id) {
@@ -30,7 +31,12 @@ public class AlumnoService {
 	
 	public List<Alumno> getAllAlumnos() {
 		return alumnoRepository.findStudents();
-	} 
+	}
+	
+	public Alumno getAlumno(String nickUsuario) {
+		return alumnoRepository.findByNick(nickUsuario);
+	}
+	
 	@Transactional
 	public void saveAlumno(Alumno alumno) throws DataAccessException {
 		alumnoRepository.save(alumno);		

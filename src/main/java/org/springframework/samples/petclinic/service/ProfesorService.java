@@ -14,11 +14,5 @@ public class ProfesorService {
 	public ProfesorService(ProfesorRepository profesorRepository) {
 		this.profesorRepository=profesorRepository;
 	}
-	
-	public Profesor getProfesor(String nickUsuario) {
-		return profesorRepository.findByNick(nickUsuario);
-	}
-	
-	 
 
 }
