@@ -27,6 +27,6 @@ public class CursoService {
     }
     
     public List<Curso> allCourses() {
-        return cursoRepository.findAll();
+    	return cursoRepository.findAll();
     }
 }

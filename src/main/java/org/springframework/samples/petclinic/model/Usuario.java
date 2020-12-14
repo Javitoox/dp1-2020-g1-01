@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -15,7 +17,7 @@ import lombok.Data;
 public class Usuario{
 	
 	@Id
-	@Column(name="nick_usuario", unique=true)
+	@Column(name="nick_usuario")
 	/*@Pattern(regexp = "^[a-zA-Z0-9]{5,20}$")*/
 	private String nickUsuario;
 	
@@ -54,6 +56,10 @@ public class Usuario{
 	@NotEmpty
 	private String numTelefonoUsuario;
 	
+	@Column(name="num_telefono_usuario2")
+	@Pattern(regexp = "^[0-9]{9}$")
+	private String numTelefonoUsuario2;
+	
 	@Column(name="direccion_usuario")
 	@NotBlank
 	@NotEmpty
@@ -61,10 +67,8 @@ public class Usuario{
 	private String direccionUsuario;
 	
 	@Column(name="fecha_nacimiento")
-	@NotBlank
-	@NotEmpty
 	@NotNull
-	private String fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	
 }
 

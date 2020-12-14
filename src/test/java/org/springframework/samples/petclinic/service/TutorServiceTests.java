@@ -23,6 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class TutorServiceTests {
 	
 	@Autowired
+	protected SolicitudService solicitudService;
+	
+	@Autowired
 	protected TutorService tutorService;
 	
 	@Autowired
@@ -32,15 +35,15 @@ public class TutorServiceTests {
 	@Transactional
 	void insertTutor() {
 		Tutor tutor = new Tutor();
-		tutor.setContraseyaTutor("EyEyHola6");
-		tutor.setCorreoElectronicoUsuarioTutor("pedro@gmail.com");
-		tutor.setDireccionUsuarioTutor("Calle Lora");
-		tutor.setDniUsuarioTutor("23232323H");
-		tutor.setFechaNacimientoTutor("12/5/1980");
-		tutor.setNickUsuarioTutor("PedroGar");
-		tutor.setNombreCompletoUsuarioTutor("Pedro García");
-		tutor.setNumTelefonoUsuarioTutor("676767453");
-		tutorService.insert(tutor);
+		tutor.setContraseya("EyEyHola6");
+		tutor.setCorreoElectronicoUsuario("pedro@gmail.com");
+		tutor.setDireccionUsuario("Calle Lora");
+		tutor.setDniUsuario("23232323H");
+		tutor.setFechaNacimiento(null);
+		tutor.setNickUsuario("PedroGar");
+		tutor.setNombreCompletoUsuario("Pedro García");
+		tutor.setNumTelefonoUsuario("676767453");
+		solicitudService.saveTutor(tutor);
 	}
 	
 	@Test
@@ -51,13 +54,13 @@ public class TutorServiceTests {
 	
 	@Test
 	void testGetATutor() {
-		Tutor tutor = tutorService.getTutor("PedroGar");
+		Tutor tutor = solicitudService.getTutor("PedroGar");
 		assertThat(tutor).isNotNull();
 	}
 	
 	@Test 
 	void testStudentsByTutor() {
-		Tutor tutor = tutorService.getTutor("PedroGar");
+		Tutor tutor = solicitudService.getTutor("PedroGar");
 		Alumno alumno = new Alumno();
 		alumno.setNickUsuario("manu23");
 		alumno.setContraseya("holaquepasa");
@@ -66,12 +69,12 @@ public class TutorServiceTests {
 		alumno.setNombreCompletoUsuario("Manolo Blanco");
 		alumno.setNumTelefonoUsuario("776634542");
 		alumno.setCorreoElectronicoUsuario("manolito@gmail.com");
-		alumno.setFechaNacimiento("12/06/2000");
+		alumno.setFechaNacimiento(null);
 		alumno.setTutores(tutor);
-		alumnoService.saveAlumno(alumno);
+		solicitudService.saveAlumno(alumno);
 		
 		List<Alumno>listStudents =  alumnoService.getAllAlumnos().stream()
-				.filter(x->x.getTutores().getNickUsuarioTutor().equals(tutor.getNickUsuarioTutor())).collect(Collectors.toList());
+				.filter(x->x.getTutores().getNickUsuario().equals(tutor.getNickUsuario())).collect(Collectors.toList());
 		assertFalse(listStudents.size() == 0);
 	}
 }
