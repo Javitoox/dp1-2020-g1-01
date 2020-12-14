@@ -44,7 +44,7 @@ public class SolicitudController {
 		   if(alumnoAceptado.getTutores()==null) {
 			   solicitudServ.declineRequest(nickUsuario);
 		   }else {
-			   String nickTutor = alumnoAceptado.getTutores().getNickUsuarioTutor();
+			   String nickTutor = alumnoAceptado.getTutores().getNickUsuario();
 			   List<Alumno> alumnosDelTutor=  alumnoService.getAllMyStudents(nickTutor);
 			   if(alumnosDelTutor.size()>1) {
 				   solicitudServ.declineRequest(nickUsuario);
@@ -62,36 +62,27 @@ public class SolicitudController {
 		   Alumno alumnoAceptado = alumnoService.getAlumno(nickUsuario);
 		   System.out.println("ALUMNO ACEPTADO:"+alumnoAceptado);
 		   alumnoAceptado.setFechaSolicitud(null);
-		   alumnoAceptado.setFechaMatriculacion("sysdate");
+		   alumnoAceptado.setFechaMatriculacion(null);
 		   solicitudServ.acceptRequest(alumnoAceptado);
 	   }
 	   
-	   @GetMapping("/sending")
-	   public void sending(@Valid Alumno alumno) {
-		   alumno.setFechaSolicitud("sysdate");
-		   alumnoService.saveAlumno(alumno);
-	   }
-	   
-	   @GetMapping("/sendingAll")
-	   public void sendingAll(@Valid Alumno alumno, @Valid Tutor tutor){
-		   alumno.setTutores(tutor);
-		   alumno.setFechaSolicitud("sysdate");
-		   Tutor t2 = tutorService.getTutor(tutor.getNickUsuarioTutor());
-		   if(t2==null) {
-			   tutor.setFechaMatriculacionTutor("sysdate");
-			   tutorService.insert(tutor);
-		   }
-		   alumnoService.saveAlumno(alumno);
-	   }
+		/*
+		 * @GetMapping("/sending") public void sending(@Valid Alumno alumno) {
+		 * alumno.setFechaSolicitud("sysdate"); alumnoService.saveAlumno(alumno); }
+		 * 
+		 * @GetMapping("/sendingAll") public void sendingAll(@Valid Alumno
+		 * alumno, @Valid Tutor tutor){ alumno.setTutores(tutor);
+		 * alumno.setFechaSolicitud("sysdate"); Tutor t2 =
+		 * tutorService.getTutor(tutor.getNickUsuarioTutor()); if(t2==null) {
+		 * tutor.setFechaMatriculacionTutor("sysdate"); tutorService.insert(tutor); }
+		 * alumnoService.saveAlumno(alumno); }
+		 */
 	   
 	   /*
 	   @GetMapping("/all")
 	   public Collection<Solicitud> getSolicitudes(ModelMap model) {
 		   return solicitudServ.getAllSolicitudes();
 	   }
-	   
-	  
-	   
 	 
 	   @GetMapping("/sending")
 	   public void sending(@Valid Alumno alumno, BindingResult result, HttpServletResponse response) throws IOException {

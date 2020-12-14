@@ -147,7 +147,7 @@ export class Solicitudes extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-calendar"></i>
                                     </span>
-                                    <InputText placeholder="Birthdate" name="fechaNacimiento" type="text" value={this.state.birthdate} onChange={this.birthdate} />
+                                    <InputText placeholder="Birthdate" name="fechaNacimiento" type="date" value={this.state.birthdate} onChange={this.birthdate} />
                                 </div>
                             </div>
                             <div className="i">

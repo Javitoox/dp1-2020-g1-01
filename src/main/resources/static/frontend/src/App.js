@@ -11,7 +11,6 @@ import {Home} from './components/Home'
 import { MenubarResponsive } from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
 
-
 class App extends Component {
 
 	state = {

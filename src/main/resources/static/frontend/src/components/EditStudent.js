@@ -3,9 +3,6 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import eventBus from "./EventBus";
 
-
-
-
 class EditStudent extends Component {
     nickUsuario = this.nickUsuario.bind(this);
     contraseya = this.contraseya.bind(this);
