@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import eventBus from "./EventBus";
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 
 
 
-class EditStudent extends Component {
+
+  class EditStudent extends Component {
     nickUsuario = this.nickUsuario.bind(this);
     contraseya = this.contraseya.bind(this);
     dniUsuario = this.dniUsuario.bind(this);
@@ -18,9 +21,11 @@ class EditStudent extends Component {
     numTareasEntregadas = this.numTareasEntregadas.bind(this);
     changeButton = this.changeButton.bind(this);
     fechaMatriculacion = this.fechaMatriculacion.bind(this);
+    changing = this.changing.bind(this);
     constructor() {
         super();
         this.state = {
+            change: false,
             nickUsuario: "",
             contraseya: "",
             dniUsuario: "",
@@ -28,30 +33,39 @@ class EditStudent extends Component {
             correoElectronicoUsuario: "",
             numTelefonoUsuario: "",
             direccionUsuario: "",
-            fechaNacimiento:"",
-            numTareasEntregadas :"",
+            fechaNacimiento: "",
+            numTareasEntregadas: "",
             fechaMatriculacion: ""
         }
     }
-    
-   componentDidMount(){
-       eventBus.on("guardandoEstudiante", (data) =>
-       this.setState({ nickUsuario: data.nickUsuario,
-      contraseya: data.contraseya,
-      dniUsuario: data.dniUsuario,
-      nombreCompletoUsuario: data.nombreCompletoUsuario,
-      correoElectronicoUsuario: data.correoElectronicoUsuario,
-      numTelefonoUsuario: data.numTelefonoUsuario,
-      direccionUsuario: data.direccionUsuario,
-      fechaNacimiento:data.fechaNacimiento,
-      numTareasEntregadas :data.numTareasEntregadas,
-      fechaMatriculacion: data.fechaMatriculacion}),
+    me() {
+        eventBus.on("guardandoEstudiante", (data) => this.estadoActualizado(data));
+        this.setState({ change: true });
+    }
+    changing(event) {
+        if(this.state.change)
+        this.setState({ change: false });
+    }
+     estadoActualizado(data) {
+         console.log("hola");
+        this.setState({
+            nickUsuario: data.nickUsuario,
+            contraseya: data.contraseya,
+            dniUsuario: data.dniUsuario,
+            nombreCompletoUsuario: data.nombreCompletoUsuario,
+            correoElectronicoUsuario: data.correoElectronicoUsuario,
+            numTelefonoUsuario: data.numTelefonoUsuario,
+            direccionUsuario: data.direccionUsuario,
+            fechaNacimiento: data.fechaNacimiento,
+            numTareasEntregadas: data.numTareasEntregadas,
+            fechaMatriculacion: data.fechaMatriculacion
+        }
+        )
+    }
 
-    );
-    
-    }  componentWillUnmount() {
+    componentWillUnmount() {
         eventBus.remove("guardandoEstudiante");
-      }
+    }
     nickUsuario(event) {
         this.setState({ nickUsuario: event.target.value });
     }
@@ -95,10 +109,18 @@ class EditStudent extends Component {
         this.setState({ button: !this.state.button });
     }
     urlBase = "http://localhost:8081/alumnos/editStudent"
+    listNombre(){
+        return this.props.students.map((user) => {
+            return user.nickUsuario
+        })
+    }
     render() {
-
+        console.log("Se ha redireccionado")
+        console.log(this.listNombre())
+        //<InputText type="hidden" value={this.state.change} onChange={this.changing}></InputText>
         return (
             <div>
+                xddd
                 <div className="c">
                     <div className="login request">
                         <form method="GET" action={this.urlBase} >
@@ -108,7 +130,9 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user"></i>
                                     </span>
-                                    <InputText placeholder="Username" name="nickUsuario" type="text" value={this.state.nickUsuario} onChange={this.nickUsuario} />
+                                    <InputText placeholder="Username" name="nickUsuario" type="text" value={this.props.students.map((user) => {
+            return user.nickUsuario
+        })} onChange={this.nickUsuario} />
                                 </div>
                             </div>
 
@@ -125,7 +149,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-id-card"></i>
                                     </span>
-                                    <InputText placeholder="DNI" name="dniUsuario" type="text" value={this.state.dniUsuario} onChange={this.dniUsuario} />
+                                    <InputText placeholder="dniUsuario" name="dniUsuario" type="text" value={this.state.dniUsuario} onChange={this.dniUsuario} />
                                 </div>
                             </div>
                             <div className="i">
@@ -133,7 +157,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user-plus"></i>
                                     </span>
-                                    <InputText placeholder="Full name" name="nombreCompletoUsuario" type="text" value={this.state.nombreCompletoUsuario} onChange={this.nombreCompletoUsuario} />
+                                    <InputText placeholder="nombreCompletoUsuario" name="nombreCompletoUsuario" type="text" value={this.state.nombreCompletoUsuario} onChange={this.nombreCompletoUsuario} />
                                 </div>
                             </div>
                             <div className="i">
@@ -141,7 +165,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-inbox"></i>
                                     </span>
-                                    <InputText placeholder="Email" name="correoElectronicoUsuario" type="text" value={this.state.correoElectronicoUsuario} onChange={this.correoElectronicoUsuario} />
+                                    <InputText placeholder="correoElectronicoUsuario" name="correoElectronicoUsuario" type="text" value={this.state.correoElectronicoUsuario} onChange={this.correoElectronicoUsuario} />
                                 </div>
                             </div>
                             <div className="i">
@@ -149,7 +173,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-mobile"></i>
                                     </span>
-                                    <InputText placeholder="Phone number" name="numTelefonoUsuario" type="text" value={this.state.numTelefonoUsuario} onChange={this.numTelefonoUsuario} />
+                                    <InputText placeholder="numTelefonoUsuario" name="numTelefonoUsuario" type="text" value={this.state.numTelefonoUsuario} onChange={this.numTelefonoUsuario} />
                                 </div>
                             </div>
                             <div className="i">
@@ -157,7 +181,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-home"></i>
                                     </span>
-                                    <InputText placeholder="Address" name="direccionUsuario" type="text" value={this.state.direccionUsuario} onChange={this.direccionUsuario} />
+                                    <InputText placeholder="direccionUsuario" name="direccionUsuario" type="text" value={this.state.direccionUsuario} onChange={this.direccionUsuario} />
                                 </div>
                             </div>
                             <div className="i">
@@ -165,7 +189,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-calendar"></i>
                                     </span>
-                                    <InputText placeholder="Birthdate" name="fechaNacimiento" type="text" value={this.state.fechaNacimiento} onChange={this.fechaNacimiento} />
+                                    <InputText placeholder="fechaNacimiento" name="fechaNacimiento" type="text" value={this.state.fechaNacimiento} onChange={this.fechaNacimiento} />
                                 </div>
                             </div>
                             <div className="b">
@@ -180,4 +204,11 @@ class EditStudent extends Component {
         );
     }
 }
-export { EditStudent }; 
+
+function mapStateToProps(state){
+    return{
+        students : state.students
+    }
+}
+
+export default connect(mapStateToProps)(EditStudent);
