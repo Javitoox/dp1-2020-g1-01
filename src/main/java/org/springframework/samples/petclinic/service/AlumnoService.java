@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +46,6 @@ public class AlumnoService {
     }
    
     public List<Alumno>getAllMyStudents(String nickTutor){
-    	
     	return alumnoRepository.findStudentsByTutor(nickTutor);
     }
 }

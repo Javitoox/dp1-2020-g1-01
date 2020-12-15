@@ -10,6 +10,7 @@ import { Alumnos } from './components/Alumnos'
 import {Home} from './components/Home'
 import { MenubarResponsive } from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
+import {getUserName} from './components/storage'
 
 class App extends Component {
 
@@ -31,7 +32,13 @@ class App extends Component {
 		}
 	}
 
+	calculateUserName(){
+		return getUserName()
+	}
+	
+
 	render() {
+		console.log(this.state.username)
 		return (
 			<div>
 			<MenubarResponsive tipoDeUsuario={this.calculateType()}></MenubarResponsive>
@@ -49,7 +56,7 @@ class App extends Component {
 						<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
 					} />
 					<Route path="/myStudents" render={() =>
-						<AlumnosPorTutor urlBase={this.state.urlBase}></AlumnosPorTutor>
+						<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
 					} />
 					<Route path="/allStudents" render={() =>
 						<Alumnos urlBase={this.state.urlBase}></Alumnos>
