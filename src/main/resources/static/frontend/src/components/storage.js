@@ -11,3 +11,13 @@ export function getUserType() {
     }
     return storedType
 }
+
+export function storageNickUsername(nickName){
+    localStorage.setItem('nickName', JSON.stringify(nickName))
+}
+
+export function getUserName(){
+    var storedUserName = localStorage.getItem('nickName')
+    storedUserName = JSON.parse(storedUserName);
+    return storedUserName
+}
