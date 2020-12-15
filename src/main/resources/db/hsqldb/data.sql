@@ -1,6 +1,6 @@
 -----------------------------------------------
-INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_solicitud)values
-	('marrambla2','believer','88645678C','Maribel Ramos,','maribel.r@gmail.com','567825431','mi casa','2000-06-22','2015-06-22');
+INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_solicitud,fecha_matriculacion)values
+	('marrambla2','believer','88645678C','Maribel Ramos,','maribel.r@gmail.com','567825431','mi casa','2000-06-22','2015-06-22','2018-07-22');
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento)values
 	('eveyugyug','believer','88645678J','20018-04-07','Evelyn Yugsi','ev.r@gmail.com','567825431','mi casa','2000-04-07');
 
@@ -18,15 +18,18 @@ INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo3', 'B2')
 
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario,grupos_nombre_grupo,fecha_matriculacion) VALUES 
     ('Javi','zzz','55635286F','Javie','jvii@gmail.com','955432565','Calle Junio de agosto','2000-06-23',1,'2012-12-11','marrambla2','grupo1','2020-2-7');
-INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario,grupos_nombre_grupo) VALUES 
-    ('antoniope','bbb','55635286U','Javie','jvii@gmail.com','955432565','Calle Junio de agosto','2000-06-23',1,'2012-12-11','marrambla2','grupo1');
-INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario,grupos_nombre_grupo) VALUES 
-    ('patri25','bbb','55635286S','Javie','jvii@gmail.com','955432565','Calle Junio de agosto','2000-06-23',1,'2012-12-11','eveyugyug','grupo3');
-INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario,grupos_nombre_grupo) VALUES 
-    ('natalia42','bbb','55635286A','Javie','jvii@gmail.com','955432565','Calle Junio de agosto','2000-06-23',1,'2012-12-11','eveyugyug','grupo3');
+INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario,grupos_nombre_grupo,fecha_matriculacion) VALUES 
+    ('antoniope','bbb','55635286U','Javie','jvii@gmail.com','955432565','Calle Junio de agosto','2000-06-23',1,'2012-12-11','marrambla2','grupo1','2020-2-7');
+INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario) VALUES 
+    ('patri25','bbb','55635286S','Javie','jvii@gmail.com','955432565','Calle Junio de agosto','2000-06-23',1,'2012-12-11','eveyugyug');
+INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario) VALUES 
+    ('natalia42','bbb','55635286A','Javie','jvii@gmail.com','955432565','Calle Junio de agosto','2000-06-23',1,'2012-12-11','eveyugyug');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
     ('Gonzalo','aaa','20502441B','Gonzalo','gonalvgar.alumno@gmail.com','622119555','Calle Yucatan','1998-10-03',4,'2012-12-11','eveyugyug','grupo1','2020-11-26');
 
+    
+INSERT INTO profesores(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento) VALUES 
+    ('MaribelJavi','aaa','20505441B','Gonzalo','gonalvgar.alumno1@gmail.com','622119555','Calle Yucatan','1998-10-03');
 
 --INSERT ANTIGUOS
 
