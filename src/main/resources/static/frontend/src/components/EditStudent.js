@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 
 
 
+
   class EditStudent extends Component {
     nickUsuario = this.nickUsuario.bind(this);
     contraseya = this.contraseya.bind(this);

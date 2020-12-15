@@ -25,10 +25,7 @@ public class UsuarioServiceTests {
 	protected UsuarioService usuarioService;
 	
 	@Autowired
-	protected AlumnoService alumnoService;
-	
-	@Autowired
-	protected TutorService tutorService;
+	protected SolicitudService solicitudService;
 	
 	@BeforeAll
 	@Transactional
@@ -38,23 +35,23 @@ public class UsuarioServiceTests {
 		alumno.setCorreoElectronicoUsuario("javikuka7@gmail.com");
 		alumno.setDireccionUsuario("Calle error");
 		alumno.setDniUsuario("76766776Y");
-		alumno.setFechaMatriculacion("13/8/2020");
-		alumno.setFechaNacimiento("13/8/2000");
+		alumno.setFechaMatriculacion(null);
+		alumno.setFechaNacimiento(null);
 		alumno.setNickUsuario("JaviMartinez");
 		alumno.setNombreCompletoUsuario("Javi Martínez");
 		alumno.setNumTelefonoUsuario("635096767");
 		alumno.setNumTareasEntregadas(4);
-		alumnoService.saveAlumno(alumno);
+		solicitudService.saveAlumno(alumno);
 		Tutor tutor = new Tutor();
-		tutor.setContraseyaTutor("EyEyHola6");
-		tutor.setCorreoElectronicoUsuarioTutor("pedro@gmail.com");
-		tutor.setDireccionUsuarioTutor("Calle Lora");
-		tutor.setDniUsuarioTutor("23232323H");
-		tutor.setFechaNacimientoTutor("12/5/1980");
-		tutor.setNickUsuarioTutor("PedroGar");
-		tutor.setNombreCompletoUsuarioTutor("Pedro García");
-		tutor.setNumTelefonoUsuarioTutor("676767453");
-		tutorService.insert(tutor);
+		tutor.setContraseya("EyEyHola6");
+		tutor.setCorreoElectronicoUsuario("pedro@gmail.com");
+		tutor.setDireccionUsuario("Calle Lora");
+		tutor.setDniUsuario("23232323H");
+		tutor.setFechaNacimiento(null);
+		tutor.setNickUsuario("PedroGar");
+		tutor.setNombreCompletoUsuario("Pedro García");
+		tutor.setNumTelefonoUsuario("676767453");
+		solicitudService.saveTutor(tutor);
 	}
 	
 	@Test
