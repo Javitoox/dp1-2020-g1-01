@@ -1,7 +1,9 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -14,6 +16,7 @@ import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.SolicitudService;
 import org.springframework.samples.petclinic.service.TutorService;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,7 +74,8 @@ public class SolicitudController {
 	   }   
 		
 		@GetMapping("/sending")
-		public void sending(@Valid Solicitud solicitud) {
+		public void sending(@Valid Solicitud solicitud, BindingResult result) {
+			log.info(solicitud.getAlumno());
 			solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
 			solicitudServ.saveAlumno(solicitud.getAlumno());
 		}
