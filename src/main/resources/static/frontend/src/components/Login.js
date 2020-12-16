@@ -65,7 +65,7 @@ class Login extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-lock"></i>
                                     </span>
-                                    <InputText placeholder="Password" name="password" type="text" value={this.state.password} onChange={this.password} />
+                                    <InputText placeholder="Password" name="password" type="password" value={this.state.password} onChange={this.password} />
                                 </div>
                             </div>
                             <div className="b">
