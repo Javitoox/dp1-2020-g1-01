@@ -6,7 +6,7 @@ import '../menu.css';
 import { Component } from 'react';
 import { Menubar } from 'primereact/menubar';
 import { Button } from 'primereact/button';
-import {storageUserType} from './storage'
+import {storageLogout} from './storage'
 
 export class MenubarResponsive extends Component {
 
@@ -86,7 +86,7 @@ export class MenubarResponsive extends Component {
     }
 
     logout(event){
-        storageUserType("usuario")
+        storageLogout()
     }
 
     render() {
