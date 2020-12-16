@@ -12,7 +12,6 @@ export class Solicitudes extends Component {
     name = this.name.bind(this);
     email = this.email.bind(this);
     telefono = this.telefono.bind(this);
-    telefono2 = this.telefono2.bind(this);
     address = this.address.bind(this);
     birthdate = this.birthdate.bind(this);
     changeButton = this.changeButton.bind(this);
@@ -24,7 +23,6 @@ export class Solicitudes extends Component {
         name: "",
         email: "",
         telefono: "",
-        telefono2: "",
         address: "",
         birthdate: "",
         button: false
@@ -54,10 +52,6 @@ export class Solicitudes extends Component {
         this.setState({ telefono: event.target.value });
     }
 
-    telefono2(event) {
-        this.setState({ telefono2: event.target.value });
-    }
-
     address(event) {
         this.setState({ address: event.target.value });
     }
@@ -78,9 +72,9 @@ export class Solicitudes extends Component {
 
     calculateUrl(){
         if(this.state.button){
-            return this.props.urlBase+"/requests/sendingWithTutor";
-        }else{
-            return this.props.urlBase+"/requests/sendingWithoutTutor";
+            return this.props.urlBase+"/requests/sendingAll";
+        }else{        
+            return this.props.urlBase+"/requests/sending";
         }
     }
 
@@ -138,14 +132,6 @@ export class Solicitudes extends Component {
                                         <i className="pi pi-mobile"></i>
                                     </span>
                                     <InputText placeholder="Phone number" name="numTelefonoUsuario" type="text" value={this.state.telefono} onChange={this.telefono} />
-                                </div>
-                            </div>
-                            <div className="i">
-                                <div className="p-inputgroup">
-                                    <span className="p-inputgroup-addon">
-                                        <i className="pi pi-mobile"></i>
-                                    </span>
-                                    <InputText placeholder="Phone number 2" name="numTelefonoUsuario2" type="text" value={this.state.telefono2} onChange={this.telefono2} />
                                 </div>
                             </div>
                             <div className="i">

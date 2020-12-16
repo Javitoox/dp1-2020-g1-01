@@ -5,11 +5,6 @@ import eventBus from "./EventBus";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-
-
-
-
-
   class EditStudent extends Component {
     nickUsuario = this.nickUsuario.bind(this);
     contraseya = this.contraseya.bind(this);
@@ -121,7 +116,6 @@ import { connect } from 'react-redux';
         //<InputText type="hidden" value={this.state.change} onChange={this.changing}></InputText>
         return (
             <div>
-                xddd
                 <div className="c">
                     <div className="login request">
                         <form method="GET" action={this.urlBase} >

@@ -35,39 +35,72 @@ class App extends Component {
 	calculateUserName(){
 		return getUserName()
 	}
-	
 
 	render() {
 		console.log(this.state.username)
-		return (
-			<div>
-			<MenubarResponsive tipoDeUsuario={this.calculateType()}></MenubarResponsive>
-				<Router>
-					<Route path="/home" render={() =>
-						<Home></Home>
-					} />
-					<Route path="/requests" render={() =>
-						<Solicitudes urlBase={this.state.urlBase}></Solicitudes>
-					} />
-					<Route path="/login" render={() =>
-						<Login urlBase={this.state.urlBase} onType={this.changeUserType.bind(this)}></Login>
-					} />
-					<Route path="/pendingRequests" render={() =>
-						<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
-					} />
-					<Route path="/myStudents" render={() =>
-						<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
-					} />
-					<Route path="/allStudents" render={() =>
-						<Alumnos urlBase={this.state.urlBase}></Alumnos>
-					} />
-					<Route path="/editStudent" render={() =>
-						<EditPreStudent />
-					} /> 
-			
-				</Router>
-			</div>
-		)
+		if(getUserType()==="usuario"){
+			return (
+				<div>
+				<MenubarResponsive tipoDeUsuario={this.calculateType()}></MenubarResponsive>
+					<Router>
+						<Route path="/home" render={() =>
+							<Home></Home>
+						} />
+						<Route path="/requests" render={() =>
+							<Solicitudes urlBase={this.state.urlBase}></Solicitudes>
+						} />
+						<Route path="/login" render={() =>
+							<Login urlBase={this.state.urlBase} onType={this.changeUserType.bind(this)}></Login>
+						} />
+					</Router>
+				</div>
+			)
+		}else if(getUserType()==="alumno"){
+			return (
+				<div>
+				<MenubarResponsive tipoDeUsuario={this.calculateType()}></MenubarResponsive>
+					<Router>
+						<Route path="/home" render={() =>
+							<Home></Home>
+						} />
+						<Route path="/editStudent" render={() =>
+							<EditPreStudent />
+						} /> 
+					</Router>
+				</div>
+			)
+		}else if(getUserType()==="profesor"){
+			return (
+				<div>
+				<MenubarResponsive tipoDeUsuario={this.calculateType()}></MenubarResponsive>
+					<Router>
+						<Route path="/home" render={() =>
+							<Home></Home>
+						} />
+						<Route path="/pendingRequests" render={() =>
+							<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
+						} />
+						<Route path="/allStudents" render={() =>
+							<Alumnos urlBase={this.state.urlBase}></Alumnos>
+						} />
+					</Router>
+				</div>
+			)
+		}else{
+			return (
+				<div>
+				<MenubarResponsive tipoDeUsuario={this.calculateType()}></MenubarResponsive>
+					<Router>
+						<Route path="/home" render={() =>
+							<Home></Home>
+						} />
+						<Route path="/myStudents" render={() =>
+							<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
+						} />
+					</Router>
+				</div>
+			)
+		}
 	}
 }
 
