@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -55,15 +54,5 @@ public class GrupoController {
 	public void deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo) throws IOException {
 		grupoService.deleteGroup(nombreGrupo);
 	}	
-	
-	/*Cambiar a UPDATE*/
-	@GetMapping(value = "/{nick_usuario}/edit/{nombreGrupo}")
-	@ResponseStatus(HttpStatus.OK)
-    public void processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario, @PathVariable("nombreGrupo") String nombreGrupo) {
-        	Alumno alumno1= grupoService.findAlumnById(nick_usuario);
-        	Grupo grupo= grupoService.getGroupById(nombreGrupo);       
-            alumno1.setGrupos(grupo);
-            this.grupoService.saveAlumn(alumno1);
-    }
-	
+
 }

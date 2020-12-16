@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.service.AlumnoService;
-import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,30 +27,28 @@ public class AlumnoController {
 	
 	@Autowired
 	AlumnoService alumnoServ;
-	GrupoService grupoService;
-
 	
-	  @GetMapping("/editStudent")
-		public void processUpdateAlumnoForm(@Valid Alumno alumno, BindingResult result, HttpServletResponse response) throws IOException
-				 {
-			if (result.hasErrors()) {
-				LOGGER.log(Level.INFO, "Esto no funciona :(");
-			}
-			else {
-				LOGGER.log(Level.INFO, "Ha funcionado ;)))");
-				this.alumnoServ.saveAlumno(alumno);
-				response.sendRedirect("http://localhost:3000");
-			}
+	@GetMapping("/editStudent")
+	public void processUpdateAlumnoForm(@Valid Alumno alumno, BindingResult result, HttpServletResponse response) throws IOException
+			 {
+		if (result.hasErrors()) {
+			LOGGER.log(Level.INFO, "Esto no funciona :(");
 		}
+		else {
+			LOGGER.log(Level.INFO, "Ha funcionado ;)))");
+			this.alumnoServ.saveAlumno(alumno);
+			response.sendRedirect("http://localhost:3000");
+		}
+	}
 	 
-	 @GetMapping("/all")
-	    public List<Alumno> listAlumnos(){
-	        return alumnoServ.getAllAlumnos();
-	    }
+	@GetMapping("/all")
+	public List<Alumno> listAlumnos(){
+	    return alumnoServ.getAllAlumnos();
+	}
 
     @GetMapping("/getByCourse/{course}")
-    	public List<Alumno> listStudentsByCourse(@PathVariable("course") String cursoDeIngles){
-        	return alumnoServ.getStudentsByCourse(cursoDeIngles);
+    public List<Alumno> listStudentsByCourse(@PathVariable("course") String cursoDeIngles){
+       	return alumnoServ.getStudentsByCourse(cursoDeIngles);
     }
     
     @GetMapping(value="/getByNameOfGroup/{nombreGrupo}")	
@@ -62,7 +59,7 @@ public class AlumnoController {
     @GetMapping(value = "/{nick_usuario}/edit/{nombreGrupo}")
     public void processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario, @PathVariable("nombreGrupo") String nombreGrupo) {
         	Alumno alumno1= alumnoServ.findById(nick_usuario);
-        	Grupo grupo= grupoService.getGroupById(nombreGrupo);       
+        	Grupo grupo= alumnoServ.getGrupo(nombreGrupo);       
             alumno1.setGrupos(grupo);
             this.alumnoServ.saveAlumno(alumno1);
     }
