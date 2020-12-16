@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import eventBus from "./EventBus";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -17,51 +16,26 @@ import { connect } from 'react-redux';
     numTareasEntregadas = this.numTareasEntregadas.bind(this);
     changeButton = this.changeButton.bind(this);
     fechaMatriculacion = this.fechaMatriculacion.bind(this);
-    changing = this.changing.bind(this);
-    constructor() {
-        super();
-        this.state = {
-            change: false,
-            nickUsuario: "",
-            contraseya: "",
-            dniUsuario: "",
-            nombreCompletoUsuario: "",
-            correoElectronicoUsuario: "",
-            numTelefonoUsuario: "",
-            direccionUsuario: "",
-            fechaNacimiento: "",
-            numTareasEntregadas: "",
-            fechaMatriculacion: ""
-        }
-    }
-    me() {
-        eventBus.on("guardandoEstudiante", (data) => this.estadoActualizado(data));
-        this.setState({ change: true });
-    }
-    changing(event) {
-        if(this.state.change)
-        this.setState({ change: false });
-    }
-     estadoActualizado(data) {
-         console.log("hola");
-        this.setState({
-            nickUsuario: data.nickUsuario,
-            contraseya: data.contraseya,
-            dniUsuario: data.dniUsuario,
-            nombreCompletoUsuario: data.nombreCompletoUsuario,
-            correoElectronicoUsuario: data.correoElectronicoUsuario,
-            numTelefonoUsuario: data.numTelefonoUsuario,
-            direccionUsuario: data.direccionUsuario,
-            fechaNacimiento: data.fechaNacimiento,
-            numTareasEntregadas: data.numTareasEntregadas,
-            fechaMatriculacion: data.fechaMatriculacion
-        }
-        )
-    }
+   
+//importante sacar la informacion de la variable student en el estado, para poder editarla y procesarla despues en la tabla
+      state = {
+            change: false, 
+            nickUsuario: this.props.student.nickUsuario,
+            contraseya: this.props.student.contraseya,
+            dniUsuario: this.props.student.dniUsuario,
+            nombreCompletoUsuario: this.props.student.nombreCompletoUsuario,
+            correoElectronicoUsuario: this.props.student.correoElectronicoUsuario,
+            numTelefonoUsuario: this.props.student.numTelefonoUsuario,
+            direccionUsuario: this.props.student.direccionUsuario,
+            fechaNacimiento: this.props.student.fechaNacimiento,
+            numTareasEntregadas: this.props.student.numTareasEntregadas,
+            fechaMatriculacion: this.props.student.fechaMatriculacion
+      }
+  
+ 
+  
 
-    componentWillUnmount() {
-        eventBus.remove("guardandoEstudiante");
-    }
+    
     nickUsuario(event) {
         this.setState({ nickUsuario: event.target.value });
     }
@@ -105,14 +79,8 @@ import { connect } from 'react-redux';
         this.setState({ button: !this.state.button });
     }
     urlBase = "http://localhost:8081/alumnos/editStudent"
-    listNombre(){
-        return this.props.students.map((user) => {
-            return user.nickUsuario
-        })
-    }
     render() {
         console.log("Se ha redireccionado")
-        console.log(this.listNombre())
         //<InputText type="hidden" value={this.state.change} onChange={this.changing}></InputText>
         return (
             <div>
@@ -125,9 +93,7 @@ import { connect } from 'react-redux';
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user"></i>
                                     </span>
-                                    <InputText placeholder="Username" name="nickUsuario" type="text" value={this.props.students.map((user) => {
-            return user.nickUsuario
-        })} onChange={this.nickUsuario} />
+                                    <InputText placeholder="Username" name="nickUsuario" type="text" value={this.state.nickUsuario} onChange={this.nickUsuario} />
                                 </div>
                             </div>
 
@@ -200,10 +166,10 @@ import { connect } from 'react-redux';
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state){ //metodo para poder pillar datos del store
     return{
-        students : state.students
+        student : state.student //le pasamos a nuestra variable student la informacion del estudiante almacenada en el store
     }
 }
 
-export default connect(mapStateToProps)(EditStudent);
+export default connect(mapStateToProps)(EditStudent); 
