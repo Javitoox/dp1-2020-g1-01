@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -62,8 +62,8 @@ public class GrupoServiceTest {
 	
 	@Test
 	void deleteGroup() {
-		Grupo gr = grupoService.getGrupo("grupo1").get();
-		grupoService.deleteGroup(gr);
+		//Grupo gr = grupoService.getGrupo("grupo1").get();
+		grupoService.deleteGroup("grupo1");
 		Optional<Grupo> bg = grupoService.getGrupo("grupo1");
 		assertFalse(bg.isPresent());		
 	}
@@ -71,7 +71,7 @@ public class GrupoServiceTest {
 	@BeforeAll
 	@Test
 	void shouldGetAListWhithGrupos() {
-		List<Grupo> grupos = grupoService.findAll().stream().collect(Collectors.toList());
+		Set<Grupo> grupos = grupoService.getAllGrupos();
 		assertThat(grupos.size()).isGreaterThan(0);	
 	}
 	

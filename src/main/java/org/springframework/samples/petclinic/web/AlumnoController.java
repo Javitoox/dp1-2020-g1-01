@@ -66,7 +66,7 @@ public class AlumnoController {
     @GetMapping(value = "/{nick_usuario}/edit/{nombreGrupo}")
     public void processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario, @PathVariable("nombreGrupo") String nombreGrupo) {
         	Alumno alumno1= alumnoServ.findById(nick_usuario);
-        	Grupo grupo= grupoService.getCourseById(nombreGrupo);       
+        	Grupo grupo= grupoService.getGroupById(nombreGrupo);       
             alumno1.setGrupos(grupo);
             this.alumnoServ.saveAlumno(alumno1);
     }
