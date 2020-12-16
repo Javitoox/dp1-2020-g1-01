@@ -1,8 +1,8 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class GrupoService {
 	
-	private GrupoRepository grupoRepository;
+	private GrupoRepository grupoRepository;	
 
 	@Autowired
 	public GrupoService(GrupoRepository grupoRepository) {
 		this.grupoRepository = grupoRepository;
 	}
 	
-	public Collection<Grupo> findAll(){
+	public Set<Grupo> getAllGrupos(){
 		return grupoRepository.findAll();
 	}
 	
@@ -37,15 +37,19 @@ public class GrupoService {
 	public void saveGroup(Grupo grupo) {
 		grupoRepository.save(grupo);		
 	}
-	
-	public void deleteGroup(Grupo grupo) {
-		grupoRepository.delete(grupo);
+
+	@Transactional
+	public void deleteGroup(String nombreGrupo) {
+		grupoRepository.deleteById(nombreGrupo);
 	}	
 	
-	public Grupo getCourseById(String nombreCurso) {
-    	return grupoRepository.findById(nombreCurso).get();
+	public Grupo getGroupById(String nombreGrupo) {
+    	return grupoRepository.findById(nombreGrupo).get();
 	}
 	
+	//change
+	public Grupo crearGrupo(Grupo grupo) {
+		return grupoRepository.save(grupo);
+	}
 	
-
 }

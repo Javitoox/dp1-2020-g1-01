@@ -14,11 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.service.AlumnoService;
-import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,11 +30,8 @@ public class AlumnoController {
 	
 	@Autowired
 	AlumnoService alumnoServ;
-	@Autowired
-	GrupoService grupoService;
-
 	
-	  @GetMapping("/editStudent")
+	 @GetMapping("/editStudent")
 		public void processUpdateAlumnoForm(@Valid Alumno alumno, BindingResult result, HttpServletResponse response) throws IOException
 				 {
 			if (result.hasErrors()) {
@@ -73,15 +70,18 @@ public class AlumnoController {
 	 }
     
     @GetMapping(value="/getByNameOfGroup/{nombreGrupo}")	
-	public List<Alumno> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo){
-        return alumnoServ.getStudentsPerGroup(nombreGrupo);
+	public ResponseEntity<List<Alumno>> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo){
+    	List<Alumno> studentsByGroup =  alumnoServ.getStudentsPerGroup(nombreGrupo);
+    	return ResponseEntity.ok(studentsByGroup);
     }
 
-    @GetMapping(value = "/{nick_usuario}/edit/{nombreGrupo}")
-    public void processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario, @PathVariable("nombreGrupo") String nombreGrupo) {
-        	Alumno alumno1= alumnoServ.findById(nick_usuario);
-        	Grupo grupo= grupoService.getCourseById(nombreGrupo);       
-            alumno1.setGrupos(grupo);
-            this.alumnoServ.saveAlumno(alumno1);
+    //@GetMapping("/{nick_usuario}/edit/{nombreGrupo}")
+    @PutMapping("/{nick_usuario}/edit/{nombreGrupo}")
+    public ResponseEntity<?> processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario, @PathVariable("nombreGrupo") String nombreGrupo) {
+		Alumno alumno1= alumnoServ.findById(nick_usuario);
+		Grupo grupo= alumnoServ.getGrupo(nombreGrupo);       
+	    alumno1.setGrupos(grupo);
+	    this.alumnoServ.saveAlumno(alumno1);
+	    return ResponseEntity.ok().build();
     }
 }
