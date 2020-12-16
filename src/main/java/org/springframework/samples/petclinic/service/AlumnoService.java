@@ -43,8 +43,8 @@ public class AlumnoService {
 	}
 	
 	@Transactional
-	public void saveAlumno(Alumno alumno) throws DataAccessException {
-		alumnoRepository.save(alumno);		
+	public Alumno saveAlumno(Alumno alumno) throws DataAccessException {
+		return alumnoRepository.save(alumno);		
 	}		
 
     public List<Alumno> getStudentsByCourse(String cursoDeIngles){
