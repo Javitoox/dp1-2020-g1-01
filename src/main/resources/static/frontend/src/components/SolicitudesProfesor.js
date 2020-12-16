@@ -27,7 +27,6 @@ export  class SolicitudesProfesor extends Component {
         <React.Fragment>
             <Button label="Deny"  onClick={() => this.delete(rowData)} />
             <Button label="Accept"  onClick={() => this.accept(rowData)} />
-
         </React.Fragment>)
     }
 

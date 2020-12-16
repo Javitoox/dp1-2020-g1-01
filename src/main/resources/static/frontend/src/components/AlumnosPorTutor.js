@@ -7,30 +7,30 @@ export  class AlumnosPorTutor extends Component {
     constructor(){
         super()
         this.state={
-            nickUsuario:"marrambla2",
+            
         }
         this.alumnosPorTutorComponent = new MetodosTutor();
     }
     componentDidMount(){
-        this.alumnosPorTutorComponent.getAlumnosPorTutor(this.props.urlBase).then(data => this.setState({alumnos:data}));
+        console.log(this.props.nickUser);
+        this.alumnosPorTutorComponent.getAlumnosPorTutor(this.props.urlBase, this.props.nickUser).then(data => this.setState({alumnos:data}));
     }
 
     render(){
         console.log(this.state.alumnos);
         return(
             <div className="datatable-templating-demo">
-            <div className="card"></div>
             <DataTable value={this.state.alumnos}>
-                  <Column field="nickUsuario" header="NickUsuario"></Column>
-                  <Column field="contraseya" header="Contraseya"></Column>
-                  <Column field="dniUsuario" header="Dni Usuario"></Column>
-                  <Column field="nombreCompletoUsuario" header="Nombre Completo"></Column>
-                  <Column field="correoElectronicoUsuario" header="correo ElectronicoUsuario"></Column>
-                  <Column field="numTelefonoUsuario" header="Número de Teléfono"></Column>
-                  <Column field="direccionUsuario" header="Direccion"></Column>
-                  <Column field="fechaNacimiento" header="Fecha Nacimiento"></Column>
-                  <Column field="numTareasEntregadas" header="Num Tareas Entregadas"></Column>
-                  <Column field="fechaMatriculacion" header="fecha Matriculacion"></Column>
+                  <Column field="nickUsuario" header="Nick User"></Column>
+                  <Column field="contraseya" header="Password"></Column>
+                  <Column field="dniUsuario" header="DNI"></Column>
+                  <Column field="nombreCompletoUsuario" header="Full name"></Column>
+                  <Column field="correoElectronicoUsuario" header="Email"></Column>
+                  <Column field="numTelefonoUsuario" header="Phone number"></Column>
+                  <Column field="direccionUsuario" header="Address"></Column>
+                  <Column field="fechaNacimiento" header="Birthdate"></Column>
+                  <Column field="numTareasEntregadas" header="Activities done"></Column>
+                  <Column field="fechaMatriculacion" header="Date of enrollment"></Column>
             </DataTable>
             </div>
        )

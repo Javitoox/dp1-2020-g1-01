@@ -65,15 +65,14 @@ public class SolicitudController {
 	   public void sending(@PathVariable("nickUsuario")String nickUsuario) {
 		   Alumno alumnoAceptado = alumnoService.getAlumno(nickUsuario);
 		   System.out.println("ALUMNO ACEPTADO:"+alumnoAceptado);
-		   alumnoAceptado.setFechaSolicitud(null);
-		   alumnoAceptado.setFechaMatriculacion(null);
+		   alumnoAceptado.setFechaMatriculacion(LocalDate.now());
 		   solicitudServ.acceptRequest(alumnoAceptado);
 	   }   
 		
 		@GetMapping("/sending")
 		public void sending(@Valid Solicitud solicitud) {
-			solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
-			solicitudServ.saveAlumno(solicitud.getAlumno());
+			  solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
+			  solicitudServ.saveAlumno(solicitud.getAlumno());
 		}
 
 		@GetMapping("/sendingAll")
@@ -86,4 +85,5 @@ public class SolicitudController {
 			solicitudServ.saveTutor(solicitud.getTutor());
 		}
 	  
+		
 }

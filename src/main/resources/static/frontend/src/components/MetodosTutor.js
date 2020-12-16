@@ -3,8 +3,7 @@ import axios from 'axios';
 
 export default class MetodosTutor extends Component {
 
-    getAlumnosPorTutor(urlBase){
-        return axios.get(urlBase+"/tutor/marrambla2/allMyStudents").then(res=>res.data);
+    getAlumnosPorTutor(urlBase, nickUsuario){
+        return axios.get(urlBase+"/tutor/"+nickUsuario+"/allMyStudents").then(res=>res.data);
     }
- 
 }
