@@ -56,7 +56,7 @@ public class GrupoController {
 			return new ResponseEntity<>("Los campos están vacíos", HttpStatus.BAD_REQUEST);
 		}else {
 			grupoService.crearGrupo(resource);
-			return new ResponseEntity<>(HttpStatus.CREATED);
+			return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);
 		}
 	}
 	
@@ -67,7 +67,7 @@ public class GrupoController {
 		try {
 			grupoService.deleteGroup(nombreGrupo);
 		} catch (BadRequestException e) {
-			return new ResponseEntity<>("Los campos están vacíos", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("No se puede borrar el grupo porque tiene alumnos", HttpStatus.BAD_REQUEST);
 		}
 		return ResponseEntity.ok().build();
 	}	

@@ -69,7 +69,7 @@ public class AlumnoController {
 		}
 	 }
     
-    @GetMapping(value="/getByNameOfGroup/{nombreGrupo}")	
+    @GetMapping("/{nombreGrupo}")	
 	public ResponseEntity<List<Alumno>> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo){
     	List<Alumno> studentsByGroup =  alumnoServ.getStudentsPerGroup(nombreGrupo);
     	return ResponseEntity.ok(studentsByGroup);
