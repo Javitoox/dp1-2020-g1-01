@@ -5,12 +5,13 @@ import './index.css'
 import Login from './components/Login'
 import { SolicitudesProfesor } from './components/SolicitudesProfesor'
 import { AlumnosPorTutor } from './components/AlumnosPorTutor'
-import { Alumnos } from './components/Alumnos'
+import  Alumnos  from './components/Alumnos'
 import { EditPreStudent } from './components/EditPreStudent'
 import {Home} from './components/Home'
 import { MenubarResponsive } from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
 import {getUserName} from './components/storage'
+import EditStudent from './components/EditStudent'
 
 class App extends Component {
 
@@ -83,6 +84,9 @@ class App extends Component {
 						<Route path="/allStudents" render={() =>
 							<Alumnos urlBase={this.state.urlBase}></Alumnos>
 						} />
+						<Route path="/editStudent" render={() =>
+							<EditPreStudent />
+						} /> 
 					</Router>
 				</div>
 			)

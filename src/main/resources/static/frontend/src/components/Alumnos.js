@@ -4,14 +4,13 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Redirect } from 'react-router-dom';
-import eventBus from "./EventBus";
 import { ListBox } from 'primereact/listbox';
 import GrupoComponent from './GrupoComponent';
-import selectStudent from '../actions/index';
+import {selectStudent} from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-export class Alumnos extends Component {
+class Alumnos extends Component {
 
     constructor(props) {
         super(props);
@@ -29,14 +28,13 @@ export class Alumnos extends Component {
             fechaNacimiento:"",
             numTareasEntregadas :"",
             fechaMatriculacion: "",
-
             groupSelectItems: ""
 
             //nodes: null,
             //selectedKey: null,
         }
         this.alumnos = new AlumnoComponent();
-        this.edicion = this.edicion.bind(this);
+        //this.edicion = this.edicion.bind(this);
         //this.assignGroup = this.assignGroup.bind(this);
         this.boton = this.boton.bind(this);
         this.grupos = new GrupoComponent();
@@ -52,12 +50,21 @@ export class Alumnos extends Component {
     }
 
     boton(rowData) {
+      
         return (    
             <React.Fragment>
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2" onClick={() => this.edicion(rowData)} />
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2" onClick={()=> this.edicion(rowData)} />
             </React.Fragment>
         );
     }
+    edicion(data) {
+        this.props.selectStudent(data) //si os dice que selectStudent no es una funcion comprobad los nombres en matchDispatchToProps y que el import este hecho con el nombre ENTRE LLAVES
+        this.setState({ 
+            redirect: "/editStudent",
+        
+    });
+   
+}
     /* 
     botonAssign(rowData) {
         return (    
@@ -67,32 +74,7 @@ export class Alumnos extends Component {
         );
     }
     */
-    edicion(student) {
-        eventBus.dispatch("guardandoEstudiante", { nickUsuario: student.nickUsuario,
-            contraseya: student.contraseya,
-            dniUsuario: student.dniUsuario,
-            nombreCompletoUsuario: student.nombreCompletoUsuario,
-            correoElectronicoUsuario: student.correoElectronicoUsuario,
-            numTelefonoUsuario: student.numTelefonoUsuario,
-            direccionUsuario: student.direccionUsuario,
-            fechaNacimiento:student.fechaNacimiento,
-            numTareasEntregadas :student.numTareasEntregadas,
-            fechaMatriculacion: student.fechaMatriculacion });
-            this.setState({ 
-                redirect: "/editStudent",
-                // nickUsuario: student.nickUsuario,
-                // contraseya: student.contraseya,
-                // dniUsuario: student.dniUsuario,
-                // nombreCompletoUsuario: student.nombreCompletoUsuario,
-                // correoElectronicoUsuario: student.correoElectronicoUsuario,
-                // numTelefonoUsuario: student.numTelefonoUsuario,
-                // direccionUsuario: student.direccionUsuario,
-                // fechaNacimiento:student.fechaNacimiento,
-                // numTareasEntregadas :student.numTareasEntregadas,
-                // fechaMatriculacion: student.fechaMatriculacion
-        });
-       
-    }
+
     /*
     assignGroup(student) {
         eventBus.dispatch("guardandoAsignacionAGrupo", { nickUsuario: student.nickUsuario});
@@ -117,7 +99,6 @@ export class Alumnos extends Component {
 
     render() {
     if (this.state.redirect) {
-     //       return <Redirect push to="/editStudent" data={this.state.data}/>;
      return <Redirect
      to={{
        pathname: "/editStudent"
@@ -165,7 +146,6 @@ export class Alumnos extends Component {
     }
 }
 function  matchDispatchToProps(dispatch) {
-    return bindActionCreators({selectStudent: selectStudent}, dispatch)
-    
+    return bindActionCreators({selectStudent : selectStudent}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
 }
-export default connect(matchDispatchToProps)(Alumnos)
+export default connect(null , matchDispatchToProps)(Alumnos) //importante poner primero el null si no hay mapStateToProps en el componente chicxs
