@@ -7,6 +7,9 @@ import { Redirect } from 'react-router-dom';
 import eventBus from "./EventBus";
 import { ListBox } from 'primereact/listbox';
 import GrupoComponent from './GrupoComponent';
+import selectStudent from '../actions/index';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 export class Alumnos extends Component {
 
@@ -161,3 +164,8 @@ export class Alumnos extends Component {
         )
     }
 }
+function  matchDispatchToProps(dispatch) {
+    return bindActionCreators({selectStudent: selectStudent}, dispatch)
+    
+}
+export default connect(matchDispatchToProps)(Alumnos)

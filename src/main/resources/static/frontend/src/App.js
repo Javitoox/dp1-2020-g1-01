@@ -3,20 +3,21 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Solicitudes } from './components/Solicitudes'
 import './index.css'
 import Login from './components/Login'
-import { EditStudent } from './components/EditStudent'
 import { SolicitudesProfesor } from './components/SolicitudesProfesor'
 import { AlumnosPorTutor } from './components/AlumnosPorTutor'
 import { Alumnos } from './components/Alumnos'
+import { EditPreStudent } from './components/EditPreStudent'
 import {Home} from './components/Home'
 import { MenubarResponsive } from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
+import {getUserName} from './components/storage'
 
 class App extends Component {
 
 	state = {
 		urlBase: "http://localhost:8081",
 		username: "",
-		userType: ""
+		userType: "usuario"
 	}
 
 	changeUserType(t){
@@ -31,7 +32,13 @@ class App extends Component {
 		}
 	}
 
+	calculateUserName(){
+		return getUserName()
+	}
+	
+
 	render() {
+		console.log(this.state.username)
 		return (
 			<div>
 			<MenubarResponsive tipoDeUsuario={this.calculateType()}></MenubarResponsive>
@@ -49,14 +56,15 @@ class App extends Component {
 						<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
 					} />
 					<Route path="/myStudents" render={() =>
-						<AlumnosPorTutor urlBase={this.state.urlBase}></AlumnosPorTutor>
+						<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
 					} />
 					<Route path="/allStudents" render={() =>
 						<Alumnos urlBase={this.state.urlBase}></Alumnos>
 					} />
 					<Route path="/editStudent" render={() =>
-						<EditStudent></EditStudent>
-					} />
+						<EditPreStudent />
+					} /> 
+			
 				</Router>
 			</div>
 		)
@@ -64,3 +72,4 @@ class App extends Component {
 }
 
 export default App
+

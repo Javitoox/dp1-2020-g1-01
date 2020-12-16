@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 public interface AlumnoRepository extends CrudRepository<Alumno, String> {
@@ -17,13 +16,12 @@ public interface AlumnoRepository extends CrudRepository<Alumno, String> {
 	@Query("SELECT a FROM Alumno a JOIN a.grupos g WHERE g.nombreGrupo = :nombreGrupo")
     public List<Alumno> findByGroup(@Param("nombreGrupo") String nombreGrupo);
 	
-	@Query(value="SELECT * FROM ALUMNOS WHERE FECHA_SOLICITUD IS NULL",nativeQuery = true)
+	@Query("SELECT alumno FROM Alumno alumno WHERE alumno.fechaMatriculacion IS not null")
 	public List<Alumno>findStudents();
 
-    @Query(value = "Select * from alumnos natural join grupos where (cursos_curso_de_ingles = :cursoDeIngles "
-            + "and grupos_nombre_grupo=nombre_grupo)", nativeQuery = true)
+    @Query("SELECT alumno,grupo FROM Alumno alumno JOIN alumno.grupos grupo WHERE grupo.cursos.cursoDeIngles LIKE :cursoDeIngles%")
     public List<Alumno> findStudentsByCourse(@Param("cursoDeIngles") String cursoDeIngles);
     
-    @Query(value = "SELECT * FROM ALUMNOS where(tutores_nick_usuario_tutor=:nickTutor and FECHA_SOLICITUD IS NULL)",nativeQuery = true)
+    @Query("SELECT alumno FROM Alumno alumno where (alumno.tutores.nickUsuario LIKE :nickTutor% and alumno.fechaMatriculacion IS NOT null)")
     public List<Alumno> findStudentsByTutor(@Param("nickTutor")String nickTutor);
 }

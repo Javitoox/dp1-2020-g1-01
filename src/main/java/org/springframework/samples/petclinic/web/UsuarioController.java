@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.service.UsuarioService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +20,9 @@ public class UsuarioController {
 	}
 	
 	@GetMapping(value = { "/login" })
-	public String typeOfUser(@RequestParam("username") String nickUsuario, @RequestParam("password") String contraseya) {
+	public ResponseEntity<String> typeOfUser(@RequestParam("username") String nickUsuario, @RequestParam("password") String contraseya) {
 		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
-		return type;
+		return ResponseEntity.ok(type);
 	}
 	
 }

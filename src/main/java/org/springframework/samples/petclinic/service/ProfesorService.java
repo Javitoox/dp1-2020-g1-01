@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Profesor;
 import org.springframework.samples.petclinic.repository.ProfesorRepository;
 import org.springframework.stereotype.Service;
 
