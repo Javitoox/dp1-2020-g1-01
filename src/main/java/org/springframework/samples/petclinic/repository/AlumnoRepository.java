@@ -20,9 +20,9 @@ public interface AlumnoRepository extends CrudRepository<Alumno, String> {
 	@Query("SELECT alumno FROM Alumno alumno WHERE alumno.fechaMatriculacion IS not null")
 	public List<Alumno>findStudents();
 
-    @Query("SELECT alumno,grupo FROM Alumno alumno JOIN Grupo grupo WHERE grupo.cursos.cursoDeIngles = :cursoDeIngles")
+	@Query("SELECT alumno,grupo FROM Alumno alumno JOIN alumno.grupos grupo WHERE grupo.cursos.cursoDeIngles LIKE :cursoDeIngles%")
     public List<Alumno> findStudentsByCourse(@Param("cursoDeIngles") String cursoDeIngles);
     
-    @Query(value = "SELECT * FROM ALUMNOS where(tutores_nick_usuario=:nickTutor and FECHA_MATRICULACION IS NOT NULL)",nativeQuery = true)
+    @Query("SELECT alumno FROM Alumno alumno where(alumno.tutores.nickUsuario like :nickTutor% and alumno.fechaMatriculacion IS NOT NULL)")
     public List<Alumno> findStudentsByTutor(@Param("nickTutor")String nickTutor);
 }
