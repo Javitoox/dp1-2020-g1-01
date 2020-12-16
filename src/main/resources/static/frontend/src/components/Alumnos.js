@@ -57,6 +57,7 @@ class Alumnos extends Component {
             </React.Fragment>
         );
     }
+    
     edicion(data) {
         this.props.selectStudent(data) //si os dice que selectStudent no es una funcion comprobad los nombres en matchDispatchToProps y que el import este hecho con el nombre ENTRE LLAVES
         this.setState({ 
