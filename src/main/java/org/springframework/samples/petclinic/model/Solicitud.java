@@ -11,10 +11,10 @@ import lombok.Data;
 @Data
 public class Solicitud extends BaseEntity{
 	
-	@OneToOne
+	@OneToOne(optional=false)
 	private Alumno alumno;
 	
-	@OneToOne
+	@OneToOne(optional=true)
 	private Tutor tutor;
 
 }
