@@ -17,7 +17,7 @@ class App extends Component {
 	state = {
 		urlBase: "http://localhost:8081",
 		username: "",
-		userType: ""
+		userType: "usuario"
 	}
 
 	changeUserType(t){

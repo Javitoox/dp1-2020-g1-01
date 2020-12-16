@@ -2,6 +2,10 @@ export function storageUserType(userType) {
     localStorage.setItem('userType', JSON.stringify(userType))
 }
 
+export function storageLogout(){
+    localStorage.clear()
+}
+
 export function getUserType() {
     var storedType = localStorage.getItem('userType')
     if (storedType === null) {

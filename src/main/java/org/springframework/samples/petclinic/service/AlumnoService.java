@@ -20,7 +20,7 @@ public class AlumnoService {
 		this.alumnoRepository = alumnoRepository;
 	}
 	
-	 public Alumno findById(String id) {
+	public Alumno findById(String id) {
 	    	return alumnoRepository.findById(id).get();
 	}
 	
@@ -34,6 +34,10 @@ public class AlumnoService {
 	
 	public Alumno getAlumno(String nickUsuario) {
 		return alumnoRepository.findByNick(nickUsuario);
+	}
+	
+	public void deleteStudents(Alumno alumno) {
+		alumnoRepository.delete(alumno);
 	}
 	
 	@Transactional

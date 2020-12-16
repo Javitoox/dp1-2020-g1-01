@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -22,6 +23,14 @@ public class TutorService {
 	
 	public List<Tutor> getAllTutores() {
 		return tutorRepository.findAll();
+	}
+	
+	public Optional<Tutor> getTutorById(String nickUser) {
+		return tutorRepository.findById(nickUser);
+	}
+	
+	public void saveTutor(Tutor tutor) {
+		tutorRepository.save(tutor);
 	}
 	
 	@Transactional
