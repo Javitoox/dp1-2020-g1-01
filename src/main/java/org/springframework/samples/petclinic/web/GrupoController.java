@@ -62,13 +62,13 @@ public class GrupoController {
 	
 	
 	@DeleteMapping("/{nombreGrupo}")
-	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo){
+	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo)throws BadRequestException{
 		log.info("Solicitando borrar grupo: {}", nombreGrupo);
-		try {
+//		try {
 			grupoService.deleteGroup(nombreGrupo);
-		} catch (BadRequestException e) {
-			return new ResponseEntity<>("No se puede borrar el grupo porque tiene alumnos", HttpStatus.BAD_REQUEST);
-		}
+//		} catch (BadRequestException e) {
+//			return new ResponseEntity<>("No se puede borrar el grupo porque tiene alumnos", HttpStatus.BAD_REQUEST);
+//		}
 		return ResponseEntity.ok().build();
 	}	
 
