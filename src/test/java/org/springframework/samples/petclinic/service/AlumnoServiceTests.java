@@ -30,6 +30,9 @@ public class AlumnoServiceTests {
 	
 	@Autowired
 	protected GrupoService grupoService;
+	
+	@Autowired
+	protected CursoService cursoService;
 
 	@BeforeEach
 	@Transactional
@@ -102,18 +105,40 @@ public class AlumnoServiceTests {
 	
 	
 	@Test
-	void getStudentsByGroup() {
+	void testStudentsListByGroupIsNotNull() {
 		String nombreGrupo = "grupo1";
 		List<Alumno> alumnos = alumnoService.getStudentsPerGroup(nombreGrupo);
 		assertFalse(alumnos.size() == 0);
 	}
 	
 	@Test
-	void editStudentGroup() {
+	void testStudentListByGroupIsEmpty() {
+		Curso curso = cursoService.getCourseById("B1").get();
+		Grupo grupo = new Grupo();
+		String name = "GrupoA";
+		grupo.setNombreGrupo(name);
+		grupo.setCursos(curso);
+		grupoService.saveGroup(grupo);
+		
+		List<Alumno> alumnosExistentes = alumnoService.getStudentsPerGroup("GrupoA");
+		assertTrue(alumnosExistentes.size()==0);
+	}
+	
+	@Test
+	void testEditStudentGroupIsValid() {
 		Alumno alumno1 = alumnoService.findById("Javi");
     	Grupo grupo= grupoService.getGroupById("grupo3");       
         alumno1.setGrupos(grupo);
         alumnoService.saveAlumno(alumno1);
 		assertTrue(alumno1.getGrupos().getNombreGrupo() == "grupo3");
 	}
+	
+//	@Test
+//	void testEditStudentGroupIsNotValid() {
+//		Alumno alumno1 = alumnoService.findById("Javi");
+//    	Grupo grupo= grupoService.getGroupById("grupoA");       
+//        alumno1.setGrupos(grupo);
+//        alumnoService.saveAlumno(alumno1);
+//		assertTrue(alumno1.getGrupos().getNombreGrupo() == "grupo3");
+//	}
 }
