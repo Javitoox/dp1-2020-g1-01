@@ -31,6 +31,10 @@ INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,
 INSERT INTO profesores(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento) VALUES 
     ('MaribelJavi','aaa','20505441B','Gonzalo','gonalvgar.alumno1@gmail.com','622119555','Calle Yucatan','1998-10-03');
 
+INSERT INTO walloffames(fechawall) VALUES ('2020-2-7');
+INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('El mejor de la semana','imagenJaviV.jpg','Javi','2020-2-7');
+
+
 --INSERT ANTIGUOS
 
 --Insercion de alumnos
