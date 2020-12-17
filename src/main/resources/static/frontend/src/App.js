@@ -12,6 +12,8 @@ import { MenubarResponsive } from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
 import {getUserName} from './components/storage'
 import EditStudent from './components/EditStudent'
+import { WallOfFameStudents } from './components/WallOfFameStudents'
+
 
 class App extends Component {
 
@@ -66,6 +68,9 @@ class App extends Component {
 						} />
 						<Route path="/editStudent" render={() =>
 							<EditPreStudent />
+						} /> 
+						<Route path="/students/walloffame" render={() =>
+							<WallOfFameStudents urlBase={this.state.urlBase}/>
 						} /> 
 					</Router>
 				</div>
