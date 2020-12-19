@@ -30,14 +30,14 @@ export class WallOfFameStudents extends Component{
               <div className="product-grid-item-top"></div>
               <div className="product-grid-item-content">
                 <img
-                  src={`showcase/demo/images/product/${data.image}`}
+                  src={data.foto}
                   onError={(e) =>
                     (e.target.src =
                       "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
                   }
                   alt={data.name}
                 />
-                <div className="product-description">{data.description}</div>
+                <div className="product-description">{data.descripcion}</div>
               </div>
             </div>
           </div>
