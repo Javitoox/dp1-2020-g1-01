@@ -8,6 +8,8 @@ import javax.validation.Valid;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.Tutor;
@@ -18,6 +20,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -71,21 +75,31 @@ public class SolicitudController {
 		   solicitudServ.acceptRequest(alumnoAceptado);
 	   }   
 		
-		@GetMapping("/sending")
-		public void sending(@Valid Solicitud solicitud, BindingResult result) {
-			log.info(solicitud.getAlumno());
-			solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
-			solicitudServ.saveAlumno(solicitud.getAlumno());
+		@PostMapping("/sending")
+		public ResponseEntity<?> sending(@Valid @RequestBody Solicitud solicitud, BindingResult result) {
+			if(result.hasErrors()) {
+				return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
+			}else {
+				solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
+				solicitudServ.saveAlumno(solicitud.getAlumno());
+				return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+			}
 		}
 
-		@GetMapping("/sendingAll")
-		public void sendingAll(@Valid Solicitud solicitud) {
-			solicitud.getAlumno().setTutores(solicitud.getTutor());
-			solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
-			Tutor t2 = solicitudServ.getTutor(solicitud.getTutor().getNickUsuario());
-			solicitudServ.updateRequestTutor(t2, solicitud.getTutor());
-			solicitudServ.saveAlumno(solicitud.getAlumno());
-			solicitudServ.saveTutor(solicitud.getTutor());
+		@PostMapping("/sendingAll")
+		public ResponseEntity<?> sendingAll(@Valid @RequestBody Solicitud solicitud, BindingResult result) {
+			if(result.hasErrors()) {
+				log.info(result.getFieldErrors());
+				return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
+			}else {
+				solicitud.getAlumno().setTutores(solicitud.getTutor());
+				solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
+				Tutor t2 = solicitudServ.getTutor(solicitud.getTutor().getNickUsuario());
+				solicitudServ.updateRequestTutor(t2, solicitud.getTutor());
+				solicitudServ.saveAlumno(solicitud.getAlumno());
+				solicitudServ.saveTutor(solicitud.getTutor());
+				return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+			}
 		}
 	  
 }
