@@ -33,7 +33,7 @@ INSERT INTO profesores(nick_usuario,contraseya,dni_usuario,nombre_completo_usuar
 
 INSERT INTO walloffames(fechawall) VALUES ('2020-2-7');
 INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('El mejor de la semana','ozuna.jpg','Javi','2020-2-7');
-
+INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('El mas listo de la semana','miguelTorres.jpg','Gonzalo','2020-2-7');
 
 --INSERT ANTIGUOS
 

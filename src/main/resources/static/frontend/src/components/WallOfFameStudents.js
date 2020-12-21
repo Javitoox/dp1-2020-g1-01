@@ -7,7 +7,9 @@ import ReactDOM from "react-dom";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.css";
-import "primeflex/primeflex.css";   
+import "primeflex/primeflex.css";
+import "../css/wallOfFame.css"
+
 
 
 export class WallOfFameStudents extends Component{
@@ -25,23 +27,24 @@ export class WallOfFameStudents extends Component{
 
     renderGridItem(data) {
         return (
+        <React.Fragment>
           <div className="p-col-12 p-md-4">
             <div className="product-grid-item card">
               <div className="product-grid-item-top"></div>
               <div className="product-grid-item-content">
                 <img
-                  src={data.foto}
+                  src={"/photosWall/"+data.foto}
                   onError={(e) =>
                     (e.target.src =
                       "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
                   }
-                  alt={data.name}
-                />
+                  alt={data.name}/>
                 <div className="product-description">{data.descripcion}</div>
               </div>
             </div>
           </div>
-        );
+        </React.Fragment>
+        );    
     }
 
     itemTemplate(premiados) {
@@ -60,7 +63,7 @@ export class WallOfFameStudents extends Component{
 
     fecha(event){
         console.log("Hola soy fecha(event) :)")
-        this.setState({fecha:event.target.value})
+        this.setState({fecha:event.target.value})      
     }
 
 
