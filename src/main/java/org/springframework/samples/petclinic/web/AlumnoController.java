@@ -75,7 +75,7 @@ public class AlumnoController {
     	return ResponseEntity.ok(studentsByGroup);
     }
 
-    //@GetMapping("/{nick_usuario}/edit/{nombreGrupo}")
+    //@GetMapping("/{nick_usuario}/edit/{nombreGrupo}")/*Aquí podemos usar el servicio de grupo*/
     @PutMapping("/{nick_usuario}/edit/{nombreGrupo}")
     public ResponseEntity<?> processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario, @PathVariable("nombreGrupo") String nombreGrupo) {
 		Alumno alumno1= alumnoServ.findById(nick_usuario);

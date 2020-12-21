@@ -18,6 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +37,7 @@ public class AlumnoServiceTests {
 
 	@BeforeEach
 	@Transactional
-	void insertAlumno() {
+	void insertAlumno() throws DuplicatedGroupNameException {
 		Alumno alumno = new Alumno();
 		alumno.setContraseya("HolaBuenas777");
 		alumno.setCorreoElectronicoUsuario("javikuka7@gmail.com");
@@ -112,7 +113,7 @@ public class AlumnoServiceTests {
 	}
 	
 	@Test
-	void testStudentListByGroupIsEmpty() {
+	void testStudentListByGroupIsEmpty() throws DuplicatedGroupNameException {
 		Curso curso = cursoService.getCourseById("B1").get();
 		Grupo grupo = new Grupo();
 		String name = "GrupoA";
