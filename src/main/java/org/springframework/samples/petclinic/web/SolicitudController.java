@@ -78,27 +78,80 @@ public class SolicitudController {
 		@PostMapping("/sending")
 		public ResponseEntity<?> sending(@Valid @RequestBody Solicitud solicitud, BindingResult result) {
 			if(result.hasErrors()) {
-				return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
-				solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
-				solicitudServ.saveAlumno(solicitud.getAlumno());
-				return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+				Alumno alumno = solicitudServ.getAlumno(solicitud.getAlumno().getNickUsuario());
+				if(alumno == null) {
+					solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
+					solicitudServ.saveAlumno(solicitud.getAlumno());
+					log.info("New student´s request with username: "+solicitud.getAlumno().getNickUsuario());
+					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+				}else if(alumno != null && alumno.getContraseya().equals(solicitud.getAlumno().getContraseya())){
+					solicitudServ.saveAlumno(solicitud.getAlumno());
+					log.info("Update student´s request with username: "+solicitud.getAlumno().getNickUsuario());
+					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+				}else {
+					log.info("Access denied: "+solicitud.getAlumno().getNickUsuario());
+					return new ResponseEntity<>("The student already exists and his password is incorrect", 
+							HttpStatus.OK);
+				}
 			}
 		}
 
 		@PostMapping("/sendingAll")
 		public ResponseEntity<?> sendingAll(@Valid @RequestBody Solicitud solicitud, BindingResult result) {
 			if(result.hasErrors()) {
-				log.info(result.getFieldErrors());
-				return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
-				solicitud.getAlumno().setTutores(solicitud.getTutor());
-				solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
-				Tutor t2 = solicitudServ.getTutor(solicitud.getTutor().getNickUsuario());
-				solicitudServ.updateRequestTutor(t2, solicitud.getTutor());
-				solicitudServ.saveAlumno(solicitud.getAlumno());
-				solicitudServ.saveTutor(solicitud.getTutor());
-				return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+				Alumno alumno = solicitudServ.getAlumno(solicitud.getAlumno().getNickUsuario());
+				Tutor tutor = solicitudServ.getTutor(solicitud.getTutor().getNickUsuario());
+				if(alumno == null && tutor == null) {
+					solicitud.getAlumno().setTutores(solicitud.getTutor());
+					solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
+					solicitud.getTutor().setFechaSolicitud(LocalDate.now());
+					solicitudServ.saveTutor(solicitud.getTutor());
+					solicitudServ.saveAlumno(solicitud.getAlumno());
+					log.info("New student´s request with username: "+solicitud.getAlumno().getNickUsuario());
+					log.info("New tutor´s request with username: "+solicitud.getTutor().getNickUsuario());
+					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+				}else if(alumno != null && alumno.getContraseya().equals(solicitud.getAlumno().getContraseya()) && tutor == null) {
+					solicitud.getAlumno().setTutores(solicitud.getTutor());
+					solicitud.getTutor().setFechaSolicitud(LocalDate.now());
+					solicitudServ.saveTutor(solicitud.getTutor());
+					solicitudServ.saveAlumno(solicitud.getAlumno());
+					log.info("Update student´s request with username: "+solicitud.getAlumno().getNickUsuario());
+					log.info("New tutor´s request with username: "+solicitud.getTutor().getNickUsuario());
+					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+				}else if(alumno == null && tutor != null && tutor.getContraseya().equals(solicitud.getTutor().getContraseya())) {
+					solicitud.getAlumno().setTutores(solicitud.getTutor());
+					solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
+					solicitudServ.saveTutor(solicitud.getTutor());
+					solicitudServ.saveAlumno(solicitud.getAlumno());
+					log.info("New student´s request with username: "+solicitud.getAlumno().getNickUsuario());
+					log.info("Update tutor´s request with username: "+solicitud.getTutor().getNickUsuario());
+					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+				}else if(alumno != null && alumno.getContraseya().equals(solicitud.getAlumno().getContraseya()) && 
+						tutor != null && tutor.getContraseya().equals(solicitud.getTutor().getContraseya())) {
+					solicitud.getAlumno().setTutores(solicitud.getTutor());
+					solicitudServ.saveTutor(solicitud.getTutor());
+					solicitudServ.saveAlumno(solicitud.getAlumno());
+					log.info("Update student´s request with username: "+solicitud.getAlumno().getNickUsuario());
+					log.info("Update tutor´s request with username: "+solicitud.getTutor().getNickUsuario());
+					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+				}else if(alumno != null && !alumno.getContraseya().equals(solicitud.getAlumno().getContraseya()) 
+						&& tutor != null && !tutor.getContraseya().equals(solicitud.getTutor().getContraseya())) {
+					log.info("Access denied: "+solicitud.getAlumno().getNickUsuario()+" and "+solicitud.getTutor().getNickUsuario());
+					return new ResponseEntity<>("Student and tutor already exist and their passwords are incorrect", 
+							HttpStatus.OK);
+				}else if(alumno != null && !alumno.getContraseya().equals(solicitud.getAlumno().getContraseya())) {
+					log.info("Access denied: "+solicitud.getAlumno().getNickUsuario());
+					return new ResponseEntity<>("The student already exists and his password is incorrect", 
+							HttpStatus.OK);
+				}else{
+					log.info("Access denied: "+solicitud.getTutor().getNickUsuario());
+					return new ResponseEntity<>("The tutor already exists and his password is incorrect", 
+							HttpStatus.OK);
+				}
 			}
 		}
 	  

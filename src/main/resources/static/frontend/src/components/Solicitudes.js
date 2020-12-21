@@ -27,6 +27,8 @@ export class Solicitudes extends Component {
     address1 = this.address1.bind(this);
     birthdate1 = this.birthdate1.bind(this);
     button = this.button.bind(this);
+    buttonTel1 = this.buttonTel1.bind(this);
+    buttonTel2 = this.buttonTel2.bind(this);
 
     state = {
         username: "",
@@ -47,7 +49,29 @@ export class Solicitudes extends Component {
         telefono21: "",
         address1: "",
         birthdate1:"",
-        button:false
+        button:false,
+        buttonTel1:false,
+        buttonTel2:false,
+        usernameError:null,
+        passwordError:null,
+        cardError:null,
+        nameError:null,
+        emailError:null,
+        telefonoError:null,
+        telefono2Error:null,
+        addressError:null,
+        birthdateError:null,
+        username1Error:null,
+        password1Error:null,
+        card1Error:null,
+        name1Error:null,
+        email1Error:null,
+        telefono1Error:null,
+        telefono21Error:null,
+        address1Error:null,
+        birthdate1Error:null,
+        succes:null,
+        exist:null
     }
 
     username(event) {
@@ -126,11 +150,21 @@ export class Solicitudes extends Component {
         this.setState({ button: !this.state.button })
     }
 
+    buttonTel1(event) {
+        this.setState({ buttonTel1: !this.state.buttonTel1 })
+    }
+
+    buttonTel2(event) {
+        this.setState({ buttonTel2: !this.state.buttonTel2 })
+    }
+
     form() {
         return <FormTutor username={this.state.username1} password={this.state.password1} card={this.state.card1} name={this.state.name1} email={this.state.email1}
         telefono={this.state.telefono1} telefono2={this.state.telefono21} address={this.state.address1} birthdate={this.state.birthdate1} 
         onUsername={this.username1} onPassword={this.password1} onCard={this.card1} onName={this.name1} onEmail={this.email1} onTelefono={this.telefono1} onTelefono2={this.telefono21} 
-        onAddress={this.address1} onBirthdate={this.birthdate1}></FormTutor>
+        onAddress={this.address1} onBirthdate={this.birthdate1} onActiveButton={this.buttonTel2} errorUsername={this.state.username1Error} errorPassword={this.state.password1Error}
+        errorCard={this.state.card1Error} errorName={this.state.name1Error} errorEmail={this.state.email1Error} errorTelefono={this.state.telefono1Error} 
+        errorTelefono2={this.state.telefono21Error} errorAddress={this.state.address1Error} errorBirthdate={this.state.birthdate1Error}></FormTutor>
     }
 
     otherNumber() {
@@ -146,6 +180,29 @@ export class Solicitudes extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
+
+        this.setState({
+            usernameError:null,
+            passwordError:null,
+            cardError:null,
+            nameError:null,
+            emailError:null,
+            telefonoError:null,
+            telefono2Error:null,
+            addressError:null,
+            birthdateError:null,
+            username1Error:null,
+            password1Error:null,
+            card1Error:null,
+            name1Error:null,
+            email1Error:null,
+            telefono1Error:null,
+            telefono21Error:null,
+            address1Error:null,
+            birthdate1Error:null,
+            succes:null,
+            exist:null
+        })
 
         const alumno = {
             nickUsuario: this.state.username,
@@ -171,16 +228,90 @@ export class Solicitudes extends Component {
             fechaNacimiento: this.state.birthdate1
         }
 
+        if(!this.state.buttonTel1){
+            alumno.numTelefonoUsuario2 = null
+        }
+
+        if(!this.state.buttonTel2){
+            tutor.numTelefonoUsuario2 = null
+        }
+
         if (this.state.button) {
             axios.post(this.props.urlBase + "/requests/sendingAll", {alumno, tutor}).then(res => {
-                console.log(res);
-                console.log(res.data);
+                this.respuesta(res.status, res.data)
             })
         } else {
             axios.post(this.props.urlBase + "/requests/sending", {alumno}).then(res => {
-                console.log(res);
-                console.log(res.data);
+                this.respuesta(res.status, res.data)
             })
+        }
+    }
+
+    respuesta(status, data){
+        console.log(status);
+        if(status===203){
+            data.forEach(e => this.error(e.field, e.defaultMessage))
+        }else if(status===201){
+            this.setState({
+                username: "",
+                password: "",
+                card: "",
+                name: "",
+                email: "",
+                telefono: "",
+                telefono2: "",
+                address: "",
+                birthdate: "",
+                username1: "",
+                password1: "",
+                card1: "",
+                name1: "",
+                email1: "",
+                telefono1: "",
+                telefono21: "",
+                address1: "",
+                birthdate1:"",
+                succes: <div className="alert alert-success" role="alert">Successful shipment</div>
+            })
+            window.alert("If you wish, you can modify your application details by entering the same username and password")
+        }else{
+            this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
+        }
+    }
+
+    error(campo, mensaje){
+        if(campo === "alumno.nickUsuario"){
+            this.setState({ usernameError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "alumno.contraseya"){
+            this.setState({ passwordError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "alumno.dniUsuario"){
+            this.setState({ cardError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "alumno.nombreCompletoUsuario"){
+            this.setState({ nameError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "alumno.numTelefonoUsuario"){
+            this.setState({ telefonoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "alumno.numTelefonoUsuario2"){
+            this.setState({ telefono2Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "alumno.direccionUsuario"){
+            this.setState({ addressError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "alumno.fechaNacimiento"){
+            this.setState({ birthdateError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "tutor.nickUsuario"){
+            this.setState({ username1Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "tutor.contraseya"){
+            this.setState({ password1Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "tutor.dniUsuario"){
+            this.setState({ card1Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "tutor.nombreCompletoUsuario"){
+            this.setState({ name1Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "tutor.numTelefonoUsuario"){
+            this.setState({ telefono1Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "tutor.numTelefonoUsuario2"){
+            this.setState({ telefono21Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "tutor.direccionUsuario"){
+            this.setState({ address1Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "tutor.fechaNacimiento"){
+            this.setState({ birthdate1Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }
     }
 
@@ -190,8 +321,11 @@ export class Solicitudes extends Component {
                 <div className="c">
                     <div className="login request">
                         <form onSubmit={this.handleSubmit}>
+                            {this.state.succes}
+                            {this.state.exist}
                             <div className="t"><div><h5>Request</h5></div></div>
                             <div className="i">
+                            {this.state.usernameError}
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user"></i>
@@ -200,15 +334,17 @@ export class Solicitudes extends Component {
                                 </div>
                             </div>
                             <div className="i">
+                            {this.state.passwordError}
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-lock"></i>
                                     </span>
-                                    <Password mediumRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,30}$" strongRegex="^^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{14,30}$$" 
+                                    <Password mediumRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,30}$" strongRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{14,30}$" 
                                     placeholder="Password" name="alumno.contraseya" value={this.state.password} onChange={this.password} />
                                 </div>
                             </div>
                             <div className="i">
+                            {this.state.cardError}
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-id-card"></i>
@@ -217,6 +353,7 @@ export class Solicitudes extends Component {
                                 </div>
                             </div>
                             <div className="i">
+                            {this.state.nameError}
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user-plus"></i>
@@ -225,6 +362,7 @@ export class Solicitudes extends Component {
                                 </div>
                             </div>
                             <div className="i">
+                            {this.state.emailError}
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-inbox"></i>
@@ -233,6 +371,7 @@ export class Solicitudes extends Component {
                                 </div>
                             </div>
                             <div className="i">
+                            {this.state.telefonoError}
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-mobile"></i>
@@ -240,8 +379,12 @@ export class Solicitudes extends Component {
                                     <InputText placeholder="Phone number" name="alumno.numTelefonoUsuario" type="tel" value={this.state.telefono} onChange={this.telefono} />
                                 </div>
                             </div>
-                            <Inject activated={false} content={this.otherNumber()} message="Add another phone number"></Inject>
                             <div className="i">
+                            {this.state.telefono2Error}
+                            <Inject onActivate={this.buttonTel1} activated={true} content={this.otherNumber()} message="Add another phone number"></Inject>
+                            </div>
+                            <div className="i">
+                            {this.state.addressError}
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-home"></i>
@@ -250,6 +393,7 @@ export class Solicitudes extends Component {
                                 </div>
                             </div>
                             <div className="i">
+                            {this.state.birthdateError}
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-calendar"></i>

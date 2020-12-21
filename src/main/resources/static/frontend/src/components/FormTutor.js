@@ -20,6 +20,7 @@ export default class FormTutor extends Component {
             <div>
                 <div className="t"><div><h5>Tutor</h5></div></div>
                 <div className="i">
+                    {this.props.errorUsername}
                     <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-user"></i>
@@ -29,6 +30,7 @@ export default class FormTutor extends Component {
                 </div>
 
                 <div className="i">
+                {this.props.errorPassword}
                     <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-lock"></i>
@@ -38,6 +40,7 @@ export default class FormTutor extends Component {
                     </div>
                 </div>
                 <div className="i">
+                {this.props.errorCard}
                     <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-id-card"></i>
@@ -46,6 +49,7 @@ export default class FormTutor extends Component {
                     </div>
                 </div>
                 <div className="i">
+                {this.props.errorName}
                     <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-user-plus"></i>
@@ -54,6 +58,7 @@ export default class FormTutor extends Component {
                     </div>
                 </div>
                 <div className="i">
+                {this.props.errorEmail}
                     <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-inbox"></i>
@@ -62,6 +67,7 @@ export default class FormTutor extends Component {
                     </div>
                 </div>
                 <div className="i">
+                {this.props.errorTelefono}
                     <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-mobile"></i>
@@ -69,8 +75,12 @@ export default class FormTutor extends Component {
                         <InputText placeholder="Phone number" name="tutor.numTelefonoUsuario" type="tel" value={this.props.telefono} onChange={this.props.onTelefono} />
                     </div>
                 </div>
-                <Inject content={this.otherNumber()} message="Add another phone number"></Inject>
                 <div className="i">
+                {this.props.errorTelefono2}
+                <Inject onActivate={this.props.onActiveButton} activated={true} content={this.otherNumber()} message="Add another phone number"></Inject>
+                </div>
+                <div className="i">
+                {this.props.errorAddress}
                     <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-home"></i>
@@ -79,6 +89,7 @@ export default class FormTutor extends Component {
                     </div>
                 </div>
                 <div className="i">
+                {this.props.errorBirthdate}
                     <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-calendar"></i>
