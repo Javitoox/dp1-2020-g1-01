@@ -47,7 +47,6 @@ public class GrupoService {
     	return grupoRepository.findById(nombreGrupo).get();
 	}
 	
-	//change
 	public Grupo crearGrupo(Grupo grupo) {
 		return grupoRepository.save(grupo);
 	}

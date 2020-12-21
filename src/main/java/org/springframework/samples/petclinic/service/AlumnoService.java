@@ -23,7 +23,7 @@ public class AlumnoService {
 	}
 	
 	public Alumno findById(String id) {
-	    	return alumnoRepository.findById(id).get();
+	    return alumnoRepository.findById(id).get();
 	}
 	
 	public List<Alumno> getStudentsPerGroup(String nombreGrupo) {
