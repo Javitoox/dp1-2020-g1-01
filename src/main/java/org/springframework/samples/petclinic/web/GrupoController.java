@@ -6,12 +6,11 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.service.GrupoService;
-import org.springframework.samples.petclinic.service.exceptions.BadRequestException;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,7 +50,7 @@ public class GrupoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> create(@Valid @RequestBody Grupo resource) throws DuplicatedGroupNameException{
+	public ResponseEntity<?> create(@Valid @RequestBody Grupo resource) throws DuplicateKeyException{
 		log.info("Request to create group: {}", resource);
 		if(resource == null) {
 			return new ResponseEntity<>("Los campos están vacíos", HttpStatus.BAD_REQUEST);
