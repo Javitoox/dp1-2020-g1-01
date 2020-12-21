@@ -4,7 +4,6 @@ import { withRouter } from "react-router-dom"
 import '../login.css'
 import { ExtraccionUsuarios } from './ExtraccionUsuarios'
 import { Component } from 'react'
-import {storageUserType} from './storage'
 import {storageNickUsername} from './storage'
 
 class Login extends Component {
@@ -36,7 +35,7 @@ class Login extends Component {
             this.setState({ error: <div className="alert alert-danger" role="alert">{this.state.type}</div> })
             this.props.history.push("/login")
         } else {
-            storageUserType(this.state.type)
+            //this.props.selectType(this.state.type)
             this.props.onType(this.state.type)
             storageNickUsername(this.state.username)
             this.props.history.push("/")

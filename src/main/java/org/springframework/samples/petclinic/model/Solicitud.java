@@ -1,20 +1,16 @@
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.validation.Valid;
 
 import lombok.Data;
 
-@Entity
-@Table(name="solicitudes")
 @Data
-public class Solicitud extends BaseEntity{
+public class Solicitud {
 	
-	@OneToOne(optional=false)
+	@Valid
 	private Alumno alumno;
 	
-	@OneToOne(optional=true)
+	@Valid
 	private Tutor tutor;
 
 }

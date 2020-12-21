@@ -1,5 +1,5 @@
 package org.springframework.samples.petclinic.service;
-import java.time.LocalDate;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,16 +52,13 @@ public class SolicitudService {
 		return tutorRepository.findByNick(nickUsuario);
 	}
 	
-	@Transactional
-	public void saveTutor(Tutor tutor) throws DataAccessException{
-		tutorRepository.save(tutor);
+	public Alumno getAlumno(String nickUsuario) {
+		return alumnoRepository.findByNick(nickUsuario);
 	}
 	
 	@Transactional
-	public void updateRequestTutor(Tutor tutorGuardado, Tutor tutor) throws DataAccessException{
-		if (tutorGuardado == null) {
-			tutor.setFechaSolicitud(LocalDate.now());
-		}
+	public void saveTutor(Tutor tutor) throws DataAccessException{
+		tutorRepository.save(tutor);
 	}
 	
 }
