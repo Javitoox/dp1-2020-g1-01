@@ -70,7 +70,7 @@ class App extends Component {
 							<EditPreStudent />
 						} /> 
 						<Route path="/students/walloffame" render={() =>
-							<WallOfFameStudents urlBase={this.state.urlBase}/>
+							<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
 						} /> 
 					</Router>
 				</div>

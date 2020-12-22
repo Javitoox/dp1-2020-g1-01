@@ -12,37 +12,47 @@ import "../css/wallOfFame.css"
 
 
 
+
 export class WallOfFameStudents extends Component{
     fecha = this.fecha.bind(this);
     constructor(props){
         super(props)
         this.state={
             fecha:"",
-            premiados:null
+            premiados:null,
         }
         this.mostrarWallSeleccionado=this.mostrarWallSeleccionado.bind(this);
         this.premiados = new AlumnoComponent();
         this.itemTemplate = this.itemTemplate.bind(this);
+        this.obtenerUltimoWall = this.obtenerUltimoWall.bind(this);
+    }
+
+    componentWillMount(){
+        this.obtenerUltimoWall();
+    }
+  
+    async obtenerUltimoWall(){
+        console.log("fecha:" + this.props.fecha) 
+        await this.premiados.getTheLastWeek(this.props.urlBase).then(data => this.setState({ fecha: data }))
+        this.mostrarWallSeleccionado()
     }
 
     renderGridItem(data) {
         return (
         <React.Fragment>
-          <div className="p-col-12 p-md-4">
-            <div className="product-grid-item card">
-              <div className="product-grid-item-top"></div>
-              <div className="product-grid-item-content">
-                <img
-                  src={"/photosWall/"+data.foto}
-                  onError={(e) =>
+            <div className="premiado">
+              <div>
+                <img 
+                    src={"/photosWall/"+data.foto}
+                    onError={(e) =>
                     (e.target.src =
-                      "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
-                  }
-                  alt={data.name}/>
-                <div className="product-description">{data.descripcion}</div>
-              </div>
+                        "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
+                    }
+                    alt={data.name}/>
+                
+                <div className="descripcion">{data.descripcion}</div>
+                </div>
             </div>
-          </div>
         </React.Fragment>
         );    
     }
@@ -76,7 +86,7 @@ export class WallOfFameStudents extends Component{
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-calendar"></i>
                         </span>
-                        <InputText placeholder="Choose a date" name="fechaWall" type="date" value={this.state.fecha} onChange={this.fecha} />
+                        <InputText placeholder="Choose a date" name="fechaWall" type="week" value={this.state.fecha} onChange={this.fecha} />
                     </div>
                 </div>
                 <div className="b">
@@ -84,6 +94,7 @@ export class WallOfFameStudents extends Component{
                         <Button className="p-button-secondary" label="Search in this date" icon="pi pi-fw pi-check" onClick={()=>this.mostrarWallSeleccionado()}/>
                     </div>
                 </div>
+                
                 <div className="dataview-demo">
                     <div className="card">
                         <DataView
