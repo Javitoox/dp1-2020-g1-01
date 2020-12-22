@@ -1,41 +1,41 @@
 import React, { Component } from 'react'
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-  class EditStudent extends Component {
+class EditStudent extends Component {
     nickUsuario = this.nickUsuario.bind(this);
     contraseya = this.contraseya.bind(this);
     dniUsuario = this.dniUsuario.bind(this);
     nombreCompletoUsuario = this.nombreCompletoUsuario.bind(this);
     correoElectronicoUsuario = this.correoElectronicoUsuario.bind(this);
     numTelefonoUsuario = this.numTelefonoUsuario.bind(this);
+    numTelefonoUsuario2 = this.numTelefonoUsuario2.bind(this);
     direccionUsuario = this.direccionUsuario.bind(this);
     fechaNacimiento = this.fechaNacimiento.bind(this);
     numTareasEntregadas = this.numTareasEntregadas.bind(this);
-    changeButton = this.changeButton.bind(this);
     fechaMatriculacion = this.fechaMatriculacion.bind(this);
-   
-//importante sacar la informacion de la variable student en el estado, para poder editarla y procesarla despues en la tabla
-      state = {
-            change: false, 
-            nickUsuario: this.props.student.nickUsuario,
-            contraseya: this.props.student.contraseya,
-            dniUsuario: this.props.student.dniUsuario,
-            nombreCompletoUsuario: this.props.student.nombreCompletoUsuario,
-            correoElectronicoUsuario: this.props.student.correoElectronicoUsuario,
-            numTelefonoUsuario: this.props.student.numTelefonoUsuario,
-            direccionUsuario: this.props.student.direccionUsuario,
-            fechaNacimiento: this.props.student.fechaNacimiento,
-            numTareasEntregadas: this.props.student.numTareasEntregadas,
-            fechaMatriculacion: this.props.student.fechaMatriculacion
-      }
-  
- 
-  
 
-    
+    //importante sacar la informacion de la variable student en el estado, para poder editarla y procesarla despues en la tabla
+    state = {
+        change: false,
+        nickUsuario: this.props.student.nickUsuario,
+        contraseya: this.props.student.contraseya,
+        dniUsuario: this.props.student.dniUsuario,
+        nombreCompletoUsuario: this.props.student.nombreCompletoUsuario,
+        correoElectronicoUsuario: this.props.student.correoElectronicoUsuario,
+        numTelefonoUsuario: this.props.student.numTelefonoUsuario,
+        numTelefonoUsuario2: this.props.student.numTelefonoUsuario2,
+        direccionUsuario: this.props.student.direccionUsuario,
+        fechaNacimiento: this.props.student.fechaNacimiento,
+        numTareasEntregadas: this.props.student.numTareasEntregadas,
+        fechaMatriculacion: this.props.student.fechaMatriculacion
+    }
+
+
+
+
+
     nickUsuario(event) {
         this.setState({ nickUsuario: event.target.value });
     }
@@ -63,6 +63,9 @@ import { connect } from 'react-redux';
     numTelefonoUsuario(event) {
         this.setState({ numTelefonoUsuario: event.target.value });
     }
+    numTelefonoUsuario2(event) {
+        this.setState({ numTelefonoUsuario2: event.target.value });
+    }
     numTareasEntregadas(event) {
         this.setState({ numTareasEntregadas: event.target.value });
     }
@@ -74,14 +77,8 @@ import { connect } from 'react-redux';
     fechaNacimiento(event) {
         this.setState({ fechaNacimiento: event.target.value });
     }
-
-    changeButton(event) {
-        this.setState({ button: !this.state.button });
-    }
     urlBase = "http://localhost:8081/alumnos/editStudent"
     render() {
-        console.log("Se ha redireccionado")
-        //<InputText type="hidden" value={this.state.change} onChange={this.changing}></InputText>
         return (
             <div>
                 <div className="c">
@@ -93,7 +90,7 @@ import { connect } from 'react-redux';
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user"></i>
                                     </span>
-                                    <InputText placeholder="Username" name="nickUsuario" type="text" value={this.state.nickUsuario} onChange={this.nickUsuario} />
+                                    <InputText placeholder="Username" name="nickUsuario" type="text" value={this.state.nickUsuario} />
                                 </div>
                             </div>
 
@@ -110,7 +107,7 @@ import { connect } from 'react-redux';
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-id-card"></i>
                                     </span>
-                                    <InputText placeholder="dniUsuario" name="dniUsuario" type="text" value={this.state.dniUsuario} onChange={this.dniUsuario} />
+                                    <InputText placeholder="dniUsuario" name="dniUsuario" type="text" value={this.state.dniUsuario} />
                                 </div>
                             </div>
                             <div className="i">
@@ -140,6 +137,14 @@ import { connect } from 'react-redux';
                             <div className="i">
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon">
+                                        <i className="pi pi-mobile"></i>
+                                    </span>
+                                    <InputText placeholder="numTelefonoUsuario2" name="numTelefonoUsuario2" type="text" value={this.state.numTelefonoUsuario2} onChange={this.numTelefonoUsuario2} />
+                                </div>
+                            </div>
+                            <div className="i">
+                                <div className="p-inputgroup">
+                                    <span className="p-inputgroup-addon">
                                         <i className="pi pi-home"></i>
                                     </span>
                                     <InputText placeholder="direccionUsuario" name="direccionUsuario" type="text" value={this.state.direccionUsuario} onChange={this.direccionUsuario} />
@@ -155,7 +160,7 @@ import { connect } from 'react-redux';
                             </div>
                             <div className="b">
                                 <div className="i">
-                                    <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check" />
+                                    <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check" onClick={this.save} />
                                 </div>
                             </div>
                         </form>
@@ -166,9 +171,9 @@ import { connect } from 'react-redux';
     }
 }
 
-function mapStateToProps(state){ //metodo para poder pillar datos del store
-    return{
-        student : state.student //le pasamos a nuestra variable student la informacion del estudiante almacenada en el store
+function mapStateToProps(state) { //metodo para poder pillar datos del store
+    return {
+        student: state.student //le pasamos a nuestra variable student la informacion del estudiante almacenada en el store
     }
 }
 
