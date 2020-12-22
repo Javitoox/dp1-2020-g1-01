@@ -22,7 +22,9 @@ export default class AlumnoComponent extends Component{
 	getTheLastWeek(baseUrl){
 		return axios.get(baseUrl+"/premiados/ultimaSemana").then(res=>res.data);
 	}
-
 	
+	postNewPremiado(baseUrl, nickUsuario, photoUser, fechaPremiado){
+		return axios.get(baseUrl+"/premiados/insert/").then(res=>res.data);
+	}
 }
 

@@ -11,8 +11,6 @@ import "primeflex/primeflex.css";
 import "../css/wallOfFame.css"
 
 
-
-
 export class WallOfFameStudents extends Component{
     fecha = this.fecha.bind(this);
     constructor(props){
@@ -25,6 +23,7 @@ export class WallOfFameStudents extends Component{
         this.premiados = new AlumnoComponent();
         this.itemTemplate = this.itemTemplate.bind(this);
         this.obtenerUltimoWall = this.obtenerUltimoWall.bind(this);
+        this.mostrarFormulario=this.mostrarFormulario.bind(this);
     }
 
     componentWillMount(){
@@ -49,8 +48,8 @@ export class WallOfFameStudents extends Component{
                         "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
                     }
                     alt={data.name}/>
-                
-                <div className="descripcion">{data.descripcion}</div>
+                <div className="modificaTexto">{data.alumnos.nombreCompletoUsuario}</div>
+                <div className="modificaTexto">{data.descripcion}</div>
                 </div>
             </div>
         </React.Fragment>
@@ -76,9 +75,14 @@ export class WallOfFameStudents extends Component{
         this.setState({fecha:event.target.value})      
     }
 
+    mostrarFormulario(){
+        //Hacer con redux para poder pasar fecha del state
+        window.location = "/formWallofFame"
+    }
 
     render(){
         console.log(this.state.premiados)
+        console.log("Tipo de usuario: " + this.props.userType)
         return(
             <React.Fragment>
                 <div className="i">
@@ -94,7 +98,11 @@ export class WallOfFameStudents extends Component{
                         <Button className="p-button-secondary" label="Search in this date" icon="pi pi-fw pi-check" onClick={()=>this.mostrarWallSeleccionado()}/>
                     </div>
                 </div>
-                
+                    <Button className="p-button-secondary" label="Añadir premiado" icon="pi pi-fw pi-check" onClick={()=>this.mostrarFormulario()}/>
+                <div> 
+
+                </div>
+
                 <div className="dataview-demo">
                     <div className="card">
                         <DataView

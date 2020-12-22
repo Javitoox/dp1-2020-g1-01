@@ -12,6 +12,8 @@ import { MenubarResponsive } from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
 import {getUserName} from './components/storage'
 import { WallOfFameStudents } from './components/WallOfFameStudents'
+import { FormWallofFame } from './components/FormWallofFame'
+
 
 class App extends Component {
 
@@ -72,9 +74,14 @@ class App extends Component {
 						<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
 					} />
 
-          <Route path="/students/walloffame" render={() =>
-						<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
-          } /> 
+					<Route path="/walloffame" render={() =>
+						<WallOfFameStudents urlBase={this.state.urlBase} userType={this.state.userType}> </WallOfFameStudents>
+					} /> 
+					<Route path="/formWallofFame" render={() =>
+						<FormWallofFame urlBase={this.state.urlBase}> </FormWallofFame>
+					} /> 
+
+
 				</Router>
 			</div>
 		)
