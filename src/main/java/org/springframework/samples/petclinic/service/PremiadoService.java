@@ -17,4 +17,8 @@ public class PremiadoService {
 	public List<Premiado> premiadosPorFecha(String fechaWall){
 		return premiadoRepository.premiadosPorFecha(fechaWall);
 	}
+	
+	public String obtenerUltimaSemana() {
+		return premiadoRepository.lastWallOfFame();
+	}
 }

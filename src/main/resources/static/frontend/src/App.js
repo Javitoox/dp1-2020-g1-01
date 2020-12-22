@@ -11,7 +11,7 @@ import {Home} from './components/Home'
 import { MenubarResponsive } from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
 import {getUserName} from './components/storage'
-
+import { WallOfFameStudents } from './components/WallOfFameStudents'
 
 class App extends Component {
 
@@ -45,6 +45,7 @@ class App extends Component {
 
 	render() {
 		console.log(this.state.username)
+
 		return (
 			<div>
 			<MenubarResponsive tipoDeUsuario={this.state.userType}></MenubarResponsive>
@@ -70,6 +71,10 @@ class App extends Component {
 					<Route path="/myStudents" render={() =>
 						<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
 					} />
+
+          <Route path="/students/walloffame" render={() =>
+						<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
+          } /> 
 				</Router>
 			</div>
 		)

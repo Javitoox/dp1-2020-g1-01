@@ -15,5 +15,5 @@ public class WallOfFame {
 
     @Id
     @Column(name="fechawall")
-    private LocalDate fechaWall;
+    private String fechaWall;
 }

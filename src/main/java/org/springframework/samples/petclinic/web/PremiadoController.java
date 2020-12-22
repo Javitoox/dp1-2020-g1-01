@@ -23,4 +23,9 @@ public class PremiadoController {
 	public List<Premiado> premiadosPorFecha(@PathVariable("fechaWall") String fechaWall){
 		return premiadoService.premiadosPorFecha(fechaWall);
 	}
+	
+	@GetMapping("/ultimaSemana")
+	public String obtenerUltimaSemana() {
+		return premiadoService.obtenerUltimaSemana();
+	}
 }
