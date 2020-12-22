@@ -10,6 +10,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -18,56 +20,62 @@ public class Usuario{
 	
 	@Id
 	@Column(name="nick_usuario")
-	/*@Pattern(regexp = "^[a-zA-Z0-9]{5,20}$")*/
+	@Pattern(regexp = "^[a-zA-Z0-9]{3,20}$", message = "The username must have between 3 and 20 letters without accent or numbers (3 and 20 inclusive)")
 	private String nickUsuario;
 	
 	@Column(name="contraseya")
 	//Contraseña tiene que tener más de 8 caracteres, 2 números,
 	//2 mayusculas, 2 simbolos de puntuacion y 2 minusculas.
-	/*@Pattern(regexp = "^(?=(.*[0-9]){2})(?=(.*[!-\\.<-@_]){2})(?=(.*[A-Z]){2})(?=(.*[a-z]){2})\\S{8,100}$")*/
-	@NotBlank
-	@NotEmpty
-	@NotNull
+	@Pattern(regexp = "^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$", message = "\r\n" + 
+			"The password must be at least 8 to 16 characters long, at least one digit, at least one lowercase and at least one uppercase")
+	@NotBlank(message = "Required field")
+	@NotEmpty(message = "Required field")
+	@NotNull(message = "Required field")
 	private String contraseya;
 	
 	@Column(name="dni_usuario", unique=true)
-	@Pattern(regexp = "^[0-9]{8}[A-Z]$")
-	@NotBlank
-	@NotEmpty
-	@NotNull
+	@Pattern(regexp = "^[0-9]{8}[A-Z]$", message = "Incorrect format of nif")
+	@NotBlank(message = "Required field")
+	@NotEmpty(message = "Required field")
+	@NotNull(message = "Required field")
 	private String dniUsuario;
 	
 	@Column(name="nombre_completo_usuario")
-	@NotBlank
-	@NotEmpty
-	@NotNull
+	@Pattern(regexp = "^([Á-Úá-úa-zA-Z0-9] {0,1}[Á-Úá-úa-zA-Z0-9]*){1,70}$", message = "Incorrect format of full name")
+	@NotBlank(message = "Required field")
+	@NotEmpty(message = "Required field")
+	@NotNull(message = "Required field")
 	private String nombreCompletoUsuario;
 	
 	@Column(name="correo_electronico_usuario")
-	@NotBlank
-	@NotEmpty
-	@NotNull
+	@Pattern(regexp = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+"
+			+ "[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", message = "Format must be: someone@someplace.es")
+	@NotBlank(message = "Required field")
+	@NotEmpty(message = "Required field")
+	@NotNull(message = "Required field")
 	private String correoElectronicoUsuario;
 	
 	@Column(name="num_telefono_usuario")
-	@NotBlank
-	@Pattern(regexp = "^[0-9]{9}$")
-	@NotNull
-	@NotEmpty
+	@NotBlank(message = "Required field")
+	@Pattern(regexp = "(6|7)[ -]*([0-9][ -]*){8}", message = "Incorrect format of first number phone")
+	@NotNull(message = "Required field")
+	@NotEmpty(message = "Required field")
 	private String numTelefonoUsuario;
 	
 	@Column(name="num_telefono_usuario2")
-	@Pattern(regexp = "^[0-9]{9}$")
+	@Pattern(regexp = "(6|7)[ -]*([0-9][ -]*){8}", message = "Incorrect format of second number phone")
 	private String numTelefonoUsuario2;
 	
 	@Column(name="direccion_usuario")
-	@NotBlank
-	@NotEmpty
-	@NotNull
+	@Pattern(regexp = "^[ a-zA-Z0-9á-úÁ-Ú,]+$", message = "Incorrect format of address")
+	@NotBlank(message = "Required field")
+	@NotEmpty(message = "Required field")
+	@NotNull(message = "Required field")
 	private String direccionUsuario;
 	
 	@Column(name="fecha_nacimiento")
-	@NotNull
+	@NotNull(message = "Required field")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate fechaNacimiento;
 	
 }

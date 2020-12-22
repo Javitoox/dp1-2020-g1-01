@@ -1,19 +1,11 @@
-export function storageUserType(userType) {
-    localStorage.setItem('userType', JSON.stringify(userType))
-}
+import axios from 'axios';
 
 export function storageLogout(){
     localStorage.clear()
 }
 
-export function getUserType() {
-    var storedType = localStorage.getItem('userType')
-    if (storedType === null) {
-        storedType = "usuario";
-    } else {
-        storedType = JSON.parse(storedType);
-    }
-    return storedType
+export function getUserType(urlBase) {
+    return axios.get(urlBase+"/auth").then(res => res.data);
 }
 
 export function storageNickUsername(nickName){

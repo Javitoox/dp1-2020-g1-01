@@ -6,16 +6,16 @@ import Login from './components/Login'
 import { SolicitudesProfesor } from './components/SolicitudesProfesor'
 import { AlumnosPorTutor } from './components/AlumnosPorTutor'
 import  Alumnos  from './components/Alumnos'
-import { EditPreStudent } from './components/EditPreStudent'
+import  EditStudent  from './components/EditStudent'
 import {Home} from './components/Home'
 import { MenubarResponsive } from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
 import {getUserName} from './components/storage'
-import EditStudent from './components/EditStudent'
 import { WallOfFameStudents } from './components/WallOfFameStudents'
 
-
 class App extends Component {
+
+	calculateType = this.calculateType.bind(this)
 
 	state = {
 		urlBase: "http://localhost:8081",
@@ -27,12 +27,16 @@ class App extends Component {
 		this.setState({userType: t})
 	}
 
-	calculateType(){
+	async calculateType(event){
 		if(this.state.userType===""){
-			return getUserType()
-		}else{
-			return this.state.userType
+			event.preventDefault()
+		    await getUserType(this.state.urlBase).then(data => this.setState({ userType: data }))
 		}
+		return this.state.userType
+	}
+
+	componentDidMount(){
+		getUserType(this.state.urlBase).then(data => this.setState({ userType: data }))
 	}
 
 	calculateUserName(){
@@ -41,75 +45,39 @@ class App extends Component {
 
 	render() {
 		console.log(this.state.username)
-		if(getUserType()==="usuario"){
-			return (
-				<div>
-				<MenubarResponsive tipoDeUsuario={this.calculateType()}></MenubarResponsive>
-					<Router>
-						<Route path="/home" render={() =>
-							<Home></Home>
-						} />
-						<Route path="/requests" render={() =>
-							<Solicitudes urlBase={this.state.urlBase}></Solicitudes>
-						} />
-						<Route path="/login" render={() =>
-							<Login urlBase={this.state.urlBase} onType={this.changeUserType.bind(this)}></Login>
-						} />
-					</Router>
-				</div>
-			)
-		}else if(getUserType()==="alumno"){
-			return (
-				<div>
-				<MenubarResponsive tipoDeUsuario={this.calculateType()}></MenubarResponsive>
-					<Router>
-						<Route path="/home" render={() =>
-							<Home></Home>
-						} />
-						<Route path="/editStudent" render={() =>
-							<EditPreStudent />
-						} /> 
-						<Route path="/students/walloffame" render={() =>
-							<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
-						} /> 
-					</Router>
-				</div>
-			)
-		}else if(getUserType()==="profesor"){
-			return (
-				<div>
-				<MenubarResponsive tipoDeUsuario={this.calculateType()}></MenubarResponsive>
-					<Router>
-						<Route path="/home" render={() =>
-							<Home></Home>
-						} />
-						<Route path="/pendingRequests" render={() =>
-							<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
-						} />
-						<Route path="/allStudents" render={() =>
-							<Alumnos urlBase={this.state.urlBase}></Alumnos>
-						} />
-						<Route path="/editStudent" render={() =>
-							<EditPreStudent />
-						} /> 
-					</Router>
-				</div>
-			)
-		}else{
-			return (
-				<div>
-				<MenubarResponsive tipoDeUsuario={this.calculateType()}></MenubarResponsive>
-					<Router>
-						<Route path="/home" render={() =>
-							<Home></Home>
-						} />
-						<Route path="/myStudents" render={() =>
-							<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
-						} />
-					</Router>
-				</div>
-			)
-		}
+
+		return (
+			<div>
+			<MenubarResponsive tipoDeUsuario={this.state.userType}></MenubarResponsive>
+				<Router>
+					<Route path="/home" render={() =>
+						<Home></Home>
+					} />
+					<Route path="/requests" render={() =>
+						<Solicitudes urlBase={this.state.urlBase}></Solicitudes>
+					} />
+					<Route path="/login" render={() =>
+						<Login urlBase={this.state.urlBase} onType={this.changeUserType.bind(this)}></Login>
+					} />
+					<Route path="/editStudent" render={() =>
+						<EditStudent />
+					} /> 
+					<Route path="/pendingRequests" render={() =>
+						<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
+					} />
+					<Route path="/allStudents" render={() =>
+						<Alumnos urlBase={this.state.urlBase}></Alumnos>
+					} />
+					<Route path="/myStudents" render={() =>
+						<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
+					} />
+
+          <Route path="/students/walloffame" render={() =>
+						<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
+          } /> 
+				</Router>
+			</div>
+		)
 	}
 }
 

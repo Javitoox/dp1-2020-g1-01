@@ -18,6 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,10 +31,13 @@ public class AlumnoServiceTests {
 	
 	@Autowired
 	protected GrupoService grupoService;
+	
+	@Autowired
+	protected CursoService cursoService;
 
 	@BeforeEach
 	@Transactional
-	void insertAlumno() {
+	void insertAlumno() throws DuplicatedGroupNameException {
 		Alumno alumno = new Alumno();
 		alumno.setContraseya("HolaBuenas777");
 		alumno.setCorreoElectronicoUsuario("javikuka7@gmail.com");
@@ -102,18 +106,40 @@ public class AlumnoServiceTests {
 	
 	
 	@Test
-	void getStudentsByGroup() {
+	void testStudentsListByGroupIsNotNull() {
 		String nombreGrupo = "grupo1";
 		List<Alumno> alumnos = alumnoService.getStudentsPerGroup(nombreGrupo);
 		assertFalse(alumnos.size() == 0);
 	}
 	
 	@Test
-	void editStudentGroup() {
+	void testStudentListByGroupIsEmpty() throws DuplicatedGroupNameException {
+		Curso curso = cursoService.getCourseById("B1").get();
+		Grupo grupo = new Grupo();
+		String name = "GrupoA";
+		grupo.setNombreGrupo(name);
+		grupo.setCursos(curso);
+		grupoService.saveGroup(grupo);
+		
+		List<Alumno> alumnosExistentes = alumnoService.getStudentsPerGroup("GrupoA");
+		assertTrue(alumnosExistentes.size()==0);
+	}
+	
+	@Test
+	void testEditStudentGroupIsValid() {
 		Alumno alumno1 = alumnoService.findById("Javi");
     	Grupo grupo= grupoService.getGroupById("grupo3");       
         alumno1.setGrupos(grupo);
         alumnoService.saveAlumno(alumno1);
 		assertTrue(alumno1.getGrupos().getNombreGrupo() == "grupo3");
 	}
+	
+//	@Test
+//	void testEditStudentGroupIsNotValid() {
+//		Alumno alumno1 = alumnoService.findById("Javi");
+//    	Grupo grupo= grupoService.getGroupById("grupoA");       
+//        alumno1.setGrupos(grupo);
+//        alumnoService.saveAlumno(alumno1);
+//		assertTrue(alumno1.getGrupos().getNombreGrupo() == "grupo3");
+//	}
 }
