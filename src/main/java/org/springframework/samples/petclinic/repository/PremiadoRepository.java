@@ -9,7 +9,9 @@ import org.springframework.samples.petclinic.model.Premiado;
 
 public interface PremiadoRepository extends CrudRepository<Premiado, Integer> {
 	
-	@Query(value = "SELECT * FROM premiados WHERE walloffames_fechawall = :fechawall", nativeQuery = true)
+	@Query("SELECT p FROM Premiado p WHERE p.walloffames.fechaWall LIKE :fechawall%")
 	public List<Premiado> premiadosPorFecha(@Param("fechawall") String fechaWall);
 	
+    @Query(value="SELECT TOP 1 fechawall FROM walloffames ORDER BY FECHAWALL DESC", nativeQuery = true)
+    public String lastWallOfFame();
 }

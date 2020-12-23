@@ -21,6 +21,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -37,7 +38,7 @@ public class GrupoServiceTest {
 	
 	@Test
 	@Transactional
-	void createGroup() {
+	void createGroup() throws DuplicatedGroupNameException {
 		Curso curso = cursoService.getCourseById("B1").get();
 		Grupo grupo = new Grupo();
 		String name = "GrupoA";
@@ -48,7 +49,7 @@ public class GrupoServiceTest {
 	}
 	
 	@Test
-	void editGroup() {
+	void editGroup() throws DuplicatedGroupNameException {
 		Grupo gr = grupoService.getGrupo("grupo1").get();
 		
 		Curso nuevoCurso = new Curso();
@@ -94,7 +95,7 @@ public class GrupoServiceTest {
 	
 	@Test
 	void shouldFindGroupsByCourse() {
-		List<Grupo> groups = grupoService.getGrupos("B1");
+		List<Grupo> groups = grupoService.getGruposByCourse("B1");
 		assertEquals("B1", groups.get(0).getCursos().getCursoDeIngles().toString());
 	}
 }

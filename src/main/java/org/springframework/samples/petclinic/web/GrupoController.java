@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.samples.petclinic.service.exceptions.BadRequestException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,30 +47,26 @@ public class GrupoController {
 	
 	@GetMapping("/{curso}")
 	public ResponseEntity<List<Grupo>> listaGruposPorCurso(@PathVariable("curso") String curso) {
-		List<Grupo> gruposCurso = grupoService.getGrupos(curso);	
+		List<Grupo> gruposCurso = grupoService.getGruposByCourse(curso);	
 		return ResponseEntity.ok(gruposCurso);
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> create(@Valid @RequestBody Grupo resource) throws DuplicateKeyException{
-		log.info("Request to create group: {}", resource);
-		if(resource == null) {
-			return new ResponseEntity<>("Los campos están vacíos", HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> create(@Valid @RequestBody Grupo resource, BindingResult result) throws DuplicatedGroupNameException{
+		log.info("Solicitando crear grupo: {}", resource);
+		if(result.hasErrors()) {
+			return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		}else {
-			grupoService.crearGrupo(resource);
+			grupoService.saveGroup(resource);
 			return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);
 		}
 	}
 	
-	
+
 	@DeleteMapping("/{nombreGrupo}")
 	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo)throws BadRequestException{
 		log.info("Solicitando borrar grupo: {}", nombreGrupo);
-//		try {
-			grupoService.deleteGroup(nombreGrupo);
-//		} catch (BadRequestException e) {
-//			return new ResponseEntity<>("No se puede borrar el grupo porque tiene alumnos", HttpStatus.BAD_REQUEST);
-//		}
+		grupoService.deleteGroup(nombreGrupo);
 		return ResponseEntity.ok().build();
 	}	
 

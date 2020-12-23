@@ -4,12 +4,13 @@ import { Solicitudes } from './components/Solicitudes'
 import './index.css'
 import Login from './components/Login'
 import { SolicitudesProfesor } from './components/SolicitudesProfesor'
-import {AlumnosPorTutor} from './components/AlumnosPorTutor'
-import Alumnos from './components/Alumnos'
-import { EditPreStudent } from './components/EditPreStudent'
-import { Home } from './components/Home'
-import MenubarResponsive from './components/MenubarResponsive'
-import { getUserName, getUserType } from './components/storage'
+import { AlumnosPorTutor } from './components/AlumnosPorTutor'
+import  Alumnos  from './components/Alumnos'
+import {Home} from './components/Home'
+import { MenubarResponsive } from './components/MenubarResponsive'
+import {getUserType} from './components/storage'
+import {getUserName} from './components/storage'
+import { WallOfFameStudents } from './components/WallOfFameStudents'
 
 class App extends Component {
 
@@ -58,6 +59,9 @@ class App extends Component {
 				<Route path="/myStudents" render={() =>
 					<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
 				} />
+				<Route path="/students/walloffame" render={() =>
+						<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
+                } /> 
 			</Router>
 		)
 	}

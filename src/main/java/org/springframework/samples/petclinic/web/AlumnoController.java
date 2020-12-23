@@ -27,32 +27,33 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AlumnoController {
 	private static final Logger LOGGER = LoggerFactory.logger(SolicitudController.class);
-	
+
 	@Autowired
 	AlumnoService alumnoServ;
-	
-	 @GetMapping("/editStudent")
-		public void processUpdateAlumnoForm(@Valid Alumno alumno, BindingResult result, HttpServletResponse response) throws IOException
-				 {
-			if (result.hasErrors()) {
-				LOGGER.info("Esto no funciona");
-			}
-			else {
-				LOGGER.info("Ha funcionado");
-				this.alumnoServ.saveAlumno(alumno);
-				response.sendRedirect("http://localhost:3000");
-			}
+
+	@GetMapping("/editStudent")
+	public void processUpdateAlumnoForm(@Valid Alumno alumno, BindingResult result, HttpServletResponse response)
+			throws IOException {
+		if (result.hasErrors()) {
+
+			LOGGER.info("Esto no funciona :(");
+			response.sendRedirect("http://localhost:3000");
+		} else {
+			LOGGER.info("Ha funcionado");
+			this.alumnoServ.saveAlumno(alumno);
+			response.sendRedirect("http://localhost:3000");
 		}
-	 
+	}
+
 	@GetMapping("/all")
-	public ResponseEntity<List<Alumno>> listAlumnos(){
-		 List<Alumno>allStudents = alumnoServ.getAllAlumnos(); 
-		 return ResponseEntity.ok(allStudents);
+	public ResponseEntity<List<Alumno>> listAlumnos() {
+		List<Alumno> allStudents = alumnoServ.getAllAlumnos();
+		return ResponseEntity.ok(allStudents);
 	}
 
 	@GetMapping("/getByCourse/{course}")
-	public ResponseEntity<List<Alumno>> listStudentsByCourse(@PathVariable("course") String cursoDeIngles){
-		List<String>cursos = new ArrayList<String>();
+	public ResponseEntity<List<Alumno>> listStudentsByCourse(@PathVariable("course") String cursoDeIngles) {
+		List<String> cursos = new ArrayList<String>();
 		cursos.add("A1");
 		cursos.add("A2");
 		cursos.add("B1");
@@ -60,28 +61,30 @@ public class AlumnoController {
 		cursos.add("C1");
 		cursos.add("C1");
 		cursos.add("APRENDIZAJELIBRE");
-		if(cursos.contains(cursoDeIngles)) {
-			List<Alumno>allStudentsByCourse = alumnoServ.getStudentsByCourse(cursoDeIngles);
+		if (cursos.contains(cursoDeIngles)) {
+			List<Alumno> allStudentsByCourse = alumnoServ.getStudentsByCourse(cursoDeIngles);
 			return ResponseEntity.ok(allStudentsByCourse);
-		}
-		else {
+		} else {
 			return ResponseEntity.notFound().build();
 		}
-	 }
-    
-    @GetMapping("/{nombreGrupo}")	
-	public ResponseEntity<List<Alumno>> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo){
-    	List<Alumno> studentsByGroup =  alumnoServ.getStudentsPerGroup(nombreGrupo);
-    	return ResponseEntity.ok(studentsByGroup);
-    }
+	}
 
-    //@GetMapping("/{nick_usuario}/edit/{nombreGrupo}")
-    @PutMapping("/{nick_usuario}/edit/{nombreGrupo}")
-    public ResponseEntity<?> processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario, @PathVariable("nombreGrupo") String nombreGrupo) {
-		Alumno alumno1= alumnoServ.getAlumno(nick_usuario);
-		Grupo grupo= alumnoServ.getGrupo(nombreGrupo);       
-	    alumno1.setGrupos(grupo);
-	    this.alumnoServ.saveAlumno(alumno1);
-	    return ResponseEntity.ok().build();
-    }
+	@GetMapping("/{nombreGrupo}")
+	public ResponseEntity<List<Alumno>> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo) {
+		List<Alumno> studentsByGroup = alumnoServ.getStudentsPerGroup(nombreGrupo);
+		return ResponseEntity.ok(studentsByGroup);
+	}
+
+	// @GetMapping("/{nick_usuario}/edit/{nombreGrupo}")/*Aquí podemos usar el
+	// servicio de grupo*/
+	@PutMapping("/{nick_usuario}/edit/{nombreGrupo}")
+	public ResponseEntity<?> processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario,
+			@PathVariable("nombreGrupo") String nombreGrupo) {
+		Alumno alumno1 = alumnoServ.findById(nick_usuario);
+		Grupo grupo = alumnoServ.getGrupo(nombreGrupo);
+		alumno1.setGrupos(grupo);
+		this.alumnoServ.saveAlumno(alumno1);
+		return ResponseEntity.ok().build();
+	}
+
 }
