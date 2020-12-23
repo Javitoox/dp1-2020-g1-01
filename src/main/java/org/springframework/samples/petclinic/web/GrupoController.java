@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,7 +51,19 @@ public class GrupoController {
 		return ResponseEntity.ok(gruposCurso);
 	}
 	
-	@PostMapping
+	@GetMapping("/allGroupNames")
+	public ResponseEntity<List<String>> listaNombreGrupos() {
+		List<String> all =  grupoService.getGroupNames();
+		return ResponseEntity.ok(all);
+	}
+	
+	@GetMapping("/allEmptyGroups")
+	public ResponseEntity<List<String>> listaNombreGruposVacios() {
+		List<String> all =  grupoService.getEmptyGroups();
+		return ResponseEntity.ok(all);
+	}
+	
+	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody Grupo resource, BindingResult result) throws DuplicatedGroupNameException{
 		log.info("Solicitando crear grupo: {}", resource);
 		if(result.hasErrors()) {
@@ -64,11 +75,11 @@ public class GrupoController {
 	}
 	
 
-	@DeleteMapping("/{nombreGrupo}")
+	@DeleteMapping("/delete/{nombreGrupo}")
 	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo)throws BadRequestException{
 		log.info("Solicitando borrar grupo: {}", nombreGrupo);
 		grupoService.deleteGroup(nombreGrupo);
-		return ResponseEntity.ok().build();
+		return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.ACCEPTED);
 	}	
 
 }

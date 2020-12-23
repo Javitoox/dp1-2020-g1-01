@@ -288,6 +288,8 @@ export class Solicitudes extends Component {
             this.setState({ cardError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }else if(campo === "alumno.nombreCompletoUsuario"){
             this.setState({ nameError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "alumno.correoElectronicoUsuario"){
+            this.setState({ emailError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }else if(campo === "alumno.numTelefonoUsuario"){
             this.setState({ telefonoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }else if(campo === "alumno.numTelefonoUsuario2"){
@@ -304,6 +306,8 @@ export class Solicitudes extends Component {
             this.setState({ card1Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }else if(campo === "tutor.nombreCompletoUsuario"){
             this.setState({ name1Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "tutor.correoElectronicoUsuario"){
+            this.setState({ email1Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }else if(campo === "tutor.numTelefonoUsuario"){
             this.setState({ telefono1Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }else if(campo === "tutor.numTelefonoUsuario2"){

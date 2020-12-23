@@ -59,7 +59,7 @@ public class AlumnoController {
 		cursos.add("B1");
 		cursos.add("B2");
 		cursos.add("C1");
-		cursos.add("C1");
+		cursos.add("C2");
 		cursos.add("APRENDIZAJELIBRE");
 		if (cursos.contains(cursoDeIngles)) {
 			List<Alumno> allStudentsByCourse = alumnoServ.getStudentsByCourse(cursoDeIngles);
@@ -77,13 +77,17 @@ public class AlumnoController {
 
 	// @GetMapping("/{nick_usuario}/edit/{nombreGrupo}")/*Aquí podemos usar el
 	// servicio de grupo*/
-	@PutMapping("/{nick_usuario}/edit/{nombreGrupo}")
-	public ResponseEntity<?> processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario,
-			@PathVariable("nombreGrupo") String nombreGrupo) {
-		Alumno alumno1 = alumnoServ.findById(nick_usuario);
-		Grupo grupo = alumnoServ.getGrupo(nombreGrupo);
-		alumno1.setGrupos(grupo);
-		this.alumnoServ.saveAlumno(alumno1);
-		return ResponseEntity.ok().build();
-	}
+	@PutMapping("/assignStudent")
+	public ResponseEntity<?> assignStudent(@Valid Alumno alumno, BindingResult result, HttpServletResponse response) throws IOException
+			 {
+		if (result.hasErrors()) {
+			LOGGER.info("Esto no funciona");
+		}
+		else {
+			LOGGER.info("Ha funcionado");
+			this.alumnoServ.saveAlumno(alumno);
+			response.sendRedirect("http://localhost:3000");
+		}
+	    return ResponseEntity.ok().build();
+    }
 }

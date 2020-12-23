@@ -22,10 +22,6 @@ public class AlumnoService {
 		this.alumnoRepository = alumnoRepository;
 	}
 	
-	public Alumno findById(String id) {
-	    return alumnoRepository.findById(id).get();
-	}
-	
 	public List<Alumno> getStudentsPerGroup(String nombreGrupo) {
         return alumnoRepository.findByGroup(nombreGrupo);
     }

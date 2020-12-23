@@ -8,24 +8,23 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.Tutor;
-import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.samples.petclinic.repository.SolicitudRepository;
-import org.springframework.samples.petclinic.repository.TutorRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SolicitudService {
 	
 	private SolicitudRepository solicitudRepository;
-	private AlumnoRepository alumnoRepository;
-	private TutorRepository tutorRepository;
+	private AlumnoService alumnoService;
+	private TutorService tutorService;
 	
 	@Autowired
-	public SolicitudService(SolicitudRepository solicitudRepository, AlumnoRepository alumnoRepository, TutorRepository tutorRepository) {
+	public SolicitudService(SolicitudRepository solicitudRepository, AlumnoService alumnoService, TutorService tutorService) {
 		this.solicitudRepository = solicitudRepository;
-		this.alumnoRepository = alumnoRepository;
-		this.tutorRepository = tutorRepository;
+		this.alumnoService = alumnoService;
+		this.tutorService = tutorService;
 	}
 	
 	
@@ -44,21 +43,17 @@ public class SolicitudService {
 	}
 	
 	@Transactional
-	public void saveAlumno(Alumno alumno) throws DataAccessException{
-		alumnoRepository.save(alumno);
+	public void saveRequest(Solicitud solicitud) throws DataAccessException{
+		if(solicitud.getTutor() != null) tutorService.saveTutor(solicitud.getTutor());
+		alumnoService.saveAlumno(solicitud.getAlumno());
 	}
 	
 	public Tutor getTutor(String nickUsuario) {
-		return tutorRepository.findByNick(nickUsuario);
+		return tutorService.getTutor(nickUsuario);
 	}
 	
 	public Alumno getAlumno(String nickUsuario) {
-		return alumnoRepository.findByNick(nickUsuario);
-	}
-	
-	@Transactional
-	public void saveTutor(Tutor tutor) throws DataAccessException{
-		tutorRepository.save(tutor);
+		return alumnoService.getAlumno(nickUsuario);
 	}
 	
 }

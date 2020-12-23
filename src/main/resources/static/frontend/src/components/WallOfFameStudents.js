@@ -3,12 +3,13 @@ import AlumnoComponent from './AlumnoComponent';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { DataView } from "primereact/dataview";
-import ReactDOM from "react-dom";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.css";
 import "primeflex/primeflex.css";
 import "../css/wallOfFame.css"
+
+
 
 
 export class WallOfFameStudents extends Component{
@@ -23,16 +24,15 @@ export class WallOfFameStudents extends Component{
         this.premiados = new AlumnoComponent();
         this.itemTemplate = this.itemTemplate.bind(this);
         this.obtenerUltimoWall = this.obtenerUltimoWall.bind(this);
-        this.mostrarFormulario=this.mostrarFormulario.bind(this);
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.obtenerUltimoWall();
     }
   
     async obtenerUltimoWall(){
-        console.log("fecha:" + this.props.fecha) 
         await this.premiados.getTheLastWeek(this.props.urlBase).then(data => this.setState({ fecha: data }))
+        console.log("fecha:" + this.state.fecha)
         this.mostrarWallSeleccionado()
     }
 
@@ -48,8 +48,8 @@ export class WallOfFameStudents extends Component{
                         "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
                     }
                     alt={data.name}/>
-                <div className="modificaTexto">{data.alumnos.nombreCompletoUsuario}</div>
-                <div className="modificaTexto">{data.descripcion}</div>
+                
+                <div className="descripcion">{data.descripcion}</div>
                 </div>
             </div>
         </React.Fragment>
@@ -75,14 +75,9 @@ export class WallOfFameStudents extends Component{
         this.setState({fecha:event.target.value})      
     }
 
-    mostrarFormulario(){
-        //Hacer con redux para poder pasar fecha del state
-        window.location = "/formWallofFame"
-    }
 
     render(){
         console.log(this.state.premiados)
-        console.log("Tipo de usuario: " + this.props.userType)
         return(
             <React.Fragment>
                 <div className="i">
@@ -98,11 +93,7 @@ export class WallOfFameStudents extends Component{
                         <Button className="p-button-secondary" label="Search in this date" icon="pi pi-fw pi-check" onClick={()=>this.mostrarWallSeleccionado()}/>
                     </div>
                 </div>
-                    <Button className="p-button-secondary" label="Añadir premiado" icon="pi pi-fw pi-check" onClick={()=>this.mostrarFormulario()}/>
-                <div> 
-
-                </div>
-
+                
                 <div className="dataview-demo">
                     <div className="card">
                         <DataView
@@ -115,5 +106,3 @@ export class WallOfFameStudents extends Component{
         );
     }
 }
-const rootElement = document.getElementById("root");
-ReactDOM.render(<WallOfFameStudents />, rootElement);
