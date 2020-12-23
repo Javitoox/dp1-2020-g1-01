@@ -7,7 +7,7 @@ import { SolicitudesProfesor } from './components/SolicitudesProfesor'
 import { AlumnosPorTutor } from './components/AlumnosPorTutor'
 import  Alumnos  from './components/Alumnos'
 import {Home} from './components/Home'
-import { MenubarResponsive } from './components/MenubarResponsive'
+import MenubarResponsive from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
 import {getUserName} from './components/storage'
 import { WallOfFameStudents } from './components/WallOfFameStudents'
@@ -48,7 +48,7 @@ class App extends Component {
 					<Login urlBase={this.state.urlBase} onChange={this.changeType}></Login>
 				} />
 				<Route path="/editStudent" render={() =>
-					<EditPreStudent />
+					null
 				} />
 				<Route path="/pendingRequests" render={() =>
 					<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
