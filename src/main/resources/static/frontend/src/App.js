@@ -11,6 +11,7 @@ import MenubarResponsive from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
 import {getUserName} from './components/storage'
 import { WallOfFameStudents } from './components/WallOfFameStudents'
+import EditStudent from './components/EditStudent'
 
 class App extends Component {
 
@@ -48,7 +49,7 @@ class App extends Component {
 					<Login urlBase={this.state.urlBase} onChange={this.changeType}></Login>
 				} />
 				<Route path="/editStudent" render={() =>
-					null
+					<EditStudent />
 				} />
 				<Route path="/pendingRequests" render={() =>
 					<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
