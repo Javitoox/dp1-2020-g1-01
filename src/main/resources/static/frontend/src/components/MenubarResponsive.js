@@ -6,29 +6,32 @@ import '../menu.css';
 import { Component } from 'react';
 import { Menubar } from 'primereact/menubar';
 import { Button } from 'primereact/button';
-import {storageLogout} from './storage'
+import { withRouter } from "react-router-dom"
+import { storageLogout } from './storage';
+import axios from 'axios';
 
-export class MenubarResponsive extends Component {
+class MenubarResponsive extends Component {
 
     logout = this.logout.bind(this)
+    goToLogin = this.goToLogin.bind(this)
 
     state = {
         items1: [
             { label: 'Home', icon: 'pi pi-fw pi-home', command: (event) => {
-                window.location = "/";
+                this.props.history.push("/");
             }},
             { label: 'Enrolment´s requests', icon: 'pi pi-fw pi-file', command: (event) => {
-                window.location = "/requests";
+                this.props.history.push("/requests");
             }},
             { label: 'Wall of Fame', icon: 'pi pi-fw pi-star' },
             { label: 'About us', icon: 'pi pi-fw pi-question' }
         ],
         items2: [
             { label: 'Home', icon: 'pi pi-fw pi-home', command: (event) => {
-                window.location = "/";
+                this.props.history.push("/");
             }},
             { label: 'Enrolment´s requests', icon: 'pi pi-fw pi-file', command: (event) => {
-                window.location = "/editStudent";
+                this.props.history.push("/editStudent");
             }},
             { label: 'Students', icon: 'pi pi-fw pi-users'},
             { label: 'Payments', icon: 'pi pi-fw pi-dollar' },
@@ -39,13 +42,13 @@ export class MenubarResponsive extends Component {
         ],
         items3: [
             { label: 'Home', icon: 'pi pi-fw pi-home', command: (event) => {
-                window.location = "/";
+                this.props.history.push("/");
             }},
             { label: 'Enrolment´s requests', icon: 'pi pi-fw pi-file', command: (event) => {
-                window.location = "/pendingRequests";
+                this.props.history.push("/pendingRequests");
             }},
             { label: 'Students', icon: 'pi pi-fw pi-users', command:(event)=>{
-                window.location="/allStudents"
+                this.props.history.push("/allStudents");
             }},
             { label: 'Payments', icon: 'pi pi-fw pi-dollar' },
             { label: 'Material', icon: 'pi pi-fw pi-pencil' },
@@ -55,10 +58,10 @@ export class MenubarResponsive extends Component {
         ],
         items4: [
             { label: 'Home', icon: 'pi pi-fw pi-home', command: (event) => {
-                window.location = "/";
+                this.props.history.push("/");
             }},
             { label: 'My students', icon: 'pi pi-fw pi-pencil', command:(event)=>{
-                window.location= "/myStudents"
+                this.props.history.push("/myStudents");
             }},
             { label: 'Wall of Fame', icon: 'pi pi-fw pi-star' },
             { label: 'About us', icon: 'pi pi-fw pi-question' }
@@ -77,16 +80,16 @@ export class MenubarResponsive extends Component {
         }
     }
 
-    login(){
-        if(this.props.tipoDeUsuario==="usuario"){
-            return false;
-        }else{
-            return true;
-        }
+    async logout(){
+        const result = await axios.delete(this.props.urlBase+"/logout", {withCredentials: true})
+        console.log(result.data)
+        storageLogout()
+        this.props.onChange("usuario")
+        this.props.history.push("/")
     }
 
-    logout(event){
-        storageLogout()
+    goToLogin(){
+        this.props.history.push("/login")
     }
 
     render() {
@@ -94,10 +97,13 @@ export class MenubarResponsive extends Component {
         return (
             <div>
                 <div className="card">
-                    <Menubar model={this.tipoDeUsuario()} start={start} end={this.login() ? <a href="/"><Button onClick={this.logout} className="button-login p-button-secondary" 
-                    label="Logout" icon="pi pi-power-off"/></a> : <a href="/login"><Button className="button-login p-button-secondary" label="Login" icon="pi pi-fw pi-users" /></a>} />
+                    <Menubar model={this.tipoDeUsuario()} start={start} end={this.props.tipoDeUsuario !== "usuario"? <Button onClick={this.logout} className="button-login 
+                    p-button-secondary" label="Logout" icon="pi pi-power-off"/> : <Button onClick={this.goToLogin} className="button-login p-button-secondary" label="Login" 
+                    icon="pi pi-fw pi-users" />} />
                 </div>
             </div>
         );
     }
 }
+
+export default withRouter(MenubarResponsive)

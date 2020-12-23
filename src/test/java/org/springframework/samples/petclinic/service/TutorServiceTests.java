@@ -61,14 +61,14 @@ public class TutorServiceTests {
 	
 	@Test 
 	void testStudentsByTutorIsNotNull() {
-		Tutor tutor = tutorService.getTutorById("PedroGar").get();
+		Tutor tutor = tutorService.getTutor("PedroGar");
 		List<Alumno> alumnos = alumnoService.getAllMyStudents(tutor.getNickUsuario());
 		assertFalse(alumnos.size() == 0);
 	}
 	
 	@Test 
 	void testStudentsByTutorIsNull() {
-		Tutor tutor = tutorService.getTutorById("PedroGar").get();
+		Tutor tutor = tutorService.getTutor("PedroGar");
 		List<Alumno> alumnos = alumnoService.getAllMyStudents(tutor.getNickUsuario());
 		for(Alumno a: alumnos) {
 			alumnoService.deleteStudents(a);

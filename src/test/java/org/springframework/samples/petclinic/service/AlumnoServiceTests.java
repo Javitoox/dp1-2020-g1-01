@@ -126,7 +126,7 @@ public class AlumnoServiceTests {
 	
 	@Test
 	void testEditStudentGroupIsValid() {
-		Alumno alumno1 = alumnoService.findById("Javi");
+		Alumno alumno1 = alumnoService.getAlumno("Javi");
     	Grupo grupo= grupoService.getGroupById("grupo3");       
         alumno1.setGrupos(grupo);
         alumnoService.saveAlumno(alumno1);
