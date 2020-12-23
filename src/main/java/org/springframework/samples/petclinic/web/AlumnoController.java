@@ -80,10 +80,11 @@ public class AlumnoController {
 	@PutMapping("/{nick_usuario}/edit/{nombreGrupo}")
 	public ResponseEntity<?> processUpdateStudentGroup(@PathVariable("nick_usuario") String nick_usuario,
 			@PathVariable("nombreGrupo") String nombreGrupo) {
-		Alumno alumno1 = alumnoServ.findById(nick_usuario);
+		Alumno alumno1 = alumnoServ.getAlumno(nick_usuario);
 		Grupo grupo = alumnoServ.getGrupo(nombreGrupo);
 		alumno1.setGrupos(grupo);
 		this.alumnoServ.saveAlumno(alumno1);
 		return ResponseEntity.ok().build();
 	}
+
 }

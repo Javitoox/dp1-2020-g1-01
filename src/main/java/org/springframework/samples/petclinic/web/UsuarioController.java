@@ -9,11 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.service.UsuarioService;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 public class UsuarioController {
 	
@@ -33,7 +34,7 @@ public class UsuarioController {
 		if(type != "Username not exist" && type != "Incorrect password") {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("type", type);
-			log.info(session.getAttribute("type"));
+			log.info(nickUsuario+ " login: "+session.getAttribute("type"));
 		}
 		return ResponseEntity.ok(type);
 	}
@@ -42,18 +43,18 @@ public class UsuarioController {
 	public ResponseEntity<String> authentication(HttpServletRequest request) {
 		String type = "usuario";
 		HttpSession session = request.getSession(false);
-		log.info(session == null);
 		if(session != null && session.getAttribute("type") != null)
 			type = (String) session.getAttribute("type");
-		log.info(type);
+		log.info("Auth: "+type);
 		return ResponseEntity.ok(type);
 	}
 	
-	@GetMapping(value = { "/logout" })
-	public void logout(HttpServletRequest request) {
+	@DeleteMapping(value = { "/logout" })
+	public ResponseEntity<String> logout(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if(session != null)
 			session.invalidate();
+		return ResponseEntity.ok("Succesfull logout");
 	}
 	
 }

@@ -4,6 +4,6 @@ import axios from 'axios';
 export default class MetodosTutor extends Component {
 
     getAlumnosPorTutor(urlBase, nickUsuario){
-        return axios.get(urlBase+"/tutor/"+nickUsuario+"/allMyStudents").then(res=>res.data);
+        return axios.get(urlBase+"/tutor/"+nickUsuario+"/allMyStudents", {withCredentials: true}).then(res=>res.data);
     }
 }

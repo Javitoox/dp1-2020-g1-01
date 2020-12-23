@@ -9,7 +9,7 @@ export class ExtraccionUsuarios extends Component {
     }
 
     getType(username, password) {
-        return axios.get(this.urlBase+"/login?username=" + username + "&password=" + password).then(res => res.data);
+        return axios.get(this.urlBase+"/login?username=" + username + "&password=" + password, {withCredentials: true}).then(res => res.data);
     }
 
 }

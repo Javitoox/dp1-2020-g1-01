@@ -27,6 +27,12 @@ public class UsuarioServiceTests {
 	@Autowired
 	protected SolicitudService solicitudService;
 	
+	@Autowired
+	protected AlumnoService alumnoService;
+	
+	@Autowired
+	protected TutorService tutorService;
+	
 	@BeforeAll
 	@Transactional
 	void insertAlumnoTutor() {
@@ -41,7 +47,7 @@ public class UsuarioServiceTests {
 		alumno.setNombreCompletoUsuario("Javi Martínez");
 		alumno.setNumTelefonoUsuario("635096767");
 		alumno.setNumTareasEntregadas(4);
-		solicitudService.saveAlumno(alumno);
+		alumnoService.saveAlumno(alumno);
 		Tutor tutor = new Tutor();
 		tutor.setContraseya("EyEyHola6");
 		tutor.setCorreoElectronicoUsuario("pedro@gmail.com");
@@ -51,7 +57,7 @@ public class UsuarioServiceTests {
 		tutor.setNickUsuario("PedroGar");
 		tutor.setNombreCompletoUsuario("Pedro García");
 		tutor.setNumTelefonoUsuario("676767453");
-		solicitudService.saveTutor(tutor);
+		tutorService.saveTutor(tutor);
 	}
 	
 	@Test

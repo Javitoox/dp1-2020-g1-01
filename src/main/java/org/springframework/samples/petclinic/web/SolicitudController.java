@@ -83,11 +83,11 @@ public class SolicitudController {
 				Alumno alumno = solicitudServ.getAlumno(solicitud.getAlumno().getNickUsuario());
 				if(alumno == null) {
 					solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
-					solicitudServ.saveAlumno(solicitud.getAlumno());
+					solicitudServ.saveRequest(solicitud);
 					log.info("New student´s request with username: "+solicitud.getAlumno().getNickUsuario());
 					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 				}else if(alumno != null && alumno.getContraseya().equals(solicitud.getAlumno().getContraseya())){
-					solicitudServ.saveAlumno(solicitud.getAlumno());
+					solicitudServ.saveRequest(solicitud);
 					log.info("Update student´s request with username: "+solicitud.getAlumno().getNickUsuario());
 					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 				}else {
@@ -109,32 +109,28 @@ public class SolicitudController {
 					solicitud.getAlumno().setTutores(solicitud.getTutor());
 					solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
 					solicitud.getTutor().setFechaSolicitud(LocalDate.now());
-					solicitudServ.saveTutor(solicitud.getTutor());
-					solicitudServ.saveAlumno(solicitud.getAlumno());
+					solicitudServ.saveRequest(solicitud);
 					log.info("New student´s request with username: "+solicitud.getAlumno().getNickUsuario());
 					log.info("New tutor´s request with username: "+solicitud.getTutor().getNickUsuario());
 					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 				}else if(alumno != null && alumno.getContraseya().equals(solicitud.getAlumno().getContraseya()) && tutor == null) {
 					solicitud.getAlumno().setTutores(solicitud.getTutor());
 					solicitud.getTutor().setFechaSolicitud(LocalDate.now());
-					solicitudServ.saveTutor(solicitud.getTutor());
-					solicitudServ.saveAlumno(solicitud.getAlumno());
+					solicitudServ.saveRequest(solicitud);
 					log.info("Update student´s request with username: "+solicitud.getAlumno().getNickUsuario());
 					log.info("New tutor´s request with username: "+solicitud.getTutor().getNickUsuario());
 					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 				}else if(alumno == null && tutor != null && tutor.getContraseya().equals(solicitud.getTutor().getContraseya())) {
 					solicitud.getAlumno().setTutores(solicitud.getTutor());
 					solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
-					solicitudServ.saveTutor(solicitud.getTutor());
-					solicitudServ.saveAlumno(solicitud.getAlumno());
+					solicitudServ.saveRequest(solicitud);
 					log.info("New student´s request with username: "+solicitud.getAlumno().getNickUsuario());
 					log.info("Update tutor´s request with username: "+solicitud.getTutor().getNickUsuario());
 					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 				}else if(alumno != null && alumno.getContraseya().equals(solicitud.getAlumno().getContraseya()) && 
 						tutor != null && tutor.getContraseya().equals(solicitud.getTutor().getContraseya())) {
 					solicitud.getAlumno().setTutores(solicitud.getTutor());
-					solicitudServ.saveTutor(solicitud.getTutor());
-					solicitudServ.saveAlumno(solicitud.getAlumno());
+					solicitudServ.saveRequest(solicitud);
 					log.info("Update student´s request with username: "+solicitud.getAlumno().getNickUsuario());
 					log.info("Update tutor´s request with username: "+solicitud.getTutor().getNickUsuario());
 					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
