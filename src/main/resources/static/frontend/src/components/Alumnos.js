@@ -112,7 +112,7 @@ class Alumnos extends Component {
             { label: 'A2', value: 'A2' },
             { label: 'B1', value: 'B1' },
             { label: 'B2', value: 'B2' },
-            { label: 'Free learning', value: 'AprendizajeLibre' }
+            { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
         ];
 
         return (

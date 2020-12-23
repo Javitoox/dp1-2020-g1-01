@@ -3,7 +3,6 @@ import AlumnoComponent from './AlumnoComponent';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { DataView } from "primereact/dataview";
-import ReactDOM from "react-dom";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.css";
@@ -27,13 +26,13 @@ export class WallOfFameStudents extends Component{
         this.obtenerUltimoWall = this.obtenerUltimoWall.bind(this);
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.obtenerUltimoWall();
     }
   
     async obtenerUltimoWall(){
-        console.log("fecha:" + this.props.fecha) 
         await this.premiados.getTheLastWeek(this.props.urlBase).then(data => this.setState({ fecha: data }))
+        console.log("fecha:" + this.state.fecha)
         this.mostrarWallSeleccionado()
     }
 
@@ -107,5 +106,3 @@ export class WallOfFameStudents extends Component{
         );
     }
 }
-const rootElement = document.getElementById("root");
-ReactDOM.render(<WallOfFameStudents />, rootElement);
