@@ -12,7 +12,7 @@ export default class AlumnoComponent extends Component{
 	}
         
 	getStudentsByNameOfGroup(baseUrl, group){
-		return axios.get(baseUrl + "/alumnos/getByNameOfGroup/"+group).then(res => res.data);
+		return axios.get(baseUrl + "/alumnos/"+group).then(res => res.data);
 	}
 
 	getWallOfFameForStudents(baseUrl, fecha){
@@ -22,6 +22,10 @@ export default class AlumnoComponent extends Component{
 	getTheLastWeek(baseUrl){
 		return axios.get(baseUrl+"/premiados/ultimaSemana").then(res=>res.data);
 	}
+
+	assign(persona) {
+        return axios.put("http://localhost:8081/alumnos/assignStudent", persona).then(res => res.data);
+    }
 
 	
 }

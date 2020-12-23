@@ -12,6 +12,10 @@ import {getUserType} from './components/storage'
 import {getUserName} from './components/storage'
 import { WallOfFameStudents } from './components/WallOfFameStudents'
 import EditStudent from './components/EditStudent'
+import AssignStudent from './components/AssignStudent'
+import {CreateGroup} from './components/CreateGroup'
+import {DeleteGroup} from './components/DeleteGroup'
+
 
 class App extends Component {
 
@@ -57,11 +61,20 @@ class App extends Component {
 				<Route path="/allStudents" render={() =>
 					<Alumnos urlBase={this.state.urlBase}></Alumnos>
 				} />
+				<Route path="/assignStudent" render={() =>
+					<AssignStudent urlBase={this.state.urlBase} />
+				} /> 
+				<Route path="/createGroup" render={() =>
+					<CreateGroup urlBase={this.state.urlBase}/>
+				} />
+				<Route path="/deleteGroup" render={() =>
+					<DeleteGroup urlBase={this.state.urlBase}/>
+				} /> 
 				<Route path="/myStudents" render={() =>
 					<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
 				} />
 				<Route path="/students/walloffame" render={() =>
-						<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
+					<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
                 } /> 
 			</Router>
 		)

@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom';
 import { ListBox } from 'primereact/listbox';
 import GrupoComponent from './GrupoComponent';
 import {selectStudent} from '../actions/index';
+import {selectAssignedStudent}  from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -28,7 +29,10 @@ class Alumnos extends Component {
             fechaNacimiento:"",
             numTareasEntregadas :"",
             fechaMatriculacion: "",
-            groupSelectItems: ""
+            groupSelectItems: "",
+            listaGrupos:{
+                nombreGrupo: ""
+            }
 
             //nodes: null,
             //selectedKey: null,
@@ -38,6 +42,10 @@ class Alumnos extends Component {
         //this.assignGroup = this.assignGroup.bind(this);
         this.boton = this.boton.bind(this);
         this.grupos = new GrupoComponent();
+        this.botonAssign=this.botonAssign.bind(this);
+        this.botonCrear=this.botonCrear.bind(this);
+        this.botonEliminar=this.botonEliminar.bind(this);
+        this.allGroupNames= this.allGroupNames.bind(this);
         //this.botonAssign = this.botonAssign.bind(this);
         //this.cursos = new CursoComponent();
         //this.onNodeSelect = this.onNodeSelect.bind(this);
@@ -45,6 +53,8 @@ class Alumnos extends Component {
 
     componentDidMount() {
         this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+        this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
+
         //this.grupos.getAllGroups().then(data => this.setState({ groupSelectItems: data }));
         //this.cursos.getCourses().then(data => this.setState({ nodes: data }));
     }
@@ -57,6 +67,20 @@ class Alumnos extends Component {
             </React.Fragment>
         );
     }
+
+    botonCrear() {
+        this.setState({ 
+            redirect: "/createGroup",
+        
+    });
+    
+    }
+    botonEliminar() {
+        this.setState({ 
+            redirect: "/deleteGroup",
+        
+    });
+    }
     
     edicion(data) {
         this.props.selectStudent(data) //si os dice que selectStudent no es una funcion comprobad los nombres en matchDispatchToProps y que el import este hecho con el nombre ENTRE LLAVES
@@ -66,7 +90,7 @@ class Alumnos extends Component {
     });
    
 }
-    /* 
+     
     botonAssign(rowData) {
         return (    
             <React.Fragment>
@@ -74,17 +98,17 @@ class Alumnos extends Component {
             </React.Fragment>
         );
     }
-    */
+    
 
-    /*
-    assignGroup(student) {
-        eventBus.dispatch("guardandoAsignacionAGrupo", { nickUsuario: student.nickUsuario});
+    
+    assignGroup(data) {
+        this.props.selectAssignedStudent(data)
             this.setState({ 
-                redirect: "/assignGroup",
+                redirect: "/assignStudent",
                 
         });
     }
-    */
+    
     showSelectCourse(course) {
         console.log(course);
         if (course !== null) {
@@ -97,21 +121,73 @@ class Alumnos extends Component {
         }
         console.log(this.state.alumnos);
     }
+    showSelectGroup(group) {
+        console.log(group);
+        if (group !== null) {
+            this.setState({ grupo: group });
+            if (group === "allGroups") {
+                this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+            } else {
+                this.alumnos.getStudentsByNameOfGroup(this.props.urlBase, group).then(data => this.setState({ alumnos: data }));
+            }
+        }
+    }
+
+    allGroupNames(){
+
+        var t=this.state.listaGrupos
+        var i=0
+        var groupSelectItems = [
+            { label: 'All groups' , value: 'allGroups' },
+        ];
+        while(i<t.length){        
+        groupSelectItems.push(         
+            { label: String(t[i]) , value: String(t[i]) })        
+        i+=1
+        }
+        return groupSelectItems
+    }
 
     render() {
     if (this.state.redirect) {
-     return <Redirect
-     to={{
-       pathname: "/editStudent"
-     }}
-   />
+        if(this.state.redirect=="/createGroup"){
+            return <Redirect
+            to={{
+              pathname: "/createGroup"
+            }}
+          />
+    
+         }else if(this.state.redirect=="/deleteGroup"){
+            return <Redirect
+            to={{
+              pathname: "/deleteGroup"
+            }}
+          />
+    
+         }else if(this.state.redirect=="/editStudent"){
+            return <Redirect
+            to={{
+              pathname: "/editStudent"
+            }}
+          /> 
+        
+        }else if(this.state.redirect=="/assignStudent"){
+            return <Redirect
+            to={{
+              pathname: "/assignStudent"
+            }}
+          />
         }
+        
+    }
         const courseSelectItems = [
             { label: 'All courses', value: 'allCourses' },
             { label: 'A1', value: 'A1' },
             { label: 'A2', value: 'A2' },
             { label: 'B1', value: 'B1' },
             { label: 'B2', value: 'B2' },
+            { label: 'C1', value: 'C1' },
+            { label: 'C2', value: 'C2' },
             { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
         ];
 
@@ -125,6 +201,9 @@ class Alumnos extends Component {
                         {/* <div className="card">
                             { <Tree value={this.state.nodes} selectionMode="single" selectionKeys={this.state.selectedKey} onSelectionChange={e => this.setState({ selectedKey: e.value })} onSelect={this.onNodeSelect}/> }
                         </div> */}
+                    <ListBox options={this.allGroupNames()} onChange={(e) => this.showSelectGroup(e.value)} />
+                    <Button icon="pi pi-plus-circle" label="Crear grupo" className="p-button-secondary" onClick={this.botonCrear} />
+                    <Button icon="pi pi-minus-circle" label="Eliminar grupo" className="p-button-secondary" onClick={this.botonEliminar} />
                     </div>
 
                     <DataTable value={this.state.alumnos}>
@@ -138,8 +217,8 @@ class Alumnos extends Component {
                         <Column field="fechaNacimiento" header="Birthdate"></Column>
                         <Column field="numTareasEntregadas" header="Activities done"></Column>
                         <Column field="fechaMatriculacion" header="Date of enrollment"></Column>
-                        <Column body={this.boton}></Column>
-                        <Column body={this.botonAssign}></Column>
+                        <Column header="Assign" body={this.botonAssign}></Column>
+                        <Column header="Edit" body={this.boton}></Column>
                     </DataTable>
                 </div>
             </React.Fragment>
@@ -147,6 +226,7 @@ class Alumnos extends Component {
     }
 }
 function  matchDispatchToProps(dispatch) {
-    return bindActionCreators({selectStudent : selectStudent}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
+    return bindActionCreators({selectStudent : selectStudent,
+        selectAssignedStudent: selectAssignedStudent}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
 }
 export default connect(null , matchDispatchToProps)(Alumnos) //importante poner primero el null si no hay mapStateToProps en el componente chicxs

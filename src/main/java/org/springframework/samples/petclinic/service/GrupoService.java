@@ -43,6 +43,16 @@ public class GrupoService {
 		return grupoRepository.findByCurso(curso);
 	}
 	
+	@Transactional(readOnly = true)
+	public List<String> getGroupNames() {
+		return grupoRepository.findAllGroupNames();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<String> getEmptyGroups() {
+		return grupoRepository.findAllEmptyGroups();
+	}
+	
 	@Transactional
 	public void saveGroup(Grupo grupo) throws DuplicatedGroupNameException{
 //		if(grupoRepository.findById(grupo.getNombreGrupo()).isPresent()) {
