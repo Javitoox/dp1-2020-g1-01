@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/grupos")
 public class GrupoController {
 	
@@ -79,7 +79,7 @@ public class GrupoController {
 	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo)throws BadRequestException{
 		log.info("Solicitando borrar grupo: {}", nombreGrupo);
 		grupoService.deleteGroup(nombreGrupo);
-		return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.ACCEPTED);
+		return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
 	}	
 
 }

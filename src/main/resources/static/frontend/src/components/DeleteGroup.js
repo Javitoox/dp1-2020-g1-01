@@ -26,9 +26,10 @@ export class DeleteGroup extends Component {
     delete = event => {
         event.preventDefault();
 
-        axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo).then(res => res.data).then(res => {
+        axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo).then(res => {
             this.respuesta(res.status, res.data);
         })
+        
         
        
     }
@@ -53,10 +54,16 @@ export class DeleteGroup extends Component {
         return groupSelectItems
     }
     respuesta(status, data){
+        console.log("hola?");
+
         console.log(status);
-        if(status===203){
+        if(status===111){
+            console.log("no va");
+
             data.forEach(e => this.error(e.field, e.defaultMessage))
-        }else if(status===201){
+        }else if(status===200){
+            console.log("va");
+
             this.setState({               
 
                 grupoS:{

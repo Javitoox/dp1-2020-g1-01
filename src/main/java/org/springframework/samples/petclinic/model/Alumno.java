@@ -31,4 +31,5 @@ public class Alumno extends Usuario{
     
     @ManyToOne(optional=true)
     private Grupo grupos;
+ 
 }

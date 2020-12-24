@@ -23,6 +23,5 @@ public interface AlumnoRepository extends CrudRepository<Alumno, String> {
     public List<Alumno> findStudentsByCourse(@Param("cursoDeIngles") String cursoDeIngles);
     
     @Query("SELECT alumno FROM Alumno alumno where (alumno.tutores.nickUsuario LIKE :nickTutor% and alumno.fechaMatriculacion IS NOT null)")
-    public List<Alumno> findStudentsByTutor(@Param("nickTutor")String nickTutor);
-    
+    public List<Alumno> findStudentsByTutor(@Param("nickTutor")String nickTutor);    
 }

@@ -40,6 +40,10 @@ INSERT INTO walloffames(fechawall) VALUES ('2019-W20');
 INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('El mejor de la semana','ozuna.jpg','Javi','2020-W50');
 INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('El mas listo de la semana','miguelTorres.jpg','Gonzalo','2020-W51');
 
+INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (1,'BIZUM', 'Pago matricula','2019-10-03','Javi');
+
+
+
 --INSERT ANTIGUOS
 
 --Insercion de alumnos
