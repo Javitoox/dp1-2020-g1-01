@@ -1,4 +1,4 @@
-export default function (state = null, action) {
+export default function (state = {}, action) {
         switch (action.type) {
                 case "STUDENT_SELECTED": 
                         console.log("esta funcionando el reducer")
