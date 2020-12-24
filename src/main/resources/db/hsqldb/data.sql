@@ -40,6 +40,19 @@ INSERT INTO walloffames(fechawall) VALUES ('2019-W20');
 INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a very good job this week','ozuna.jpg','Javi','2020-W50');
 INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a great job','miguelTorres.jpg','Gonzalo','2020-W51');
 
+INSERT INTO tipos_eventos(tipo) VALUES ('interno');
+INSERT INTO tipos_eventos(tipo) VALUES ('externo');
+
+INSERT INTO tipos_pagos(tipo) VALUES ('bizum');
+INSERT INTO tipos_pagos(tipo) VALUES ('efectivo');
+INSERT INTO tipos_pagos(tipo) VALUES ('transferencia');
+
+INSERT INTO eventos(nombre,descripcion,fecha,tipo_tipo) VALUES ('The Champions','Amazing','2022-06-23','interno');
+
+INSERT INTO inscripciones(registrado) VALUES ('false');
+
+INSERT INTO alumnos_inscripciones VALUES('Javi','1');
+
 --INSERT ANTIGUOS
 
 --Insercion de alumnos
