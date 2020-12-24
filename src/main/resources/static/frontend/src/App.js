@@ -73,8 +73,8 @@ class App extends Component {
 				<Route path="/myStudents" render={() =>
 					<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
 				} />
-				<Route path="/students/walloffame" render={() =>
-					<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
+				<Route path="/walloffame" render={() =>
+					<WallOfFameStudents urlBase={this.state.urlBase} userType={this.state.userType}> </WallOfFameStudents>
                 } /> 
 			</Router>
 		)
