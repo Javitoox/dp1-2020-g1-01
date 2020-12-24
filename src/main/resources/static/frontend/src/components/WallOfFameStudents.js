@@ -7,7 +7,7 @@ import "primeicons/primeicons.css";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.css";
 import "primeflex/primeflex.css";
-import "../css/wallOfFame.css"
+import "../css/wallOfFame.css";
 
 export class WallOfFameStudents extends Component{
     fecha = this.fecha.bind(this);
@@ -98,9 +98,12 @@ export class WallOfFameStudents extends Component{
         this.setState({photo : event.target.files[0]})
     }
 
-    handleSubmit(){
-        console.log("He llego a la llamada con: "+this.state.photo)
-        this.premiados.postNewPremiado(this.props.urlBase, this.state.nickusuario, this.state.photo, this.state.description, this.state.fecha);
+    async handleSubmit(){
+        const formData = new FormData();
+        formData.append('photo', this.state.photo) ;
+        formData.append('nickUsuario', this.state.nickusuario) ;
+        formData.append('description', this.state.description) ;
+        await this.premiados.postNewPremiado(this.props.urlBase, this.state.fecha, formData).then(() => this.setState({ addForm: false }));
     }
     
     SeleccionarFechaWall(){
@@ -146,38 +149,40 @@ export class WallOfFameStudents extends Component{
             return( 
                 <div className="c">
                     <div className="login request">
-                            <div className="t">
-                                <div><h5>Add a new awarded student</h5></div>
+                       
+                        <div className="t">
+                            <div><h5>Add a new awarded student</h5></div>
+                        </div>
+                        <div className="i">
+                            <div className="p-inputgroup">
+                            <span className="p-inputgroup-addon">
+                                <i className="pi pi-user"></i>
+                            </span>
+                                <InputText type= "text" placeholder="Username" name="nickusuario" onChange={this.nickusuario} />
                             </div>
-                            <div className="i">
-                                <div className="p-inputgroup">
-                                <span className="p-inputgroup-addon">
-                                    <i className="pi pi-user"></i>
-                                </span>
-                                    <InputText type= "text" placeholder="Username" name="nickusuario" onChange={this.nickusuario} />
-                                </div>
-                            </div>
+                        </div>
 
-                            <div className="i">
-                                <div className="p-inputgroup">
-                                <span className="p-inputgroup-addon">
-                                    <i className="pi pi-align-center"></i>  
-                                </span>
-                                    <InputText type= "textarea" placeholder="description" name="description" onChange={this.description} />
-                                </div>
+                        <div className="i">
+                            <div className="p-inputgroup">
+                            <span className="p-inputgroup-addon">
+                                <i className="pi pi-align-center"></i>  
+                            </span>
+                                <InputText type= "textarea" placeholder="description" name="description" onChange={this.description} />
                             </div>
+                        </div>
 
-                            <div className="i">
-                                <div className="p-inputgroup">
-                                    <InputText type= "file" name="photo" onChange={this.photo}/>
-                                </div>
+                        <div className="i">
+                            <div className="p-inputgroup">
+                                <InputText type= "file" name="photo" onChange={this.photo}/>
                             </div>
+                        </div>
 
-                            <div className="b">
-                                <div className="i">
-                                    <Button className="p-button-secondary" label="Add the student" icon="pi pi-fw pi-upload" onClick={() => this.handleSubmit()}/>
-                                </div>
+                        <div className="b">
+                            <div className="i">
+                                <Button className="p-button-secondary" label="Add the student" icon="pi pi-fw pi-upload" onClick={() => this.handleSubmit()}/>
                             </div>
+                        </div>
+                        
                     </div>
                 </div>
                 );
