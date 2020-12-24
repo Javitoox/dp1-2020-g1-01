@@ -27,6 +27,9 @@ export default class AlumnoComponent extends Component{
         return axios.put("http://localhost:8081/alumnos/assignStudent", persona).then(res => res.data);
     }
 
+	postNewPremiado(baseUrl, fecha ,formData){
+        return axios.post(baseUrl+"/premiados/añadirPremiado/"+fecha ,formData,{withCredentials: true});
+    }
 	
 }
 

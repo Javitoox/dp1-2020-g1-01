@@ -1,6 +1,5 @@
 .dataview-demo .card{
     border: 1px solid black;
-    
 }
 .p-grid{
     text-align: center;
@@ -12,6 +11,6 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
- .descripcion{
-    font-size: x-large;
+ .modificaTexto{
+    font-size: large;
 }
