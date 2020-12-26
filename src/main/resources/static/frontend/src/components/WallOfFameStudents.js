@@ -14,7 +14,7 @@ export class WallOfFameStudents extends Component{
     nickusuario= this.nickusuario.bind(this);
     description= this.description.bind(this);
     photo= this.photo.bind(this);
-    
+
     constructor(props){
         super(props)
         this.state={
@@ -23,7 +23,9 @@ export class WallOfFameStudents extends Component{
             nickusuario : "",
             description: "",
             photo: null,
-            addForm:false
+            addForm:false,
+            editForm: false,
+            premiado: null,
         }
         this.mostrarWallSeleccionado=this.mostrarWallSeleccionado.bind(this);
         this.premiados = new AlumnoComponent();
@@ -32,8 +34,9 @@ export class WallOfFameStudents extends Component{
         this.BotonAñadirPremiado= this.BotonAñadirPremiado.bind(this);
         this.SeleccionarFechaWall= this.SeleccionarFechaWall.bind(this);
         this.MostrarWall= this.MostrarWall.bind(this);
-       
-
+        this.BotonEditarPremiado= this.BotonEditarPremiado.bind(this);
+        this.mostrarFormularioEdit= this.mostrarFormularioEdit.bind(this);
+        this.handleSubmitEdit= this.handleSubmitEdit.bind(this);    
     }
 
     componentDidMount(){
@@ -45,12 +48,14 @@ export class WallOfFameStudents extends Component{
         console.log("fecha:" + this.state.fecha)
         this.mostrarWallSeleccionado()
     }
+
     
     renderGridItem(data) {
         return (
         <React.Fragment>
-            <div className="premiado">
+            <div className="premiado">  
               <div>
+                {this.BotonEditarPremiado(data)}
                 <img 
                     src={"/photosWall/"+data.foto}
                     onError={(e) =>
@@ -98,11 +103,13 @@ export class WallOfFameStudents extends Component{
         this.setState({photo : event.target.files[0]})
     }
 
+
     async handleSubmit(){
         const formData = new FormData();
         formData.append('photo', this.state.photo) ;
         formData.append('nickUsuario', this.state.nickusuario) ;
         formData.append('description', this.state.description) ;
+        
         await this.premiados.postNewPremiado(this.props.urlBase, this.state.fecha, formData).then(() => this.setState({ addForm: false }));
     }
     
@@ -118,7 +125,7 @@ export class WallOfFameStudents extends Component{
     }
     
     BotonAñadirPremiado(){
-        if(this.props.userType==="profesor" && !this.state.addForm){
+        if(this.props.userType==="profesor" && !this.state.addForm && !this.state.editForm){
             return(
                 <div className="mt-3">  
                     <Button className="p-button-secondary" label="Add a new awarded student" icon="pi pi-plus" onClick={()=>this.setState({addForm: true})}/>
@@ -128,8 +135,68 @@ export class WallOfFameStudents extends Component{
 
     }
 
+    BotonEditarPremiado(data){
+        if(this.props.userType==="profesor" && !this.state.addForm && !this.state.editForm){
+            return(
+                <div>
+                    <Button className="p-button-secondary" icon="pi pi-fw pi-pencil" onClick={() => this.setState({premiado: data}, () => this.setState({editForm:true}))} ></Button>  
+                    <Button className="ml-2 p-button-secondary" icon="pi pi-fw pi-trash"></Button> 
+                </div>
+            );
+        }
+    }
+
+    mostrarFormularioEdit(){
+        if(this.state.editForm){
+            return(
+                <div className="c">
+                    <div className="login request">
+                        <div className="t">
+                            <div><h5>You're editing: {this.state.premiado.alumnos.nickUsuario} </h5></div>
+                        </div>
+
+                        <div className="i">
+                            <div className="p-inputgroup">
+                            <span className="p-inputgroup-addon">
+                                <i className="pi pi-align-center"></i>  
+                            </span>
+                                <InputText type= "textarea" placeholder={this.state.premiado.descripcion} name="description" onChange={this.description} />
+                            </div>
+                        </div>
+
+                        <div className="i">
+                            <div className="p-inputgroup">
+                                <InputText type= "file" name="photo" onChange={this.photo}/>
+                            </div>
+                        </div>
+
+                        <div className="b">
+                            <div className="i">
+                                <Button className="p-button-secondary" label="Add the student" icon="pi pi-fw pi-upload" onClick={() => this.handleSubmitEdit()}/>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+
+            );
+        }
+    }
+
+
+    async handleSubmitEdit(){
+        const formData = new FormData();
+        formData.append('photo', this.state.photo) ;
+        formData.append('description', this.state.description) ;
+        formData.append('id', this.state.premiado.id) ;
+        formData.append('nickUsuario', this.state.premiado.alumnos.nickUsuario) ;
+        await this.premiados.editPremiado(this.props.urlBase, formData).then(() => this.setState({editForm: false}))
+        this.mostrarWallSeleccionado();
+    }
+
     MostrarWall(){
-        if(!this.state.addForm){
+        if(!this.state.addForm && !this.state.editForm){
             return(
                 <div className="mt-3">
                 <div className="card">
@@ -195,7 +262,8 @@ export class WallOfFameStudents extends Component{
                 {this.SeleccionarFechaWall()}                
                 {this.BotonAñadirPremiado()} 
                 {this.MostrarWall()}
-                {this.mostrarFormulario()}               
+                {this.mostrarFormulario()}     
+                {this.mostrarFormularioEdit()}          
             </React.Fragment>
         );
     }

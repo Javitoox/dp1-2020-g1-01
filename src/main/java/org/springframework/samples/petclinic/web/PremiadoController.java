@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +42,6 @@ public class PremiadoController {
     public void añadirPremiado(@PathVariable("fechaWall") String fechaWall,
             @RequestParam("photo") MultipartFile file, @RequestParam("nickUsuario") String nickUsuario, @RequestParam("description") String description){
         
-		
 		if(!file.isEmpty()) {
 			Path directorioImagenes = Paths.get("src//main//resources//static//frontend//public/photosWall");
 			String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
@@ -61,4 +61,32 @@ public class PremiadoController {
 			
 		}
     }
+	
+	@PutMapping(value="/editarPremiado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public void editarPremiado(@RequestParam(value = "photo", required = false) MultipartFile file, @RequestParam("id") Integer id, @RequestParam("description") String descripcion,
+			 @RequestParam("nickUsuario") String nickUsuario) {
+		
+		System.out.println("SOY LA ID: "+id);
+		if(file !=null) {
+			Path directorioImagenes = Paths.get("src//main//resources//static//frontend//public/photosWall");
+			String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+			
+			try {
+				byte[] bytes = file.getBytes();
+				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + nickUsuario + ".jpg");
+				Files.write(rutaCompleta, bytes);
+				
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		if(!descripcion.isEmpty()) {
+			System.out.println("CAMBIANDO DESCRIPCION: "+descripcion);
+			premiadoService.editarPremiado(id, descripcion);}
+
+			
+	}
 }
