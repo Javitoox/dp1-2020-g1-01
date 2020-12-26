@@ -54,4 +54,14 @@ public class PremiadoService {
 		
 	}
 	
+	public void editarPremiado(Integer id, String descripcion) {
+		Optional<Premiado> p = premiadoRepository.findById(id);
+		if(p.isPresent()) {
+			Premiado premiado = p.get();
+			premiado.setDescripcion(descripcion);
+			premiadoRepository.save(premiado);
+		}
+		
+	}
+	
 }

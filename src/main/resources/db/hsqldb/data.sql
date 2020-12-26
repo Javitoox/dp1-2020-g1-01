@@ -37,8 +37,8 @@ INSERT INTO walloffames(fechawall) VALUES ('2020-W45');
 INSERT INTO walloffames(fechawall) VALUES ('2020-W40');
 INSERT INTO walloffames(fechawall) VALUES ('2019-W12');
 INSERT INTO walloffames(fechawall) VALUES ('2019-W20');
-INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a very good job this week','ozuna.jpg','Javi','2020-W50');
-INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a great job','miguelTorres.jpg','Gonzalo','2020-W51');
+INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a very good job this week','Javi.jpg','Javi','2020-W50');
+INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a great job','Gonzalo.jpg','Gonzalo','2020-W51');
 
 INSERT INTO tipos_eventos(tipo) VALUES ('interno');
 INSERT INTO tipos_eventos(tipo) VALUES ('externo');
