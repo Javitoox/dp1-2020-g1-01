@@ -47,7 +47,7 @@ INSERT INTO tipos_pagos(tipo) VALUES ('bizum');
 INSERT INTO tipos_pagos(tipo) VALUES ('efectivo');
 INSERT INTO tipos_pagos(tipo) VALUES ('transferencia');
 
-INSERT INTO eventos(nombre,descripcion,fecha,tipo_tipo) VALUES ('The Champions','Amazing','2022-06-23','interno');
+INSERT INTO eventos(title,descripcion,start,tipo_tipo) VALUES ('The Champions','Amazing','2020-12-23','interno');
 
 INSERT INTO inscripciones(registrado) VALUES ('false');
 
