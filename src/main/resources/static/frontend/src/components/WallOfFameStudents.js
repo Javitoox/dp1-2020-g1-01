@@ -109,8 +109,9 @@ export class WallOfFameStudents extends Component{
         formData.append('photo', this.state.photo) ;
         formData.append('nickUsuario', this.state.nickusuario) ;
         formData.append('description', this.state.description) ;
-        
         await this.premiados.postNewPremiado(this.props.urlBase, this.state.fecha, formData).then(() => this.setState({ addForm: false }));
+        console.log("Añadiendo en la fecha... "+this.state.fecha)
+        this.mostrarWallSeleccionado();
     }
     
     SeleccionarFechaWall(){
