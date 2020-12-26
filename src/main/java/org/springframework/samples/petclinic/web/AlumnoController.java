@@ -13,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +33,7 @@ public class AlumnoController {
 	AlumnoService alumnoServ;
 
 	@PutMapping("/editStudent")
-	public ResponseEntity<?> processUpdateAlumnoForm(@Valid Alumno alumno, BindingResult result, HttpServletResponse response)
+	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, HttpServletResponse response)
 			throws IOException {
 		if (result.hasErrors()) {
 			LOGGER.info("Esto no funciona");

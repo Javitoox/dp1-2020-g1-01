@@ -17,6 +17,7 @@ class EditStudent extends Component {
     telefono2 = this.telefono2.bind(this);
     address = this.address.bind(this);
     birthdate = this.birthdate.bind(this);
+    fechaMatriculacion = this.fechaMatriculacion.bind(this);
     buttonTel1 = this.buttonTel1.bind(this);
     buttonTel2 = this.buttonTel2.bind(this);
     state = {
@@ -29,6 +30,7 @@ class EditStudent extends Component {
         telefono2: this.props.student.numTelefonoUsuario2,
         address: this.props.student.direccionUsuario,
         birthdate: this.props.student.fechaNacimiento,
+        fechaMatriculacion: this.props.student.fechaMatriculacion,
         button:false,
         buttonTel1:false,
         buttonTel2:false,
@@ -75,6 +77,10 @@ class EditStudent extends Component {
 
     address(event) {
         this.setState({ address: event.target.value });
+    }
+
+    fechaMatriculacion(event) {
+        this.setState({ fechaMatriculacion: event.target.value });
     }
 
     birthdate(event) {
@@ -128,7 +134,8 @@ class EditStudent extends Component {
             numTelefonoUsuario: this.state.telefono,
             numTelefonoUsuario2: this.state.telefono2,
             direccionUsuario: this.state.address,
-            fechaNacimiento: this.state.birthdate
+            fechaNacimiento: this.state.birthdate,
+            fechaMatriculacion: this.state.fechaMatriculacion
         }
         if(!this.state.buttonTel1){
             alumno.numTelefonoUsuario2 = null
@@ -141,15 +148,15 @@ class EditStudent extends Component {
             data.forEach(e => this.error(e.field, e.defaultMessage))
         }else if(status===201){
             this.setState({
-                username: "",
-                password: "",
-                card: "",
-                name: "",
-                email: "",
-                telefono: "",
-                telefono2: "",
-                address: "",
-                birthdate: "",
+                username: this.state.username,
+                password: this.state.password,
+                card: this.state.card,
+                name: this.state.name,
+                email: this.state.email,
+                telefono: this.state.telefono,
+                telefono2: this.state.telefono2,
+                address: this.state.address,
+                birthdate: this.state.address,
                 succes: <div className="alert alert-success" role="alert">Successful shipment</div>
             })
             window.alert("If you wish, you can modify your application details by entering the same username and password")
@@ -192,13 +199,16 @@ class EditStudent extends Component {
             numTelefonoUsuario2: this.state.telefono2,
             direccionUsuario: this.state.address,
             fechaNacimiento: this.state.birthdate,
+            fechaMatriculacion: this.state.fechaMatriculacion
+        }
+        if(!this.state.buttonTel2){
+            student.numTelefonoUsuario2 = null
         }
         console.log("entra en el submit");
-        axios.put("http://localhost:8081/alumnos/editStudent", student)
-           
-        
-        
-    }
+        axios.put("http://localhost:8081/alumnos/editStudent", student).then(res => {
+            this.respuesta(res.status, res.data)
+    })
+}
 
     render() {
         return (
@@ -215,7 +225,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user"></i>
                                     </span>
-                                    <InputText placeholder="Username" name="alumno.nickUsuario" type="text" value={this.state.username} onChange={this.username} />
+                                    <InputText placeholder="Username" name="alumno.nickUsuario" type="text" value={this.state.username} readOnly />
                                 </div>
                             </div>
                             <div className="i">
