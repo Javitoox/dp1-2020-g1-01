@@ -6,7 +6,7 @@ import axios from 'axios';
 import {Password} from 'primereact/password';
 import Inject from './Inject';
 
-class EditStudent extends Component {
+class EditPersonalInfo extends Component {
 
     username = this.username.bind(this);
     password = this.password.bind(this);
@@ -315,4 +315,4 @@ function mapStateToProps(state) { //metodo para poder pillar datos del store
     }
 }
 
-export default connect(mapStateToProps)(EditStudent); 
+export default connect(mapStateToProps)(EditPersonalInfo); 
