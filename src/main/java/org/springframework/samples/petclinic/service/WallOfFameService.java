@@ -20,4 +20,8 @@ public class WallOfFameService {
 	public WallOfFame saveWallOfFame(WallOfFame w) {
 		return wallOfFameRepository.save(w);
 	}
+	
+	public void deleteWallOfFame(WallOfFame w) {
+		wallOfFameRepository.delete(w);
+	}
 }

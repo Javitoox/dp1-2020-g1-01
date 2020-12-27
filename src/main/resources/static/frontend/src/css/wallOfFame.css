@@ -1,16 +1,38 @@
-.dataview-demo .card{
-    border: 1px solid black;
-}
 .p-grid{
-    text-align: center;
-    height: 100%;
     background-color: rgba(200, 233, 255, 0.63);
 }
-.p-grid .premiado{
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
+
+.dataview-demo .nombreCompleto {
+    font-size: 1.4rem;
+    font-weight: 400;
 }
- .modificaTexto{
-    font-size: large;
+
+.dataview-demo .descripcion {
+    margin: 0 0 1rem 0;
+}
+.dataview-demo .cuadro{
+    margin: auto;
+}
+    
+.dataview-demo .premiado-grid-item {  /*el cuadrado del premiado*/
+    margin: .5em;
+    border: 1px solid #8aadcf;
+    padding: 2rem;
+}
+
+.dataview-demo .premiado-grid-item,
+    .dataview-demo .premiado-grid-item {
+    display: flex;
+    align-items: center;
+    
+}
+
+.dataview-demo .premiado-grid-item img {
+    width: 100%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    margin: 1rem 0;
+}
+
+.dataview-demo .premiado-grid-item .premiado-grid-item-content {
+    text-align: center;
 }

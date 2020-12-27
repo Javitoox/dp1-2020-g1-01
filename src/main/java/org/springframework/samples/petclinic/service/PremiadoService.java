@@ -63,5 +63,36 @@ public class PremiadoService {
 		}
 		
 	}
+
+	public void deletePremiadoById(Integer id) {
+		Optional<Premiado> p = premiadoRepository.findById(id);
+		if(p.isPresent()) {
+			WallOfFame wall = p.get().getWalloffames();
+			premiadoRepository.deleteById(id);
+			List<Premiado> premiados = premiadoRepository.premiadosPorFecha(wall.getFechaWall());
+			if(premiados.size() < 1) {
+				wallOfFameService.deleteWallOfFame(wall);
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

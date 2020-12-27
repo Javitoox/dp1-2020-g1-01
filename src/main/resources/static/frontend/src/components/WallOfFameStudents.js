@@ -34,9 +34,10 @@ export class WallOfFameStudents extends Component{
         this.BotonAñadirPremiado= this.BotonAñadirPremiado.bind(this);
         this.SeleccionarFechaWall= this.SeleccionarFechaWall.bind(this);
         this.MostrarWall= this.MostrarWall.bind(this);
-        this.BotonEditarPremiado= this.BotonEditarPremiado.bind(this);
+        this.BotonEditaroEliminarPremiado= this.BotonEditaroEliminarPremiado.bind(this);
         this.mostrarFormularioEdit= this.mostrarFormularioEdit.bind(this);
         this.handleSubmitEdit= this.handleSubmitEdit.bind(this);    
+        this.handleDelete= this.handleDelete.bind(this);    
     }
 
     componentDidMount(){
@@ -53,19 +54,22 @@ export class WallOfFameStudents extends Component{
     renderGridItem(data) {
         return (
         <React.Fragment>
-            <div className="premiado">  
-              <div>
-                {this.BotonEditarPremiado(data)}
-                <img 
-                    src={"/photosWall/"+data.foto}
-                    onError={(e) =>
-                    (e.target.src =
-                        "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
-                    }
-                    alt={data.name}/>
-                
-                <div className="modificaTexto">{data.alumnos.nombreCompletoUsuario}</div>
-                <div className="modificaTexto">{data.descripcion}</div>
+            <div className="cuadro p-col-12 p-md-7">
+                <div className="premiado-grid-item card">  
+                <div className="premiado-grid-item-content">
+                    {this.BotonEditaroEliminarPremiado(data)}
+                    
+                    <img 
+                        src={"/photosWall/"+data.foto}
+                        onError={(e) =>
+                        (e.target.src =
+                            "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
+                        }
+                        alt={data.name}/>
+                    
+                    <div className="nombreCompleto">{data.alumnos.nombreCompletoUsuario}</div>
+                    <div className="descripcion">{data.descripcion}</div>
+                    </div>
                 </div>
             </div>
         </React.Fragment>
@@ -128,7 +132,7 @@ export class WallOfFameStudents extends Component{
     BotonAñadirPremiado(){
         if(this.props.userType==="profesor" && !this.state.addForm && !this.state.editForm){
             return(
-                <div className="mt-3">  
+                <div className="mt-3 mb-3">  
                     <Button className="p-button-secondary" label="Add a new awarded student" icon="pi pi-plus" onClick={()=>this.setState({addForm: true})}/>
                 </div>
             );
@@ -136,12 +140,12 @@ export class WallOfFameStudents extends Component{
 
     }
 
-    BotonEditarPremiado(data){
+    BotonEditaroEliminarPremiado(data){
         if(this.props.userType==="profesor" && !this.state.addForm && !this.state.editForm){
             return(
                 <div>
                     <Button className="p-button-secondary" icon="pi pi-fw pi-pencil" onClick={() => this.setState({premiado: data}, () => this.setState({editForm:true}))} ></Button>  
-                    <Button className="ml-2 p-button-secondary" icon="pi pi-fw pi-trash"></Button> 
+                    <Button className="ml-2 p-button-secondary" icon="pi pi-fw pi-trash" onClick={() => this.setState({premiado: data}, () => this.handleDelete())}></Button> 
                 </div>
             );
         }
@@ -196,17 +200,21 @@ export class WallOfFameStudents extends Component{
         this.mostrarWallSeleccionado();
     }
 
+    async handleDelete(){
+        var result = window.confirm("Are you sure you want to delete the awarded student?");
+        if(result) await this.premiados.deletePremiado(this.props.urlBase, this.state.premiado.id)
+        this.mostrarWallSeleccionado();
+    }
+
     MostrarWall(){
         if(!this.state.addForm && !this.state.editForm){
             return(
-                <div className="mt-3">
-                <div className="card">
+                <div className="dataview-demo">
                     <DataView
                         value={this.state.premiados}
                         itemTemplate={this.itemTemplate}
                     />
                 </div>
-            </div>
             );
         }
 
