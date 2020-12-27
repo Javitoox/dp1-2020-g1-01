@@ -6,4 +6,8 @@ export class EventService {
         return axios.get(urlBase+'/events/all', {withCredentials: true})
     }
 
+    updateEvent(urlBase, id, start, end){
+        return axios.put(urlBase+'/events/update/'+id+'/'+start+'/'+end, {withCredentials: true})
+    }
+
 }

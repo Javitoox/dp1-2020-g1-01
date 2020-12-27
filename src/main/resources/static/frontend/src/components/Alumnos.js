@@ -150,28 +150,28 @@ class Alumnos extends Component {
 
     render() {
     if (this.state.redirect) {
-        if(this.state.redirect=="/createGroup"){
+        if(this.state.redirect==="/createGroup"){
             return <Redirect
             to={{
               pathname: "/createGroup"
             }}
           />
     
-         }else if(this.state.redirect=="/deleteGroup"){
+         }else if(this.state.redirect==="/deleteGroup"){
             return <Redirect
             to={{
               pathname: "/deleteGroup"
             }}
           />
     
-         }else if(this.state.redirect=="/editStudent"){
+         }else if(this.state.redirect==="/editStudent"){
             return <Redirect
             to={{
               pathname: "/editStudent"
             }}
           /> 
         
-        }else if(this.state.redirect=="/assignStudent"){
+        }else if(this.state.redirect==="/assignStudent"){
             return <Redirect
             to={{
               pathname: "/assignStudent"

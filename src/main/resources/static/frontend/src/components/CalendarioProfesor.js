@@ -5,9 +5,11 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import '@fullcalendar/core/main.css'
 import '@fullcalendar/daygrid/main.css'
+import Auth from './Auth'
 
 export const CalendarioProfesor = (props) => {
     const [events, setEvents] = useState([])
+    const [auth, setAuth] = useState(true)
     const options = {
         plugins: [dayGridPlugin, interactionPlugin],
         defaultView: 'dayGridMonth',
@@ -19,11 +21,9 @@ export const CalendarioProfesor = (props) => {
         },
         editable: true,
         height: 800,
-        eventDragStop: function(info){
-            console.log(info.event._instance.range)
-        },
-        eventResizeStop: function(info){
-            console.log(info.event._instance.range)
+        eventDrop: function(info){
+            eventService.updateEvent(props.urlBase, info.event.id, info.event.start,
+                info.event.end)
         },
         eventClick: function(info){
             console.log(info.event)
@@ -33,14 +33,18 @@ export const CalendarioProfesor = (props) => {
     const eventService = new EventService()
 
     useEffect(() => {
-        eventService.getEvents(props.urlBase).then(data => setEvents(data.data))
+        eventService.getEvents(props.urlBase).then(data => setEvents(data.data)).catch(error => setAuth(false))
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    return (
-        <div>
-            <div className="card">
-                <FullCalendar events={events} options={options}/>
+    if(!auth){
+        return <Auth authority="profesor"></Auth>
+    }else{
+        return (
+            <div>
+                <div className="card">
+                    <FullCalendar events={events} options={options}/>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
