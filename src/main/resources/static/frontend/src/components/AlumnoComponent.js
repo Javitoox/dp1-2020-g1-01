@@ -35,5 +35,8 @@ export default class AlumnoComponent extends Component{
 		return axios.put(baseUrl+"/premiados/editarPremiado", formData,{withCredentials: true});
 	}
 	
+	deletePremiado(baseUrl, id){
+		return axios.delete(baseUrl+"/premiados/borrarPremiado/"+id,{withCredentials: true});
+	}
 }
 
