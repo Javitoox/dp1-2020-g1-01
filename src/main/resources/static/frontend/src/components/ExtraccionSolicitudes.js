@@ -4,15 +4,15 @@ import axios from 'axios';
 export default class ExtraccionSolicitudes extends Component {
         
     getSolicitudes(urlBase){
-        return axios.get(urlBase+"/requests/pending").then(res => res.data);
+        return axios.get(urlBase+"/requests/pending", {withCredentials: true}).then(res => res.data);
     }
  
-    denyRequest(nickUsuario){
-        return axios.get("http://localhost:8081/requests/decline/"+nickUsuario);
+    denyRequest(urlBase, nickUsuario){
+        return axios.put(urlBase +"/requests/decline/"+nickUsuario, {withCredentials: true});
     }
 
-    acceptRequest(nickUsuario){
-        return axios.get("http://localhost:8081/requests/accept/"+nickUsuario);
+    acceptRequest(urlBase, nickUsuario){
+        return axios.put(urlBase +"/requests/accept/"+nickUsuario, {withCredentials: true});
     }
 }
 
