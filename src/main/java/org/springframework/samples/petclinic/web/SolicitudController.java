@@ -21,25 +21,22 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin("*")
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/requests")
 public class SolicitudController {
 	private static final Logger log = LoggerFactory.logger(SolicitudController.class);
 
 	   private final SolicitudService solicitudServ;
-	   private final AlumnoService alumnoService;
-	   private final TutorService tutorService;
 	   
 	   @Autowired
 	   public SolicitudController(SolicitudService solicitudServ, AlumnoService alumnoService, TutorService tutorService) {
 		   this.solicitudServ = solicitudServ;
-		   this.alumnoService = alumnoService;
-		   this.tutorService = tutorService;
 	   }
 	   
 	   @GetMapping("/pending")
@@ -47,32 +44,25 @@ public class SolicitudController {
 		   return solicitudServ.getAllSolicitudes();
 	   }
 	   
-	   @GetMapping("/decline/{nickUsuario}")
+	   @PutMapping("/decline/{nickUsuario}")
 	   public void declineRequest(@PathVariable("nickUsuario")String nickUsuario ){
-		   Alumno alumnoAceptado = alumnoService.getAlumno(nickUsuario);
-		   if(alumnoAceptado.getTutores()==null) {
-			   solicitudServ.declineRequest(nickUsuario);
-		   }else {
-			   String nickTutor = alumnoAceptado.getTutores().getNickUsuario();
-			   List<Alumno> alumnosDelTutor=  alumnoService.getAllMyStudents(nickTutor);
-			   if(alumnosDelTutor.size()>1) {
-				   solicitudServ.declineRequest(nickUsuario);
-			   }else {
-				   solicitudServ.declineRequest(nickUsuario);
-				   tutorService.delete(nickTutor);
-				   
-			   }
-		   }
+		   Alumno alumnoDenegado = solicitudServ.getAlumno(nickUsuario);
+		   solicitudServ.declineRequest(alumnoDenegado);
 		   
 	   }
 	   
-	   @GetMapping("/accept/{nickUsuario}")
+	   @PutMapping("/accept/{nickUsuario}")
 	   public void sending(@PathVariable("nickUsuario")String nickUsuario) {
-		   Alumno alumnoAceptado = alumnoService.getAlumno(nickUsuario);
+		   Alumno alumnoAceptado = solicitudServ.getAlumno(nickUsuario);
 		   System.out.println("ALUMNO ACEPTADO:"+alumnoAceptado);
-		   alumnoAceptado.setFechaSolicitud(null);
-		   alumnoAceptado.setFechaMatriculacion(null);
+		   alumnoAceptado.setFechaMatriculacion(LocalDate.now());
+		   Tutor t = alumnoAceptado.getTutores();
+		   if(t != null && t.getFechaMatriculacion() == null) {
+			   t.setFechaMatriculacion(LocalDate.now());
+			   alumnoAceptado.setTutores(t);
+		   }
 		   solicitudServ.acceptRequest(alumnoAceptado);
+		   
 	   }   
 		
 		@PostMapping("/sending")
