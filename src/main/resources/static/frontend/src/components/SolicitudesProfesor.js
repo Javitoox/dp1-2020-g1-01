@@ -47,7 +47,7 @@ export  class SolicitudesProfesor extends Component {
       console.log("Estoy entrando " + this.state.rowDataInfo);
       if(this.state.rowDataInfo != null){
         return(
-          <Dialog header="Request' information"  visible={true} style={{ width: '60vw' }}  onHide={() => this.setState({rowDataInfo: null})}>
+          <Dialog header="Request' information"  visible={true} style={{ width: '30vw' }}  onHide={() => this.setState({rowDataInfo: null})}>
             <h4>Student data:</h4>
             <p><b>Nick:</b> {this.state.rowDataInfo.nickUsuario}</p>
             <p><b>DNI:</b> {this.state.rowDataInfo.dniUsuario}</p>

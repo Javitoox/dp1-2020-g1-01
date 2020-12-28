@@ -16,11 +16,11 @@ export default class AlumnoComponent extends Component{
 	}
 
 	getWallOfFameForStudents(baseUrl, fecha){
-		return axios.get(baseUrl+"/premiados/"+fecha).then(res=>res.data);
+		return axios.get(baseUrl+"/premiados/"+fecha, {withCredentials: true}).then(res=>res.data);
 	}
 
 	getTheLastWeek(baseUrl){
-		return axios.get(baseUrl+"/premiados/ultimaSemana").then(res=>res.data);
+		return axios.get(baseUrl+"/premiados/ultimaSemana", {withCredentials: true}).then(res=>res.data);
 	}
 
 	assign(persona) {
