@@ -148,7 +148,7 @@ class EditStudent extends Component {
         if(!this.state.buttonTel1){
             alumno.numTelefonoUsuario2 = null
         } 
-            axios.put("http://localhost:8081/alumnos/editStudent", {withCredentials: true} , alumno).then(res => {
+            axios.put(this.props.urlBase + "/alumnos/editStudent", alumno).then(res => {
             this.respuesta(res.status, res.data)
             })
         
@@ -172,7 +172,6 @@ class EditStudent extends Component {
                 succes: <div className="alert alert-success" role="alert">Successful shipment</div>
             })
             window.alert("If you wish, you can modify your application details by entering the same username and password")
-        
         }
     }
 

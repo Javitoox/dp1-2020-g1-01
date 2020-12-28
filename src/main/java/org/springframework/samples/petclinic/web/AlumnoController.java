@@ -37,8 +37,7 @@ public class AlumnoController {
 	@PutMapping("/editStudent")
 	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, HttpServletResponse response, HttpServletRequest request)
 			throws IOException {
-		HttpSession session = request.getSession(false);
-    	if(session != null && (session.getAttribute("type") == "tutor" || session.getAttribute("type") == "alumno")) {
+		
     		LOGGER.info("El alumno es : " + alumno.getNickUsuario());
     		if (result.hasErrors()) {
     			LOGGER.info("Esto no funciona");
@@ -50,9 +49,8 @@ public class AlumnoController {
     			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
     			
     		}
-    	}else {
-    		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    	}
+    	
+    	
 		
     }
     @GetMapping("/editStudentInfo")

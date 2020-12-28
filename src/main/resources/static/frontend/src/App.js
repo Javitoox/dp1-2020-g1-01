@@ -62,7 +62,7 @@ class App extends Component {
 					<Login urlBase={this.state.urlBase} onChange={this.changeType}></Login>
 				} />
 				<Route path="/editStudent" render={() =>
-					<EditStudent/>
+					<EditStudent urlBase={this.state.urlBase}/>
 				} />
 				<Route path="/pendingRequests" render={() =>
 					<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
