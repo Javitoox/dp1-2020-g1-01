@@ -6,10 +6,23 @@ import interactionPlugin from '@fullcalendar/interaction'
 import '@fullcalendar/core/main.css'
 import '@fullcalendar/daygrid/main.css'
 import Auth from './Auth'
+import { Dialog } from 'primereact/dialog'
 
 export const CalendarioProfesor = (props) => {
     const [events, setEvents] = useState([])
     const [auth, setAuth] = useState(true)
+    const [info, setInfo] = useState(null)
+
+    function selectInfo(info){
+        var parts = info.split("/")
+        return (
+            <Dialog header="Information"  visible={true} style={{ width: '25vw' }}  onHide={() => setInfo(null)}>
+            <p><b>Descripton:</b> {parts[0]}</p>
+            <p><b>Type:</b> {parts[1]}</p>
+          </Dialog>
+        )
+    }
+
     const options = {
         plugins: [dayGridPlugin, interactionPlugin],
         defaultView: 'dayGridMonth',
@@ -25,8 +38,12 @@ export const CalendarioProfesor = (props) => {
             eventService.updateEvent(props.urlBase, info.event.id, info.event.start,
                 info.event.end)
         },
+        eventResize: function(info){
+            eventService.updateEvent(props.urlBase, info.event.id, info.event.start,
+                info.event.end)
+        },
         eventClick: function(info){
-            console.log(info.event)
+            eventService.getDescription(props.urlBase, info.event.id).then(data => setInfo(selectInfo(data.data)))
         }
     }
 
@@ -44,6 +61,7 @@ export const CalendarioProfesor = (props) => {
                 <div className="card">
                     <FullCalendar events={events} options={options}/>
                 </div>
+                {info}
             </div>
         )
     }

@@ -10,4 +10,8 @@ export class EventService {
         return axios.put(urlBase+'/events/update/'+id+'/'+start+'/'+end, {}, {withCredentials: true})
     }
 
+    getDescription(urlBase, id){
+        return axios.get(urlBase+'/events/description/'+id, {withCredentials: true})
+    }
+
 }

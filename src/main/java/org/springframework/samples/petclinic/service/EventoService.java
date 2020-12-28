@@ -38,5 +38,14 @@ public class EventoService {
 		}
 		return evento;
 	}
+	
+	public String getDescription(Integer id) {
+		Evento evento = eventoRepository.findById(id).orElse(null);
+		String result = null;
+		if(evento != null) {
+			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo();
+		}
+		return result;
+	}
 
 }

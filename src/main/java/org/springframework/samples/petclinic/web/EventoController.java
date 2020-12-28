@@ -54,7 +54,22 @@ public class EventoController {
 				return ResponseEntity.ok(evento);
 			}
 		}else {
-			log.info("No auth");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	@GetMapping("/description/{id}")
+	public ResponseEntity<?> getDescription(@PathVariable("id") Integer id, HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		if(session != null && session.getAttribute("type") == "profesor") {
+			String description = eventoService.getDescription(id);
+			if(description == null) {
+				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
+			}else {
+				log.info("Event's description with id "+id+": "+description);
+				return ResponseEntity.ok(description);
+			}
+		}else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
