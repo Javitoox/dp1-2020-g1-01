@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import MetodosAlumno from './MetodosAlumno';
 import {Password} from 'primereact/password';
 import Inject from './Inject';
 import Auth from './Auth';
 import axios from 'axios';
-
-export default class EditPersonalInfo extends Component {
+import { connect } from 'react-redux';
+class EditPersonalInfo extends Component {
 
     username = this.username.bind(this);
     password = this.password.bind(this);
@@ -21,19 +20,18 @@ export default class EditPersonalInfo extends Component {
     fechaMatriculacion = this.fechaMatriculacion.bind(this);
     buttonTel1 = this.buttonTel1.bind(this);
     buttonTel2 = this.buttonTel2.bind(this);
-constructor(){
-    super()
-    this.state = {
-        username: null,
-        password: null,
-        card: null,
-        name: null,
-        email:null,
-        telefono: null,
-        telefono2: null,
-        address: null,
-        birthdate: null,
-        fechaMatriculacion: null,
+    
+    state = {
+        username: this.props.student.nickUsuario,
+        password: this.props.student.contraseya,
+        card: this.props.student.dniUsuario,
+        name: this.props.student.nombreCompletoUsuario,
+        email: this.props.student.correoElectronicoUsuario,
+        telefono: this.props.student.numTelefonoUsuario,
+        telefono2: this.props.student.numTelefonoUsuario2,
+        address: this.props.student.direccionUsuario,
+        birthdate: this.props.student.fechaNacimiento,
+        fechaMatriculacion: this.props.student.fechaMatriculacion,
         button:false,
         buttonTel1:false,
         buttonTel2:false,
@@ -49,29 +47,13 @@ constructor(){
         succes:null,
         comprobation: false,
     }
-    this.editPersona = new MetodosAlumno();
-}
-    componentDidMount() {
+    componentDidMount(){
         axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
-            if(res.data==="profesor"){
+            if(res.data==="alumno"){
                 this.setState({comprobation: true})
             }
             })
-        console.log(this.props.nickUser);
-        this.editPersona.getUserInfo(this.props.urlBase, this.props.nickUser).then(data =>
-            this.setState({ username: data.nickUsuario,
-           password: data.contraseya ,
-           card: data.dniUsuario,
-           name: data.nombreCompletoUsuario,
-           email:data.correoElectronicoUsuario,
-           telefono: data.numTelefonoUsuario,
-           telefono2: data.numTelefonoUsuario2,
-           address: data.direccionUsuario,
-           birthdate: data.fechaNacimiento,
-           fechaMatriculacion: data.fechaMatriculacion,})
-        );
-    
-}
+    }
     username(event) {
         this.setState({ username: event.target.value });
     }
@@ -113,15 +95,15 @@ constructor(){
     }
 
     button(event) {
-        this.setState({ button: !this.state.button });
+        this.setState({ button: !this.state.button })
     }
 
     buttonTel1(event) {
-        this.setState({ buttonTel1: !this.state.buttonTel1 });
+        this.setState({ buttonTel1: !this.state.buttonTel1 })
     }
 
     buttonTel2(event) {
-        this.setState({ buttonTel2: !this.state.buttonTel2 });
+        this.setState({ buttonTel2: !this.state.buttonTel2 })
     }
 
     otherNumber() {
@@ -130,14 +112,14 @@ constructor(){
                 <span className="p-inputgroup-addon">
                     <i className="pi pi-mobile"></i>
                 </span>
-                <InputText placeholder="Phone number" name="numTelefonoUsuario2" type="tel" value={this.state.telefono2 || ""} onChange={this.telefono2} />
+                <InputText placeholder="Phone number" name="alumno.numTelefonoUsuario2" type="tel" value={this.state.telefono2 || ""} onChange={this.telefono2} />
             </div>
         </div>
     }
 
     handleSubmit = event => {
         event.preventDefault();
-
+        console.log("entra en el submit");
         this.setState({
             usernameError:null,
             passwordError:null,
@@ -148,6 +130,7 @@ constructor(){
             telefono2Error:null,
             addressError:null,
             birthdateError:null,
+            succes:null
         })
 
         const alumno = {
@@ -164,6 +147,32 @@ constructor(){
         }
         if(!this.state.buttonTel1){
             alumno.numTelefonoUsuario2 = null
+        } 
+            axios.put("http://localhost:8081/alumnos/editStudent", {withCredentials: true} , alumno).then(res => {
+            this.respuesta(res.status, res.data)
+            })
+        
+    }
+    
+    respuesta(status, data){
+        console.log(status);
+        if(status===203){
+            data.forEach(e => this.error(e.field, e.defaultMessage))
+        }else{
+            this.setState({
+                username: this.state.username,
+                password: this.state.password,
+                card: this.state.card,
+                name: this.state.name,
+                email: this.state.email,
+                telefono: this.state.telefono,
+                telefono2: this.state.telefono2,
+                address: this.state.address,
+                birthdate: this.state.birthdate,
+                succes: <div className="alert alert-success" role="alert">Successful shipment</div>
+            })
+            window.alert("If you wish, you can modify your application details by entering the same username and password")
+        
         }
     }
 
@@ -188,40 +197,16 @@ constructor(){
             this.setState({ birthdateError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }
     }
-    respuesta(status, data){
-        console.log(status);
-        if(status===203){
-            data.forEach(e => this.error(e.field, e.defaultMessage))
-        }else if(status===201){
-            this.setState({
-                username: this.state.username,
-                password: this.state.password,
-                card: this.state.card,
-                name: this.state.name,
-                email: this.state.email,
-                telefono: this.state.telefono,
-                telefono2: this.state.telefono2,
-                address: this.state.address,
-                birthdate: this.state.birthdate,
-                succes: <div className="alert alert-success" role="alert">Successful shipment</div>
-            })
-            window.alert("If you wish, you can modify your application details by entering the same username and password")
-        }else{
-            this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
-        }
-    }
-
-
+       
     render() {
-        console.log(this.state.comprobation)
-        if (this.state.comprobation) {
-            return <Auth authority="alumno"></Auth>
+        if (!this.state.comprobation) {
+            return <Auth authority="profesor"></Auth>
         } else {
         return (
             <div>
                 <div className="c">
                     <div className="login request">
-                    <form onSubmit={this.save}>
+                    <form onSubmit={this.handleSubmit}>
                             {this.state.succes}
                             <div className="t"><div><h5>Request</h5></div></div>
                             <div className="i">
@@ -230,7 +215,7 @@ constructor(){
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user"></i>
                                     </span>
-                                    <InputText placeholder="Username" name="nickUsuario" type="text" value={this.state.nickUsuario} readOnly />
+                                    <InputText placeholder="Username" name="nickUsuario" type="text" value={this.state.username} readOnly />
                                 </div>
                             </div>
                             <div className="i">
@@ -311,6 +296,14 @@ constructor(){
                 </div>
             </div>
         );
- }
     }
 }
+
+}
+function mapStateToProps(state) { //metodo para poder pillar datos del store
+    return {
+        student: state.student //le pasamos a nuestra variable student la informacion del estudiante almacenada en el store
+    }
+}
+
+export default connect(mapStateToProps)(EditPersonalInfo); 

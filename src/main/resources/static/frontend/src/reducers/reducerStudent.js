@@ -4,6 +4,10 @@ export default function (state = {}, action) {
                         console.log("esta funcionando el reducer")
                         return action.payload; //de aqui pillamos el objeto y se lo pasamos al index
                         break;
+                 case "STUDENT_INFO": 
+                        console.log("esta funcionando el reducer")
+                        return action.payload; //de aqui pillamos el objeto y se lo pasamos al index
+                        break;
         } return state;
         
 }

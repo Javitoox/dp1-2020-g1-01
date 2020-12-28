@@ -38,7 +38,7 @@ public class AlumnoController {
 	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, HttpServletResponse response, HttpServletRequest request)
 			throws IOException {
 		HttpSession session = request.getSession(false);
-    	if(session != null && session.getAttribute("type") == "tutor") {
+    	if(session != null && (session.getAttribute("type") == "tutor" || session.getAttribute("type") == "alumno")) {
     		LOGGER.info("El alumno es : " + alumno.getNickUsuario());
     		if (result.hasErrors()) {
     			LOGGER.info("Esto no funciona");
@@ -60,6 +60,7 @@ public class AlumnoController {
     		HttpServletRequest request){
     	HttpSession session = request.getSession(false);
     	if(session != null && session.getAttribute("type") == "alumno") {
+    		LOGGER.info("ESTO ESTA FUNCIONANDO");
     		Alumno alumno = alumnoServ.getAlumno(nickUsuario);
             return ResponseEntity.ok(alumno);
     	}else {

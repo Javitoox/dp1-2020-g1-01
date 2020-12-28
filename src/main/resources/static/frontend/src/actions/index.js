@@ -12,3 +12,9 @@ export const selectAssignedStudent = (student) => { //se debe poner como constan
         payload: student //el payload contiene la informacion del objeto que hemos pasado
     }
 };
+export const studentInfo = (student) => { //se debe poner como constante y el export para que funcione sin problemas
+    return{
+        type: "STUDENT_INFO",
+        payload: student //el payload contiene la informacion del objeto que hemos pasado
+    }
+};

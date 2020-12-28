@@ -226,7 +226,8 @@ class Alumnos extends Component {
     }
 }
 function  matchDispatchToProps(dispatch) {
-    return bindActionCreators({selectStudent : selectStudent,
+    return bindActionCreators({
+        selectStudent : selectStudent,
         selectAssignedStudent: selectAssignedStudent}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
 }
 export default connect(null , matchDispatchToProps)(Alumnos) //importante poner primero el null si no hay mapStateToProps en el componente chicxs
