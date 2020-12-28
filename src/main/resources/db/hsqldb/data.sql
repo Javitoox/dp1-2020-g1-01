@@ -48,6 +48,8 @@ INSERT INTO tipos_pagos(tipo) VALUES ('efectivo');
 INSERT INTO tipos_pagos(tipo) VALUES ('transferencia');
 
 INSERT INTO eventos(title,descripcion,start,tipo_tipo) VALUES ('The Champions','Amazing','2020-12-23','interno');
+INSERT INTO eventos(title,descripcion,start,end,tipo_tipo) VALUES ('HoolaHoop','Amzing play','2020-12-23','2020-12-25','externo');
+INSERT INTO eventos(title,descripcion,start,tipo_tipo) VALUES ('Fall Guys','Amazing wow','2020-12-15','interno');
 
 INSERT INTO inscripciones(registrado) VALUES ('false');
 
