@@ -43,14 +43,28 @@ export class WallOfFameStudents extends Component{
     componentDidMount(){
         this.obtenerUltimoWall();
     }
-  
+
+    fecha(event){
+        this.setState({fecha:event.target.value})      
+    }
+
+    nickusuario(event){
+        this.setState({nickusuario : event.target.value})
+    }
+
+    description(event){
+        this.setState({description : event.target.value})
+    }
+
+    photo(event){
+        this.setState({photo : event.target.files[0]})
+    }
+
     async obtenerUltimoWall(){
         await this.premiados.getTheLastWeek(this.props.urlBase).then(data => this.setState({ fecha: data }))
-        console.log("fecha:" + this.state.fecha)
         this.mostrarWallSeleccionado()
     }
 
-    
     renderGridItem(data) {
         return (
         <React.Fragment>
@@ -85,37 +99,7 @@ export class WallOfFameStudents extends Component{
 
 
     mostrarWallSeleccionado(){
-        console.log(this.state.fecha)
         this.premiados.getWallOfFameForStudents(this.props.urlBase, this.state.fecha).then(data => this.setState({ premiados: data }))
-        //console.log(this.state.premiados);
-    }
-
-    fecha(event){
-        console.log("Hola soy fecha(event) :)")
-        this.setState({fecha:event.target.value})      
-    }
-
-    nickusuario(event){
-        this.setState({nickusuario : event.target.value})
-    }
-
-    description(event){
-        this.setState({description : event.target.value})
-    }
-
-    photo(event){
-        this.setState({photo : event.target.files[0]})
-    }
-
-
-    async handleSubmit(){
-        const formData = new FormData();
-        formData.append('photo', this.state.photo) ;
-        formData.append('nickUsuario', this.state.nickusuario) ;
-        formData.append('description', this.state.description) ;
-        await this.premiados.postNewPremiado(this.props.urlBase, this.state.fecha, formData).then(() => this.setState({ addForm: false }));
-        console.log("Añadiendo en la fecha... "+this.state.fecha)
-        this.mostrarWallSeleccionado();
     }
     
     SeleccionarFechaWall(){
@@ -156,6 +140,9 @@ export class WallOfFameStudents extends Component{
             return(
                 <div className="c">
                     <div className="login request">
+                        <div className="ml-3">
+                            <Button icon="pi pi-times" className="p-button-rounded p-button-secondary" onClick={()=>this.setState({editForm:false})}></Button>
+                        </div>
                         <div className="t">
                             <div><h5>You're editing: {this.state.premiado.alumnos.nickUsuario} </h5></div>
                         </div>
@@ -189,6 +176,15 @@ export class WallOfFameStudents extends Component{
         }
     }
 
+
+    async handleSubmit(){
+        const formData = new FormData();
+        formData.append('photo', this.state.photo) ;
+        formData.append('nickUsuario', this.state.nickusuario) ;
+        formData.append('description', this.state.description) ;
+        await this.premiados.postNewPremiado(this.props.urlBase, this.state.fecha, formData).then(() => this.setState({ addForm: false }));
+        this.mostrarWallSeleccionado();
+    }
 
     async handleSubmitEdit(){
         const formData = new FormData();
@@ -225,7 +221,9 @@ export class WallOfFameStudents extends Component{
             return( 
                 <div className="c">
                     <div className="login request">
-                       
+                        <div className="ml-3">
+                            <Button icon="pi pi-times" className="p-button-rounded p-button-secondary" onClick={()=>this.setState({addForm:false})}></Button>
+                        </div>
                         <div className="t">
                             <div><h5>Add a new awarded student</h5></div>
                         </div>

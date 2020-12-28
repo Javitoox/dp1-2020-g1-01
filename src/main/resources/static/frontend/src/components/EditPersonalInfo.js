@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import { connect } from 'react-redux';
-import axios from 'axios';
 import {Password} from 'primereact/password';
 import Inject from './Inject';
 import Auth from './Auth';
-class EditStudent extends Component {
+import axios from 'axios';
+import { connect } from 'react-redux';
+class EditPersonalInfo extends Component {
 
     username = this.username.bind(this);
     password = this.password.bind(this);
@@ -49,7 +49,7 @@ class EditStudent extends Component {
     }
     componentDidMount(){
         axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
-            if(res.data==="profesor"){
+            if(res.data==="alumno"){
                 this.setState({comprobation: true})
             }
             })
@@ -148,7 +148,7 @@ class EditStudent extends Component {
         if(!this.state.buttonTel1){
             alumno.numTelefonoUsuario2 = null
         } 
-            axios.put(this.props.urlBase + "/alumnos/editStudent", alumno).then(res => {
+            axios.put("http://localhost:8081/alumnos/editStudent", {withCredentials: true} , alumno).then(res => {
             this.respuesta(res.status, res.data)
             })
         
@@ -172,6 +172,7 @@ class EditStudent extends Component {
                 succes: <div className="alert alert-success" role="alert">Successful shipment</div>
             })
             window.alert("If you wish, you can modify your application details by entering the same username and password")
+        
         }
     }
 
@@ -305,4 +306,4 @@ function mapStateToProps(state) { //metodo para poder pillar datos del store
     }
 }
 
-export default connect(mapStateToProps)(EditStudent); 
+export default connect(mapStateToProps)(EditPersonalInfo); 

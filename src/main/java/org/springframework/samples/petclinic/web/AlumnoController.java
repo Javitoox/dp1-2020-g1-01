@@ -4,26 +4,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/alumnos")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 public class AlumnoController {
 	private static final Logger LOGGER = LoggerFactory.logger(SolicitudController.class);
@@ -31,19 +34,37 @@ public class AlumnoController {
 	@Autowired
 	AlumnoService alumnoServ;
 
-	@GetMapping("/editStudent")
-	public void processUpdateAlumnoForm(@Valid Alumno alumno, BindingResult result, HttpServletResponse response)
+	@PutMapping("/editStudent")
+	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, HttpServletResponse response, HttpServletRequest request)
 			throws IOException {
-		if (result.hasErrors()) {
-
-			LOGGER.info("Esto no funciona :(");
-			response.sendRedirect("http://localhost:3000");
-		} else {
-			LOGGER.info("Ha funcionado");
-			this.alumnoServ.saveAlumno(alumno);
-			response.sendRedirect("http://localhost:3000");
-		}
-	}
+		
+    		LOGGER.info("El alumno es : " + alumno.getNickUsuario());
+    		if (result.hasErrors()) {
+    			LOGGER.info("Esto no funciona");
+    			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+    		}
+    		else {
+    			LOGGER.info("Ha funcionado");
+    			this.alumnoServ.saveAlumno(alumno);
+    			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+    			
+    		}
+    	
+    	
+		
+    }
+    @GetMapping("/editStudentInfo")
+    public ResponseEntity<?> getStudentInfo(@PathVariable("nickUsuario") String nickUsuario, 
+    		HttpServletRequest request){
+    	HttpSession session = request.getSession(false);
+    	if(session != null && session.getAttribute("type") == "alumno") {
+    		LOGGER.info("ESTO ESTA FUNCIONANDO");
+    		Alumno alumno = alumnoServ.getAlumno(nickUsuario);
+            return ResponseEntity.ok(alumno);
+    	}else {
+    		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    	}
+    }
 
 	@GetMapping("/all")
 	public ResponseEntity<List<Alumno>> listAlumnos() {

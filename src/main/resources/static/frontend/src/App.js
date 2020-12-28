@@ -15,7 +15,10 @@ import EditStudent from './components/EditStudent'
 import AssignStudent from './components/AssignStudent'
 import {CreateGroup} from './components/CreateGroup'
 import {DeleteGroup} from './components/DeleteGroup'
+import EditPersonalInfo from './components/EditPersonalInfo'
+//import MetodosAlumno from './components/MetodosAlumno'
 import {CalendarioProfesor} from './components/CalendarioProfesor'
+
 
 class App extends Component {
 
@@ -49,11 +52,17 @@ class App extends Component {
 				<Route path="/requests" render={() =>
 					<Solicitudes urlBase={this.state.urlBase}></Solicitudes>
 				} />
+				{/* <Route path="/requests" render={() =>
+					<MetodosAlumno urlBase={this.state.urlBase} nickUser = {this.calculateUserName}></MetodosAlumno>
+				} /> */}
+				<Route path="/students/EditPersonalInfo" render={() =>
+					<EditPersonalInfo urlBase={this.state.urlBase}></EditPersonalInfo>
+				} />
 				<Route path="/login" render={() =>
 					<Login urlBase={this.state.urlBase} onChange={this.changeType}></Login>
 				} />
 				<Route path="/editStudent" render={() =>
-					<EditStudent/>
+					<EditStudent urlBase={this.state.urlBase}/>
 				} />
 				<Route path="/pendingRequests" render={() =>
 					<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
