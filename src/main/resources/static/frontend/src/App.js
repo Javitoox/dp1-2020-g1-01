@@ -51,7 +51,7 @@ class App extends Component {
 					<Solicitudes urlBase={this.state.urlBase}></Solicitudes>
 				} />
 				<Route path="/students/EditPersonalInfo" render={() =>
-					<EditPersonalInfo urlBase={this.state.urlBase}></EditPersonalInfo>
+					<EditPersonalInfo urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></EditPersonalInfo>
 				} />
 				<Route path="/login" render={() =>
 					<Login urlBase={this.state.urlBase} onChange={this.changeType}></Login>

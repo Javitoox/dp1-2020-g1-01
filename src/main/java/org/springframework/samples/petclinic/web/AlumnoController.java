@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
@@ -33,20 +35,37 @@ public class AlumnoController {
 	AlumnoService alumnoServ;
 
 	@PutMapping("/editStudent")
-	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, HttpServletResponse response)
+	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, HttpServletResponse response, HttpServletRequest request)
 			throws IOException {
-		if (result.hasErrors()) {
-			LOGGER.info("Esto no funciona");
-			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-		}
-		else {
-			LOGGER.info("Ha funcionado");
-			this.alumnoServ.saveAlumno(alumno);
-			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
-			
-		}
+		HttpSession session = request.getSession(false);
+    	if(session != null && session.getAttribute("type") == "tutor") {
+    		LOGGER.info("El alumno es : " + alumno.getNickUsuario());
+    		if (result.hasErrors()) {
+    			LOGGER.info("Esto no funciona");
+    			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+    		}
+    		else {
+    			LOGGER.info("Ha funcionado");
+    			this.alumnoServ.saveAlumno(alumno);
+    			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+    			
+    		}
+    	}else {
+    		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    	}
+		
     }
-	
+    @GetMapping("/editStudentInfo")
+    public ResponseEntity<?> getStudentInfo(@PathVariable("nickUsuario") String nickUsuario, 
+    		HttpServletRequest request){
+    	HttpSession session = request.getSession(false);
+    	if(session != null && session.getAttribute("type") == "alumno") {
+    		Alumno alumno = alumnoServ.getAlumno(nickUsuario);
+            return ResponseEntity.ok(alumno);
+    	}else {
+    		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    	}
+    }
 
 	@GetMapping("/all")
 	public ResponseEntity<List<Alumno>> listAlumnos() {

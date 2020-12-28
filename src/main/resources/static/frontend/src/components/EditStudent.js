@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import {Password} from 'primereact/password';
 import Inject from './Inject';
-
+import Auth from './Auth';
 class EditStudent extends Component {
 
     username = this.username.bind(this);
@@ -20,6 +20,7 @@ class EditStudent extends Component {
     fechaMatriculacion = this.fechaMatriculacion.bind(this);
     buttonTel1 = this.buttonTel1.bind(this);
     buttonTel2 = this.buttonTel2.bind(this);
+    
     state = {
         username: this.props.student.nickUsuario,
         password: this.props.student.contraseya,
@@ -44,9 +45,15 @@ class EditStudent extends Component {
         addressError:null,
         birthdateError:null,
         succes:null,
-        exist:null
+        comprobation: false,
     }
-
+    componentDidMount(){
+        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+            if(res.data==="profesor"){
+                this.setState({comprobation: true})
+            }
+            })
+    }
     username(event) {
         this.setState({ username: event.target.value });
     }
@@ -112,7 +119,7 @@ class EditStudent extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-
+        console.log("entra en el submit");
         this.setState({
             usernameError:null,
             passwordError:null,
@@ -123,6 +130,7 @@ class EditStudent extends Component {
             telefono2Error:null,
             addressError:null,
             birthdateError:null,
+            succes:null
         })
 
         const alumno = {
@@ -139,14 +147,18 @@ class EditStudent extends Component {
         }
         if(!this.state.buttonTel1){
             alumno.numTelefonoUsuario2 = null
-        }
+        } 
+            axios.put("http://localhost:8081/alumnos/editStudent", {withCredentials: true} , alumno).then(res => {
+            this.respuesta(res.status, res.data)
+            })
+        
     }
-
+    
     respuesta(status, data){
         console.log(status);
         if(status===203){
             data.forEach(e => this.error(e.field, e.defaultMessage))
-        }else if(status===201){
+        }else{
             this.setState({
                 username: this.state.username,
                 password: this.state.password,
@@ -160,64 +172,42 @@ class EditStudent extends Component {
                 succes: <div className="alert alert-success" role="alert">Successful shipment</div>
             })
             window.alert("If you wish, you can modify your application details by entering the same username and password")
-        }else{
-            this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
+        
         }
     }
 
     error(campo, mensaje){
-        if(campo === "alumno.nickUsuario"){
+        if(campo === "nickUsuario"){
             this.setState({ usernameError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
-        }else if(campo === "alumno.contraseya"){
+        }else if(campo === "contraseya"){
             this.setState({ passwordError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
-        }else if(campo === "alumno.dniUsuario"){
+        }else if(campo === "dniUsuario"){
             this.setState({ cardError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
-        }else if(campo === "alumno.nombreCompletoUsuario"){
+        }else if(campo === "nombreCompletoUsuario"){
             this.setState({ nameError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
-        }else if(campo === "alumno.correoElectronicoUsuario"){
+        }else if(campo === "correoElectronicoUsuario"){
             this.setState({ emailError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
-        }else if(campo === "alumno.numTelefonoUsuario"){
+        }else if(campo === "numTelefonoUsuario"){
             this.setState({ telefonoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
-        }else if(campo === "alumno.numTelefonoUsuario2"){
+        }else if(campo === "numTelefonoUsuario2"){
             this.setState({ telefono2Error: <div className="alert alert-danger" role="alert">{mensaje}</div> })
-        }else if(campo === "alumno.direccionUsuario"){
+        }else if(campo === "direccionUsuario"){
             this.setState({ addressError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
-        }else if(campo === "alumno.fechaNacimiento"){
+        }else if(campo === "fechaNacimiento"){
             this.setState({ birthdateError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }
     }
-        save = event => {
-        event.preventDefault();
-
-        const student = {
-            nickUsuario: this.state.username,
-            contraseya: this.state.password,
-            dniUsuario: this.state.card,
-            nombreCompletoUsuario: this.state.name,
-            correoElectronicoUsuario: this.state.email,
-            numTelefonoUsuario: this.state.telefono,
-            numTelefonoUsuario2: this.state.telefono2,
-            direccionUsuario: this.state.address,
-            fechaNacimiento: this.state.birthdate,
-            fechaMatriculacion: this.state.fechaMatriculacion
-        }
-        if(!this.state.buttonTel2){
-            student.numTelefonoUsuario2 = null
-        }
-        console.log("entra en el submit");
-        axios.put("http://localhost:8081/alumnos/editStudent", student).then(res => {
-            this.respuesta(res.status, res.data)
-    })
-}
-
+       
     render() {
+        if (!this.state.comprobation) {
+            return <Auth authority="profesor"></Auth>
+        } else {
         return (
             <div>
                 <div className="c">
                     <div className="login request">
-                    <form onSubmit={this.save}>
+                    <form onSubmit={this.handleSubmit}>
                             {this.state.succes}
-                            {this.state.exist}
                             <div className="t"><div><h5>Request</h5></div></div>
                             <div className="i">
                             {this.state.usernameError}
@@ -225,7 +215,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user"></i>
                                     </span>
-                                    <InputText placeholder="Username" name="alumno.nickUsuario" type="text" value={this.state.username} readOnly />
+                                    <InputText placeholder="Username" name="nickUsuario" type="text" value={this.state.username} readOnly />
                                 </div>
                             </div>
                             <div className="i">
@@ -235,7 +225,7 @@ class EditStudent extends Component {
                                         <i className="pi pi-lock"></i>
                                     </span>
                                     <Password mediumRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,30}$" strongRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{14,30}$" 
-                                    placeholder="Password" name="alumno.contraseya" value={this.state.password} onChange={this.password} />
+                                    placeholder="Password" name="contraseya" value={this.state.password} onChange={this.password} />
                                 </div>
                             </div>
                             <div className="i">
@@ -244,7 +234,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-id-card"></i>
                                     </span>
-                                    <InputText placeholder="Identity card" name="alumno.dniUsuario" type="text" value={this.state.card} onChange={this.card} />
+                                    <InputText placeholder="Identity card" name="dniUsuario" type="text" value={this.state.card} onChange={this.card} />
                                 </div>
                             </div>
                             <div className="i">
@@ -253,7 +243,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user-plus"></i>
                                     </span>
-                                    <InputText placeholder="Full Name" name="alumno.nombreCompletoUsuario" type="text" value={this.state.name} onChange={this.name} />
+                                    <InputText placeholder="Full Name" name="nombreCompletoUsuario" type="text" value={this.state.name} onChange={this.name} />
                                 </div>
                             </div>
                             <div className="i">
@@ -262,7 +252,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-inbox"></i>
                                     </span>
-                                    <InputText placeholder="Email" name="alumno.correoElectronicoUsuario" type="email" value={this.state.email} onChange={this.email} />
+                                    <InputText placeholder="Email" name="correoElectronicoUsuario" type="email" value={this.state.email} onChange={this.email} />
                                 </div>
                             </div>
                             <div className="i">
@@ -271,7 +261,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-mobile"></i>
                                     </span>
-                                    <InputText placeholder="Phone number" name="alumno.numTelefonoUsuario" type="tel" value={this.state.telefono} onChange={this.telefono} />
+                                    <InputText placeholder="Phone number" name="numTelefonoUsuario" type="tel" value={this.state.telefono} onChange={this.telefono} />
                                 </div>
                             </div>
                             <div className="i">
@@ -284,7 +274,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-home"></i>
                                     </span>
-                                    <InputText placeholder="Address" name="alumno.direccionUsuario" type="text" value={this.state.address} onChange={this.address} />
+                                    <InputText placeholder="Address" name="direccionUsuario" type="text" value={this.state.address} onChange={this.address} />
                                 </div>
                             </div>
                             <div className="i">
@@ -293,7 +283,7 @@ class EditStudent extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-calendar"></i>
                                     </span>
-                                    <InputText placeholder="Birthdate" name="alumno.fechaNacimiento" type="date" value={this.state.birthdate} onChange={this.birthdate} />
+                                    <InputText placeholder="Birthdate" name="fechaNacimiento" type="date" value={this.state.birthdate} onChange={this.birthdate} />
                                 </div>
                             </div>
                             <div className="b">
@@ -307,6 +297,7 @@ class EditStudent extends Component {
             </div>
         );
     }
+}
 
 }
 function mapStateToProps(state) { //metodo para poder pillar datos del store
