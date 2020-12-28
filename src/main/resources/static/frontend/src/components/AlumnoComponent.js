@@ -16,17 +16,27 @@ export default class AlumnoComponent extends Component{
 	}
 
 	getWallOfFameForStudents(baseUrl, fecha){
-		return axios.get(baseUrl+"/premiados/"+fecha).then(res=>res.data);
+		return axios.get(baseUrl+"/premiados/"+fecha, {withCredentials: true}).then(res=>res.data);
 	}
 
 	getTheLastWeek(baseUrl){
-		return axios.get(baseUrl+"/premiados/ultimaSemana").then(res=>res.data);
+		return axios.get(baseUrl+"/premiados/ultimaSemana", {withCredentials: true}).then(res=>res.data);
 	}
 
 	assign(persona) {
         return axios.put("http://localhost:8081/alumnos/assignStudent", persona).then(res => res.data);
     }
 
+	postNewPremiado(baseUrl, fecha ,formData){
+        return axios.post(baseUrl+"/premiados/añadirPremiado/"+fecha ,formData,{withCredentials: true});
+	}
 	
+	editPremiado(baseUrl, formData){
+		return axios.put(baseUrl+"/premiados/editarPremiado", formData,{withCredentials: true});
+	}
+	
+	deletePremiado(baseUrl, id){
+		return axios.delete(baseUrl+"/premiados/borrarPremiado/"+id,{withCredentials: true});
+	}
 }
 

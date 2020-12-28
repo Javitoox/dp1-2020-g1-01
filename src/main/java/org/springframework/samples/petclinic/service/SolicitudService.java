@@ -29,17 +29,29 @@ public class SolicitudService {
 	
 	
 	public List<Alumno> getAllSolicitudes() {
-		return solicitudRepository.findStudentsNotAcceptedYet().stream().collect(Collectors.toList());
+		return solicitudRepository.findStudentsNotAcceptedYet();
 	}
 	
 	@Transactional
-	public void declineRequest(String nickUsuario) throws DataAccessException{
-		solicitudRepository.deleteById(nickUsuario);
+	public void declineRequest(Alumno alumnoDenegado) throws DataAccessException{
+		if(alumnoDenegado.getTutores() != null) {
+			String nickTutor = alumnoDenegado.getTutores().getNickUsuario();
+			alumnoService.deleteStudents(alumnoDenegado);
+			List<Alumno> alumnosPorTutor = alumnoService.getAllMyStudents(nickTutor);
+			
+			if(alumnosPorTutor.size() < 1) {
+				tutorService.delete(nickTutor);
+			}
+		}
 	}
 	
 	@Transactional
 	public void acceptRequest(Alumno student) throws DataAccessException{
-		solicitudRepository.save(student);
+		if(student.getTutores() != null) {
+			tutorService.saveTutor(student.getTutores());
+		}
+		alumnoService.saveAlumno(student);
+		
 	}
 	
 	@Transactional

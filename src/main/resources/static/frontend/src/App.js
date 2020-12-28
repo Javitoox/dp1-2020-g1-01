@@ -17,6 +17,7 @@ import {CreateGroup} from './components/CreateGroup'
 import {DeleteGroup} from './components/DeleteGroup'
 import EditPersonalInfo from './components/EditPersonalInfo'
 //import MetodosAlumno from './components/MetodosAlumno'
+import {CalendarioProfesor} from './components/CalendarioProfesor'
 
 
 class App extends Component {
@@ -81,9 +82,12 @@ class App extends Component {
 				<Route path="/myStudents" render={() =>
 					<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
 				} />
-				<Route path="/students/walloffame" render={() =>
-					<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
+				<Route path="/walloffame" render={() =>
+					<WallOfFameStudents urlBase={this.state.urlBase} userType={this.state.userType}> </WallOfFameStudents>
                 } /> 
+				<Route path="/calendarTeacher" render={() =>
+					<CalendarioProfesor urlBase={this.state.urlBase}></CalendarioProfesor>
+                } />
 			</Router>
 		)
 	}
