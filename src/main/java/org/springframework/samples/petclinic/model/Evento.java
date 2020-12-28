@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -32,13 +31,11 @@ public class Evento extends BaseEntity{
 	
 	@Column(name="start")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	@Future(message = "The date must be a future date")
 	@NotNull(message = "Required field")
 	private LocalDate start;
 	
 	@Column(name="end")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	@Future(message = "The date must be a future date")
 	private LocalDate end;
 	
 	@Column(name="descripcion")

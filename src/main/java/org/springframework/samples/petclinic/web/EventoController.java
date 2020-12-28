@@ -46,7 +46,6 @@ public class EventoController {
 			@PathVariable("end") String end, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
 		if(session != null && session.getAttribute("type") == "profesor") {
-			log.info("Entrando"+id+"/"+start);
 			Evento evento = eventoService.updateDateEvent(id, start, end);
 			if(evento == null) {
 				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);

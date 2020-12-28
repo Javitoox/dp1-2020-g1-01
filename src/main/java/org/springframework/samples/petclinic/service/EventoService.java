@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Evento;
@@ -16,8 +14,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EventoService {
-	
-	private static final Logger log = LoggerFactory.logger(EventoService.class);
 	
 	private EventoRepository eventoRepository;
 	
@@ -33,8 +29,7 @@ public class EventoService {
 	@Transactional
 	public Evento updateDateEvent(Integer id, String s, String e) throws DataAccessException{
 		Evento evento = eventoRepository.findById(id).orElse(null);
-		log.info(evento);
-		if(evento != null) {
+		if(evento != null && s != null) {
 			LocalDate start = DateFormatter.StringToLocalDate(s);
 			LocalDate end = DateFormatter.StringToLocalDate(e);
 			evento.setStart(start);
