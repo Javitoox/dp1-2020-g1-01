@@ -15,7 +15,7 @@ import EditStudent from './components/EditStudent'
 import AssignStudent from './components/AssignStudent'
 import {CreateGroup} from './components/CreateGroup'
 import {DeleteGroup} from './components/DeleteGroup'
-
+import Pagos from './components/Pagos'
 
 class App extends Component {
 
@@ -76,6 +76,9 @@ class App extends Component {
 				<Route path="/students/walloffame" render={() =>
 					<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
                 } /> 
+				<Route path="/payments" render={() =>
+					<Payments urlBase={this.state.urlBase}> </Payments>
+                } />
 			</Router>
 		)
 	}

@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Grupo;
@@ -32,7 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 public class GrupoController {
 	
 	private final GrupoService grupoService;
-	//private static final Logger log = LoggerFactory.getLogger(GrupoController.class);
 	
 	@Autowired
 	public GrupoController(GrupoService grupoService) {

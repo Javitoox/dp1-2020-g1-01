@@ -1,20 +1,19 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Pago;
-import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.samples.petclinic.service.PagoService;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,16 +33,22 @@ public class PagosController {
 		this.pagoService = pagoService;
 	}
 	
-	
-	@GetMapping("/all")
-	public ResponseEntity<List<Alumno>> listadoAlumnosPagos() {
-		List<Alumno> all =  pagoService.getStudentsPayment();
+	@GetMapping
+	public ResponseEntity<Set<String>> allPayments(){
+		Set<String> all = pagoService.getAllPayments();
 		return ResponseEntity.ok(all);
 	}
 	
-	@GetMapping("/noPaid")
-	public ResponseEntity<List<Alumno>> listadoAlumnosNoPagos() {
-		List<Alumno> all =  pagoService.getStudentsNoPayment();
+	
+	@GetMapping("/{concepto}")
+	public ResponseEntity<List<Alumno>> listadoAlumnosPagos(@PathVariable("concepto") String concepto) {
+		List<Alumno> all =  pagoService.getStudentsByPayment(concepto);
+		return ResponseEntity.ok(all);
+	}
+	
+	@GetMapping("/notPaid/{concepto}")
+	public ResponseEntity<List<Alumno>> listadoAlumnosNoPagos(@PathVariable("concepto") String concepto) {
+		List<Alumno> all =  pagoService.getStudentsNoPayment(concepto);
 		return ResponseEntity.ok(all);
 	}
 	
@@ -53,7 +58,7 @@ public class PagosController {
 		if(result.hasErrors()) {
 			return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		}else {
-			pagoService.savePaid(resource);
+			pagoService.savePayment(resource);
 			return new ResponseEntity<>("Pago creado correctamente", HttpStatus.CREATED);
 		}
 	}

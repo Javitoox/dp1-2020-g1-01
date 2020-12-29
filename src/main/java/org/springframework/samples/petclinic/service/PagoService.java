@@ -1,14 +1,12 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.List;
-
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Pago;
 import org.springframework.samples.petclinic.repository.PagoRepository;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,17 +20,20 @@ public class PagoService {
 		this.pagoRepository = pagoRepository;
 	}
 	
-	
-	public List<Alumno> getStudentsPayment(){
-    	return pagoRepository.findPagosByStudents();
+	public Set<String> getAllPayments(){
+		return pagoRepository.allPagos();
 	}
 	
-	public List<Alumno> getStudentsNoPayment(){
-    	return pagoRepository.findNoPagosByStudents();
+	public List<Alumno> getStudentsByPayment(String concepto){
+    	return pagoRepository.findStudentsByPago(concepto);
+	}
+	
+	public List<Alumno> getStudentsNoPayment(String concepto){
+    	return pagoRepository.findStudentByNoPago(concepto);
 	}
 	
 	@Transactional
-	public void savePaid(Pago pago){
+	public void savePayment(Pago pago){
 		
 		pagoRepository.save(pago);
 			

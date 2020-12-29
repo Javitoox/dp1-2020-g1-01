@@ -43,6 +43,7 @@ INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawal
 INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (1,'BIZUM', 'Pago matricula','2019-10-03','Javi');
 INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (2,'BIZUM', 'Pago matricula','2018-10-03','antoniope');
 INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (3,'BIZUM', 'Pago matricula','2017-10-03','natalia42');
+INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (4,'BIZUM', 'Primer plazo','2017-10-03','patri25');
 
 
 

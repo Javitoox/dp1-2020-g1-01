@@ -5,23 +5,17 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
 import org.springframework.samples.petclinic.service.exceptions.BadRequestException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
-import org.springframework.samples.petclinic.web.GrupoController;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 public class GrupoService {
 	
 	private GrupoRepository grupoRepository;	
-	private AlumnoService alumnoService;
 
 	@Autowired
 	public GrupoService(GrupoRepository grupoRepository) {
@@ -55,7 +49,6 @@ public class GrupoService {
 	
 	@Transactional
 	public void saveGroup(Grupo grupo) throws DuplicatedGroupNameException{
-//		if(grupoRepository.findById(grupo.getNombreGrupo()).isPresent()) {
 		if(grupoRepository.existsById(grupo.getNombreGrupo())) {
 			throw new DuplicatedGroupNameException();
 		}else {
@@ -72,31 +65,11 @@ public class GrupoService {
 			throw new BadRequestException("No se puede borrar el grupo porque tiene alumnos");
 		}
 	}
-////		List<Alumno> als = alumnoService.getStudentsPerGroup(id);
-////		if(!als.isEmpty()) {
-////			throw new BadRequestException("No se puede borrar el grupo porque tiene alumnos");
-////		}else {
-//		if(alumnoService.getStudentsPerGroup(id).size()==0) {
-//			grupoRepository.deleteById(id);
-//		}else {
-//			throw new BadRequestException("No se puede borrar el grupo porque tiene alumnos");
-//		}
-////		}
-//		
-//	}	
 	
 	@Transactional(readOnly = true)
 	public Grupo getGroupById(String id) {
     	return grupoRepository.findById(id).get();
 	}
 	
-//	@Transactional
-//	public Grupo crearGrupo(Grupo grupo) throws DuplicatedGroupNameException, BadRequestException{
-//		if(this.grupoRepository.findById(grupo.getNombreGrupo()).get() != null) {
-//			throw new DuplicatedGroupNameException();
-//		}else {
-//			return grupoRepository.save(grupo);
-//		}
-//	}
 	
 }
