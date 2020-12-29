@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,29 +62,48 @@ public class PremiadoController {
 	
 	@PostMapping(value="/añadirPremiado/{fechaWall}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> añadirPremiado(@PathVariable("fechaWall") String fechaWall,
-            @RequestParam("photo") MultipartFile file, @RequestParam("nickUsuario") String nickUsuario, @RequestParam("description") String description, HttpServletRequest request){
+            @RequestParam(value="photo", required=false) MultipartFile file, @RequestParam(value = "nickUsuario", required=false) String nickUsuario, @RequestParam(value= "description", required = false) String description, HttpServletRequest request){
 		
-		HttpSession session = request.getSession(false);
-    	log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
-    	if(session != null && session.getAttribute("type") == "profesor") {
-    			Path directorioImagenes = Paths.get("src//main//resources//static//frontend//public/photosWall");
-    			String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
-    			try {
-    				byte[] bytes = file.getBytes();
-    				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + nickUsuario + ".jpg");
-    				premiadoService.insertarPremiado(nickUsuario, fechaWall, description);
-    				Files.write(rutaCompleta, bytes);
-    				return ResponseEntity.ok().build();
-    				
-    			} catch (IOException e) {
-					e.printStackTrace();
-					return new ResponseEntity<>("You must upload a photo", HttpStatus.EXPECTATION_FAILED);
-							
-    			}
+		List<String> errores = new ArrayList<String>();
+		
+		if(nickUsuario.isEmpty()){
+			String errorNick = "You must add the nickname";
+			errores.add(errorNick);
+		}if(description.isEmpty()) {
+			String errorDescripcion = "You must add a description for the student";
+			errores.add(errorDescripcion);
+		}if(file == null) {
+			String errorFoto = "You must add a photo for the student";
+			errores.add(errorFoto);
 
-    	}else {
-    		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    	}
+		}if(errores.size()>0) {
+			return new ResponseEntity<>(errores, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+		}
+		
+		
+		  HttpSession session = request.getSession(false);
+		  log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		  if(session != null && session.getAttribute("type") == "profesor") { 
+			  
+			  //Pasar al service
+			  Path directorioImagenes =
+			  Paths.get("src//main//resources//static//frontend//public/photosWall");
+			  String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath(); 
+			  
+			  try {
+				  byte[] bytes = file.getBytes(); 
+				  Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + nickUsuario + ".jpg"); 
+				  premiadoService.insertarPremiado(nickUsuario, fechaWall, description); Files.write(rutaCompleta, bytes); 
+				  return ResponseEntity.ok().build();
+			  
+			  } catch (IOException e) { 
+				  e.printStackTrace(); 
+				  return null;
+			  } 
+		  
+		  }else { 
+			  return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
     }
 	
 	@PutMapping(value="/editarPremiado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

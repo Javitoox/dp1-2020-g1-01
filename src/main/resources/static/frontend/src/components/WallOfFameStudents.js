@@ -26,6 +26,10 @@ export class WallOfFameStudents extends Component{
             addForm:false,
             editForm: false,
             premiado: null,
+            fieldError1: null,
+            fieldError2: null,
+            fieldError3: null,
+
         }
         this.mostrarWallSeleccionado=this.mostrarWallSeleccionado.bind(this);
         this.premiados = new AlumnoComponent();
@@ -37,7 +41,10 @@ export class WallOfFameStudents extends Component{
         this.BotonEditaroEliminarPremiado= this.BotonEditaroEliminarPremiado.bind(this);
         this.mostrarFormularioEdit= this.mostrarFormularioEdit.bind(this);
         this.handleSubmitEdit= this.handleSubmitEdit.bind(this);    
-        this.handleDelete= this.handleDelete.bind(this);    
+        this.handleDelete= this.handleDelete.bind(this);  
+        this.respuesta= this.respuesta.bind(this);  
+
+        
     }
 
     componentDidMount(){
@@ -105,7 +112,7 @@ export class WallOfFameStudents extends Component{
     SeleccionarFechaWall(){
         if(!this.state.addForm){
             return(
-                <div className="p-inputgroup">
+                <div className="mb-4 p-inputgroup">
                     <InputText className="mr-2" placeholder="Choose a date" name="fechaWall" type="week" value={this.state.fecha} onChange={this.fecha} />
                     <Button className="p-button-secondary" label="Search in this date" icon="pi pi-search" onClick={()=>this.mostrarWallSeleccionado()}/>
                 </div>
@@ -178,12 +185,26 @@ export class WallOfFameStudents extends Component{
 
 
     async handleSubmit(){
+        this.setState({
+            fieldError1: null,
+            fieldError2: null,
+            fieldError3: null
+        })
         const formData = new FormData();
         formData.append('photo', this.state.photo) ;
         formData.append('nickUsuario', this.state.nickusuario) ;
         formData.append('description', this.state.description) ;
-        await this.premiados.postNewPremiado(this.props.urlBase, this.state.fecha, formData).then(() => this.setState({ addForm: false }));
-        this.mostrarWallSeleccionado();
+        await this.premiados.postNewPremiado(this.props.urlBase, this.state.fecha, formData).then(res => this.respuesta(res));
+        console.log(this.state.resultado)
+    }
+
+    respuesta(res){
+        if(res.status===203){
+            if(res.data[0] != null) this.setState({fieldError1: <div className="alert alert-danger" role="alert">{res.data[0]}</div>})
+            if(res.data[1] != null) this.setState({fieldError2: <div className="alert alert-danger" role="alert">{res.data[1]}</div>})
+            if(res.data[2] != null) this.setState({fieldError3: <div className="alert alert-danger" role="alert">{res.data[2]}</div>})
+
+        }
     }
 
     async handleSubmitEdit(){
@@ -224,9 +245,16 @@ export class WallOfFameStudents extends Component{
                         <div className="ml-3">
                             <Button icon="pi pi-times" className="p-button-rounded p-button-secondary" onClick={()=>this.setState({addForm:false})}></Button>
                         </div>
+
+                        {this.state.fieldError1}
+                        {this.state.fieldError2}
+                        {this.state.fieldError3}
+
+
                         <div className="t">
                             <div><h5>Add a new awarded student</h5></div>
                         </div>
+                        
                         <div className="i">
                             <div className="p-inputgroup">
                             <span className="p-inputgroup-addon">
