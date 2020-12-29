@@ -7,11 +7,15 @@ export class EventService {
     }
 
     updateEvent(urlBase, id, start, end){
-        return axios.put(urlBase+'/events/update/'+id+'/'+start+'/'+end, {}, {withCredentials: true})
+        axios.put(urlBase+'/events/update/'+id+'/'+start+'/'+end, {}, {withCredentials: true})
     }
 
     getDescription(urlBase, id){
         return axios.get(urlBase+'/events/description/'+id, {withCredentials: true})
+    }
+
+    deleteEvent(urlBase, id){
+        return axios.delete(urlBase+'/events/delete/'+id, {withCredentials: true})
     }
 
 }
