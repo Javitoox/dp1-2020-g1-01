@@ -112,7 +112,7 @@ class EditStudent extends Component {
                 <span className="p-inputgroup-addon">
                     <i className="pi pi-mobile"></i>
                 </span>
-                <InputText placeholder="Phone number" name="alumno.numTelefonoUsuario2" type="tel" value={this.state.telefono2 || ""} onChange={this.telefono2} />
+                <InputText placeholder="Phone number" name="numTelefonoUsuario2" type="tel" value={this.state.telefono2 || ""} onChange={this.telefono2} />
             </div>
         </div>
     }
@@ -148,7 +148,7 @@ class EditStudent extends Component {
         if(!this.state.buttonTel1){
             alumno.numTelefonoUsuario2 = null
         } 
-            axios.put(this.props.urlBase + "/alumnos/editStudent", alumno).then(res => {
+            axios.put(this.props.urlBase + "/alumnos/editStudent", alumno , {withCredentials: true}).then(res => {
             this.respuesta(res.status, res.data)
             })
         
@@ -156,7 +156,7 @@ class EditStudent extends Component {
     
     respuesta(status, data){
         console.log(status);
-        if(status===203){
+        if(status===203 ){
             data.forEach(e => this.error(e.field, e.defaultMessage))
         }else{
             this.setState({
@@ -169,9 +169,8 @@ class EditStudent extends Component {
                 telefono2: this.state.telefono2,
                 address: this.state.address,
                 birthdate: this.state.birthdate,
-                succes: <div className="alert alert-success" role="alert">Successful shipment</div>
+                succes: <div className="alert alert-success" role="alert">Modified Succesfully</div>
             })
-            window.alert("If you wish, you can modify your application details by entering the same username and password")
         }
     }
 
@@ -207,7 +206,7 @@ class EditStudent extends Component {
                     <div className="login request">
                     <form onSubmit={this.handleSubmit}>
                             {this.state.succes}
-                            <div className="t"><div><h5>Request</h5></div></div>
+                            <div className="t"><div><h5>Modify</h5></div></div>
                             <div className="i">
                             {this.state.usernameError}
                                 <div className="p-inputgroup">
