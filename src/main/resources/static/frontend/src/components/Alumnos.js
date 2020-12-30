@@ -177,7 +177,6 @@ class Alumnos extends Component {
 
 
     mostrarInfo(){
-        console.log("Estoy entrando " + this.state.rowDataInfo);
         if(this.state.rowDataInfo != null){
           return(
             <Dialog header="Student' information"  visible={true} style={{ width: '30vw' }}  onHide={() => this.setState({rowDataInfo: null})}>
@@ -258,7 +257,6 @@ class Alumnos extends Component {
             { label: 'C2', value: 'C2' },
             { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
         ];
-
         return (
             <React.Fragment>
                 <div className="datatable-templating-demo">

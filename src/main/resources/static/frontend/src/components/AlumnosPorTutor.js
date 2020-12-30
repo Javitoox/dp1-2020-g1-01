@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import MetodosTutor from './MetodosTutor';
+import AlumnoComponent from './AlumnoComponent';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import Auth from './Auth';
@@ -15,7 +15,7 @@ export class AlumnosPorTutor extends Component {
             rowDataInfo:null,
             
         }
-        this.alumnosPorTutorComponent = new MetodosTutor();
+        this.alumnosPorTutorComponent = new AlumnoComponent();
         this.botonInfo = this.botonInfo.bind(this);
         this.mostrarInfoStudent= this.mostrarInfoStudent.bind(this);
         this.mostrarInfo= this.mostrarInfo.bind(this);
