@@ -148,7 +148,7 @@ class EditStudent extends Component {
         if(!this.state.buttonTel1){
             alumno.numTelefonoUsuario2 = null
         } 
-            axios.put(this.props.urlBase + "/alumnos/editStudent", alumno).then(res => {
+            axios.put(this.props.urlBase + "/alumnos/editStudent", alumno , {withCredentials: true}).then(res => {
             this.respuesta(res.status, res.data)
             })
         

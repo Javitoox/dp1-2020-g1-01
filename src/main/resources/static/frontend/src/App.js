@@ -10,13 +10,13 @@ import {Home} from './components/Home'
 import MenubarResponsive from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
 import {getUserName} from './components/storage'
+//import {getAlumnoInfo} from './components/UserData'
 import { WallOfFameStudents } from './components/WallOfFameStudents'
 import EditStudent from './components/EditStudent'
 import AssignStudent from './components/AssignStudent'
 import {CreateGroup} from './components/CreateGroup'
 import {DeleteGroup} from './components/DeleteGroup'
 import EditPersonalInfo from './components/EditPersonalInfo'
-//import MetodosAlumno from './components/MetodosAlumno'
 import {CalendarioProfesor} from './components/CalendarioProfesor'
 
 
@@ -41,7 +41,9 @@ class App extends Component {
 	calculateUserName() {
 		return getUserName()
 	}
-
+	// getUsernameInfo() {
+	// 	return getAlumnoInfo(this.state.urlBase, getUserName())
+	// }
 	render() {
 		return (
 			<Router>
@@ -52,11 +54,8 @@ class App extends Component {
 				<Route path="/requests" render={() =>
 					<Solicitudes urlBase={this.state.urlBase}></Solicitudes>
 				} />
-				{/* <Route path="/requests" render={() =>
-					<MetodosAlumno urlBase={this.state.urlBase} nickUser = {this.calculateUserName}></MetodosAlumno>
-				} /> */}
 				<Route path="/students/EditPersonalInfo" render={() =>
-					<EditPersonalInfo urlBase={this.state.urlBase}></EditPersonalInfo>
+					<EditPersonalInfo urlBase={this.state.urlBase} nickUser={this.calculateUserName()} ></EditPersonalInfo>
 				} />
 				<Route path="/login" render={() =>
 					<Login urlBase={this.state.urlBase} onChange={this.changeType}></Login>

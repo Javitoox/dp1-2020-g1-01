@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +36,10 @@ public class AlumnoController {
 	AlumnoService alumnoServ;
 
 	@PutMapping("/editStudent")
-	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, HttpServletResponse response, HttpServletRequest request)
+	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, HttpServletRequest request,  BindingResult result)
 			throws IOException {
-		
+		HttpSession session = request.getSession(false);
+    	if(session != null) {
     		LOGGER.info("El alumno es : " + alumno.getNickUsuario());
     		if (result.hasErrors()) {
     			LOGGER.info("Esto no funciona");
@@ -49,21 +51,19 @@ public class AlumnoController {
     			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
     			
     		}
-    	
-    	
-		
-    }
-    @GetMapping("/editStudentInfo")
-    public ResponseEntity<?> getStudentInfo(@PathVariable("nickUsuario") String nickUsuario, 
-    		HttpServletRequest request){
-    	HttpSession session = request.getSession(false);
-    	if(session != null && session.getAttribute("type") == "alumno") {
-    		LOGGER.info("ESTO ESTA FUNCIONANDO");
-    		Alumno alumno = alumnoServ.getAlumno(nickUsuario);
-            return ResponseEntity.ok(alumno);
     	}else {
+    		LOGGER.info("Que no bro hahah");
     		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     	}
+    }
+    @GetMapping("/getStudentInfo/{nickUsuario}")
+    public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, 
+    		HttpServletRequest request){
+    		LOGGER.info("El nick del usuario en cuestion es " + nick);
+    		Alumno alumno = alumnoServ.getAlumno(nick);
+    		LOGGER.info("Se esta devolviendo flama");
+            return ResponseEntity.ok(alumno);
+    
     }
 
 	@GetMapping("/all")
