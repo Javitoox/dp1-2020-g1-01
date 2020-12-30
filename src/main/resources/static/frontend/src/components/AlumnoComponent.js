@@ -4,11 +4,11 @@ import {Component} from 'react';
 export default class AlumnoComponent extends Component{
 		
 	getAllStudents(baseUrl){
-		return axios.get(baseUrl + "/alumnos/all").then(res => res.data);
+		return axios.get(baseUrl + "/alumnos/all", {withCredentials: true}).then(res => res.data);
 	}
 
 	getStudentsByCourse(baseUrl, course){
-		return axios.get(baseUrl + "/alumnos/getByCourse/"+course).then(res => res.data);
+		return axios.get(baseUrl + "/alumnos/getByCourse/"+course,{withCredentials: true}).then(res => res.data);
 	}
         
 	getStudentsByNameOfGroup(baseUrl, group){

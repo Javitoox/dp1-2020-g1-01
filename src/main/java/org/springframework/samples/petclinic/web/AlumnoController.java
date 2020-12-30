@@ -25,9 +25,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RequestMapping("/alumnos")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
+@Slf4j
 public class AlumnoController {
 	private static final Logger LOGGER = LoggerFactory.logger(SolicitudController.class);
 
@@ -67,26 +70,41 @@ public class AlumnoController {
     }
 
 	@GetMapping("/all")
-	public ResponseEntity<List<Alumno>> listAlumnos() {
-		List<Alumno> allStudents = alumnoServ.getAllAlumnos();
-		return ResponseEntity.ok(allStudents);
+	public ResponseEntity<?> listAlumnos(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+
+		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		if(session != null && session.getAttribute("type") == "profesor") {
+			List<Alumno> allStudents = alumnoServ.getAllAlumnos();
+			return ResponseEntity.ok(allStudents);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
 	}
 
 	@GetMapping("/getByCourse/{course}")
-	public ResponseEntity<List<Alumno>> listStudentsByCourse(@PathVariable("course") String cursoDeIngles) {
-		List<String> cursos = new ArrayList<String>();
-		cursos.add("A1");
-		cursos.add("A2");
-		cursos.add("B1");
-		cursos.add("B2");
-		cursos.add("C1");
-		cursos.add("C2");
-		cursos.add("APRENDIZAJELIBRE");
-		if (cursos.contains(cursoDeIngles)) {
-			List<Alumno> allStudentsByCourse = alumnoServ.getStudentsByCourse(cursoDeIngles);
-			return ResponseEntity.ok(allStudentsByCourse);
-		} else {
-			return ResponseEntity.notFound().build();
+	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") String cursoDeIngles, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+
+		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		if(session != null && session.getAttribute("type") == "profesor") {
+			List<String> cursos = new ArrayList<String>();
+			cursos.add("A1");
+			cursos.add("A2");
+			cursos.add("B1");
+			cursos.add("B2");
+			cursos.add("C1");
+			cursos.add("C2");
+			cursos.add("APRENDIZAJELIBRE");
+			if (cursos.contains(cursoDeIngles)) {
+				List<Alumno> allStudentsByCourse = alumnoServ.getStudentsByCourse(cursoDeIngles);
+				return ResponseEntity.ok(allStudentsByCourse);
+			} else {
+				return ResponseEntity.notFound().build();
+			}
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+
 		}
 	}
 

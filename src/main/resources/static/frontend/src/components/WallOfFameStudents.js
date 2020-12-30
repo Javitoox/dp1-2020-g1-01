@@ -26,9 +26,9 @@ export class WallOfFameStudents extends Component{
             addForm:false,
             editForm: false,
             premiado: null,
-            fieldError1: null,
-            fieldError2: null,
-            fieldError3: null,
+            nickNameError: null,
+            descriptionError: null,
+            photoError: null,
 
         }
         this.mostrarWallSeleccionado=this.mostrarWallSeleccionado.bind(this);
@@ -43,6 +43,8 @@ export class WallOfFameStudents extends Component{
         this.handleSubmitEdit= this.handleSubmitEdit.bind(this);    
         this.handleDelete= this.handleDelete.bind(this);  
         this.respuesta= this.respuesta.bind(this);  
+        this.error= this.error.bind(this);  
+
 
         
     }
@@ -72,6 +74,28 @@ export class WallOfFameStudents extends Component{
         this.mostrarWallSeleccionado()
     }
 
+    
+    MostrarWall(){
+        if(!this.state.addForm && !this.state.editForm){
+            return(
+                <div className="dataview-demo">
+                    <DataView
+                        value={this.state.premiados}
+                        itemTemplate={this.itemTemplate}
+                    />
+                </div>
+            );
+        }
+
+    }
+
+    itemTemplate(premiados) {
+        if (!premiados) {
+          return;
+        }
+        return this.renderGridItem(premiados);
+    }
+
     renderGridItem(data) {
         return (
         <React.Fragment>
@@ -97,17 +121,6 @@ export class WallOfFameStudents extends Component{
         );    
     }
 
-    itemTemplate(premiados) {
-        if (!premiados) {
-          return;
-        }
-        return this.renderGridItem(premiados);
-    }
-
-
-    mostrarWallSeleccionado(){
-        this.premiados.getWallOfFameForStudents(this.props.urlBase, this.state.fecha).then(data => this.setState({ premiados: data }))
-    }
     
     SeleccionarFechaWall(){
         if(!this.state.addForm){
@@ -118,6 +131,10 @@ export class WallOfFameStudents extends Component{
                 </div>
             );
         }
+    }
+
+    mostrarWallSeleccionado(){
+        this.premiados.getWallOfFameForStudents(this.props.urlBase, this.state.fecha).then(data => this.setState({ premiados: data }))
     }
     
     BotonAñadirPremiado(){
@@ -130,6 +147,98 @@ export class WallOfFameStudents extends Component{
         }
 
     }
+
+    mostrarFormulario(){
+        if(this.state.addForm){
+            return( 
+                <div className="c">
+                    <div className="login request">
+                        <div className="ml-3">
+                            <Button icon="pi pi-times" className="p-button-rounded p-button-secondary" onClick={()=>this.setState({addForm:false})}></Button>
+                        </div>
+
+                        <div className="t">
+                            <div><h5>Add a new awarded student</h5></div>
+                        </div>
+                        
+                        {this.state.nickNameError}
+
+                        <div className="i">
+                            <div className="p-inputgroup">
+                            <span className="p-inputgroup-addon">
+                                <i className="pi pi-user"></i>
+                            </span>
+                                <InputText type= "text" placeholder="Username" name="nickusuario" onChange={this.nickusuario} />
+                            </div>
+                        </div>
+
+                        {this.state.descriptionError}
+
+                        <div className="i">
+                            <div className="p-inputgroup">
+                            <span className="p-inputgroup-addon">
+                                <i className="pi pi-align-center"></i>  
+                            </span>
+                                <InputText type= "textarea" placeholder="description" name="description" onChange={this.description} />
+                            </div>
+                        </div>
+
+                        {this.state.photoError}
+
+                        <div className="i">
+                            <div className="p-inputgroup">
+                                <InputText type= "file" name="photo" onChange={this.photo}/>
+                            </div>
+                        </div>
+
+                        <div className="b">
+                            <div className="i">
+                                <Button className="p-button-secondary" label="Add the student" icon="pi pi-fw pi-upload" onClick={() => this.handleSubmit()}/>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                );
+            }
+    }
+
+    async handleSubmit(){
+        this.setState({
+            nickNameError: null,
+            descriptionError: null,
+            photoError: null,
+        })
+        const formData = new FormData();
+        formData.append('photo', this.state.photo) ;
+        formData.append('nickUsuario', this.state.nickusuario) ;
+        formData.append('description', this.state.description) ;
+        await this.premiados.postNewPremiado(this.props.urlBase, this.state.fecha, formData).then(res => this.respuesta(res.status, res.data));
+        console.log(this.state.resultado)
+    }
+
+    respuesta(status,data){
+        if(status===203){
+            data.forEach(e => this.error(e.field, e.defaultMessage))
+        }else if(status===201){
+            this.setState({
+            nickusuario : "",
+            description: "",
+            photo: null,
+            })
+        }
+    }
+
+    error(campo, mensaje){
+        if(campo === "nickUsuario"){
+            this.setState({ nickNameError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "description"){
+            this.setState({ descriptionError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "photo"){
+            this.setState({ photoError: <div className="alert alert-danger" role="alert">Required field</div> })
+        }
+    }
+
 
     BotonEditaroEliminarPremiado(data){
         if(this.props.userType==="profesor" && !this.state.addForm && !this.state.editForm){
@@ -184,36 +293,18 @@ export class WallOfFameStudents extends Component{
     }
 
 
-    async handleSubmit(){
-        this.setState({
-            fieldError1: null,
-            fieldError2: null,
-            fieldError3: null
-        })
-        const formData = new FormData();
-        formData.append('photo', this.state.photo) ;
-        formData.append('nickUsuario', this.state.nickusuario) ;
-        formData.append('description', this.state.description) ;
-        await this.premiados.postNewPremiado(this.props.urlBase, this.state.fecha, formData).then(res => this.respuesta(res));
-        console.log(this.state.resultado)
-    }
-
-    respuesta(res){
-        if(res.status===203){
-            if(res.data[0] != null) this.setState({fieldError1: <div className="alert alert-danger" role="alert">{res.data[0]}</div>})
-            if(res.data[1] != null) this.setState({fieldError2: <div className="alert alert-danger" role="alert">{res.data[1]}</div>})
-            if(res.data[2] != null) this.setState({fieldError3: <div className="alert alert-danger" role="alert">{res.data[2]}</div>})
-
-        }
-    }
-
     async handleSubmitEdit(){
         const formData = new FormData();
+        formData.append('id', this.state.premiado.id) ;
         formData.append('photo', this.state.photo) ;
         formData.append('description', this.state.description) ;
-        formData.append('id', this.state.premiado.id) ;
         formData.append('nickUsuario', this.state.premiado.alumnos.nickUsuario) ;
         await this.premiados.editPremiado(this.props.urlBase, formData).then(() => this.setState({editForm: false}))
+        this.setState({
+            nickusuario : "",
+            description: "",
+            photo: null,
+        })
         this.mostrarWallSeleccionado();
     }
 
@@ -221,74 +312,6 @@ export class WallOfFameStudents extends Component{
         var result = window.confirm("Are you sure you want to delete the awarded student?");
         if(result) await this.premiados.deletePremiado(this.props.urlBase, this.state.premiado.id)
         this.mostrarWallSeleccionado();
-    }
-
-    MostrarWall(){
-        if(!this.state.addForm && !this.state.editForm){
-            return(
-                <div className="dataview-demo">
-                    <DataView
-                        value={this.state.premiados}
-                        itemTemplate={this.itemTemplate}
-                    />
-                </div>
-            );
-        }
-
-    }
-
-    mostrarFormulario(){
-        if(this.state.addForm){
-            return( 
-                <div className="c">
-                    <div className="login request">
-                        <div className="ml-3">
-                            <Button icon="pi pi-times" className="p-button-rounded p-button-secondary" onClick={()=>this.setState({addForm:false})}></Button>
-                        </div>
-
-                        {this.state.fieldError1}
-                        {this.state.fieldError2}
-                        {this.state.fieldError3}
-
-
-                        <div className="t">
-                            <div><h5>Add a new awarded student</h5></div>
-                        </div>
-                        
-                        <div className="i">
-                            <div className="p-inputgroup">
-                            <span className="p-inputgroup-addon">
-                                <i className="pi pi-user"></i>
-                            </span>
-                                <InputText type= "text" placeholder="Username" name="nickusuario" onChange={this.nickusuario} />
-                            </div>
-                        </div>
-
-                        <div className="i">
-                            <div className="p-inputgroup">
-                            <span className="p-inputgroup-addon">
-                                <i className="pi pi-align-center"></i>  
-                            </span>
-                                <InputText type= "textarea" placeholder="description" name="description" onChange={this.description} />
-                            </div>
-                        </div>
-
-                        <div className="i">
-                            <div className="p-inputgroup">
-                                <InputText type= "file" name="photo" onChange={this.photo}/>
-                            </div>
-                        </div>
-
-                        <div className="b">
-                            <div className="i">
-                                <Button className="p-button-secondary" label="Add the student" icon="pi pi-fw pi-upload" onClick={() => this.handleSubmit()}/>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                );
-            }
     }
 
     render(){
