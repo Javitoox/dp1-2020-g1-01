@@ -66,7 +66,11 @@ export class WallOfFameStudents extends Component{
     }
 
     photo(event){
-        this.setState({photo : event.target.files[0]})
+        if(event.target.files[0].size > 1048576){
+            this.setState({ photoError: <div className="alert alert-danger" role="alert">The photo exceeds its maximum permitted size</div> })
+        }else{
+            this.setState({photo : event.target.files[0]})
+        }
     }
 
     async obtenerUltimoWall(){
@@ -187,7 +191,7 @@ export class WallOfFameStudents extends Component{
 
                         <div className="i">
                             <div className="p-inputgroup">
-                                <InputText type= "file" name="photo" onChange={this.photo}/>
+                                <InputText type= "file"  accept="image/*" name="photo" onChange={this.photo}/>
                             </div>
                         </div>
 
@@ -218,14 +222,17 @@ export class WallOfFameStudents extends Component{
     }
 
     respuesta(status,data){
+        console.log(status)
         if(status===203){
             data.forEach(e => this.error(e.field, e.defaultMessage))
         }else if(status===201){
             this.setState({
-            nickusuario : "",
-            description: "",
-            photo: null,
+             nickusuario : "",
+             description: "",
+             photo: null,
             })
+        }else if(status===204){
+            this.setState({nickNameError: <div className="alert alert-danger" role="alert">The username doesn't exists</div>})
         }
     }
 
@@ -272,9 +279,11 @@ export class WallOfFameStudents extends Component{
                             </div>
                         </div>
 
+                        {this.state.photoError}
+
                         <div className="i">
                             <div className="p-inputgroup">
-                                <InputText type= "file" name="photo" onChange={this.photo}/>
+                                <InputText type= "file" accept="image/*" name="photo" onChange={this.photo}/>
                             </div>
                         </div>
 

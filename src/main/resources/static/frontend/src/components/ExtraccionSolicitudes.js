@@ -8,11 +8,11 @@ export default class ExtraccionSolicitudes extends Component {
     }
  
     denyRequest(urlBase, nickUsuario){
-        return axios.put(urlBase +"/requests/decline/"+nickUsuario, {withCredentials: true});
+        return axios.put(urlBase+"/requests/decline/"+nickUsuario,{},{withCredentials: true});
     }
 
     acceptRequest(urlBase, nickUsuario){
-        return axios.put(urlBase +"/requests/accept/"+nickUsuario, {withCredentials: true});
+        return axios.put(urlBase +"/requests/accept/"+nickUsuario,{},{withCredentials: true});
     }
 }
 

@@ -28,7 +28,7 @@ public class TutorController {
     public ResponseEntity<?>getStudentsByTutor(@PathVariable("nickTutor") String nickTutor, 
     		HttpServletRequest request){
     	HttpSession session = request.getSession(false);
-    	if(session != null && session.getAttribute("type") == "tutor") {
+    	if(session != null && session.getAttribute("type") == "tutor" && session.getAttribute("nickUsuario")==nickTutor) {
     		List<Alumno>studentsByTutor = alumnoService.getAllMyStudents(nickTutor);
             return ResponseEntity.ok(studentsByTutor);
     	}else {

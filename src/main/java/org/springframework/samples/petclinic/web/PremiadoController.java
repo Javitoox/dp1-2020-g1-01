@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.BodyPremiado;
 import org.springframework.samples.petclinic.model.Premiado;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.PremiadoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,9 +43,12 @@ public class PremiadoController {
 	
 	private PremiadoService premiadoService;
 	
+	private AlumnoService alumnoService;
+	
 	@Autowired
-	public PremiadoController(PremiadoService premiadoService) {
+	public PremiadoController(PremiadoService premiadoService, AlumnoService alumnoService) {
 		this.premiadoService = premiadoService;
+		this.alumnoService = alumnoService; 
 	}
 	
 	@GetMapping("/{fechaWall}")
@@ -72,16 +78,22 @@ public class PremiadoController {
 		}
 		
 		HttpSession session = request.getSession(false);
+		
+		System.out.println("Imagen con tamaño: "+body.getPhoto().getSize());
 
 		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 		 if(session != null && session.getAttribute("type") == "profesor") {
 			 String nickUsuario = body.getNickUsuario();
 			 String description = body.getDescription();
 			 MultipartFile file = body.getPhoto();
-		  
-			 premiadoService.insertarPremiado(nickUsuario, fechaWall, description, file);
-			 return new ResponseEntity<>(HttpStatus.CREATED);
-		
+			 
+			 Alumno alumno = alumnoService.getAlumno(nickUsuario);
+			 if(alumno != null) {
+				 premiadoService.insertarPremiado(nickUsuario, fechaWall, description, file);
+				 return new ResponseEntity<>(HttpStatus.CREATED);
+			 }else {
+				 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			 }
 		 }else { 
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		 }

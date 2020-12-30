@@ -1,14 +1,11 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
-@RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/requests")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@RestController
 @Slf4j
 public class SolicitudController {
 
@@ -58,8 +55,8 @@ public class SolicitudController {
 	   @PutMapping("/decline/{nickUsuario}")
 	   public ResponseEntity<?> declineRequest(@PathVariable("nickUsuario")String nickUsuario, HttpServletRequest request){
 		   HttpSession session = request.getSession(false);
-
 		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		   
 		   if(session != null && session.getAttribute("type") == "profesor") {
 			   Alumno alumnoDenegado = solicitudServ.getAlumno(nickUsuario);
 			   solicitudServ.declineRequest(alumnoDenegado);
@@ -71,7 +68,7 @@ public class SolicitudController {
 	   }
 	   
 	   @PutMapping("/accept/{nickUsuario}")
-	   public ResponseEntity<?> sending(@PathVariable("nickUsuario")String nickUsuario, HttpServletRequest request) {
+	   public ResponseEntity<?> acceptRequest(@PathVariable("nickUsuario")String nickUsuario, HttpServletRequest request) {
 		   HttpSession session = request.getSession(false);
 		   log.info("SESION: " + session);
 
