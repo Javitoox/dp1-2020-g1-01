@@ -1,12 +1,11 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
-import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +25,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+import lombok.extern.slf4j.Slf4j;
+
 @RequestMapping("/requests")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@RestController
+@Slf4j
 public class SolicitudController {
-	private static final Logger log = LoggerFactory.logger(SolicitudController.class);
 
 	   private final SolicitudService solicitudServ;
 	   
@@ -40,28 +41,53 @@ public class SolicitudController {
 	   }
 	   
 	   @GetMapping("/pending")
-	   public List<Alumno> getSolicitudes() {
-		   return solicitudServ.getAllSolicitudes();
+	   public ResponseEntity<?> getSolicitudes(HttpServletRequest request) {
+		   HttpSession session = request.getSession(false);
+
+		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		   if(session != null && session.getAttribute("type") == "profesor") {
+			   return ResponseEntity.ok(solicitudServ.getAllSolicitudes());
+		   }else {
+			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		   }
 	   }
 	   
 	   @PutMapping("/decline/{nickUsuario}")
-	   public void declineRequest(@PathVariable("nickUsuario")String nickUsuario ){
-		   Alumno alumnoDenegado = solicitudServ.getAlumno(nickUsuario);
-		   solicitudServ.declineRequest(alumnoDenegado);
+	   public ResponseEntity<?> declineRequest(@PathVariable("nickUsuario")String nickUsuario, HttpServletRequest request){
+		   HttpSession session = request.getSession(false);
+		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		   
+		   if(session != null && session.getAttribute("type") == "profesor") {
+			   Alumno alumnoDenegado = solicitudServ.getAlumno(nickUsuario);
+			   solicitudServ.declineRequest(alumnoDenegado);
+			   return ResponseEntity.ok().build();
+		   }else {
+			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		   }
 		   
 	   }
 	   
 	   @PutMapping("/accept/{nickUsuario}")
-	   public void sending(@PathVariable("nickUsuario")String nickUsuario) {
-		   Alumno alumnoAceptado = solicitudServ.getAlumno(nickUsuario);
-		   System.out.println("ALUMNO ACEPTADO:"+alumnoAceptado);
-		   alumnoAceptado.setFechaMatriculacion(LocalDate.now());
-		   Tutor t = alumnoAceptado.getTutores();
-		   if(t != null && t.getFechaMatriculacion() == null) {
-			   t.setFechaMatriculacion(LocalDate.now());
-			   alumnoAceptado.setTutores(t);
+	   public ResponseEntity<?> acceptRequest(@PathVariable("nickUsuario")String nickUsuario, HttpServletRequest request) {
+		   HttpSession session = request.getSession(false);
+		   log.info("SESION: " + session);
+
+		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		   if(session != null && session.getAttribute("type") == "profesor") {
+			   Alumno alumnoAceptado = solicitudServ.getAlumno(nickUsuario);
+			   System.out.println("ALUMNO ACEPTADO:"+alumnoAceptado);
+			   alumnoAceptado.setFechaMatriculacion(LocalDate.now());
+			   Tutor t = alumnoAceptado.getTutores();
+			   if(t != null && t.getFechaMatriculacion() == null) {
+				   t.setFechaMatriculacion(LocalDate.now());
+				   alumnoAceptado.setTutores(t);
+			   }
+			   solicitudServ.acceptRequest(alumnoAceptado);
+			   return ResponseEntity.ok().build();
+
+		   }else {
+			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		   }
-		   solicitudServ.acceptRequest(alumnoAceptado);
 		   
 	   }   
 		

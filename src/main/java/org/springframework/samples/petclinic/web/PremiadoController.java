@@ -4,21 +4,27 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.BodyPremiado;
 import org.springframework.samples.petclinic.model.Premiado;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.PremiadoService;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,9 +43,12 @@ public class PremiadoController {
 	
 	private PremiadoService premiadoService;
 	
+	private AlumnoService alumnoService;
+	
 	@Autowired
-	public PremiadoController(PremiadoService premiadoService) {
+	public PremiadoController(PremiadoService premiadoService, AlumnoService alumnoService) {
 		this.premiadoService = premiadoService;
+		this.alumnoService = alumnoService; 
 	}
 	
 	@GetMapping("/{fechaWall}")
@@ -60,82 +69,86 @@ public class PremiadoController {
 		return premiadoService.obtenerUltimaSemana();
 	}
 	
-	@PostMapping(value="/añadirPremiado/{fechaWall}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> añadirPremiado(@PathVariable("fechaWall") String fechaWall,
-            @RequestParam(value="photo", required=false) MultipartFile file, @RequestParam(value = "nickUsuario", required=false) String nickUsuario, @RequestParam(value= "description", required = false) String description, HttpServletRequest request){
+	@PostMapping(value="/añadirPremiado/{fechaWall}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) 
+	public ResponseEntity<?>añadirPremiado(@PathVariable("fechaWall") String fechaWall,
+			@Valid @ModelAttribute BodyPremiado body,  BindingResult result, HttpServletRequest request){
 		
-		List<String> errores = new ArrayList<String>();
+		if(result.hasErrors()) {
+			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+		}
 		
-		if(nickUsuario.isEmpty()){
-			String errorNick = "You must add the nickname";
-			errores.add(errorNick);
-		}if(description.isEmpty()) {
-			String errorDescripcion = "You must add a description for the student";
-			errores.add(errorDescripcion);
-		}if(file == null) {
-			String errorFoto = "You must add a photo for the student";
-			errores.add(errorFoto);
+		HttpSession session = request.getSession(false);
+		
+		System.out.println("Imagen con tamaño: "+body.getPhoto().getSize());
 
-		}if(errores.size()>0) {
-			return new ResponseEntity<>(errores, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-		}
-		
-		
-		  HttpSession session = request.getSession(false);
-		  log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
-		  if(session != null && session.getAttribute("type") == "profesor") { 
-			  
-			  //Pasar al service
-			  Path directorioImagenes =
-			  Paths.get("src//main//resources//static//frontend//public/photosWall");
-			  String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath(); 
-			  
-			  try {
-				  byte[] bytes = file.getBytes(); 
-				  Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + nickUsuario + ".jpg"); 
-				  premiadoService.insertarPremiado(nickUsuario, fechaWall, description); Files.write(rutaCompleta, bytes); 
-				  return ResponseEntity.ok().build();
-			  
-			  } catch (IOException e) { 
-				  e.printStackTrace(); 
-				  return null;
-			  } 
-		  
-		  }else { 
-			  return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
-		}
-    }
+		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		 if(session != null && session.getAttribute("type") == "profesor") {
+			 String nickUsuario = body.getNickUsuario();
+			 String description = body.getDescription();
+			 MultipartFile file = body.getPhoto();
+			 
+			 Alumno alumno = alumnoService.getAlumno(nickUsuario);
+			 if(alumno != null) {
+				 premiadoService.insertarPremiado(nickUsuario, fechaWall, description, file);
+				 return new ResponseEntity<>(HttpStatus.CREATED);
+			 }else {
+				 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			 }
+		 }else { 
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		 }
+		 
+   }
 	
 	@PutMapping(value="/editarPremiado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void editarPremiado(@RequestParam(value = "photo", required = false) MultipartFile file, @RequestParam("id") Integer id, @RequestParam("description") String descripcion,
-			 @RequestParam("nickUsuario") String nickUsuario) {
+	public ResponseEntity<?> editarPremiado(@RequestParam(value = "photo", required = false) MultipartFile file, @RequestParam("id") Integer id, @RequestParam("description") String descripcion,
+			 @RequestParam("nickUsuario") String nickUsuario, HttpServletRequest request) {
 		
-		System.out.println("SOY LA ID: "+id);
-		if(file !=null) {
-			Path directorioImagenes = Paths.get("src//main//resources//static//frontend//public/photosWall");
-			String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+		HttpSession session = request.getSession(false);
+
+		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Editanto el premiado cuya id es : "+id);
 			
-			try {
-				byte[] bytes = file.getBytes();
-				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + nickUsuario + ".jpg");
-				Files.write(rutaCompleta, bytes);
+			if(file !=null) {
+				Path directorioImagenes = Paths.get("src//main//resources//static//frontend//public/photosWall");
+				String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
 				
+				try {
+					byte[] bytes = file.getBytes();
+					Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + nickUsuario + ".jpg");
+					Files.write(rutaCompleta, bytes);
+					
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 			
+			if(!descripcion.isEmpty()) {
+				log.info("Changing description: "+descripcion);
+				premiadoService.editarPremiado(id, descripcion);
+			}
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		}
-		
-		if(!descripcion.isEmpty()) {
-			System.out.println("CAMBIANDO DESCRIPCION: "+descripcion);
-			premiadoService.editarPremiado(id, descripcion);}
 		
 	}
 	
 	@DeleteMapping(value="/borrarPremiado/{id}")
-	public void deletePremiado(@PathVariable("id") Integer id) {
-		premiadoService.deletePremiadoById(id);
+	public ResponseEntity<?> deletePremiado(@PathVariable("id") Integer id, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(false);
+
+		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		if(session != null && session.getAttribute("type") == "profesor") {
+			premiadoService.deletePremiadoById(id);
+			return ResponseEntity.ok().build();
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
 	}
 	
 	
