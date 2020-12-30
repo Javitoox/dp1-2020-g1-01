@@ -2,14 +2,20 @@ package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="premiados")
-@Data
+@Getter
+@Setter
 public class Premiado extends BaseEntity {
 
     @Column(name="descripcion")

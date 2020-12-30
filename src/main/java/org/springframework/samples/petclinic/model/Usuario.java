@@ -11,9 +11,11 @@ import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @MappedSuperclass
 public class Usuario{
 	
@@ -62,6 +64,82 @@ public class Usuario{
 	@NotNull(message = "Required field")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate fechaNacimiento;
+
+//	public Usuario() {
+//	}
+//
+//	@Override
+//	public int hashCode() {
+//		final int prime = 31;
+//		int result = 1;
+//		result = prime * result + ((contraseya == null) ? 0 : contraseya.hashCode());
+//		result = prime * result + ((correoElectronicoUsuario == null) ? 0 : correoElectronicoUsuario.hashCode());
+//		result = prime * result + ((direccionUsuario == null) ? 0 : direccionUsuario.hashCode());
+//		result = prime * result + ((dniUsuario == null) ? 0 : dniUsuario.hashCode());
+//		result = prime * result + ((fechaNacimiento == null) ? 0 : fechaNacimiento.hashCode());
+//		result = prime * result + ((nickUsuario == null) ? 0 : nickUsuario.hashCode());
+//		result = prime * result + ((nombreCompletoUsuario == null) ? 0 : nombreCompletoUsuario.hashCode());
+//		result = prime * result + ((numTelefonoUsuario == null) ? 0 : numTelefonoUsuario.hashCode());
+//		result = prime * result + ((numTelefonoUsuario2 == null) ? 0 : numTelefonoUsuario2.hashCode());
+//		return result;
+//	}
+//
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		Usuario other = (Usuario) obj;
+//		if (contraseya == null) {
+//			if (other.contraseya != null)
+//				return false;
+//		} else if (!contraseya.equals(other.contraseya))
+//			return false;
+//		if (correoElectronicoUsuario == null) {
+//			if (other.correoElectronicoUsuario != null)
+//				return false;
+//		} else if (!correoElectronicoUsuario.equals(other.correoElectronicoUsuario))
+//			return false;
+//		if (direccionUsuario == null) {
+//			if (other.direccionUsuario != null)
+//				return false;
+//		} else if (!direccionUsuario.equals(other.direccionUsuario))
+//			return false;
+//		if (dniUsuario == null) {
+//			if (other.dniUsuario != null)
+//				return false;
+//		} else if (!dniUsuario.equals(other.dniUsuario))
+//			return false;
+//		if (fechaNacimiento == null) {
+//			if (other.fechaNacimiento != null)
+//				return false;
+//		} else if (!fechaNacimiento.equals(other.fechaNacimiento))
+//			return false;
+//		if (nickUsuario == null) {
+//			if (other.nickUsuario != null)
+//				return false;
+//		} else if (!nickUsuario.equals(other.nickUsuario))
+//			return false;
+//		if (nombreCompletoUsuario == null) {
+//			if (other.nombreCompletoUsuario != null)
+//				return false;
+//		} else if (!nombreCompletoUsuario.equals(other.nombreCompletoUsuario))
+//			return false;
+//		if (numTelefonoUsuario == null) {
+//			if (other.numTelefonoUsuario != null)
+//				return false;
+//		} else if (!numTelefonoUsuario.equals(other.numTelefonoUsuario))
+//			return false;
+//		if (numTelefonoUsuario2 == null) {
+//			if (other.numTelefonoUsuario2 != null)
+//				return false;
+//		} else if (!numTelefonoUsuario2.equals(other.numTelefonoUsuario2))
+//			return false;
+//		return true;
+//	}
 	
 }
 

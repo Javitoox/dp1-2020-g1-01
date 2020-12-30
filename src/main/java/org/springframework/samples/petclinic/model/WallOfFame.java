@@ -7,10 +7,13 @@ import java.time.LocalDate;
 import javax.persistence.Id;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="walloffames")
-@Data
+@Getter
+@Setter
 public class WallOfFame {
 
     @Id

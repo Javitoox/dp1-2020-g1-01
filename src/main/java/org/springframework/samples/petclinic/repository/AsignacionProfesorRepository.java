@@ -9,7 +9,8 @@ import org.springframework.samples.petclinic.model.AsignacionProfesor;
 import org.springframework.samples.petclinic.model.AsignacionProfesorKey;
 
 public interface AsignacionProfesorRepository extends CrudRepository<AsignacionProfesor, AsignacionProfesorKey>{
-	
+	//	@Query("SELECT a FROM AsignacionProfesor a JOIN a.profesor p WHERE a.p.nickProfesor=:nickProfesor")
+
 	@Query("SELECT a FROM AsignacionProfesor a WHERE a.profesor.nickUsuario=:nickProfesor")
 	List<AsignacionProfesor> getAsignacionesByProfesor(@Param("nickProfesor")String nickProfesor);
 }
