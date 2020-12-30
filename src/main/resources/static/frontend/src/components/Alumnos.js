@@ -190,17 +190,13 @@ class Alumnos extends Component {
             { label: 'C2', value: 'C2' },
             { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
         ];
-
+        console.log(this.props.urlBase)
         return (
             <React.Fragment>
                 <div className="datatable-templating-demo">
                     <div>
                     <ListBox value={this.state.curso} options={courseSelectItems} onChange={(e) => this.showSelectCourse(e.value)} />
-                    {/* <ListBox value={this.state.grupo} options={this.state.groupSelectItems} onChange={(e) => this.showSelectCourse(e.value)} /> */}
-
-                        {/* <div className="card">
-                            { <Tree value={this.state.nodes} selectionMode="single" selectionKeys={this.state.selectedKey} onSelectionChange={e => this.setState({ selectedKey: e.value })} onSelect={this.onNodeSelect}/> }
-                        </div> */}
+                   
                     <ListBox options={this.allGroupNames()} onChange={(e) => this.showSelectGroup(e.value)} />
                     <Button icon="pi pi-plus-circle" label="Crear grupo" className="p-button-secondary" onClick={this.botonCrear} />
                     <Button icon="pi pi-minus-circle" label="Eliminar grupo" className="p-button-secondary" onClick={this.botonEliminar} />

@@ -52,6 +52,12 @@ public class PagosController {
 		return ResponseEntity.ok(all);
 	}
 	
+	@GetMapping("/notPaidByStudent/{nickUsuario}")
+	public ResponseEntity<List<String>> listadoNoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario) {
+		List<String> all =  pagoService.getNoPaymentByStudent(nickUsuario);
+		return ResponseEntity.ok(all);
+	}
+	
 	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, BindingResult result){
 		log.info("Solicitando crear pago: {}", resource);

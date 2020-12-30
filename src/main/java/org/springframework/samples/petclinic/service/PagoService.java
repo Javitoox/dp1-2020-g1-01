@@ -31,6 +31,9 @@ public class PagoService {
 	public List<Alumno> getStudentsNoPayment(String concepto){
     	return pagoRepository.findStudentByNoPago(concepto);
 	}
+	public List<String> getNoPaymentByStudent(String student){
+    	return pagoRepository.findNoPaymentByStudent(student);
+	}
 	
 	@Transactional
 	public void savePayment(Pago pago){

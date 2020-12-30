@@ -1,132 +1,180 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react'
+import AlumnoComponent from './AlumnoComponent';
+import PagoComponent from './PagoComponent';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { CustomerService } from '../service/CustomerService';
 import { InputText } from 'primereact/inputtext';
-import { MultiSelect } from 'primereact/multiselect';
-import { Dropdown } from 'primereact/dropdown';
+import { Button } from 'primereact/button';
+import { Redirect } from 'react-router-dom';
+import { ListBox } from 'primereact/listbox';
+import GrupoComponent from './GrupoComponent';
+import {selectStudent} from '../actions/index';
+import {selectAssignedStudent}  from '../actions/index';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-const DataTableStateDemo = () => {
-    const [customers, setCustomers] = useState(null);
-    const [globalFilter1, setGlobalFilter1] = useState(null);
-    const [globalFilter2, setGlobalFilter2] = useState(null);
-    const [globalFilter3, setGlobalFilter3] = useState(null);
-    const [selectedCustomer1, setSelectedCustomer1] = useState(null);
-    const [selectedCustomer2, setSelectedCustomer2] = useState(null);
-    const [selectedCustomer3, setSelectedCustomer3] = useState(null);
-    const [selectedRepresentative, setSelectedRepresentative] = useState(null);
-    const [selectedStatus, setSelectedStatus] = useState(null);
-    const representatives = [
-        { name: "Amy Elsner", image: 'amyelsner.png' },
-        { name: "Anna Fali", image: 'annafali.png' },
-        { name: "Asiya Javayant", image: 'asiyajavayant.png' },
-        { name: "Bernardo Dominic", image: 'bernardodominic.png' },
-        { name: "Elwin Sharvill", image: 'elwinsharvill.png' },
-        { name: "Ioni Bowcher", image: 'ionibowcher.png' },
-        { name: "Ivan Magalhaes", image: 'ivanmagalhaes.png' },
-        { name: "Onyama Limba", image: 'onyamalimba.png' },
-        { name: "Stephen Shaw", image: 'stephenshaw.png' },
-        { name: "XuXue Feng", image: 'xuxuefeng.png' }
-    ];
+class Pagos extends Component {
 
-    const dataTableFuncMap = {
-        'globalFilter1': setGlobalFilter1,
-        'globalFilter2': setGlobalFilter2,
-        'globalFilter3': setGlobalFilter3
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            
+            pagoS:"",
+            redirect: false,
+            nickUsuario: "",
+            contraseya: "",
+            dniUsuario: "",
+            nombreCompletoUsuario: "",
+            correoElectronicoUsuario: "",
+            numTelefonoUsuario: "",
+            direccionUsuario: "",
+            fechaNacimiento:"",
+            numTareasEntregadas :"",
+            fechaMatriculacion: "",
+            groupSelectItems: "",
+            listaGrupos:{
+                nombreGrupo: ""
+            },
+            listaTemporal:{
 
-    const statuses = [
-        'unqualified', 'qualified', 'new', 'negotiation', 'renewal', 'proposal'
-    ];
+            },
+            lista:{
 
-    const customerService = new CustomerService();
+            },
+            textBuscar:"",
+            textBuscar2:""
 
-    useEffect(() => {
-        customerService.getCustomersMedium().then(data => setCustomers(data));
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const onCustomSaveState = (state) => {
-        window.sessionStorage.setItem('dt-state-demo-custom', JSON.stringify(state));
+            //nodes: null,
+            //selectedKey: null,
+        }
+        this.pagos = new PagoComponent();
+        this.alumnos = new AlumnoComponent();
+        this.filter = this.filter.bind(this);
+        this.filterDNI = this.filterDNI.bind(this);
+        this.notificar = this.notificar.bind(this);
+
+        //this.edicion = this.edicion.bind(this);
+        //this.assignGroup = this.assignGroup.bind(this)      
+        //this.botonAssign = this.botonAssign.bind(this);
+        //this.cursos = new CursoComponent();
+        //this.onNodeSelect = this.onNodeSelect.bind(this);
     }
 
-    const onCustomRestoreState = () => {
-        return JSON.parse(window.sessionStorage.getItem('dt-state-demo-custom'));
+    componentDidMount() {
+        //this.pagos.getAllStudentsPaid().then(data => this.setState({ alumnos: data }));
+        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ lista: data }));
+        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ listaTemporal: data }));
+
+        //this.grupos.getAllGroups().then(data => this.setState({ groupSelectItems: data }));
+        //this.cursos.getCourses().then(data => this.setState({ nodes: data }));
     }
 
-    const countryBodyTemplate = (rowData) => {
-        return (
+   
+    
+    showSelectGroup(pago) {
+        console.log(pago);
+        if (pago !== null) {
+            this.setState({ pagoS: pago });
+            if (pago === "") {
+                this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+            } else {
+                this.pagos.getAllStudentsPaid(pago).then(data => this.setState({ alumnos: data }));
+                this.pagos.getAllStudentsNotPaid(pago).then(data => this.setState({ alumnosNP: data }));
+               // this.pagos.getAllStudentsPaid(pago).then(data => console.log(data));
+            }
+        }
+    }
+    notificar(rowData) {
+        return (    
             <React.Fragment>
-                <img alt={rowData.country.code} src="showcase/demo/images/flag_placeholder.png" onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} className={`flag flag-${rowData.country.code}`} width="30" />
-                <span className="image-text">{rowData.country.name}</span>
+                <Button icon="pi pi-bell" className="p-button-rounded p-button-success p-mr-2"/>
             </React.Fragment>
         );
     }
 
-    const representativeBodyTemplate = (rowData) => {
+    filter(event){
+        var text = event.target.value
+        const data = this.state.listaTemporal
+        const newData = data.filter(function(item){
+            console.log(item);
+            const itemData = item.nombreCompletoUsuario.toUpperCase()
+            console.log(itemData);
+            const textData = text.toUpperCase()
+            console.log(textData);
+            var r= itemData.indexOf(textData) > -1
+            console.log(r)
+            return  r
+        })
+        this.setState({
+            alumnos: newData,
+            alumnosNP: newData,
+            text: text
+        })
+    }
+
+     filterDNI(event){
+        var text = event.target.value
+        const data = this.state.listaTemporal
+        const newData = data.filter(function(item){
+            console.log(item);
+            const itemData = item.dniUsuario.toUpperCase()
+            console.log(itemData);
+            const textData = text.toUpperCase()
+            console.log(textData);
+            var r= itemData.indexOf(textData) > -1
+            console.log(r)
+            return  r
+        })
+        this.setState({
+            alumnos: newData,
+            alumnosNP: newData,
+            text2: text
+        })
+    }
+
+
+    render() {
+        
+        const pagoSelectItems = [
+            { label: 'First Mat', value: 'Pago matricula' },
+            { label: 'First Pay', value: 'Primer plazo' },
+            { label: 'Second Pay', value: 'Segundo plazo' }
+           
+        ];
+
         return (
             <React.Fragment>
-                <img alt={rowData.representative.name} src={`showcase/demo/images/avatar/${rowData.representative.image}`} onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} width="32" style={{ verticalAlign: 'middle' }} />
-                <span className="image-text">{rowData.representative.name}</span>
+                <div className="datatable-templating-demo">
+                    <div>
+                    <ListBox options={pagoSelectItems} onChange={(e) => this.showSelectGroup(e.value)} />
+                    </div>
+                 
+                    <InputText class="form-control" placeholder="Name" value={this.state.text} onChange={this.filter} />
+
+                    <InputText class="form-control" placeholder="DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
+                    <h3>Alumnos que han realizado el pago:</h3>
+                    <DataTable value={this.state.alumnos}>
+                        <Column field="nombreCompletoUsuario" header="Full name"></Column>
+                        <Column field="dniUsuario" header="DNI"></Column>
+                        <Column field="correoElectronicoUsuario" header="Email"></Column>
+                    </DataTable>
+                    <h3>Alumnos que no han pagado:</h3>
+                    <DataTable value={this.state.alumnosNP}>
+                        <Column field="nombreCompletoUsuario" header="Full name"></Column>
+                        <Column field="dniUsuario" header="DNI"></Column>
+                        <Column field="correoElectronicoUsuario" header="Email"></Column>
+                        <Column header="Notify payment's lack" body={this.notificar}></Column>
+                    </DataTable>
+                </div>
             </React.Fragment>
-        );
+        )
     }
-
-    const statusBodyTemplate = (rowData) => {
-        return <span className={`customer-badge status-${rowData.status}`}>{rowData.status}</span>;
-    }
-
-    const renderHeader = (globalFilterKey) => {
-        return (
-            <span className="p-input-icon-left">
-                <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => dataTableFuncMap[`${globalFilterKey}`](e.target.value)} placeholder="Global Search" />
-            </span>
-        );
-    }
-
-    const header1 = renderHeader('globalFilter1');
-    const header2 = renderHeader('globalFilter2');
-    const header3 = renderHeader('globalFilter3');
-    const representativeFilter = <MultiSelect value={selectedRepresentative} options={representatives} onChange={(e) => setSelectedRepresentative(e.value)} optionLabel="name" optionValue="name" placeholder="All" className="p-column-filter" />;
-    const statusFilter = <Dropdown value={selectedStatus} options={statuses} onChange={(e) => setSelectedStatus(e.value)} placeholder="Select a Status" className="p-column-filter" showClear />;
-
-    return (
-        <div>
-            <div className="card">
-                <h5>Session Storage</h5>
-                <DataTable value={customers} paginator rows={10} header={header1} globalFilter={globalFilter1}
-                    selection={selectedCustomer1} onSelectionChange={e => setSelectedCustomer1(e.value)} selectionMode="single" dataKey="id"
-                    stateStorage="session" stateKey="dt-state-demo-session" emptyMessage="No customers found.">
-                    <Column field="name" header="Name" sortable filter filterPlaceholder="Search by name"></Column>
-                    <Column header="Country" body={countryBodyTemplate} sortable sortField="country.name" filter filterField="country.name" filterMatchMode="contains" filterPlaceholder="Search by country"></Column>
-                    <Column header="Representative" body={representativeBodyTemplate} sortable sortField="representative.name" filter filterField="representative.name" filterMatchMode="in" filterElement={representativeFilter}></Column>
-                    <Column field="status" header="Status" body={statusBodyTemplate} sortable filter filterMatchMode="equals" filterElement={statusFilter}></Column>
-                </DataTable>
-            </div>
-
-            <div className="card">
-                <h5>Local Storage</h5>
-                <DataTable value={customers} paginator rows={10} header={header2} globalFilter={globalFilter2}
-                    selection={selectedCustomer2} onSelectionChange={e => setSelectedCustomer2(e.value)} selectionMode="single" dataKey="id"
-                    stateStorage="local" stateKey="dt-state-demo-local" emptyMessage="No customers found.">
-                    <Column field="name" header="Name" sortable filter filterPlaceholder="Search by name"></Column>
-                    <Column header="Country" body={countryBodyTemplate} sortable sortField="country.name" filter filterField="country.name" filterMatchMode="contains" filterPlaceholder="Search by country"></Column>
-                    <Column header="Representative" body={representativeBodyTemplate} sortable sortField="representative.name" filter filterField="representative.name" filterMatchMode="in" filterElement={representativeFilter}></Column>
-                    <Column field="status" header="Status" body={statusBodyTemplate} sortable filter filterMatchMode="equals" filterElement={statusFilter}></Column>
-                </DataTable>
-            </div>
-
-            <div className="card">
-                <h5>Custom Storage</h5>
-                <DataTable value={customers} paginator rows={10} header={header3} globalFilter={globalFilter3}
-                    selection={selectedCustomer3} onSelectionChange={e => setSelectedCustomer3(e.value)} selectionMode="single" dataKey="id"
-                    stateStorage="custom" customSaveState={onCustomSaveState} customRestoreState={onCustomRestoreState} emptyMessage="No customers found.">
-                    <Column field="name" header="Name" sortable filter filterPlaceholder="Search by name"></Column>
-                    <Column header="Country" body={countryBodyTemplate} sortable sortField="country.name" filter filterField="country.name" filterMatchMode="contains" filterPlaceholder="Search by country"></Column>
-                    <Column header="Representative" body={representativeBodyTemplate} sortable sortField="representative.name" filter filterField="representative.name" filterMatchMode="in" filterElement={representativeFilter}></Column>
-                    <Column field="status" header="Status" body={statusBodyTemplate} sortable filter filterMatchMode="equals" filterElement={statusFilter}></Column>
-                </DataTable>
-            </div>
-        </div>
-    );
 }
+
+function  matchDispatchToProps(dispatch) {
+    return bindActionCreators({selectStudent : selectStudent,
+        selectAssignedStudent: selectAssignedStudent}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
+}
+export default connect(null , matchDispatchToProps)(Pagos) //importante poner primero el null si no hay mapStateToProps en el componente chicxs

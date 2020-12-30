@@ -16,6 +16,7 @@ import AssignStudent from './components/AssignStudent'
 import {CreateGroup} from './components/CreateGroup'
 import {DeleteGroup} from './components/DeleteGroup'
 import Pagos from './components/Pagos'
+import { RealizarPago } from './components/RealizarPago'
 
 class App extends Component {
 
@@ -26,6 +27,7 @@ class App extends Component {
 		username: "",
 		userType: ""
 	}
+	
 
 	changeType(type){
 		this.setState({userType: type})
@@ -40,6 +42,8 @@ class App extends Component {
 	}
 
 	render() {
+		var cors = require('cors')
+
 		return (
 			<Router>
 				<MenubarResponsive tipoDeUsuario={this.state.userType} onChange={this.changeType} urlBase={this.state.urlBase}></MenubarResponsive>
@@ -77,8 +81,11 @@ class App extends Component {
 					<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
                 } /> 
 				<Route path="/payments" render={() =>
-					<Payments urlBase={this.state.urlBase}> </Payments>
+					<Pagos urlBase={this.state.urlBase}> </Pagos>
                 } />
+				<Route path="/createPayment" render={() =>
+					<RealizarPago nickUser={this.calculateUserName()}/>
+				} />
 			</Router>
 		)
 	}
