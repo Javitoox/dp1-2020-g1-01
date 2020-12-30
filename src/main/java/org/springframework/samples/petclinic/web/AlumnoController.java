@@ -36,11 +36,10 @@ public class AlumnoController {
 	AlumnoService alumnoServ;
 
 	@PutMapping("/editStudent")
-	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, HttpServletRequest request,  BindingResult result)
+	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, HttpServletRequest request,HttpServletResponse response , BindingResult result)
 			throws IOException {
 		HttpSession session = request.getSession(false);
-    	if(session != null) {
-    		LOGGER.info("El alumno es : " + alumno.getNickUsuario());
+    	if(session != null && session.getAttribute("type") == "alumno" || session.getAttribute("type") == "profesor" ) {
     		if (result.hasErrors()) {
     			LOGGER.info("Esto no funciona");
     			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
@@ -59,9 +58,7 @@ public class AlumnoController {
     @GetMapping("/getStudentInfo/{nickUsuario}")
     public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, 
     		HttpServletRequest request){
-    		LOGGER.info("El nick del usuario en cuestion es " + nick);
     		Alumno alumno = alumnoServ.getAlumno(nick);
-    		LOGGER.info("Se esta devolviendo flama");
             return ResponseEntity.ok(alumno);
     
     }

@@ -53,13 +53,14 @@ export default class EditPersonalInfo extends Component {
             direccionUsuario: data.direccionUsuario,
             fechaNacimiento: data.fechaNacimiento,
             fechaMatriculacion: data.fechaMatriculacion,
+            
         }))
      
-        // axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
-        //     if(res.data==="alumno"){
-        //         this.setState({comprobation: true})
-        //     }
-        //     })
+       await axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
+            if(res.data==="alumno"){
+                this.setState({comprobation: true})
+            }
+            })
     }
     nickUsuario(event) {
         this.setState({ nickUsuario: event.target.value });
@@ -178,7 +179,6 @@ export default class EditPersonalInfo extends Component {
                 fechaNacimiento: this.state.fechaNacimiento,
                 succes: <div className="alert alert-success" role="alert">Successful shipment</div>
             })
-            window.alert("If you wish, you can modify your application details by entering the same username and password")
 
         }
     }
@@ -206,9 +206,9 @@ export default class EditPersonalInfo extends Component {
     }
 
     render() {
-        // if (!this.state.comprobation) {
-        //     return <Auth authority="alumno"></Auth>
-        // } else {
+        if (!this.state.comprobation) {
+            return <Auth authority="alumno"></Auth>
+        } else {
         return (
             <div>
                 <div className="c">
@@ -232,7 +232,7 @@ export default class EditPersonalInfo extends Component {
                                         <i className="pi pi-lock"></i>
                                     </span>
                                     <Password mediumRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,30}$" strongRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{14,30}$"
-                                        placeholder="Password" name="contraseya" value={this.state.contraseya} onChange={this.contraseya} />
+                                        placeholder="Password" name="contraseya" value={this.state.contraseya} readOnly />
                                 </div>
                             </div>
                             <div className="i">
@@ -241,7 +241,7 @@ export default class EditPersonalInfo extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-id-card"></i>
                                     </span>
-                                    <InputText placeholder="Identity card" name="dniUsuario" type="text" value={this.state.dniUsuario} onChange={this.dniUsuario} />
+                                    <InputText placeholder="Identity card" name="dniUsuario" type="text" value={this.state.dniUsuario} readOnly />
                                 </div>
                             </div>
                             <div className="i">
@@ -250,7 +250,7 @@ export default class EditPersonalInfo extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-user-plus"></i>
                                     </span>
-                                    <InputText placeholder="Full Name" name="nombreCompletoUsuario" type="text" value={this.state.nombreCompletoUsuario} onChange={this.nombreCompletoUsuario} />
+                                    <InputText placeholder="Full Name" name="nombreCompletoUsuario" type="text" value={this.state.nombreCompletoUsuario} readOnly />
                                 </div>
                             </div>
                             <div className="i">
@@ -281,7 +281,7 @@ export default class EditPersonalInfo extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-home"></i>
                                     </span>
-                                    <InputText placeholder="Address" name="direccionUsuario" type="text" value={this.state.direccionUsuario} onChange={this.direccionUsuario} />
+                                    <InputText placeholder="Address" name="direccionUsuario" type="text" value={this.state.direccionUsuario} readOnly />
                                 </div>
                             </div>
                             <div className="i">
@@ -290,7 +290,7 @@ export default class EditPersonalInfo extends Component {
                                     <span className="p-inputgroup-addon">
                                         <i className="pi pi-calendar"></i>
                                     </span>
-                                    <InputText placeholder="Birthdate" name="fechaNacimiento" type="date" value={this.state.fechaNacimiento} onChange={this.fechaNacimiento} />
+                                    <InputText placeholder="Birthdate" name="fechaNacimiento" type="date" value={this.state.fechaNacimiento} readOnly />
                                 </div>
                             </div>
                             <div className="b">
@@ -306,4 +306,4 @@ export default class EditPersonalInfo extends Component {
     }
 }
 
-//}
+}
