@@ -9,10 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Grupo;
+import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
+import org.springframework.samples.petclinic.web.AlumnoController;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class AlumnoService {
 	
 	AlumnoRepository alumnoRepository;
@@ -44,7 +49,7 @@ public class AlumnoService {
 		return alumnoRepository.save(alumno);		
 	}		
 
-    public List<Alumno> getStudentsByCourse(String cursoDeIngles){
+    public List<Alumno> getStudentsByCourse(TipoCurso cursoDeIngles){
         return alumnoRepository.findStudentsByCourse(cursoDeIngles);
     }
    

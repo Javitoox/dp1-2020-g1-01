@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,31 +34,37 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 public class AlumnoController {
-	private static final Logger LOGGER = LoggerFactory.logger(SolicitudController.class);
+
+
+	private AlumnoService alumnoServ;
 
 	@Autowired
-	AlumnoService alumnoServ;
-
+	public AlumnoController(AlumnoService alumnoServ) {
+		super();
+		this.alumnoServ = alumnoServ;
+	}
+	
 	@PutMapping("/editStudent")
 	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, HttpServletRequest request,HttpServletResponse response , BindingResult result)
 			throws IOException {
 		HttpSession session = request.getSession(false);
     	if(session != null && session.getAttribute("type") == "alumno" || session.getAttribute("type") == "profesor" ) {
     		if (result.hasErrors()) {
-    			LOGGER.info("Esto no funciona");
+    			log.info("Esto no funciona");
     			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     		}
     		else {
-    			LOGGER.info("Ha funcionado");
+    			log.info("Ha funcionado");
     			this.alumnoServ.saveAlumno(alumno);
     			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
     			
     		}
     	}else {
-    		LOGGER.info("Que no bro hahah");
+    		log.info("Que no bro hahah");
     		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     	}
     }
+	
     @GetMapping("/getStudentInfo/{nickUsuario}")
     public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, 
     		HttpServletRequest request){
@@ -80,25 +87,14 @@ public class AlumnoController {
 	}
 
 	@GetMapping("/getByCourse/{course}")
-	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") String cursoDeIngles, HttpServletRequest request) {
+	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") TipoCurso cursoDeIngles, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 
 		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
-		if(session != null && session.getAttribute("type") == "profesor") {
-			List<String> cursos = new ArrayList<String>();
-			cursos.add("A1");
-			cursos.add("A2");
-			cursos.add("B1");
-			cursos.add("B2");
-			cursos.add("C1");
-			cursos.add("C2");
-			cursos.add("APRENDIZAJELIBRE");
-			if (cursos.contains(cursoDeIngles)) {
+		log.info("Obteniendo alumnos del curso: "+cursoDeIngles);
+		if(session != null && session.getAttribute("type") == "profesor") {	
 				List<Alumno> allStudentsByCourse = alumnoServ.getStudentsByCourse(cursoDeIngles);
 				return ResponseEntity.ok(allStudentsByCourse);
-			} else {
-				return ResponseEntity.notFound().build();
-			}
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 
@@ -117,13 +113,26 @@ public class AlumnoController {
 	public ResponseEntity<?> assignStudent(@Valid Alumno alumno, BindingResult result, HttpServletResponse response) throws IOException
 			 {
 		if (result.hasErrors()) {
-			LOGGER.info("Esto no funciona");
+			log.info("Esto no funciona");
 		}
 		else {
-			LOGGER.info("Ha funcionado");
+			log.info("Ha funcionado");
 			this.alumnoServ.saveAlumno(alumno);
 			response.sendRedirect("http://localhost:3000");
 		}
 	    return ResponseEntity.ok().build();
+    }
+	
+	@GetMapping("/{nickTutor}/allMyStudents")
+    public ResponseEntity<?>getStudentsByTutor(@PathVariable("nickTutor") String nickTutor, 
+    		HttpServletRequest request){
+    	HttpSession session = request.getSession(false);
+		log.info("Has iniciado sesion como: "+ session.getAttribute("type")+ ", y con nick: "+session.getAttribute("nickUsuario"));
+    	if(session != null && session.getAttribute("type") == "tutor" && session.getAttribute("nickUsuario")==nickTutor) {
+    		List<Alumno>studentsByTutor = alumnoServ.getAllMyStudents(nickTutor);
+            return ResponseEntity.ok(studentsByTutor);
+    	}else {
+    		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    	}
     }
 }

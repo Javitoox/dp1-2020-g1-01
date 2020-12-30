@@ -38,5 +38,9 @@ export default class AlumnoComponent extends Component{
 	deletePremiado(baseUrl, id){
 		return axios.delete(baseUrl+"/premiados/borrarPremiado/"+id,{withCredentials: true});
 	}
+
+	getAlumnosPorTutor(urlBase, nickUsuario){
+        return axios.get(urlBase+"/alumnos/"+nickUsuario+"/allMyStudents", {withCredentials: true}).then(res=>res.data);
+    }
 }
 
