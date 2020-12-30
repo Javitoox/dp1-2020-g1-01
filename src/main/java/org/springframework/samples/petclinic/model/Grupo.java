@@ -1,15 +1,22 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+
+@Getter
+@Setter
 @Table(name="grupos")
 public class Grupo {
 	@Id
@@ -17,6 +24,48 @@ public class Grupo {
 	private String nombreGrupo;
 	
 	@ManyToOne
-    private Curso cursos;		
+    private Curso cursos;
+	
+	@OneToMany(mappedBy = "grupo")
+    private Set<AsignacionProfesor> asignaciones = new HashSet<>();
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((asignaciones == null) ? 0 : asignaciones.hashCode());
+		result = prime * result + ((cursos == null) ? 0 : cursos.hashCode());
+		result = prime * result + ((nombreGrupo == null) ? 0 : nombreGrupo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Grupo other = (Grupo) obj;
+		if (asignaciones == null) {
+			if (other.asignaciones != null)
+				return false;
+		} else if (!asignaciones.equals(other.asignaciones))
+			return false;
+		if (cursos == null) {
+			if (other.cursos != null)
+				return false;
+		} else if (!cursos.equals(other.cursos))
+			return false;
+		if (nombreGrupo == null) {
+			if (other.nombreGrupo != null)
+				return false;
+		} else if (!nombreGrupo.equals(other.nombreGrupo))
+			return false;
+		return true;
+	}
+	
+	
 	
 }
