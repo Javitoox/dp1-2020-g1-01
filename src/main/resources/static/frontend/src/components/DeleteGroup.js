@@ -22,6 +22,7 @@ export class DeleteGroup extends Component {
         this.delete = this.delete.bind(this);
         this.handleNG = this.handleNG.bind(this);
         this.allGroupNames= this.allGroupNames.bind(this);
+        this.form=this.form.bind(this);
     }
     delete = event => {
         event.preventDefault();
@@ -53,6 +54,39 @@ export class DeleteGroup extends Component {
         }
         return groupSelectItems
     }
+
+    form(){
+        var l = this.state.listaGrupos
+        if(l==""){
+
+            return <div className="t"><div><h5>There is no group to assign</h5></div></div>
+
+
+        }else{
+            
+
+            return <div>
+                <div className="t"><div><h5>Delete Group</h5></div></div>
+
+                                <div className="i">
+                                <div className="p-inputgroup">
+                                <Dropdown name="nombreGrupo" placeholder="Select group" value={this.state.grupoS.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
+
+                                </div>
+                                </div>
+
+                                <div className="b">
+                                <div className="i">
+                                <Button className="p-button-secondary" label="Eliminar" icon="pi pi-fw pi-check"/>
+
+                                </div>
+                                </div>
+                                
+                            </div>
+
+
+        }
+    }
     respuesta(status, data){
         console.log("hola?");
 
@@ -81,6 +115,7 @@ export class DeleteGroup extends Component {
     }
 
     render() {
+        console.log(this.state);
         return (
 
             <div>
@@ -89,21 +124,7 @@ export class DeleteGroup extends Component {
                         <form onSubmit={this.delete}>
                         {this.state.succes}
                         {this.state.exist}
-                            <div className="t"><div><h5>Delete Group</h5></div></div>
-
-                                <div className="i">
-                                <div className="p-inputgroup">
-                                <Dropdown name="nombreGrupo" placeholder="Select group" value={this.state.grupoS.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
-
-                                </div>
-                                </div>
-                                
-                                <div className="b">
-                                <div className="i">
-                                <Button className="p-button-secondary" label="Eliminar" icon="pi pi-fw pi-check"/>
-
-                                </div>
-                            </div>
+                        {this.form()}
                         </form>
                     </div>
                 </div>

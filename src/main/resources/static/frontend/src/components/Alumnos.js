@@ -45,6 +45,7 @@ class Alumnos extends Component {
         this.botonAssign=this.botonAssign.bind(this);
         this.botonCrear=this.botonCrear.bind(this);
         this.botonEliminar=this.botonEliminar.bind(this);
+        this.botonGrupos=this.botonGrupos.bind(this);
         this.allGroupNames= this.allGroupNames.bind(this);
         //this.botonAssign = this.botonAssign.bind(this);
         //this.cursos = new CursoComponent();
@@ -81,7 +82,14 @@ class Alumnos extends Component {
         
     });
     }
-    
+
+    botonGrupos() {
+        this.setState({ 
+            redirect: "/teacherGroups",
+        
+    });
+    }
+
     edicion(data) {
         this.props.selectStudent(data) //si os dice que selectStudent no es una funcion comprobad los nombres en matchDispatchToProps y que el import este hecho con el nombre ENTRE LLAVES
         this.setState({ 
@@ -177,6 +185,12 @@ class Alumnos extends Component {
               pathname: "/assignStudent"
             }}
           />
+        }else if(this.state.redirect=="/teacherGroups"){
+            return <Redirect
+            to={{
+              pathname: "/teacherGroups"
+            }}
+          />
         }
         
     }
@@ -198,8 +212,10 @@ class Alumnos extends Component {
                     <ListBox value={this.state.curso} options={courseSelectItems} onChange={(e) => this.showSelectCourse(e.value)} />
                    
                     <ListBox options={this.allGroupNames()} onChange={(e) => this.showSelectGroup(e.value)} />
-                    <Button icon="pi pi-plus-circle" label="Crear grupo" className="p-button-secondary" onClick={this.botonCrear} />
-                    <Button icon="pi pi-minus-circle" label="Eliminar grupo" className="p-button-secondary" onClick={this.botonEliminar} />
+                    <Button icon="pi pi-plus-circle" label="Create group" className="p-button-secondary" onClick={this.botonCrear} />
+                    <Button icon="pi pi-minus-circle" label="Delete group" className="p-button-secondary" onClick={this.botonEliminar} />
+                    <Button icon="pi pi-fw pi-users" label="My groups" className="p-button-secondary" onClick={this.botonGrupos} />
+
                     </div>
 
                     <DataTable value={this.state.alumnos}>

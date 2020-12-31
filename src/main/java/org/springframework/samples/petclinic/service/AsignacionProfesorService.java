@@ -23,6 +23,11 @@ public class AsignacionProfesorService {
 		return asignacionRep.getAsignacionesByProfesor(user);
 	}
 	
+	@Transactional(readOnly=true)
+    public List<String> getFreeGroups(){
+        return asignacionRep.getFreeGroups();
+    }
+	
 	@Transactional
 	public void saveAsignacion(AsignacionProfesor a) {
 		asignacionRep.save(a);

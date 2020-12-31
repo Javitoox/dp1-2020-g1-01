@@ -5,6 +5,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+
 import { Redirect } from 'react-router-dom';
 import { ListBox } from 'primereact/listbox';
 import GrupoComponent from './GrupoComponent';
@@ -12,6 +13,7 @@ import {selectStudent} from '../actions/index';
 import {selectAssignedStudent}  from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import "../css/payment.css"
 
 class Pagos extends Component {
 
@@ -138,9 +140,9 @@ class Pagos extends Component {
     render() {
         
         const pagoSelectItems = [
-            { label: 'First Mat', value: 'Pago matricula' },
-            { label: 'First Pay', value: 'Primer plazo' },
-            { label: 'Second Pay', value: 'Segundo plazo' }
+            { label: 'Concept: First Mat', value: 'Pago matricula' },
+            { label: 'Concept: First Pay', value: 'Primer plazo' },
+            { label: 'Concept: Second Pay', value: 'Segundo plazo' }
            
         ];
 
@@ -148,20 +150,24 @@ class Pagos extends Component {
             <React.Fragment>
                 <div className="datatable-templating-demo">
                     <div>
+
                     <ListBox options={pagoSelectItems} onChange={(e) => this.showSelectGroup(e.value)} />
                     </div>
-                 
-                    <InputText class="form-control" placeholder="Name" value={this.state.text} onChange={this.filter} />
 
-                    <InputText class="form-control" placeholder="DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
-                    <h3>Alumnos que han realizado el pago:</h3>
-                    <DataTable value={this.state.alumnos}>
+                    <div>&nbsp;</div>
+                    <InputText class="form-control" placeholder="Search by name" value={this.state.text} onChange={this.filter} />
+
+                    <InputText class="form-control" placeholder="Search by DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
+
+                    <div>&nbsp;</div>
+                    
+                    <DataTable header="Students who have paid:" value={this.state.alumnos}>
                         <Column field="nombreCompletoUsuario" header="Full name"></Column>
                         <Column field="dniUsuario" header="DNI"></Column>
                         <Column field="correoElectronicoUsuario" header="Email"></Column>
                     </DataTable>
-                    <h3>Alumnos que no han pagado:</h3>
-                    <DataTable value={this.state.alumnosNP}>
+                    <div>&nbsp;</div>
+                    <DataTable header="Students who have not paid:" value={this.state.alumnosNP}>
                         <Column field="nombreCompletoUsuario" header="Full name"></Column>
                         <Column field="dniUsuario" header="DNI"></Column>
                         <Column field="correoElectronicoUsuario" header="Email"></Column>
