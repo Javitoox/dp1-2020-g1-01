@@ -33,6 +33,13 @@ public class AsignacionesProfesorController {
 	public AsignacionesProfesorController(AsignacionProfesorService asignacionS) {
 		this.asignacionS = asignacionS;
 	}
+	
+	@GetMapping("/freeAsignaciones")
+	public ResponseEntity<List<String>> listaAsignaciones() {
+		List<String> all =  asignacionS.getFreeGroups();
+		return ResponseEntity.ok(all);
+	}
+	
 
 	@GetMapping("/{user}")
 	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user) {
