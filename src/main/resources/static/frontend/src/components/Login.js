@@ -4,6 +4,9 @@ import { withRouter } from "react-router-dom"
 import '../login.css'
 import { ExtraccionUsuarios } from './ExtraccionUsuarios'
 import { Component } from 'react'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import {selectUserLogin}  from '../actions/index';
 import {storageNickUsername, storageUserType} from './storage'
 
 class Login extends Component {
@@ -79,5 +82,9 @@ class Login extends Component {
         )
     }
 }
+    function  matchDispatchToProps(dispatch) {
+        return bindActionCreators({
+            selectUserLogin: selectUserLogin}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
+    }
 
-export default withRouter(Login)
+export default  connect(null , matchDispatchToProps) (withRouter(Login))

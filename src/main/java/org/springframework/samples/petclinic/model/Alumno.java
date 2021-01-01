@@ -10,11 +10,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="alumnos")
-@Data
+@Getter
+@Setter
 public class Alumno extends Usuario{
 	
 	@Column(name="num_tareas_entregadas")
@@ -37,4 +39,5 @@ public class Alumno extends Usuario{
     
     @OneToMany(cascade=CascadeType.ALL)
     private Collection<Inscripcion> inscripciones;
+ 
 }

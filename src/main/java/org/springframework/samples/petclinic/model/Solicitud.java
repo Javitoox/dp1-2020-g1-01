@@ -2,9 +2,11 @@ package org.springframework.samples.petclinic.model;
 
 import javax.validation.Valid;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class Solicitud {
 	
 	@Valid

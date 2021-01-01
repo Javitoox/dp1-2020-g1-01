@@ -32,7 +32,9 @@ class MenubarResponsive extends Component {
             { label: 'Enrolment´s requests', icon: 'pi pi-fw pi-file',  command: (event) => {
                 this.props.history.push("/students/EditPersonalInfo")}},
             { label: 'Students', icon: 'pi pi-fw pi-users'},
-            { label: 'Payments', icon: 'pi pi-fw pi-dollar' },
+            { label: 'Payments', icon: 'pi pi-fw pi-dollar', command: (event) => {
+                this.props.history.push("/createPayment");
+            }},
             { label: 'Material', icon: 'pi pi-fw pi-pencil' },
             { label: 'School calendar', icon: 'pi pi-fw pi-calendar' },
             { label: 'Wall of Fame', icon: 'pi pi-fw pi-star', command: (event) => {
@@ -50,7 +52,9 @@ class MenubarResponsive extends Component {
             { label: 'Students', icon: 'pi pi-fw pi-users', command:(event)=>{
                 this.props.history.push("/allStudents");
             }},
-            { label: 'Payments', icon: 'pi pi-fw pi-dollar' },
+            { label: 'Payments', icon: 'pi pi-fw pi-dollar', command: (event) => {
+                this.props.history.push("/payments");
+            }},
             { label: 'Material', icon: 'pi pi-fw pi-pencil' },
             { label: 'School calendar', icon: 'pi pi-fw pi-calendar', command: (event) => {
                 this.props.history.push("/calendarTeacher")

@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequestMapping("/alumnos")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
@@ -106,22 +107,6 @@ public class AlumnoController {
 		List<Alumno> studentsByGroup = alumnoServ.getStudentsPerGroup(nombreGrupo);
 		return ResponseEntity.ok(studentsByGroup);
 	}
-
-	// @GetMapping("/{nick_usuario}/edit/{nombreGrupo}")/*Aquí podemos usar el
-	// servicio de grupo*/
-	@PutMapping("/assignStudent")
-	public ResponseEntity<?> assignStudent(@Valid Alumno alumno, BindingResult result, HttpServletResponse response) throws IOException
-			 {
-		if (result.hasErrors()) {
-			log.info("Esto no funciona");
-		}
-		else {
-			log.info("Ha funcionado");
-			this.alumnoServ.saveAlumno(alumno);
-			response.sendRedirect("http://localhost:3000");
-		}
-	    return ResponseEntity.ok().build();
-    }
 	
 	@GetMapping("/{nickTutor}/allMyStudents")
     public ResponseEntity<?>getStudentsByTutor(@PathVariable("nickTutor") String nickTutor, 
@@ -134,5 +119,29 @@ public class AlumnoController {
     	}else {
     		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     	}
+	}
+
+	@PutMapping("/assignStudent")
+	public ResponseEntity<?> assignStudent(@Valid @RequestBody Alumno alumno, HttpServletRequest request,HttpServletResponse response , BindingResult result)
+			throws IOException {
+		HttpSession session = request.getSession(false);
+    	if(session != null && session.getAttribute("type") == "alumno" || session.getAttribute("type") == "profesor" ) {
+    		if (result.hasErrors()) {
+    			log.info("Esto no funciona");
+    			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+    		}
+    		else {
+    			log.info("Ha funcionado");
+    			this.alumnoServ.saveAlumno(alumno);
+    			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+    			
+    		}
+    	}else {
+    		log.info("Que no bro hahah");
+    		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    	}
     }
+	
+	
+
 }

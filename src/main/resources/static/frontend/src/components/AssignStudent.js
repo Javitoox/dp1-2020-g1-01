@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import AlumnoComponent from './AlumnoComponent';
 import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
+import axios from 'axios';
 
 
 
@@ -29,19 +30,6 @@ class AssignStudent extends Component  {
         fechaMatriculacion: this.props.astudent.fechaMatriculacion,
         fechaSolicitud: this.props.astudent.fechaSolicitud,
         fechaBaja: this.props.astudent.fechaBaja,
-        tutores: {
-            nickUsuario: this.props.astudent.tutores.nickUsuario,
-            contraseya: this.props.astudent.tutores.nickUsuario,
-            dniUsuario: this.props.astudent.tutores.nickUsuario,
-            nombreCompletoUsuario: this.props.astudent.tutores.nickUsuario,
-            correoElectronicoUsuario: this.props.astudent.tutores.nickUsuario,
-            numTelefonoUsuario: this.props.astudent.tutores.nickUsuario,
-            numTelefonoUsuario2: this.props.astudent.tutores.nickUsuario,
-            direccionUsuario: this.props.astudent.tutores.nickUsuario,
-            fechaNacimiento: this.props.astudent.tutores.nickUsuario,
-            fechaMatriculacion: this.props.astudent.tutores.nickUsuario,
-            fechaSolicitud: this.props.astudent.tutores.nickUsuario
-        },
         grupos: {
             nombreGrupo: this.props.astudent.grupos.nombreGrupo,
             cursos: {
@@ -51,7 +39,8 @@ class AssignStudent extends Component  {
 
         listaGrupos:{
            nombreGrupo: ""
-        }   
+        } ,
+        succes:null  
         
     
 
@@ -66,6 +55,11 @@ class AssignStudent extends Component  {
     }  
     
     componentDidMount() {
+        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+            if(res.data==="profesor"){
+                this.setState({comprobation: true})
+            }
+            })
         this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
         
     }
@@ -93,7 +87,6 @@ class AssignStudent extends Component  {
             dniUsuario: this.state.dniUsuario,
             nombreCompletoUsuario: this.state.nombreCompletoUsuario,
             correoElectronicoUsuario: this.state.correoElectronicoUsuario,
-            numTelefonoUsuario: this.state.numTelefonoUsuario,
             numTelefonoUsuario2: this.state.numTelefonoUsuario2,
             direccionUsuario: this.state.direccionUsuario,
             fechaNacimiento: this.state.fechaNacimiento,
@@ -101,33 +94,37 @@ class AssignStudent extends Component  {
             fechaMatriculacion: this.state.fechaMatriculacion,
             fechaSolicitud: this.state.fechaSolicitud,
             fechaBaja: this.state.fechaBaja,
-            tutores: {
-                nickUsuario: this.state.tutores.nickUsuario,
-                contraseya: this.state.tutores.nickUsuario,
-                dniUsuario: this.state.tutores.nickUsuario,
-                nombreCompletoUsuario: this.state.tutores.nickUsuario,
-                correoElectronicoUsuario: this.state.tutores.nickUsuario,
-                numTelefonoUsuario: this.state.tutores.nickUsuario,
-                numTelefonoUsuario2: this.state.tutores.nickUsuario,
-                direccionUsuario: this.state.tutores.nickUsuario,
-                fechaNacimiento: this.state.tutores.nickUsuario,
-                fechaMatriculacion: this.state.tutores.nickUsuario,
-                fechaSolicitud: this.state.tutores.nickUsuario
-            },
             grupos: {
-                nombreGrupo: this.state.grupos.nombreGrupo,
+                nombreGrupo: 'grupo3',
                 cursos: {
-                    cursoDeIngles: this.state.grupos.cursos.cursoDeIngles
+                    cursoDeIngles: 'B2'
             }
             }
         }
-        this.alumnos.assign(alumno).then(data => {
-          this.setState({
-            nickUsuario: "",
-            nombreGrupo: ""
-          });
-        })
+        axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
+            this.respuesta(res.status, res.data)
+            })
       }
+
+      respuesta(status, data){
+        console.log(status);
+        if(status===203 ){
+            data.forEach(e => this.error(e.field, e.defaultMessage))
+        }else{
+            this.setState({
+                username: this.state.username,
+                password: this.state.password,
+                card: this.state.card,
+                name: this.state.name,
+                email: this.state.email,
+                telefono: this.state.telefono,
+                telefono2: this.state.telefono2,
+                address: this.state.address,
+                birthdate: this.state.birthdate,
+                succes: <div className="alert alert-success" role="alert">Modified Succesfully</div>
+            })
+        }
+    }
     
     
     render() {
@@ -137,6 +134,8 @@ class AssignStudent extends Component  {
                 <div className="c">
                     <div className="login request">
                         <form onSubmit={this.assign}  >
+                        {this.state.succes}
+
                             <div className="t"><div><h5>Assign Student</h5></div></div>
                             <div className="i">
                                 <div className="p-inputgroup">

@@ -48,6 +48,7 @@ class Alumnos extends Component {
         this.botonAssign=this.botonAssign.bind(this);
         this.botonCrear=this.botonCrear.bind(this);
         this.botonEliminar=this.botonEliminar.bind(this);
+        this.botonGrupos=this.botonGrupos.bind(this);
         this.allGroupNames= this.allGroupNames.bind(this);
         this.botonInfo= this.botonInfo.bind(this);
         this.mostrarInfoStudent= this.mostrarInfoStudent.bind(this);
@@ -63,7 +64,6 @@ class Alumnos extends Component {
 
     componentDidMount() {
         this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
-        this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
 
         //this.grupos.getAllGroups().then(data => this.setState({ groupSelectItems: data }));
         //this.cursos.getCourses().then(data => this.setState({ nodes: data }));
@@ -91,7 +91,14 @@ class Alumnos extends Component {
         
     });
     }
-    
+
+    botonGrupos() {
+        this.setState({ 
+            redirect: "/teacherGroups",
+        
+    });
+    }
+
     edicion(data) {
         this.props.selectStudent(data) //si os dice que selectStudent no es una funcion comprobad los nombres en matchDispatchToProps y que el import este hecho con el nombre ENTRE LLAVES
         this.setState({ 
@@ -127,6 +134,8 @@ class Alumnos extends Component {
                 this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
             } else {
                 this.alumnos.getStudentsByCourse(this.props.urlBase, course).then(data => this.setState({ alumnos: data }));
+                this.grupos.getGroupNamesByCourse(course).then(data => this.setState({ listaGrupos: data }));
+
             }
         }
         console.log(this.state.alumnos);
@@ -244,6 +253,12 @@ class Alumnos extends Component {
               pathname: "/assignStudent"
             }}
           />
+        }else if(this.state.redirect==="/teacherGroups"){
+            return <Redirect
+            to={{
+              pathname: "/teacherGroups"
+            }}
+          />
         }
         
     }
@@ -262,16 +277,18 @@ class Alumnos extends Component {
                 <div className="datatable-templating-demo">
                     <div>
                     <ListBox value={this.state.curso} options={courseSelectItems} onChange={(e) => this.showSelectCourse(e.value)} />
-                    {/* <ListBox value={this.state.grupo} options={this.state.groupSelectItems} onChange={(e) => this.showSelectCourse(e.value)} /> */}
-
-                        {/* <div className="card">
-                            { <Tree value={this.state.nodes} selectionMode="single" selectionKeys={this.state.selectedKey} onSelectionChange={e => this.setState({ selectedKey: e.value })} onSelect={this.onNodeSelect}/> }
-                        </div> */}
+                    <div>&nbsp;</div>
+                   
                     <ListBox options={this.allGroupNames()} onChange={(e) => this.showSelectGroup(e.value)} />
-                    <Button icon="pi pi-plus-circle" label="Crear grupo" className="p-button-secondary" onClick={this.botonCrear} />
-                    <Button icon="pi pi-minus-circle" label="Eliminar grupo" className="p-button-secondary" onClick={this.botonEliminar} />
-                    </div>
+                    <div>&nbsp;</div>
+                    <Button icon="pi pi-plus-circle" label="Create group" className="p-button-secondary" onClick={this.botonCrear} />
+                    {` `}
+                    <Button icon="pi pi-minus-circle" label="Delete group" className="p-button-secondary" onClick={this.botonEliminar} />
+                    {` `}
+                    <Button icon="pi pi-fw pi-users" label="My groups" className="p-button-secondary" onClick={this.botonGrupos} />
 
+                    </div>
+                    <div>&nbsp;</div>
                     <DataTable value={this.state.alumnos}>
                         <Column header="Info" body={this.botonInfo}></Column>
                         <Column field="nombreCompletoUsuario" header="Full name"></Column>

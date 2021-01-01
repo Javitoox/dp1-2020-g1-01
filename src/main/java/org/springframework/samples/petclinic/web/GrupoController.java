@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Grupo;
@@ -27,12 +26,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/grupos")
 public class GrupoController {
 	
 	private final GrupoService grupoService;
-	//private static final Logger log = LoggerFactory.getLogger(GrupoController.class);
 	
 	@Autowired
 	public GrupoController(GrupoService grupoService) {
@@ -48,6 +46,12 @@ public class GrupoController {
 	@GetMapping("/{curso}")
 	public ResponseEntity<List<Grupo>> listaGruposPorCurso(@PathVariable("curso") String curso) {
 		List<Grupo> gruposCurso = grupoService.getGruposByCourse(curso);	
+		return ResponseEntity.ok(gruposCurso);
+	}
+	
+	@GetMapping("/nombresGrupo/{curso}")
+	public ResponseEntity<List<String>> listaNombreGruposPorCurso(@PathVariable("curso") String curso) {
+		List<String> gruposCurso = grupoService.getNameGruposByCourse(curso);	
 		return ResponseEntity.ok(gruposCurso);
 	}
 	
@@ -79,7 +83,7 @@ public class GrupoController {
 	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo)throws BadRequestException{
 		log.info("Solicitando borrar grupo: {}", nombreGrupo);
 		grupoService.deleteGroup(nombreGrupo);
-		return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.ACCEPTED);
+		return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
 	}	
 
 }

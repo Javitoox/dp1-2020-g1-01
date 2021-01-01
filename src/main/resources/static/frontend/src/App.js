@@ -14,11 +14,15 @@ import {getUserName} from './components/storage'
 import { WallOfFameStudents } from './components/WallOfFameStudents'
 import EditStudent from './components/EditStudent'
 import AssignStudent from './components/AssignStudent'
+import AssignTeacher from './components/AssginTeacher'
 import {CreateGroup} from './components/CreateGroup'
 import {DeleteGroup} from './components/DeleteGroup'
 import EditPersonalInfo from './components/EditPersonalInfo'
 import {CalendarioProfesor} from './components/CalendarioProfesor'
 
+import Pagos from './components/Pagos'
+import { RealizarPago } from './components/RealizarPago'
+import TeacherGroups from './components/TeacherGroups'
 
 class App extends Component {
 
@@ -29,6 +33,7 @@ class App extends Component {
 		username: "",
 		userType: ""
 	}
+	
 
 	changeType(type){
 		this.setState({userType: type})
@@ -45,6 +50,7 @@ class App extends Component {
 	// 	return getAlumnoInfo(this.state.urlBase, getUserName())
 	// }
 	render() {
+
 		return (
 			<Router>
 				<MenubarResponsive tipoDeUsuario={this.state.userType} onChange={this.changeType} urlBase={this.state.urlBase}></MenubarResponsive>
@@ -72,6 +78,12 @@ class App extends Component {
 				<Route path="/assignStudent" render={() =>
 					<AssignStudent urlBase={this.state.urlBase} />
 				} /> 
+				<Route path="/assignTeacher" render={() =>
+					<AssignTeacher urlBase={this.state.urlBase} nickUser={this.calculateUserName()} />
+				} />
+				<Route path="/teacherGroups" render={() =>
+					<TeacherGroups urlBase={this.state.urlBase} nickUser={this.calculateUserName()} />
+				} /> 
 				<Route path="/createGroup" render={() =>
 					<CreateGroup urlBase={this.state.urlBase}/>
 				} />
@@ -87,6 +99,12 @@ class App extends Component {
 				<Route path="/calendarTeacher" render={() =>
 					<CalendarioProfesor urlBase={this.state.urlBase}></CalendarioProfesor>
                 } />
+				<Route path="/payments" render={() =>
+					<Pagos urlBase={this.state.urlBase}> </Pagos>
+                } />
+				<Route path="/createPayment" render={() =>
+					<RealizarPago nickUser={this.calculateUserName()}/>
+				} />
 			</Router>
 		)
 	}

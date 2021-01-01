@@ -304,4 +304,4 @@ function mapStateToProps(state) { //metodo para poder pillar datos del store
     }
 }
 
-export default connect(mapStateToProps)(EditStudent); 
+export default connect(mapStateToProps)(EditStudent);
