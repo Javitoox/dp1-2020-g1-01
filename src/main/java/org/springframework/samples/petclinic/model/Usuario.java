@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -62,6 +63,7 @@ public class Usuario{
 	
 	@Column(name="fecha_nacimiento")
 	@NotNull(message = "Required field")
+	@Past(message = "The date must be a past date")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate fechaNacimiento;
 

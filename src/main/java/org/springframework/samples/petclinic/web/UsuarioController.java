@@ -34,6 +34,7 @@ public class UsuarioController {
 		if(type != "Username not exist" && type != "Incorrect password") {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("type", type);
+			session.setAttribute("nickUsuario", nickUsuario);
 			log.info(nickUsuario+ " login: "+session.getAttribute("type"));
 		}
 		return ResponseEntity.ok(type);

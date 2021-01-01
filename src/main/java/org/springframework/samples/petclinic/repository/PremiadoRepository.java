@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Premiado;
+import org.springframework.samples.petclinic.model.WallOfFame;
 
 public interface PremiadoRepository extends CrudRepository<Premiado, Integer> {
 	
@@ -15,3 +16,4 @@ public interface PremiadoRepository extends CrudRepository<Premiado, Integer> {
     @Query(value="SELECT TOP 1 fechawall FROM walloffames ORDER BY FECHAWALL DESC", nativeQuery = true)
     public String lastWallOfFame();
 }
+    

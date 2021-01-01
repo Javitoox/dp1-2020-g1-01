@@ -10,13 +10,19 @@ import {Home} from './components/Home'
 import MenubarResponsive from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
 import {getUserName} from './components/storage'
+//import {getAlumnoInfo} from './components/UserData'
 import { WallOfFameStudents } from './components/WallOfFameStudents'
 import EditStudent from './components/EditStudent'
 import AssignStudent from './components/AssignStudent'
+import AssignTeacher from './components/AssginTeacher'
 import {CreateGroup} from './components/CreateGroup'
 import {DeleteGroup} from './components/DeleteGroup'
+import EditPersonalInfo from './components/EditPersonalInfo'
+import {CalendarioProfesor} from './components/CalendarioProfesor'
+
 import Pagos from './components/Pagos'
 import { RealizarPago } from './components/RealizarPago'
+import TeacherGroups from './components/TeacherGroups'
 
 class App extends Component {
 
@@ -40,9 +46,10 @@ class App extends Component {
 	calculateUserName() {
 		return getUserName()
 	}
-
+	// getUsernameInfo() {
+	// 	return getAlumnoInfo(this.state.urlBase, getUserName())
+	// }
 	render() {
-		var cors = require('cors')
 
 		return (
 			<Router>
@@ -53,11 +60,14 @@ class App extends Component {
 				<Route path="/requests" render={() =>
 					<Solicitudes urlBase={this.state.urlBase}></Solicitudes>
 				} />
+				<Route path="/students/EditPersonalInfo" render={() =>
+					<EditPersonalInfo urlBase={this.state.urlBase} nickUser={this.calculateUserName()} ></EditPersonalInfo>
+				} />
 				<Route path="/login" render={() =>
 					<Login urlBase={this.state.urlBase} onChange={this.changeType}></Login>
 				} />
 				<Route path="/editStudent" render={() =>
-					<EditStudent/>
+					<EditStudent urlBase={this.state.urlBase}/>
 				} />
 				<Route path="/pendingRequests" render={() =>
 					<SolicitudesProfesor urlBase={this.state.urlBase}></SolicitudesProfesor>
@@ -68,6 +78,12 @@ class App extends Component {
 				<Route path="/assignStudent" render={() =>
 					<AssignStudent urlBase={this.state.urlBase} />
 				} /> 
+				<Route path="/assignTeacher" render={() =>
+					<AssignTeacher urlBase={this.state.urlBase} nickUser={this.calculateUserName()} />
+				} />
+				<Route path="/teacherGroups" render={() =>
+					<TeacherGroups urlBase={this.state.urlBase} nickUser={this.calculateUserName()} />
+				} /> 
 				<Route path="/createGroup" render={() =>
 					<CreateGroup urlBase={this.state.urlBase}/>
 				} />
@@ -77,9 +93,12 @@ class App extends Component {
 				<Route path="/myStudents" render={() =>
 					<AlumnosPorTutor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosPorTutor>
 				} />
-				<Route path="/students/walloffame" render={() =>
-					<WallOfFameStudents urlBase={this.state.urlBase}> </WallOfFameStudents>
+				<Route path="/walloffame" render={() =>
+					<WallOfFameStudents urlBase={this.state.urlBase} userType={this.state.userType}> </WallOfFameStudents>
                 } /> 
+				<Route path="/calendarTeacher" render={() =>
+					<CalendarioProfesor urlBase={this.state.urlBase}></CalendarioProfesor>
+                } />
 				<Route path="/payments" render={() =>
 					<Pagos urlBase={this.state.urlBase}> </Pagos>
                 } />

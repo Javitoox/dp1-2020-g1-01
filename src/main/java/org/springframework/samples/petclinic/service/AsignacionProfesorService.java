@@ -24,9 +24,9 @@ public class AsignacionProfesorService {
 	}
 	
 	@Transactional(readOnly=true)
-	public List<String> getFreeGroups(){
-		return asignacionRep.getFreeGroups();
-	}
+    public List<String> getFreeGroups(){
+        return asignacionRep.getFreeGroups();
+    }
 	
 	@Transactional
 	public void saveAsignacion(AsignacionProfesor a) {

@@ -13,8 +13,19 @@ public interface AsignacionProfesorRepository extends CrudRepository<AsignacionP
 
 	@Query("SELECT a FROM AsignacionProfesor a WHERE a.profesor.nickUsuario=:nickProfesor")
 	List<AsignacionProfesor> getAsignacionesByProfesor(@Param("nickProfesor")String nickProfesor);
-	//select nombre_grupo from grupos where nombre_grupo not in  (SELECT nombre_grupo FROM ASIGNACIONES_PROFESOR )
-
+	
+	//SELECT g.NOMBRE_GRUPO  FROM GRUPOS g where g.NOMBRE_GRUPO NOT IN 
+	//(SELECT gg.nombre_grupo from grupos gg join ASIGNACIONES_PROFESOR  a where a.NOMBRE_GRUPO  = gg.NOMBRE_GRUPO  
+	//AND a.NICK_PROFESOR = 'MaribelJavi')
+	
+//	@Query("SELECT g.nombreGrupo FROM Grupo g WHERE g.nombreGrupo NOT IN (SELECT gg.nombreGrupo FROM Grupo gg "
+//			+ "JOIN gg.asignacionProfesor ggg WHERE ggg.nombreGrupo=gg.nombreGrupo AND ggg.profesor.nickUsuario:=nickProfesor)")
+	
+//	SELECT gg.nombre_grupo from grupos gg join ASIGNACIONES_PROFESOR  a where a.NOMBRE_GRUPO <> g.NOMBRE_GRUPO  AND a.NICK_PROFESOR = :nickProfesor
+//	@Query("SELECT gg.nombre_grupo from grupos gg join gg.asignacionProfesor a where a.nombreGrupo <> g.nombreGrupo  AND a.profesor.nickUsuario = :nickProfesor")
+//	@Query("SELECT g.nombreGrupo FROM Grupo g WHERE g.nombreGrupo NOT IN (SELECT a.nombreGrupo FROM AsignacionProfesor a)")
+//	select nombre_grupo from grupos where nombre_grupo not in  (SELECT g.nombre_grupo from ASIGNACIONES_PROFESOR g WHERE NOT EXISTS
+//	(SELECT gg.nombre_grupo FROM ASIGNACIONES_PROFESOR gg where gg.NOMBRE_GRUPO  <> g.NOMBRE_GRUPO  ))
 	@Query("SELECT g.nombreGrupo FROM Grupo g WHERE g.nombreGrupo NOT IN (SELECT a.grupo.nombreGrupo FROM AsignacionProfesor a)")
 	List<String> getFreeGroups();
 }

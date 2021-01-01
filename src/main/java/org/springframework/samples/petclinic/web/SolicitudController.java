@@ -1,12 +1,11 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
-import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,58 +20,75 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin("*")
-@RestController
+import lombok.extern.slf4j.Slf4j;
+
 @RequestMapping("/requests")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@RestController
+@Slf4j
 public class SolicitudController {
-	private static final Logger log = LoggerFactory.logger(SolicitudController.class);
 
 	   private final SolicitudService solicitudServ;
-	   private final AlumnoService alumnoService;
-	   private final TutorService tutorService;
 	   
 	   @Autowired
 	   public SolicitudController(SolicitudService solicitudServ, AlumnoService alumnoService, TutorService tutorService) {
 		   this.solicitudServ = solicitudServ;
-		   this.alumnoService = alumnoService;
-		   this.tutorService = tutorService;
 	   }
 	   
 	   @GetMapping("/pending")
-	   public List<Alumno> getSolicitudes() {
-		   return solicitudServ.getAllSolicitudes();
+	   public ResponseEntity<?> getSolicitudes(HttpServletRequest request) {
+		   HttpSession session = request.getSession(false);
+
+		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		   if(session != null && session.getAttribute("type") == "profesor") {
+			   return ResponseEntity.ok(solicitudServ.getAllSolicitudes());
+		   }else {
+			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		   }
 	   }
 	   
-	   @GetMapping("/decline/{nickUsuario}")
-	   public void declineRequest(@PathVariable("nickUsuario")String nickUsuario ){
-		   Alumno alumnoAceptado = alumnoService.getAlumno(nickUsuario);
-		   if(alumnoAceptado.getTutores()==null) {
-			   solicitudServ.declineRequest(nickUsuario);
+	   @PutMapping("/decline/{nickUsuario}")
+	   public ResponseEntity<?> declineRequest(@PathVariable("nickUsuario")String nickUsuario, HttpServletRequest request){
+		   HttpSession session = request.getSession(false);
+		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		   
+		   if(session != null && session.getAttribute("type") == "profesor") {
+			   Alumno alumnoDenegado = solicitudServ.getAlumno(nickUsuario);
+			   solicitudServ.declineRequest(alumnoDenegado);
+			   return ResponseEntity.ok().build();
 		   }else {
-			   String nickTutor = alumnoAceptado.getTutores().getNickUsuario();
-			   List<Alumno> alumnosDelTutor=  alumnoService.getAllMyStudents(nickTutor);
-			   if(alumnosDelTutor.size()>1) {
-				   solicitudServ.declineRequest(nickUsuario);
-			   }else {
-				   solicitudServ.declineRequest(nickUsuario);
-				   tutorService.delete(nickTutor);
-				   
-			   }
+			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		   }
 		   
 	   }
 	   
-	   @GetMapping("/accept/{nickUsuario}")
-	   public void sending(@PathVariable("nickUsuario")String nickUsuario) {
-		   Alumno alumnoAceptado = alumnoService.getAlumno(nickUsuario);
-		   System.out.println("ALUMNO ACEPTADO:"+alumnoAceptado);
-		   alumnoAceptado.setFechaSolicitud(null);
-		   alumnoAceptado.setFechaMatriculacion(null);
-		   solicitudServ.acceptRequest(alumnoAceptado);
+	   @PutMapping("/accept/{nickUsuario}")
+	   public ResponseEntity<?> acceptRequest(@PathVariable("nickUsuario")String nickUsuario, HttpServletRequest request) {
+		   HttpSession session = request.getSession(false);
+		   log.info("SESION: " + session);
+
+		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		   if(session != null && session.getAttribute("type") == "profesor") {
+			   Alumno alumnoAceptado = solicitudServ.getAlumno(nickUsuario);
+			   System.out.println("ALUMNO ACEPTADO:"+alumnoAceptado);
+			   alumnoAceptado.setFechaMatriculacion(LocalDate.now());
+			   Tutor t = alumnoAceptado.getTutores();
+			   if(t != null && t.getFechaMatriculacion() == null) {
+				   t.setFechaMatriculacion(LocalDate.now());
+				   alumnoAceptado.setTutores(t);
+			   }
+			   solicitudServ.acceptRequest(alumnoAceptado);
+			   return ResponseEntity.ok().build();
+
+		   }else {
+			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		   }
+		   
 	   }   
 		
 		@PostMapping("/sending")

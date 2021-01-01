@@ -1,17 +1,27 @@
 import React, { Component } from 'react'
-import MetodosTutor from './MetodosTutor';
+import AlumnoComponent from './AlumnoComponent';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import Auth from './Auth';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+
+
 
 export class AlumnosPorTutor extends Component {
     constructor() {
         super()
         this.state = {
+            rowDataInfo:null,
             
         }
-        this.alumnosPorTutorComponent = new MetodosTutor();
+        this.alumnosPorTutorComponent = new AlumnoComponent();
+        this.botonInfo = this.botonInfo.bind(this);
+        this.mostrarInfoStudent= this.mostrarInfoStudent.bind(this);
+        this.mostrarInfo= this.mostrarInfo.bind(this);
+
     }
+
     componentDidMount() {
         console.log(this.props.nickUser);
         this.alumnosPorTutorComponent.getAlumnosPorTutor(this.props.urlBase, this.props.nickUser).then(data =>
@@ -19,25 +29,60 @@ export class AlumnosPorTutor extends Component {
         );
     }
 
+    botonInfo(rowData){
+        return(
+            <React.Fragment>
+                <Button icon="pi pi-external-link" className="p-button-rounded p-button-secondary p-mr-2" onClick={() => this.mostrarInfoStudent(rowData)}/>
+            </React.Fragment>
+
+
+        );
+    }
+
+    mostrarInfoStudent(rowData){
+        console.log(rowData)
+        this.setState({rowDataInfo: rowData})
+    }
+
+    mostrarInfo(){
+        console.log("Estoy entrando " + this.state.rowDataInfo);
+        if(this.state.rowDataInfo != null){
+          return(
+            <Dialog header="Request' information"  visible={true} style={{ width: '30vw' }}  onHide={() => this.setState({rowDataInfo: null})}>
+              <h4>Student data:</h4>
+              <p><b>Full name:</b> {this.state.rowDataInfo.nombreCompletoUsuario}</p>
+              <p><b>Nick:</b> {this.state.rowDataInfo.nickUsuario}</p>
+              <p><b>Password</b> {this.state.rowDataInfo.contraseya}</p>
+              <p><b>DNI:</b> {this.state.rowDataInfo.dniUsuario}</p>
+              <p><b>Email:</b> {this.state.rowDataInfo.correoElectronicoUsuario}</p>
+              <p><b>Birthdate:</b> {this.state.rowDataInfo.fechaNacimiento}</p>
+              <p><b>Address:</b> {this.state.rowDataInfo.direccionUsuario}</p>
+              <p><b>Phone number:</b> {this.state.rowDataInfo.numTelefonoUsuario}</p>
+              <p><b>Activities done:</b> {this.state.rowDataInfo.numTareasEntregadas}</p>
+              <p><b>Date of enrollment:</b> {this.state.rowDataInfo.fechaMatriculacion}</p>
+  
+            </Dialog>
+            
+          );
+        }
+    }
+
     render() {
         if (!this.state.alumnos) {
             return <Auth authority="tutor"></Auth>
         } else {
             return (
+                <React.Fragment>
                 <div className="datatable-templating-demo">
                     <DataTable value={this.state.alumnos}>
-                        <Column field="nickUsuario" header="Nick User"></Column>
-                        <Column field="contraseya" header="Password"></Column>
-                        <Column field="dniUsuario" header="DNI"></Column>
                         <Column field="nombreCompletoUsuario" header="Full name"></Column>
-                        <Column field="correoElectronicoUsuario" header="Email"></Column>
-                        <Column field="numTelefonoUsuario" header="Phone number"></Column>
-                        <Column field="direccionUsuario" header="Address"></Column>
-                        <Column field="fechaNacimiento" header="Birthdate"></Column>
-                        <Column field="numTareasEntregadas" header="Activities done"></Column>
-                        <Column field="fechaMatriculacion" header="Date of enrollment"></Column>
+                        <Column field="dniUsuario" header="DNI"></Column>
+                        <Column header="Info" body={this.botonInfo}></Column>
                     </DataTable>
                 </div>
+                {this.mostrarInfo()}
+                </React.Fragment>
+
             )
         }
     }

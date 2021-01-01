@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Grupo;
+import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.samples.petclinic.service.exceptions.BadRequestException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
@@ -44,9 +45,21 @@ public class GrupoController {
 	}
 	
 	@GetMapping("/{curso}")
-	public ResponseEntity<List<Grupo>> listaGruposPorCurso(@PathVariable("curso") String curso) {
+	public ResponseEntity<List<Grupo>> listaGruposPorCurso(@PathVariable("curso") TipoCurso curso) {
 		List<Grupo> gruposCurso = grupoService.getGruposByCourse(curso);	
 		return ResponseEntity.ok(gruposCurso);
+	}
+	
+	@GetMapping("/nombresGrupo/{curso}")
+	public ResponseEntity<List<String>> listaNombreGruposPorCurso(@PathVariable("curso") TipoCurso curso) {
+		List<String> gruposCurso = grupoService.getNameGruposByCourse(curso);	
+		return ResponseEntity.ok(gruposCurso);
+	}
+	
+	@GetMapping("/nombreCurso/{grupo}")
+	public ResponseEntity<List<String>> listaNombreCursoPorGrupo(@PathVariable("grupo") String grupo) {
+		List<String> nombreCurso = grupoService.getCursoByGrupo(grupo);	
+		return ResponseEntity.ok(nombreCurso);
 	}
 	
 	@GetMapping("/allGroupNames")

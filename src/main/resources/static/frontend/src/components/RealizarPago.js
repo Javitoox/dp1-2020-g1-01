@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
-import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
+
 import GrupoComponent from './GrupoComponent';
 import PagoComponent from './PagoComponent';
-import { Dropdown } from 'primereact/dropdown';
+
 import axios from 'axios';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
+
+
 
 
 
@@ -33,6 +37,7 @@ export class RealizarPago extends Component {
         this.handleNU = this.handleNU.bind(this);
         this.handleF = this.handleF.bind(this);
         this.allConceptNames= this.allConceptNames.bind(this);
+        this.form=this.form.bind(this);
     }
     save = event => {
         event.preventDefault();
@@ -64,6 +69,65 @@ export class RealizarPago extends Component {
         this.setState({
             type:event.target.value
         });
+    }
+    
+    form(){
+        var l = this.state.listaConcepto
+        if(l===""){
+
+            return <div className="t"><div><h5>There is no payment to make</h5></div></div>
+
+
+        }else{
+            const tipoPagoSelectItems = [
+                { label: 'BIZUM', value: 'BIZUM' },
+                { label: 'Tranferencia bancaria', value: 'TRANSFERENCIA BANCARIA' },
+                { label: 'Efectivo', value: 'EFECTIVO' }
+            ];
+
+            return <div>
+                                <div className="t"><div><h5>Register Payment</h5></div></div>
+
+
+                                <div className="i">
+                                <div className="p-inputgroup">
+                                <Dropdown name="concepto" value={this.state.concepto} placeholder="Select a payment" options={this.allConceptNames()} onChange={this.handleP} />
+
+                                </div>
+                                </div>
+
+                                <div className="i">
+                                <div className="p-inputgroup">
+                                <Dropdown name="tipo" value={this.state.type} placeholder="Select a payment type" options={tipoPagoSelectItems} onChange={this.handlePI} />
+
+                                </div>
+                                </div>
+
+                                <div className="i">
+                                <div className="p-inputgroup">
+                                <InputText value={this.props.nickUser} hidden={true}  name="pago.nickUsuario" />
+
+                                </div>
+                                </div>
+
+                                <div className="i">
+                                <div className="p-inputgroup">
+                                <InputText value={this.state.fecha}  name="fecha"  hidden={true}/>
+
+                                </div>
+                                </div>
+
+
+                                <div className="b">
+                                <div className="i">
+                                <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check"/>
+
+                                </div>
+                            </div>
+                            </div>
+
+
+        }
     }
     
     
@@ -125,11 +189,7 @@ export class RealizarPago extends Component {
         
         
 
-        const tipoPagoSelectItems = [
-            { label: 'BIZUM', value: 'BIZUM' },
-            { label: 'Tranferencia bancaria', value: 'TRANSFERENCIA BANCARIA' },
-            { label: 'Efectivo', value: 'EFECTIVO' }
-        ];
+        
 
         return (
 
@@ -137,45 +197,12 @@ export class RealizarPago extends Component {
                 <div className="c">
                     <div className="login request">
                         <form onSubmit={this.save}>
+
                         {this.state.succes}
                         {this.state.exist}
-                            <div className="t"><div><h5>Register Payment</h5></div></div>
+                        {this.form()}
 
-                                <div className="i">
-                                <div className="p-inputgroup">
-                                <Dropdown name="concepto" value={this.state.concepto} placeholder="Select a payment" options={this.allConceptNames()} onChange={this.handleP} />
-
-                                </div>
-                                </div>
-
-                                <div className="i">
-                                <div className="p-inputgroup">
-                                <Dropdown name="tipo" value={this.state.type} placeholder="Select a payment type" options={tipoPagoSelectItems} onChange={this.handlePI} />
-
-                                </div>
-                                </div>
-
-                                <div className="i">
-                                <div className="p-inputgroup">
-                                <InputText value={this.props.nickUser} hidden={true}  name="pago.nickUsuario" />
-
-                                </div>
-                                </div>
-
-                                <div className="i">
-                                <div className="p-inputgroup">
-                                <InputText value={this.state.fecha}  name="fecha"  hidden={true}/>
-
-                                </div>
-                                </div>
-
-
-                                <div className="b">
-                                <div className="i">
-                                <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check"/>
-
-                                </div>
-                            </div>
+                            
                         </form>
                     </div>
                 </div>

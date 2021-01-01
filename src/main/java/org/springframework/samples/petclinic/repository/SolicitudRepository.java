@@ -8,7 +8,8 @@ import org.springframework.samples.petclinic.model.Alumno;
 
 public interface SolicitudRepository extends CrudRepository<Alumno, String> {
 	
-	@Query(value="SELECT * FROM ALUMNOS WHERE (FECHA_SOLICITUD IS NOT NULL and FECHA_MATRICULACION IS NULL)",nativeQuery = true)
+	
+	@Query("SELECT alumno FROM Alumno alumno WHERE (alumno.fechaMatriculacion IS null and alumno.fechaBaja IS null and alumno.fechaSolicitud IS not null)")
 	public List<Alumno>findStudentsNotAcceptedYet();
 
 }

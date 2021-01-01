@@ -1,10 +1,13 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -33,5 +36,8 @@ public class Alumno extends Usuario{
     
     @ManyToOne(optional=true)
     private Grupo grupos;
+    
+    @OneToMany(cascade=CascadeType.ALL)
+    private Collection<Inscripcion> inscripciones;
  
 }
