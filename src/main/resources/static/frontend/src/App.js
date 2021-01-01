@@ -44,7 +44,6 @@ class App extends Component {
 	}
 
 	render() {
-		var cors = require('cors')
 
 		return (
 			<Router>

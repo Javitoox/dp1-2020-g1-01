@@ -140,23 +140,24 @@ class Pagos extends Component {
     render() {
         
         const pagoSelectItems = [
-            { label: 'Concept: First Mat', value: 'Pago matricula' },
-            { label: 'Concept: First Pay', value: 'Primer plazo' },
-            { label: 'Concept: Second Pay', value: 'Segundo plazo' }
+            { label: 'CONCEPTS:', value: '' },
+            { label: 'First Mat', value: 'Pago matricula' },
+            { label: 'First Pay', value: 'Primer plazo' },
+            { label: 'Second Pay', value: 'Segundo plazo' }
            
         ];
+        
 
         return (
             <React.Fragment>
                 <div className="datatable-templating-demo">
                     <div>
-
                     <ListBox options={pagoSelectItems} onChange={(e) => this.showSelectGroup(e.value)} />
                     </div>
 
                     <div>&nbsp;</div>
                     <InputText class="form-control" placeholder="Search by name" value={this.state.text} onChange={this.filter} />
-
+                    {` `}
                     <InputText class="form-control" placeholder="Search by DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
 
                     <div>&nbsp;</div>

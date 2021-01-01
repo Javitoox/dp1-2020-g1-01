@@ -54,7 +54,6 @@ class Alumnos extends Component {
 
     componentDidMount() {
         this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
-        this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
 
         //this.grupos.getAllGroups().then(data => this.setState({ groupSelectItems: data }));
         //this.cursos.getCourses().then(data => this.setState({ nodes: data }));
@@ -125,6 +124,8 @@ class Alumnos extends Component {
                 this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
             } else {
                 this.alumnos.getStudentsByCourse(this.props.urlBase, course).then(data => this.setState({ alumnos: data }));
+                this.grupos.getGroupNamesByCourse(course).then(data => this.setState({ listaGrupos: data }));
+
             }
         }
         console.log(this.state.alumnos);
@@ -158,34 +159,34 @@ class Alumnos extends Component {
 
     render() {
     if (this.state.redirect) {
-        if(this.state.redirect=="/createGroup"){
+        if(this.state.redirect==="/createGroup"){
             return <Redirect
             to={{
               pathname: "/createGroup"
             }}
           />
     
-         }else if(this.state.redirect=="/deleteGroup"){
+         }else if(this.state.redirect==="/deleteGroup"){
             return <Redirect
             to={{
               pathname: "/deleteGroup"
             }}
           />
     
-         }else if(this.state.redirect=="/editStudent"){
+         }else if(this.state.redirect==="/editStudent"){
             return <Redirect
             to={{
               pathname: "/editStudent"
             }}
           /> 
         
-        }else if(this.state.redirect=="/assignStudent"){
+        }else if(this.state.redirect==="/assignStudent"){
             return <Redirect
             to={{
               pathname: "/assignStudent"
             }}
           />
-        }else if(this.state.redirect=="/teacherGroups"){
+        }else if(this.state.redirect==="/teacherGroups"){
             return <Redirect
             to={{
               pathname: "/teacherGroups"
@@ -210,14 +211,18 @@ class Alumnos extends Component {
                 <div className="datatable-templating-demo">
                     <div>
                     <ListBox value={this.state.curso} options={courseSelectItems} onChange={(e) => this.showSelectCourse(e.value)} />
+                    <div>&nbsp;</div>
                    
                     <ListBox options={this.allGroupNames()} onChange={(e) => this.showSelectGroup(e.value)} />
+                    <div>&nbsp;</div>
                     <Button icon="pi pi-plus-circle" label="Create group" className="p-button-secondary" onClick={this.botonCrear} />
+                    {` `}
                     <Button icon="pi pi-minus-circle" label="Delete group" className="p-button-secondary" onClick={this.botonEliminar} />
+                    {` `}
                     <Button icon="pi pi-fw pi-users" label="My groups" className="p-button-secondary" onClick={this.botonGrupos} />
 
                     </div>
-
+                    <div>&nbsp;</div>
                     <DataTable value={this.state.alumnos}>
                         <Column field="nickUsuario" header="Nickname"></Column>
                         <Column field="contraseya" header="Contraseña"></Column>

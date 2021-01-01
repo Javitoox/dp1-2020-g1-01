@@ -49,6 +49,12 @@ public class GrupoController {
 		return ResponseEntity.ok(gruposCurso);
 	}
 	
+	@GetMapping("/nombresGrupo/{curso}")
+	public ResponseEntity<List<String>> listaNombreGruposPorCurso(@PathVariable("curso") String curso) {
+		List<String> gruposCurso = grupoService.getNameGruposByCourse(curso);	
+		return ResponseEntity.ok(gruposCurso);
+	}
+	
 	@GetMapping("/allGroupNames")
 	public ResponseEntity<List<String>> listaNombreGrupos() {
 		List<String> all =  grupoService.getGroupNames();

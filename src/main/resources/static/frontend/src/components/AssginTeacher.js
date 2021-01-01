@@ -150,7 +150,7 @@ export default class AssignTeacher extends Component  {
     
     
     render() {
-        console.log(this.state);
+        console.log(this.state.listaGrupos);
         return (
             <div>
                 <div className="c">
