@@ -4,12 +4,8 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Redirect } from 'react-router-dom';
-import { ListBox } from 'primereact/listbox';
+
 import GrupoComponent from './GrupoComponent';
-import {selectStudent} from '../actions/index';
-import {selectAssignedStudent}  from '../actions/index';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import AssignmentComponent from './AssignmentComponent';
 
 export default class TeacherGroups extends Component {
@@ -66,7 +62,7 @@ export default class TeacherGroups extends Component {
     render() {
         console.log(this.state.alumnos);
     if (this.state.redirect) {
-        if(this.state.redirect=="/assignTeacher"){
+        if(this.state.redirect==="/assignTeacher"){
             return <Redirect
             to={{
               pathname: "/assignTeacher"
@@ -86,6 +82,7 @@ export default class TeacherGroups extends Component {
                     <Button icon="pi pi-plus-circle" label="Assign group" className="p-button-secondary" onClick={this.botonGrupos} />
 
                     </div>
+                    <div>&nbsp;</div>
 
                     <DataTable value={this.state.alumnos}>
                         <Column field="grupo.nombreGrupo" header="Group"></Column>

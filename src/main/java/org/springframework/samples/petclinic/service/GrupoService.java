@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Grupo;
+import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
 import org.springframework.samples.petclinic.service.exceptions.BadRequestException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
@@ -33,12 +34,12 @@ public class GrupoService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Grupo> getGruposByCourse(String curso) {
+	public List<Grupo> getGruposByCourse(TipoCurso curso) {
 		return grupoRepository.findByCurso(curso);
 	}
 	
 	@Transactional(readOnly = true)
-	public List<String> getNameGruposByCourse(String curso) {
+	public List<String> getNameGruposByCourse(TipoCurso curso) {
 		return grupoRepository.findNameByCurso(curso);
 	}
 	

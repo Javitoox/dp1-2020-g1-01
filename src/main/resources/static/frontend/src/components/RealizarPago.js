@@ -73,7 +73,7 @@ export class RealizarPago extends Component {
     
     form(){
         var l = this.state.listaConcepto
-        if(l==""){
+        if(l===""){
 
             return <div className="t"><div><h5>There is no payment to make</h5></div></div>
 

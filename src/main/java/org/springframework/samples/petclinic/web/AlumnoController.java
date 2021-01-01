@@ -33,7 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/alumnos")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
-@Slf4j
 public class AlumnoController {
 
 

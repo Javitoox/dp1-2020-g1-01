@@ -262,6 +262,7 @@ class Alumnos extends Component {
         }
         
     }
+    console.log(this.state.listaGrupos);
         const courseSelectItems = [
             { label: 'All courses', value: 'allCourses' },
             { label: 'A1', value: 'A1' },
