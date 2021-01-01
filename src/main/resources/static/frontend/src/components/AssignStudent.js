@@ -31,16 +31,18 @@ class AssignStudent extends Component  {
         fechaSolicitud: this.props.astudent.fechaSolicitud,
         fechaBaja: this.props.astudent.fechaBaja,
         grupos: {
-            nombreGrupo: this.props.astudent.grupos.nombreGrupo,
+            nombreGrupo: "",
             cursos: {
-            cursoDeIngles: this.props.astudent.grupos.cursos.cursoDeIngles
+            cursoDeIngles: ""
         }
         },
 
         listaGrupos:{
            nombreGrupo: ""
         } ,
-        succes:null  
+        cursoS:"",
+        succes:null,
+        comprobation: false 
         
     
 
@@ -51,7 +53,11 @@ class AssignStudent extends Component  {
     }
 
     handleNG(event) {
-        this.setState({ nombreGrupo: event.target.value });
+        this.grupos.getCourseNamesByGroup(event.target.value).then(data => this.setState({ cursoS: data }));
+        this.setState({ grupos: {
+            nombreGrupo: event.target.value,
+            
+        }});
     }  
     
     componentDidMount() {
@@ -82,22 +88,20 @@ class AssignStudent extends Component  {
     assign  = event => {
         event.preventDefault();
         const alumno ={
-            nickUsuario:this.state.nickUsuario,
+            nickUsuario: this.state.nickUsuario,
             contraseya: this.state.contraseya,
             dniUsuario: this.state.dniUsuario,
             nombreCompletoUsuario: this.state.nombreCompletoUsuario,
             correoElectronicoUsuario: this.state.correoElectronicoUsuario,
+            numTelefonoUsuario: this.state.numTelefonoUsuario,
             numTelefonoUsuario2: this.state.numTelefonoUsuario2,
             direccionUsuario: this.state.direccionUsuario,
             fechaNacimiento: this.state.fechaNacimiento,
-            numTareasEntregadas: this.state.numTareasEntregadas,
             fechaMatriculacion: this.state.fechaMatriculacion,
-            fechaSolicitud: this.state.fechaSolicitud,
-            fechaBaja: this.state.fechaBaja,
             grupos: {
-                nombreGrupo: 'grupo3',
+                nombreGrupo: this.state.grupos.nombreGrupo,
                 cursos: {
-                    cursoDeIngles: 'B2'
+                    cursoDeIngles: this.state.cursoS[0]
             }
             }
         }
@@ -128,7 +132,7 @@ class AssignStudent extends Component  {
     
     
     render() {
-        console.log(this.props.student)
+        console.log(this.state.cursoS[0])
         return (
             <div>
                 <div className="c">
@@ -145,7 +149,7 @@ class AssignStudent extends Component  {
 
                                  <div className="i">
                                 <div className="p-inputgroup">
-                                    <Dropdown placeholder="Select a group" name="grupo.nombreGrupo" value={this.state.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
+                                    <Dropdown placeholder="Select a group" name="grupo.nombreGrupo" value={this.state.grupos.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
                                 </div>
                                 </div>
 

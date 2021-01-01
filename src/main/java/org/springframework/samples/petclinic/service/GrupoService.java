@@ -44,6 +44,11 @@ public class GrupoService {
 	}
 	
 	@Transactional(readOnly = true)
+	public List<String> getCursoByGrupo(String grupo) {
+		return grupoRepository.findNameByGrupo(grupo);
+	}
+		
+	@Transactional(readOnly = true)
 	public List<String> getGroupNames() {
 		return grupoRepository.findAllGroupNames();
 	}

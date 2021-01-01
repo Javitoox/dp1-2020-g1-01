@@ -18,6 +18,9 @@ public interface GrupoRepository extends CrudRepository<Grupo, String>{
 	@Query("SELECT g.nombreGrupo FROM Grupo g JOIN g.cursos c WHERE c.cursoDeIngles = :curso")
 	public List<String> findNameByCurso(@Param("curso")TipoCurso curso);
 	
+	@Query("SELECT c.cursoDeIngles FROM Grupo g JOIN g.cursos c WHERE g.nombreGrupo = :grupo")
+	public List<String> findNameByGrupo(@Param("grupo")String grupo);
+	
 	@Query("SELECT g.nombreGrupo FROM Grupo g")
 	public List<String> findAllGroupNames();
 	
