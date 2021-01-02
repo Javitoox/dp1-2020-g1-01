@@ -36,13 +36,10 @@ class Alumnos extends Component {
             listaGrupos:{
                 nombreGrupo: ""
             }
-
-            //nodes: null,
-            //selectedKey: null,
         }
+
         this.alumnos = new AlumnoComponent();
-        //this.edicion = this.edicion.bind(this);
-        //this.assignGroup = this.assignGroup.bind(this);
+       
         this.boton = this.boton.bind(this);
         this.grupos = new GrupoComponent();
         this.botonAssign=this.botonAssign.bind(this);
@@ -54,19 +51,10 @@ class Alumnos extends Component {
         this.mostrarInfoStudent= this.mostrarInfoStudent.bind(this);
         this.mostrarInfo= this.mostrarInfo.bind(this);
         this.mostrarDatosTutor= this.mostrarDatosTutor.bind(this);
-      
-
-        
-        //this.botonAssign = this.botonAssign.bind(this);
-        //this.cursos = new CursoComponent();
-        //this.onNodeSelect = this.onNodeSelect.bind(this);
     }
 
     componentDidMount() {
         this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
-
-        //this.grupos.getAllGroups().then(data => this.setState({ groupSelectItems: data }));
-        //this.cursos.getCourses().then(data => this.setState({ nodes: data }));
     }
 
     boton(rowData) {

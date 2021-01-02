@@ -53,7 +53,7 @@ public class GrupoController {
 		}
 	}
 	
-	@GetMapping("/{curso}")
+	@GetMapping("/{curso}") /*Este creo q no se usa*/
 	public ResponseEntity<List<Grupo>> listaGruposPorCurso(@PathVariable("curso") TipoCurso curso, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		log.info("Sesión iniciada como: " + session.getAttribute("type"));

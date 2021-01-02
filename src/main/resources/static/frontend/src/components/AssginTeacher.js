@@ -7,6 +7,7 @@ import { Dropdown } from 'primereact/dropdown';
 import AssignmentComponent from './AssignmentComponent';
 import axios from 'axios';
 import moment from 'moment';
+import Auth from './Auth';
 
 
 
@@ -27,7 +28,8 @@ export default class AssignTeacher extends Component  {
            nombreGrupo: ""
         },
         succes:null,
-        exist:null 
+        exist:null,
+        comprobation:false,
     } 
         
     
@@ -140,6 +142,11 @@ export default class AssignTeacher extends Component  {
 
     
     componentDidMount() {
+        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+            if(res.data==="profesor"){
+                this.setState({comprobation: true})
+                }
+            })
         this.asignaciones.getListOfEmptyAssignmentGroup(this.props.urlBase).then(data => this.setState({ listaGrupos: data }));
         
     }
@@ -150,23 +157,24 @@ export default class AssignTeacher extends Component  {
     
     
     render() {
-        console.log(this.state.listaGrupos);
-        return (
-            <div>
-                <div className="c">
-                    <div className="login request">
-                        <form onSubmit={this.save}>
-                            {this.state.succes}
-                            {this.state.exist}
-                            {this.form()}
+        if (!this.state.comprobation) {
+            return <Auth authority="teacher"></Auth>
+        }else{
+            console.log(this.state.listaGrupos);
+            return (
+                <div>
+                    <div className="c">
+                        <div className="login request">
+                            <form onSubmit={this.save}>
+                                {this.state.succes}
+                                {this.state.exist}
+                                {this.form()}
 
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
-
-
-
