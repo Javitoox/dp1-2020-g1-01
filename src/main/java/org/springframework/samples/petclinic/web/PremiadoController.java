@@ -87,8 +87,15 @@ public class PremiadoController {
 			 
 			 Alumno alumno = alumnoService.getAlumno(nickUsuario);
 			 if(alumno != null) {
-				 premiadoService.insertarPremiado(nickUsuario, fechaWall, description, file);
-				 return new ResponseEntity<>(HttpStatus.CREATED);
+				 Integer numApariciones = premiadoService.numAparicionesEnFecha(fechaWall, nickUsuario);
+				 log.info("El alumno con nick " + nickUsuario + " aparece " + numApariciones + " vez(veces");
+				 if(numApariciones < 1) {
+					 premiadoService.insertarPremiado(nickUsuario, fechaWall, description, file);
+					 return new ResponseEntity<>(HttpStatus.CREATED);
+				 }else {
+					 return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+				 }
+				 
 			 }else {
 				 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			 }
