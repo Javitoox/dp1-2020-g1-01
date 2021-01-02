@@ -16,11 +16,13 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="eventos")
-@Data
+@Getter
+@Setter
 public class Evento extends BaseEntity{
 	
 	@Column(name="title")

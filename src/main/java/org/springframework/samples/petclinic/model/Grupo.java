@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,6 +24,7 @@ import lombok.Setter;
 public class Grupo {
 	@Id
 	@Column(name="nombre_grupo")
+	@NotBlank(message = "Required field")
 	private String nombreGrupo;
 	
 	@ManyToOne
@@ -31,50 +33,5 @@ public class Grupo {
 	@OneToMany(mappedBy = "grupo")
 	@JsonIgnore
     private Set<AsignacionProfesor> asignaciones = new HashSet<>();
-
-	public Grupo() {
-	}
-	
-//	@Override
-//	public int hashCode() {
-//		final int prime = 31;
-//		int result = 1;
-//		result = prime * result + ((asignaciones == null) ? 0 : asignaciones.hashCode());
-//		result = prime * result + ((cursos == null) ? 0 : cursos.hashCode());
-//		result = prime * result + ((nombreGrupo == null) ? 0 : nombreGrupo.hashCode());
-//		return result;
-//	}
-//
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (obj == null)
-//			return false;
-//		if (getClass() != obj.getClass())
-//			return false;
-//		Grupo other = (Grupo) obj;
-//		if (asignaciones == null) {
-//			if (other.asignaciones != null)
-//				return false;
-//		} else if (!asignaciones.equals(other.asignaciones))
-//			return false;
-//		if (cursos == null) {
-//			if (other.cursos != null)
-//				return false;
-//		} else if (!cursos.equals(other.cursos))
-//			return false;
-//		if (nombreGrupo == null) {
-//			if (other.nombreGrupo != null)
-//				return false;
-//		} else if (!nombreGrupo.equals(other.nombreGrupo))
-//			return false;
-//		return true;
-//	}
-//
-//	@Override
-//	public String toString() {
-//		return "Grupo [nombreGrupo=" + nombreGrupo + ", cursos=" + cursos + ", asignaciones=" + asignaciones + "]";
-//	}
 
 }

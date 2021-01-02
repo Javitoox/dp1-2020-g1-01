@@ -4,6 +4,7 @@ import { InputText } from 'primereact/inputtext';
 import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
+import Auth from './Auth';
 
 
 
@@ -21,7 +22,8 @@ export class CreateGroup extends Component {
                 nombreGrupo: ""
             },
             succes:null,
-            exist:null
+            exist:null,
+            comprobation: false,
 
         }
         this.grupos = new GrupoComponent();
@@ -39,7 +41,7 @@ export class CreateGroup extends Component {
             } 
         }
 
-        axios.post("http://localhost:8081/grupos/new", grupo).then(res => {
+        axios.post("http://localhost:8081/grupos/new", grupo, {withCredentials: true}).then(res => {
             this.respuesta(res.status, res.data);
         })
         
@@ -84,59 +86,67 @@ export class CreateGroup extends Component {
         }
     }
     componentDidMount() {
+        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+            if(res.data==="profesor"){
+                this.setState({comprobation: true})
+                }
+            })
         this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
     }
 
     render() {
+        if (!this.state.comprobation) {
+            return <Auth authority="teacher"></Auth>
+        }else{
 
-        const courseSelectItems = [
-            { label: 'All courses', value: 'allCourses' },
-            { label: 'A1', value: 'A1' },
-            { label: 'A2', value: 'A2' },
-            { label: 'B1', value: 'B1' },
-            { label: 'B2', value: 'B2' },
-            { label: 'C1', value: 'C1' },
-            { label: 'C2', value: 'C2' },
-            { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
-        ];
+            const courseSelectItems = [
+                { label: 'A1', value: 'A1' },
+                { label: 'A2', value: 'A2' },
+                { label: 'B1', value: 'B1' },
+                { label: 'B2', value: 'B2' },
+                { label: 'C1', value: 'C1' },
+                { label: 'C2', value: 'C2' },
+                { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
+            ];
 
-        console.log(this.state.grupoS.nombreGrupo)
-        console.log(this.state.grupoS.cursos.cursoDeIngles)
+            console.log(this.state.grupoS.nombreGrupo)
+            console.log(this.state.grupoS.cursos.cursoDeIngles)
 
-        return (
+            return (
 
-            <div>
-                <div className="c">
-                    <div className="login request">
-                        <form onSubmit={this.save}>
-                        {this.state.succes}
-                        {this.state.exist}
-                            <div className="t"><div><h5>Create Group</h5></div></div>
+                <div>
+                    <div className="c">
+                        <div className="login request">
+                            <form onSubmit={this.save}>
+                            {this.state.succes}
+                            {this.state.exist}
+                                <div className="t"><div><h5>Create Group</h5></div></div>
 
-                                <div className="i">
-                                <div className="p-inputgroup">
-                                <Dropdown name="grupo.cursoDeIngles" value={this.state.grupoS.cursos.cursoDeIngles} placeholder="Select a course" options={courseSelectItems} onChange={this.handleCI} />
+                                    <div className="i">
+                                    <div className="p-inputgroup">
+                                    <Dropdown name="grupo.cursoDeIngles" value={this.state.grupoS.cursos.cursoDeIngles} placeholder="Select a course" options={courseSelectItems} onChange={this.handleCI} />
 
+                                    </div>
+                                    </div>
+
+                                    <div className="i">
+                                    <div className="p-inputgroup">
+                                    <InputText placeholder="NG" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
+
+                                    </div>
+                                    </div>
+
+                                    <div className="b">
+                                    <div className="i">
+                                    <Button className="p-button-secondary" label="OK" label="Guardar" icon="pi pi-fw pi-check"/>
+
+                                    </div>
                                 </div>
-                                </div>
-
-                                <div className="i">
-                                <div className="p-inputgroup">
-                                <InputText placeholder="NG" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
-
-                                </div>
-                                </div>
-
-                                <div className="b">
-                                <div className="i">
-                                <Button className="p-button-secondary" label="OK" label="Guardar" icon="pi pi-fw pi-check"/>
-
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
