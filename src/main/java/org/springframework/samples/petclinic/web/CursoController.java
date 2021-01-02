@@ -13,19 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/course")
 public class CursoController {
 	
-	private final static Logger LOGGER = Logger.getLogger("");
-
     @Autowired
     CursoService cursoService;
     
-    @GetMapping("/all")
-    public List<Curso> getAllCourses(){
-    	return cursoService.allCourses();
-    }
-    
+//    @GetMapping("/all")
+//    public List<Curso> getAllCourses(){
+//    	return cursoService.allCourses();
+//    }
+//    
  
 }

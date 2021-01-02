@@ -80,19 +80,19 @@ public class GrupoServiceTest {
 		assertThat(grupos.size()).isGreaterThan(0);	
 	}
 	
-	@Test
-	void shouldGetAListWithNoGroups() { /*Lo dejo así de momento porque lo borraría :)*/
-		Set<Grupo> grupos = grupoService.getAllGrupos();
-		List<Curso> cursos = cursoService.allCourses();
-		List<Alumno> alumnos = new ArrayList<>();
-		for(Curso c: cursos) {
-			alumnos = alumnoService.getStudentsByCourse(c.getCursoDeIngles());
-			alumnos.forEach(x->alumnoService.deleteStudents(x));
-		}
-		grupos.forEach(x->grupoService.deleteGroup(x.getNombreGrupo()));
-		Set<Grupo> gruposBorrados = grupoService.getAllGrupos();
-		assertTrue(gruposBorrados.size()==0);
-	}
+//	@Test
+//	void shouldGetAListWithNoGroups() { /*Lo dejo así de momento porque lo borraría :)*/
+//		Set<Grupo> grupos = grupoService.getAllGrupos();
+//		List<Curso> cursos = cursoService.allCourses();
+//		List<Alumno> alumnos = new ArrayList<>();
+//		for(Curso c: cursos) {
+//			alumnos = alumnoService.getStudentsByCourse(c.getCursoDeIngles());
+//			alumnos.forEach(x->alumnoService.deleteStudents(x));
+//		}
+//		grupos.forEach(x->grupoService.deleteGroup(x.getNombreGrupo()));
+//		Set<Grupo> gruposBorrados = grupoService.getAllGrupos();
+//		assertTrue(gruposBorrados.size()==0);
+//	}
 	
 //	@Test
 //	void shouldFindGroupsByCourse() {
