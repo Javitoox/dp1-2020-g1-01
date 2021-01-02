@@ -46,6 +46,8 @@ public class Evento extends BaseEntity{
 	@NotBlank(message = "Required field")
 	private String descripcion;
 	
+	private String color;
+	
 	@ManyToOne(optional=false)
     private TipoEvento tipo;
 	

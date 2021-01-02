@@ -7,8 +7,10 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Premiado;
 import org.springframework.samples.petclinic.model.WallOfFame;
@@ -37,7 +39,8 @@ public class PremiadoService {
 		return premiadoRepository.lastWallOfFame();
 	}
 	
-	public void insertarPremiado(String nickUsuario, String fechaWall, String descripcion, MultipartFile file) {
+	@Transactional
+	public void insertarPremiado(String nickUsuario, String fechaWall, String descripcion, MultipartFile file) throws DataAccessException {
 		
 		Path directorioImagenes =Paths.get("src//main//resources//static//frontend//public/photosWall");
 		String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
@@ -76,7 +79,8 @@ public class PremiadoService {
 		
 	}
 	
-	public void editarPremiado(Integer id, String descripcion) {
+	@Transactional
+	public void editarPremiado(Integer id, String descripcion) throws DataAccessException {
 		Optional<Premiado> p = premiadoRepository.findById(id);
 		if(p.isPresent()) {
 			Premiado premiado = p.get();
@@ -86,7 +90,8 @@ public class PremiadoService {
 		
 	}
 
-	public void deletePremiadoById(Integer id) {
+	@Transactional
+	public void deletePremiadoById(Integer id) throws DataAccessException {
 		Optional<Premiado> p = premiadoRepository.findById(id);
 		if(p.isPresent()) {
 			WallOfFame wall = p.get().getWalloffames();
@@ -97,6 +102,10 @@ public class PremiadoService {
 			}
 		}
 		
+	}
+	
+	public Integer numAparicionesEnFecha(String fechaWall, String nickUsuario) {
+		return premiadoRepository.numAparicionesEnFecha(fechaWall, nickUsuario);
 	}
 	
 	

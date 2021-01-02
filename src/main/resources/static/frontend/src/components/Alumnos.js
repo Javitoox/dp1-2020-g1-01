@@ -11,6 +11,8 @@ import {selectAssignedStudent}  from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Dialog } from 'primereact/dialog';
+import axios from 'axios';
+import Auth from './Auth';
 
 
 class Alumnos extends Component {
@@ -33,13 +35,12 @@ class Alumnos extends Component {
             fechaMatriculacion: "",
             groupSelectItems: "",
             rowDataInfo:null,
+            comprobation: false,
             listaGrupos:{
                 nombreGrupo: ""
             }
         }
-
         this.alumnos = new AlumnoComponent();
-       
         this.boton = this.boton.bind(this);
         this.grupos = new GrupoComponent();
         this.botonAssign=this.botonAssign.bind(this);
@@ -51,9 +52,15 @@ class Alumnos extends Component {
         this.mostrarInfoStudent= this.mostrarInfoStudent.bind(this);
         this.mostrarInfo= this.mostrarInfo.bind(this);
         this.mostrarDatosTutor= this.mostrarDatosTutor.bind(this);
+      
     }
 
     componentDidMount() {
+        axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
+        if(res.data==="profesor"){
+            this.setState({comprobation: true})
+        }
+        })
         this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
     }
 
@@ -213,88 +220,94 @@ class Alumnos extends Component {
 
 
     render() {
-    if (this.state.redirect) {
-        if(this.state.redirect==="/createGroup"){
-            return <Redirect
-            to={{
-              pathname: "/createGroup"
-            }}
-          />
-    
-         }else if(this.state.redirect==="/deleteGroup"){
-            return <Redirect
-            to={{
-              pathname: "/deleteGroup"
-            }}
-          />
-    
-         }else if(this.state.redirect==="/editStudent"){
-            return <Redirect
-            to={{
-              pathname: "/editStudent"
-            }}
-          /> 
-        
-        }else if(this.state.redirect==="/assignStudent"){
-            return <Redirect
-            to={{
-              pathname: "/assignStudent"
-            }}
-          />
-        }else if(this.state.redirect==="/teacherGroups"){
-            return <Redirect
-            to={{
-              pathname: "/teacherGroups"
-            }}
-          />
-        }
-        
-    }
-    console.log(this.state.listaGrupos);
-        const courseSelectItems = [
-            { label: 'All courses', value: 'allCourses' },
-            { label: 'A1', value: 'A1' },
-            { label: 'A2', value: 'A2' },
-            { label: 'B1', value: 'B1' },
-            { label: 'B2', value: 'B2' },
-            { label: 'C1', value: 'C1' },
-            { label: 'C2', value: 'C2' },
-            { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
-        ];
-        return (
-            <React.Fragment>
-                <div className="datatable-templating-demo">
-                    <div>
-                    <ListBox value={this.state.curso} options={courseSelectItems} onChange={(e) => this.showSelectCourse(e.value)} />
-                    <div>&nbsp;</div>
-                   
-                    <ListBox options={this.allGroupNames()} onChange={(e) => this.showSelectGroup(e.value)} />
-                    <div>&nbsp;</div>
-                    <Button icon="pi pi-plus-circle" label="Create group" className="p-button-secondary" onClick={this.botonCrear} />
-                    {` `}
-                    <Button icon="pi pi-minus-circle" label="Delete group" className="p-button-secondary" onClick={this.botonEliminar} />
-                    {` `}
-                    <Button icon="pi pi-fw pi-users" label="My groups" className="p-button-secondary" onClick={this.botonGrupos} />
+        if (!this.state.comprobation) {
+            return <Auth authority="teacher"></Auth>
+        } else {
+            if (this.state.redirect) {
+                if(this.state.redirect==="/createGroup"){
+                    return <Redirect
+                    to={{
+                    pathname: "/createGroup"
+                    }}
+                />
+            
+                }else if(this.state.redirect==="/deleteGroup"){
+                    return <Redirect
+                    to={{
+                    pathname: "/deleteGroup"
+                    }}
+                />
+            
+                }else if(this.state.redirect==="/editStudent"){
+                    return <Redirect
+                    to={{
+                    pathname: "/editStudent"
+                    }}
+                /> 
+                
+                }else if(this.state.redirect==="/assignStudent"){
+                    return <Redirect
+                    to={{
+                    pathname: "/assignStudent"
+                    }}
+                />
+                }else if(this.state.redirect==="/teacherGroups"){
+                    return <Redirect
+                    to={{
+                    pathname: "/teacherGroups"
+                    }}
+                />
+                }
+                
+            }
+            console.log(this.state.listaGrupos);
+                const courseSelectItems = [
+                    { label: 'All courses', value: 'allCourses' },
+                    { label: 'A1', value: 'A1' },
+                    { label: 'A2', value: 'A2' },
+                    { label: 'B1', value: 'B1' },
+                    { label: 'B2', value: 'B2' },
+                    { label: 'C1', value: 'C1' },
+                    { label: 'C2', value: 'C2' },
+                    { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
+                ];
+                return (
+                    <React.Fragment>
+                        <div className="datatable-templating-demo">
+                            <div>
+                            <ListBox value={this.state.curso} options={courseSelectItems} onChange={(e) => this.showSelectCourse(e.value)} />
+                            <div>&nbsp;</div>
+                        
+                            <ListBox options={this.allGroupNames()} onChange={(e) => this.showSelectGroup(e.value)} />
+                            <div>&nbsp;</div>
+                            <Button icon="pi pi-plus-circle" label="Create group" className="p-button-secondary" onClick={this.botonCrear} />
+                            {` `}
+                            <Button icon="pi pi-minus-circle" label="Delete group" className="p-button-secondary" onClick={this.botonEliminar} />
+                            {` `}
+                            <Button icon="pi pi-fw pi-users" label="My groups" className="p-button-secondary" onClick={this.botonGrupos} />
 
-                    </div>
-                    <div>&nbsp;</div>
-                    <DataTable value={this.state.alumnos}>
-                        <Column header="Info" body={this.botonInfo}></Column>
-                        <Column field="nombreCompletoUsuario" header="Full name"></Column>
-                        <Column field="nickUsuario" header="Nickname"></Column>
-                        <Column field="numTareasEntregadas" header="Activities done"></Column>
-                        <Column header="Assign" body={this.botonAssign}></Column>
-                        <Column header="Edit" body={this.boton}></Column>
-                    </DataTable>
-                </div>
-                {this.mostrarInfo()}
-            </React.Fragment>
-        )
+                            </div>
+                            <div>&nbsp;</div>
+                            <DataTable value={this.state.alumnos}>
+                                <Column header="Info" body={this.botonInfo}></Column>
+                                <Column field="nombreCompletoUsuario" header="Full name"></Column>
+                                <Column field="nickUsuario" header="Nickname"></Column>
+                                <Column field="numTareasEntregadas" header="Activities done"></Column>
+                                <Column header="Assign" body={this.botonAssign}></Column>
+                                <Column header="Edit" body={this.boton}></Column>
+                            </DataTable>
+                        </div>
+                        {this.mostrarInfo()}
+                    </React.Fragment>
+                )
+            }
+        }
     }
-}
-function  matchDispatchToProps(dispatch) {
-    return bindActionCreators({
-        selectStudent : selectStudent,
-        selectAssignedStudent: selectAssignedStudent}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
-}
-export default connect(null , matchDispatchToProps)(Alumnos) //importante poner primero el null si no hay mapStateToProps en el componente chicxs
+
+    function  matchDispatchToProps(dispatch) {
+        return bindActionCreators({
+            selectStudent : selectStudent,
+            selectAssignedStudent: selectAssignedStudent}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
+    }
+
+    export default connect(null , matchDispatchToProps)(Alumnos) //importante poner primero el null si no hay mapStateToProps en el componente chicxs

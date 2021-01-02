@@ -4,6 +4,8 @@ import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {Button} from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import axios from 'axios';
+import Auth from './Auth';
 
 export  class SolicitudesProfesor extends Component {
     
@@ -11,8 +13,10 @@ export  class SolicitudesProfesor extends Component {
       super();
          this.state= {
           redirect:false,
-          rowDataInfo:null
+          rowDataInfo:null,
+          comprobation: false
          };
+         
          this.solicitudesComponent = new ExtraccionSolicitudes();
          this.delete= this.delete.bind(this);
          this.accept= this.accept.bind(this);
@@ -24,8 +28,14 @@ export  class SolicitudesProfesor extends Component {
       }
      
     componentDidMount(){
-        this.mostrarTabla();
+      axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
+      if(res.data==="profesor"){
+          this.setState({comprobation: true})
       }
+      })
+      
+      this.mostrarTabla();
+    }
     
     
     boton(rowData){
@@ -104,25 +114,30 @@ export  class SolicitudesProfesor extends Component {
  }
 
     render() {
-      const header = (
-        <div className="table-header">
-            Requests
-        </div>
-    );
-      const footer = `There're ${this.state.solicitudes ? this.state.solicitudes.length : 0} pending requests.`;
-        return (
-          <div className="datatable-templating-demo">
-          <div className="card">
-              <DataTable value={this.state.solicitudes} header={header} footer={footer}>
-                  <Column field="nombreCompletoUsuario" header="Name"></Column>
-                  <Column field="fechaSolicitud" header="Request date"></Column>
-                  <Column body={this.boton}></Column>
-              </DataTable>
-              {this.mostrarInfoRequest()}
 
+      if (!this.state.comprobation) {
+        return <Auth authority="teacher"></Auth>
+      } else {
+        const header = (
+          <div className="table-header">
+              Requests
           </div>
-          </div>
-        )
+        );
+          const footer = `There're ${this.state.solicitudes ? this.state.solicitudes.length : 0} pending requests.`;
+            return (
+              <div className="datatable-templating-demo">
+              <div className="card">
+                  <DataTable value={this.state.solicitudes} header={header} footer={footer}>
+                      <Column field="nombreCompletoUsuario" header="Name"></Column>
+                      <Column field="fechaSolicitud" header="Request date"></Column>
+                      <Column body={this.boton}></Column>
+                  </DataTable>
+                  {this.mostrarInfoRequest()}
+
+              </div>
+              </div>
+            )
+      }
     }
     
 }
