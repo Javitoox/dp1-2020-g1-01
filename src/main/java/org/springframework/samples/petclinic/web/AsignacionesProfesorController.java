@@ -2,6 +2,8 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,34 +36,45 @@ public class AsignacionesProfesorController {
 		this.asignacionS = asignacionS;
 	}
 	
-	@GetMapping("/freeAsignaciones")
-	public ResponseEntity<List<String>> listaAsignaciones() {
-		List<String> all =  asignacionS.getFreeGroups();
-		return ResponseEntity.ok(all);
-	}
-	
-
 	@GetMapping("/{user}")
-	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user) {
-		List<AsignacionProfesor> all =  asignacionS.getAllAsignacionesByUser(user);
-		return ResponseEntity.ok(all);
-	}
+	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		log.info("Sesión iniciada como: " + session.getAttribute("type"));
+		if(session != null && session.getAttribute("type") == "profesor") {
+			List<AsignacionProfesor> all =  asignacionS.getAllAsignacionesByUser(user);
+			return ResponseEntity.ok(all);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+			 }
+		}
 	
 	@GetMapping("/freeAssignments")
-    public ResponseEntity<List<String>> listaAsignaciones() {
-        List<String> all =  asignacionS.getFreeGroups();
-        return ResponseEntity.ok(all);
+    public ResponseEntity<List<String>> listaAsignaciones(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		log.info("Sesión iniciada como: " + session.getAttribute("type"));
+		if(session != null && session.getAttribute("type") == "profesor") {
+	        List<String> all =  asignacionS.getFreeGroups();
+	        return ResponseEntity.ok(all);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+			 }
     }
 	
 	@PostMapping("/new")
-	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result) throws DuplicatedGroupNameException{
-		log.info("Solicitando asignar profesor: {}", resource);
-		if(result.hasErrors()) {
-			return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result, HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		log.info("Sesión iniciada como: " + session.getAttribute("type"));
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Solicitando asignar profesor: {}", resource);
+			if(result.hasErrors()) {
+				return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+			}else {
+				asignacionS.saveAsignacion(resource);
+				return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);
+			}
 		}else {
-			asignacionS.saveAsignacion(resource);
-			return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);
-		}
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+			 }
 	}
 
 }

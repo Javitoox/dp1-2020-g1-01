@@ -8,11 +8,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="inscripciones")
-@Data
+@Getter
+@Setter
 public class Inscripcion extends BaseEntity{
 	
 	@Column(name="fecha")

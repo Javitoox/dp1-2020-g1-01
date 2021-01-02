@@ -39,7 +39,7 @@ export class CreateGroup extends Component {
             } 
         }
 
-        axios.post("http://localhost:8081/grupos/new", grupo).then(res => {
+        axios.post("http://localhost:8081/grupos/new", grupo, {withCredentials: true}).then(res => {
             this.respuesta(res.status, res.data);
         })
         

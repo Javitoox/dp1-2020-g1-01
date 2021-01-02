@@ -116,7 +116,7 @@ export default class AssignTeacher extends Component  {
            
         }
 
-        axios.post("http://localhost:8081/asignaciones/new", grupo).then(res => {
+        axios.post("http://localhost:8081/asignaciones/new", grupo, {withCredentials: true}).then(res => {
             this.respuesta(res.status, res.data);
         })
         
