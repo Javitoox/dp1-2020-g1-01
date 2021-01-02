@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 public class UsuarioController {
-	
-	private static final Logger log = LoggerFactory.logger(UsuarioController.class);
 	
 	private final UsuarioService usuarioService;
 	
