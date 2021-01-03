@@ -1,104 +1,108 @@
 package org.springframework.samples.petclinic.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-import org.jboss.logging.Logger;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Profesor;
 import org.springframework.samples.petclinic.model.Tutor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+
+@ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class UsuarioServiceTests {
-	private static final Logger log = LoggerFactory.logger(UsuarioServiceTests.class);
 	
-	@Autowired
+	private static final String NOT_EXISTENT_USERNAME = "TESTCASE";
+	private static final String NOT_EXISTENT_PASSWORD = "TESTCase88";
+	
+	private static final String EXISTENT_USERNAME = "TESTCASEEXIST";
+	private static final String EXISTENT_PASSWORD = "TESTCase88EXIST";
+	
+	private static Alumno a;
+	private static Profesor p;
+	private static Tutor t;
+	
+	@Mock
+	private AlumnoService alumnoService;
+	@Mock
+	private ProfesorService profesorService;
+	@Mock
+	private TutorService tutorService;
+	
 	protected UsuarioService usuarioService;
 	
-	@Autowired
-	protected SolicitudService solicitudService;
-	
-	@Autowired
-	protected AlumnoService alumnoService;
-	
-	@Autowired
-	protected TutorService tutorService;
-	
 	@BeforeAll
-	@Transactional
-	void insertAlumnoTutor() {
-		Alumno alumno = new Alumno();
-		alumno.setContraseya("HolaBuenas777");
-		alumno.setCorreoElectronicoUsuario("javikuka7@gmail.com");
-		alumno.setDireccionUsuario("Calle error");
-		alumno.setDniUsuario("76766776Y");
-		alumno.setFechaMatriculacion(null);
-		alumno.setFechaNacimiento(null);
-		alumno.setNickUsuario("JaviMartinez");
-		alumno.setNombreCompletoUsuario("Javi Martínez");
-		alumno.setNumTelefonoUsuario("635096767");
-		alumno.setNumTareasEntregadas(4);
-		alumnoService.saveAlumno(alumno);
-		Tutor tutor = new Tutor();
-		tutor.setContraseya("EyEyHola6");
-		tutor.setCorreoElectronicoUsuario("pedro@gmail.com");
-		tutor.setDireccionUsuario("Calle Lora");
-		tutor.setDniUsuario("23232323H");
-		tutor.setFechaNacimiento(null);
-		tutor.setNickUsuario("PedroGar");
-		tutor.setNombreCompletoUsuario("Pedro García");
-		tutor.setNumTelefonoUsuario("676767453");
-		tutorService.saveTutor(tutor);
+	void data() {
+		a = new Alumno();
+		a.setContraseya(EXISTENT_PASSWORD);
+		a.setFechaMatriculacion(LocalDate.parse("2020-12-02"));
+        p = new Profesor();
+		p.setContraseya(EXISTENT_PASSWORD);
+		t = new Tutor();
+		t.setContraseya(EXISTENT_PASSWORD);
+		t.setFechaMatriculacion(LocalDate.parse("2020-12-02"));
 	}
 	
-	@Test
-	@Transactional
-	void testTypeShouldBeIntegrante() {
-		String nickUsuario = "JaviMartinez";
-		String contraseya = "HolaBuenas777";
-		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
-		
-		assertThat(type).isEqualTo("integrante");
+	@BeforeEach
+	void setup() {
+		usuarioService = new UsuarioService(alumnoService, profesorService, tutorService);
 	}
 	
 	@Test
 	void testTypeShouldBeUsernameNotExist() {
-		String nickUsuario = "--------ImposibleQueExistaError---------";
-		String contraseya = "prueba";
-		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
-		
+		String type = usuarioService.typeOfUser(NOT_EXISTENT_USERNAME, NOT_EXISTENT_PASSWORD);
 		assertThat(type).isEqualTo("Username not exist");
 	}
 	
 	@Test
-	@Transactional
-	void testTypeShouldBeTutor() {
-		String nickUsuario = "PedroGar";
-		String contraseya = "EyEyHola6";
-		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
-		
-		assertThat(type).isEqualTo("tutor");
+	void testTypeShouldBeIncorrectPasswordAlumno() {
+		when(alumnoService.getAlumno(EXISTENT_USERNAME)).thenReturn(a);
+		String type = usuarioService.typeOfUser(EXISTENT_USERNAME, NOT_EXISTENT_PASSWORD);
+		assertThat(type).isEqualTo("Incorrect password");
 	}
 	
 	@Test
-	@Transactional
-	void testTypeShouldBeIncorrectPassword() {
-		String nickUsuario = "JaviMartinez";
-		String contraseya = "noExiste";
-		String contraseyaNoExistente = contraseya.concat("noExiste");
-		String type = usuarioService.typeOfUser(nickUsuario, contraseyaNoExistente);
-		
-		assertThat(contraseya).isNotEqualTo(contraseyaNoExistente);
+	void testTypeShouldBeIncorrectPasswordProfesor() {
+		when(profesorService.getProfesor(EXISTENT_USERNAME)).thenReturn(p);
+		String type = usuarioService.typeOfUser(EXISTENT_USERNAME, NOT_EXISTENT_PASSWORD);
 		assertThat(type).isEqualTo("Incorrect password");
+	}
+	
+	@Test
+	void testTypeShouldBeIncorrectPasswordTutor() {
+		when(tutorService.getTutor(EXISTENT_USERNAME)).thenReturn(t);
+		String type = usuarioService.typeOfUser(EXISTENT_USERNAME, NOT_EXISTENT_PASSWORD);
+		assertThat(type).isEqualTo("Incorrect password");
+	}
+	
+	@Test
+	void testTypeShouldBeAlumno() {
+		when(alumnoService.getAlumno(EXISTENT_USERNAME)).thenReturn(a);
+		String type = usuarioService.typeOfUser(EXISTENT_USERNAME, EXISTENT_PASSWORD);
+		assertThat(type).isEqualTo("alumno");
+	}
+	
+	@Test
+	void testTypeShouldBeProfesor() {
+		when(profesorService.getProfesor(EXISTENT_USERNAME)).thenReturn(p);
+		String type = usuarioService.typeOfUser(EXISTENT_USERNAME, EXISTENT_PASSWORD);
+		assertThat(type).isEqualTo("profesor");
+	}
+	
+	@Test
+	void testTypeShouldBeTutor() {
+		when(tutorService.getTutor(EXISTENT_USERNAME)).thenReturn(t);
+		String type = usuarioService.typeOfUser(EXISTENT_USERNAME, EXISTENT_PASSWORD);
+		assertThat(type).isEqualTo("tutor");
 	}
 
 }
