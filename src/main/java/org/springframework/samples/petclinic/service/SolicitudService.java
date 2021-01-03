@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -27,7 +26,6 @@ public class SolicitudService {
 		this.tutorService = tutorService;
 	}
 	
-	
 	public List<Alumno> getAllSolicitudes() {
 		return solicitudRepository.findStudentsNotAcceptedYet();
 	}
@@ -38,7 +36,6 @@ public class SolicitudService {
 			String nickTutor = alumnoDenegado.getTutores().getNickUsuario();
 			alumnoService.deleteStudents(alumnoDenegado);
 			List<Alumno> alumnosPorTutor = alumnoService.getAllMyStudents(nickTutor);
-			
 			if(alumnosPorTutor.size() < 1) {
 				tutorService.delete(nickTutor);
 			}
@@ -51,7 +48,6 @@ public class SolicitudService {
 			tutorService.saveTutor(student.getTutores());
 		}
 		alumnoService.saveAlumno(student);
-		
 	}
 	
 	@Transactional

@@ -28,7 +28,8 @@ public class TutorService {
 		return tutorRepository.findByNick(nickUser);
 	}
 	
-	public void saveTutor(Tutor tutor) {
+	@Transactional
+	public void saveTutor(Tutor tutor) throws DataAccessException{
 		tutorRepository.save(tutor);
 	}
 	
