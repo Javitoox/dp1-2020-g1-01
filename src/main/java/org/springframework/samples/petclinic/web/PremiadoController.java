@@ -1,14 +1,14 @@
 package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +46,7 @@ public class PremiadoController {
 	public PremiadoController(PremiadoService premiadoService, AlumnoService alumnoService) {
 		this.premiadoService = premiadoService;
 		this.alumnoService = alumnoService; 
-	}
+	} 
 	
 	@GetMapping("/{fechaWall}")
 	public ResponseEntity<?> premiadosPorFecha(@PathVariable("fechaWall") String fechaWall, HttpServletRequest request){
@@ -57,7 +57,7 @@ public class PremiadoController {
     		return ResponseEntity.ok(premiados);
     	}else {
     		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    	}
+    	} 
 	}
 	
 
@@ -65,11 +65,11 @@ public class PremiadoController {
 	public String obtenerUltimaSemana() {
 		return premiadoService.obtenerUltimaSemana();
 	}
-	
+	 
 	
 	@PostMapping(value="/añadirPremiado/{fechaWall}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) 
 	public ResponseEntity<?>añadirPremiado(@PathVariable("fechaWall") String fechaWall,
-			@Valid @ModelAttribute BodyPremiado body,  BindingResult result, HttpServletRequest request){
+			@Valid @ModelAttribute BodyPremiado body,  BindingResult result, HttpServletRequest request) throws DataAccessException, IOException{
 		
 		if(result.hasErrors()) {
 			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
@@ -88,7 +88,7 @@ public class PremiadoController {
 				 Integer numApariciones = premiadoService.numAparicionesEnFecha(fechaWall, nickUsuario);
 				 log.info("El alumno con nick " + nickUsuario + " aparece " + numApariciones + " vez(veces");
 				 if(numApariciones < 1) {
-					 premiadoService.insertarPremiado(nickUsuario, fechaWall, description, file);
+					 premiadoService.insertarPremiado(alumno, fechaWall, description, file);
 					 return new ResponseEntity<>(HttpStatus.CREATED);
 				 }else {
 					 return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -105,34 +105,15 @@ public class PremiadoController {
 	
 	@PutMapping(value="/editarPremiado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> editarPremiado(@RequestParam(value = "photo", required = false) MultipartFile file, @RequestParam("id") Integer id, @RequestParam("description") String descripcion,
-			 @RequestParam("nickUsuario") String nickUsuario, HttpServletRequest request) {
+			 @RequestParam("nickUsuario") String nickUsuario, HttpServletRequest request) throws DataAccessException, IOException {
 		
 		HttpSession session = request.getSession(false);
 
 		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
 			log.info("Editanto el premiado cuya id es : "+id);
-			
-			if(file !=null) {
-				Path directorioImagenes = Paths.get("src//main//resources//static//frontend//public/photosWall");
-				String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
-				
-				try {
-					byte[] bytes = file.getBytes();
-					Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + nickUsuario + ".jpg");
-					Files.write(rutaCompleta, bytes);
-					
-					
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			
-			if(!descripcion.isEmpty()) {
-				log.info("Changing description: "+descripcion);
-				premiadoService.editarPremiado(id, descripcion);
-			}
+			 
+			premiadoService.editarPremiado(id, descripcion, file, nickUsuario);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
