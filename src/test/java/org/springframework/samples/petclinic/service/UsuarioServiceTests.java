@@ -70,7 +70,7 @@ public class UsuarioServiceTests {
 		assertThat(type).isEqualTo("Incorrect password");
 	}
 	
-	@Test
+	@Test 
 	void testTypeShouldBeIncorrectPasswordProfesor() {
 		when(profesorService.getProfesor(EXISTENT_USERNAME)).thenReturn(p);
 		String type = usuarioService.typeOfUser(EXISTENT_USERNAME, NOT_EXISTENT_PASSWORD);

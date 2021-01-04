@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AlumnoService {
 	
 	AlumnoRepository alumnoRepository;
-	GrupoService grupoService;
+	//GrupoService grupoService;
 	
 	@Autowired
 	public AlumnoService(AlumnoRepository alumnoRepository) {
@@ -59,9 +59,9 @@ public class AlumnoService {
     
     /*Parte de grupos*/
     
-    public Grupo getGrupo(String id) {
+   /* public Grupo getGrupo(String id) {
     	return grupoService.getGroupById(id);
-    }
+    }*/
     
     
     

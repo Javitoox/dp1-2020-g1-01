@@ -1,30 +1,102 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Curso;
-import org.springframework.samples.petclinic.model.Grupo;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.samples.petclinic.model.TipoCurso;
+import org.springframework.samples.petclinic.repository.AlumnoRepository;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class AlumnoServiceTests {
+	
+	private static List<Alumno> alumnosNotEmpty;	
+	private static List<Alumno> alumnosEmpty;	
+
+
+	 
+	private static final TipoCurso CURSO_NOT_EMPTY = TipoCurso.B1;
+	private static final TipoCurso CURSO_EMPTY = TipoCurso.C2;
+	
+	private static final String TUTOR_WITH_STUDENTS= "PedroGar";
+	private static final String TUTOR_WITHOUT_STUDENTS= "Manuel12";
+
+
+
+	@Mock
+	private AlumnoRepository alumnoRepository;
+	
+	protected AlumnoService alumnoService;
+		
+	@BeforeAll
+	void data() { 
+			
+		Alumno a = new Alumno();
+		alumnosNotEmpty= new ArrayList<Alumno>();
+		alumnosNotEmpty.add(a);
+		
+		alumnosEmpty= new ArrayList<Alumno>();	
+		
+	}
+	
+	@BeforeEach
+	void setup() {
+		alumnoService= new AlumnoService(alumnoRepository);
+	}
+	
+	
+	@Test
+	void testStudentsListIsNotEmpty() {
+		when(alumnoRepository.findStudents()).thenReturn(alumnosNotEmpty);
+		assertThat(alumnoService.getAllAlumnos().size()).isGreaterThan(0);
+	}
+	
+	@Test
+	void testStudentsListIsEmpty() {
+		when(alumnoRepository.findStudents()).thenReturn(alumnosEmpty);
+		assertThat(alumnoService.getAllAlumnos().size()).isEqualTo(0);
+	} 
+	
+	@Test
+	void testStudentsListByCourseIsNotNull() {
+		when(alumnoRepository.findStudentsByCourse(any(TipoCurso.class))).thenReturn(alumnosNotEmpty);
+		assertThat(alumnoService.getStudentsByCourse(CURSO_NOT_EMPTY).size()).isGreaterThan(0);
+	}
+	
+	@Test
+	void testStudentsListByCourseIsNull() {
+		when(alumnoRepository.findStudentsByCourse(any(TipoCurso.class))).thenReturn(alumnosEmpty);
+		assertThat(alumnoService.getStudentsByCourse(CURSO_EMPTY).size()).isEqualTo(0);
+	}
+	
+	
+	@Test 
+	void testStudentsByTutorIsNotNull() {
+		when(alumnoRepository.findStudentsByTutor(any(String.class))).thenReturn(alumnosNotEmpty);
+		assertThat(alumnoService.getAllMyStudents(TUTOR_WITH_STUDENTS).size()).isGreaterThan(0);
+	}
+	
+	@Test 
+	void testStudentsByTutorIsNull() {
+		when(alumnoRepository.findStudentsByTutor(any(String.class))).thenReturn(alumnosEmpty);
+		assertThat(alumnoService.getAllMyStudents(TUTOR_WITHOUT_STUDENTS).size()).isEqualTo(0);
+	}
+	
+	
+	
 	
 //	@Autowired
 //	protected AlumnoService alumnoService;
@@ -69,40 +141,7 @@ public class AlumnoServiceTests {
 //		assertThat(alumnos.size()).isGreaterThan(0);
 //	}
 //	
-//	@Test
-//	void testStudentsListIsNotEmpty() {
-//		List<Alumno> alumnos = alumnoService.getAllAlumnos();
-//		assertThat(alumnos.size()).isGreaterThan(0);
-//	}
-//	
-//	@Test
-//	@AfterAll
-//	void testStudentsListIsEmpty() {
-//		List<Alumno> alumnos = alumnoService.getAllAlumnos();
-//		for(Alumno a: alumnos) {
-//			alumnoService.deleteStudents(a);
-//		}
-//		List<Alumno> alumnosBorrados = alumnoService.getAllAlumnos();
-//		assertTrue(alumnosBorrados.size() == 0);
-//	}
-//	
-//	@Test
-//	void testStudentsListByCourseIsNotNull() {
-//		String cursoDeIngles = "C2";
-//		List<Alumno> alumnos = alumnoService.getStudentsByCourse(cursoDeIngles);
-//		assertThat(alumnos.size()).isGreaterThan(0);
-//	}
-//	
-//	@Test
-//	void testStudentsListByCourseIsNull() {
-//		String cursoDeIngles = "B2";
-//		List<Alumno> alumnos = alumnoService.getStudentsByCourse(cursoDeIngles);
-//		for(Alumno a: alumnos) {
-//			alumnoService.deleteStudents(a);
-//		}
-//		List<Alumno> alumnosDeCursoBorrados = alumnoService.getStudentsByCourse(cursoDeIngles);
-//		assertTrue(alumnosDeCursoBorrados.size() == 0);
-//	}
+
 //	
 //	
 //	@Test

@@ -42,7 +42,7 @@ public class PremiadoController {
 	
 	private AlumnoService alumnoService;
 	
-	@Autowired
+	@Autowired 
 	public PremiadoController(PremiadoService premiadoService, AlumnoService alumnoService) {
 		this.premiadoService = premiadoService;
 		this.alumnoService = alumnoService; 
@@ -77,8 +77,6 @@ public class PremiadoController {
 		
 		HttpSession session = request.getSession(false);
 		
-		System.out.println("Imagen con tamaño: "+body.getPhoto().getSize());
-
 		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 		 if(session != null && session.getAttribute("type") == "profesor") {
 			 String nickUsuario = body.getNickUsuario();
