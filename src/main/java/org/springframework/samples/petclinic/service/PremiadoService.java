@@ -62,7 +62,7 @@ public class PremiadoService {
 		p.setAlumnos(alumno);
 		p.setDescripcion(descripcion);
 		p.setFoto(nickUsuario + ".jpg");
-		
+		 
 		Optional<WallOfFame> wallofFame = wallOfFameService.getWallById(fechaWall);
 		if(wallofFame.isPresent()) {	//existe el wall, no hay que crearlo
 			p.setWalloffames(wallofFame.get());

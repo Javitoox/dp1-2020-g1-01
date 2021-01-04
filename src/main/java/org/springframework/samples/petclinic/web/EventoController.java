@@ -55,7 +55,7 @@ public class EventoController {
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllEvents(HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		if(session != null && (session.getAttribute("type") == "profesor" || session.getAttribute("type") == "alumno")) {
+		if(session != null && session.getAttribute("type") == "profesor") {
 			return ResponseEntity.ok(eventoService.getAll());
 		}else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -82,7 +82,7 @@ public class EventoController {
 	@GetMapping("/description/{id}")
 	public ResponseEntity<?> getDescription(@PathVariable("id") Integer id, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		if(session != null && (session.getAttribute("type") == "profesor" || session.getAttribute("type") == "alumno")) {
+		if(session != null && session.getAttribute("type") == "profesor") {
 			String description = eventoService.getDescription(id);
 			if(description == null) {
 				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
