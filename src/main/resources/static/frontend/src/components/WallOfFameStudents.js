@@ -26,7 +26,9 @@ export class WallOfFameStudents extends Component{
             premiado: null,
             comprobation: false,
             formularioCrear: null,
-            formularioEditar: null
+            formularioEditar: null,
+            displayConfirmation: false,
+            renderFooter: null
         }
         this.mostrarWallSeleccionado=this.mostrarWallSeleccionado.bind(this);
         this.premiados = new AlumnoComponent();
@@ -39,6 +41,7 @@ export class WallOfFameStudents extends Component{
         this.handleDelete= this.handleDelete.bind(this);  
         this.FormCreatePremiado = this.FormCreatePremiado.bind(this);
         this.FormEditPremiado = this.FormEditPremiado.bind(this);
+        this.fecha = this.fecha.bind(this);
     }
 
     componentDidMount(){
@@ -146,7 +149,7 @@ export class WallOfFameStudents extends Component{
             return(
                 <div>
                     <Button className="p-button-secondary" icon="pi pi-fw pi-pencil" onClick={() => this.setState({premiado: data}, () => this.FormEditPremiado())} ></Button>  
-                    <Button className="ml-2 p-button-secondary" icon="pi pi-fw pi-trash" onClick={() => this.setState({premiado: data}, () => this.handleDelete())}></Button> 
+                    <Button className="ml-2 p-button-secondary" icon="pi pi-fw pi-trash" onClick={() => this.setState({premiado: data}, () => this.setState({displayConfirmation: true}))}></Button> 
                 </div>
             );
         }
@@ -162,9 +165,18 @@ export class WallOfFameStudents extends Component{
     }
 
     async handleDelete(){
-        var result = window.confirm("Are you sure you want to delete the awarded student?");
-        if(result) await this.premiados.deletePremiado(this.props.urlBase, this.state.premiado.id)
+        await this.premiados.deletePremiado(this.props.urlBase, this.state.premiado.id)
+        this.setState({displayConfirmation: false})
         this.obtenerUltimoWall();
+    }
+
+    renderFooter(){
+        return (
+            <div>
+                <Button label="No" icon="pi pi-times" onClick={() => this.setState({displayConfirmation: false})} className="p-button-text" />
+                <Button label="Yes" icon="pi pi-check" onClick={() => this.handleDelete()} autoFocus />
+            </div>
+        );
     }
 
     render(){
@@ -177,7 +189,15 @@ export class WallOfFameStudents extends Component{
                 {this.BotonAñadirPremiado()} 
                 {this.MostrarWall()}
                 {this.state.formularioCrear}   
-                {this.state.formularioEditar}         
+                {this.state.formularioEditar}  
+
+                <Dialog header="Confirmation" visible={this.state.displayConfirmation} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation: false})}>
+                <div className="confirmation-content">
+                    <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                    <span>Are you sure you want to delete the awarded student?</span>
+                </div>
+                </Dialog>       
+
             </React.Fragment>
         );
         }
