@@ -47,9 +47,9 @@ public class PremiadoController {
 		this.premiadoService = premiadoService;
 		this.alumnoService = alumnoService; 
 	}  
-	
+	 
 	@GetMapping("/{fechaWall}")
-	public ResponseEntity<?> premiadosPorFecha(@PathVariable("fechaWall") String fechaWall, HttpServletRequest request){
+	public ResponseEntity<?> premiadosPorFecha(@PathVariable(name = "fechaWall") String fechaWall, HttpServletRequest request){
     	HttpSession session = request.getSession(false);
     	log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
     	if(session != null && (session.getAttribute("type") == "tutor" || session.getAttribute("type") == "alumno" || session.getAttribute("type") == "profesor")) {
@@ -60,7 +60,7 @@ public class PremiadoController {
     	} 
 	}
 	
-
+ 
 	@GetMapping("/ultimaSemana")
 	public String obtenerUltimaSemana() {
 		return premiadoService.obtenerUltimaSemana();
@@ -100,7 +100,6 @@ public class PremiadoController {
 		 }else { 
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		 }
-		 
    }
 	
 	@PutMapping(value="/editarPremiado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -118,17 +117,16 @@ public class PremiadoController {
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		}
-		
 	}
 	
 	@DeleteMapping(value="/borrarPremiado/{id}")
-	public ResponseEntity<?> deletePremiado(@PathVariable("id") Integer id, HttpServletRequest request) {
+	public ResponseEntity<?> deletePremiado(@PathVariable(name = "id") Integer id, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession(false);
 
 		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
-			premiadoService.deletePremiadoById(id);
+			premiadoService.deletePremiadoById(id); 
 			return ResponseEntity.ok().build();
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
