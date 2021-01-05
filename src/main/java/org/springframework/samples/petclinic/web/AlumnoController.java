@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.validation.BindingResult;
@@ -63,24 +62,24 @@ public class AlumnoController {
     }
 	
     @GetMapping("/getStudentInfo/{nickUsuario}")
-    public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, 
-    		HttpServletRequest request){
+    public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		log.info("Sesion: "+session.getAttribute("type"));
-		if(session.getAttribute("type") == "profesor") {
+		
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesion: "+session.getAttribute("type"));
 			Alumno alumno = alumnoServ.getAlumno(nick);
 		    return ResponseEntity.ok(alumno);
 		 }else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		 }	
     }
-
+ 
 	@GetMapping("/all")
 	public ResponseEntity<?> listAlumnos(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 
-		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 			List<Alumno> allStudents = alumnoServ.getAllAlumnos();
 			return ResponseEntity.ok(allStudents);
 		}else {
@@ -91,12 +90,12 @@ public class AlumnoController {
 	@GetMapping("/getByCourse/{course}")
 	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") TipoCurso cursoDeIngles, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-
-		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+		
 		log.info("Obteniendo alumnos del curso: "+cursoDeIngles);
 		if(session != null && session.getAttribute("type") == "profesor") {	
-				List<Alumno> allStudentsByCourse = alumnoServ.getStudentsByCourse(cursoDeIngles);
-				return ResponseEntity.ok(allStudentsByCourse);
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+			List<Alumno> allStudentsByCourse = alumnoServ.getStudentsByCourse(cursoDeIngles);
+			return ResponseEntity.ok(allStudentsByCourse);
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 
@@ -110,11 +109,11 @@ public class AlumnoController {
 	}
 	
 	@GetMapping("/{nickTutor}/allMyStudents")
-    public ResponseEntity<?>getStudentsByTutor(@PathVariable("nickTutor") String nickTutor, 
-    		HttpServletRequest request){
+    public ResponseEntity<?>getStudentsByTutor(@PathVariable("nickTutor") String nickTutor, HttpServletRequest request){
     	HttpSession session = request.getSession(false);
-		log.info("Has iniciado sesion como: "+ session.getAttribute("type")+ ", y con nick: "+session.getAttribute("nickUsuario"));
-    	if(session != null && session.getAttribute("type") == "tutor" && session.getAttribute("nickUsuario")==nickTutor) {
+
+    	if(session != null && session.getAttribute("type").equals("tutor") && session.getAttribute("nickUsuario").equals(nickTutor)) {
+    		log.info("Has iniciado sesion como: "+ session.getAttribute("type")+ ", y con nick: "+session.getAttribute("nickUsuario"));
     		List<Alumno>studentsByTutor = alumnoServ.getAllMyStudents(nickTutor);
             return ResponseEntity.ok(studentsByTutor);
     	}else {
