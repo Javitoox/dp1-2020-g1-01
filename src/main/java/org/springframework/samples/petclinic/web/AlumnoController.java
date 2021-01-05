@@ -37,7 +37,7 @@ public class AlumnoController {
 
 	@Autowired
 	public AlumnoController(AlumnoService alumnoServ) {
-		super();
+		super(); 
 		this.alumnoServ = alumnoServ;
 	}
 	
@@ -65,17 +65,14 @@ public class AlumnoController {
     @GetMapping("/getStudentInfo/{nickUsuario}")
     public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, 
     		HttpServletRequest request){
-    		Alumno alumno = alumnoServ.getAlumno(nick);
-            return ResponseEntity.ok(alumno);
-    
-    }
-    
-    @GetMapping("/getStudentCourse/{nickUsuario}")
-    public ResponseEntity<Curso> getStudentCourse(@PathVariable("nickUsuario") String nick, 
-    		HttpServletRequest request){
-    		Alumno alumno = alumnoServ.getAlumno(nick);
-            return ResponseEntity.ok(alumno.getGrupos().getCursos());
-    
+		HttpSession session = request.getSession(false);
+		log.info("Sesion: "+session.getAttribute("type"));
+		if(session.getAttribute("type") == "profesor") {
+			Alumno alumno = alumnoServ.getAlumno(nick);
+		    return ResponseEntity.ok(alumno);
+		 }else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		 }	
     }
 
 	@GetMapping("/all")
