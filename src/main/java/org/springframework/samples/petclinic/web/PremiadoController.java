@@ -46,7 +46,7 @@ public class PremiadoController {
 	public PremiadoController(PremiadoService premiadoService, AlumnoService alumnoService) {
 		this.premiadoService = premiadoService;
 		this.alumnoService = alumnoService; 
-	} 
+	}  
 	
 	@GetMapping("/{fechaWall}")
 	public ResponseEntity<?> premiadosPorFecha(@PathVariable("fechaWall") String fechaWall, HttpServletRequest request){

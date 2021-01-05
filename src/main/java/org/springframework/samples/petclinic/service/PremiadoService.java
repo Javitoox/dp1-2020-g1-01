@@ -79,7 +79,7 @@ public class PremiadoService {
 			Path directorioImagenes = Paths.get("src//main//resources//static//frontend//public/photosWall");
 			String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
 					
-			byte[] bytes = file.getBytes();
+			byte[] bytes = file.getBytes(); 
 			Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + nickUsuario + ".jpg");
 			Files.write(rutaCompleta, bytes);
 		}
