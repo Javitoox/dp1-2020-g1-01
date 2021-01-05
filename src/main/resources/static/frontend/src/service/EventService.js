@@ -5,7 +5,9 @@ export class EventService {
     getEvents(urlBase) {
         return axios.get(urlBase+'/events/all', {withCredentials: true})
     }
-
+    getUserEvents(urlBase, nickUser) {
+        return axios.get(urlBase+'/events/getByCourse/' + nickUser, {withCredentials: true})
+    }
     updateEvent(urlBase, id, start, end){
         axios.put(urlBase+'/events/update/'+id+'/'+start+'/'+end, {}, {withCredentials: true})
     }

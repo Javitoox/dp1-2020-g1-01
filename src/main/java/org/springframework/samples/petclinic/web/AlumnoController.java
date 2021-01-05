@@ -1,8 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.validation.BindingResult;
@@ -70,6 +67,14 @@ public class AlumnoController {
     		HttpServletRequest request){
     		Alumno alumno = alumnoServ.getAlumno(nick);
             return ResponseEntity.ok(alumno);
+    
+    }
+    
+    @GetMapping("/getStudentCourse/{nickUsuario}")
+    public ResponseEntity<Curso> getStudentCourse(@PathVariable("nickUsuario") String nick, 
+    		HttpServletRequest request){
+    		Alumno alumno = alumnoServ.getAlumno(nick);
+            return ResponseEntity.ok(alumno.getGrupos().getCursos());
     
     }
 
