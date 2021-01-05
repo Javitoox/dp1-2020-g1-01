@@ -15,7 +15,11 @@ import javax.validation.ValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
+import org.springframework.samples.petclinic.model.TipoCurso;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.EventoService;
 import org.springframework.samples.petclinic.util.DateEventValidator;
 import org.springframework.validation.BindingResult;
@@ -41,15 +45,29 @@ import lombok.extern.slf4j.Slf4j;
 public class EventoController {
 	
 	private final EventoService eventoService;
+	private final AlumnoService alumService;
 	
 	@Autowired
-	public EventoController(EventoService eventoService) {
+	public EventoController(EventoService eventoService, AlumnoService alumService) {
 		this.eventoService = eventoService;
+		this.alumService= alumService;
 	}
 	
 	@InitBinder("evento")
 	public void initEventoBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new DateEventValidator());
+	}
+	
+	@GetMapping("/getByCourse/{nick}")
+	public ResponseEntity<?> getUserEvents(HttpServletRequest request, @PathVariable("nick") String nick){
+		HttpSession session = request.getSession(false);
+		if(session != null &&  session.getAttribute("type") == "alumno") {
+			Alumno a = alumService.getAlumno(nick);
+			Curso b = a.getGrupos().getCursos();
+			return ResponseEntity.ok(eventoService.getByCourse(b));
+		}else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 	
 	@GetMapping("/all")
@@ -82,7 +100,7 @@ public class EventoController {
 	@GetMapping("/description/{id}")
 	public ResponseEntity<?> getDescription(@PathVariable("id") Integer id, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		if(session != null && session.getAttribute("type") == "profesor") {
+		if(session != null && (session.getAttribute("type") == "profesor" || session.getAttribute("type") == "alumno")) {
 			String description = eventoService.getDescription(id);
 			if(description == null) {
 				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
@@ -107,12 +125,19 @@ public class EventoController {
 		}
 	}
 	
-	@PostMapping("/create")
-	public ResponseEntity<?> create(@Valid @RequestBody Evento evento, BindingResult result, HttpServletRequest request) {
+	@PostMapping("/create/{curso}")
+	public ResponseEntity<?> create(@Valid @RequestBody Evento evento,@PathVariable("curso") String curso, BindingResult result, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
+		log.info("el Curso es " + curso);	
 		if(session != null && session.getAttribute("type") == "profesor") {
+			if(curso.equals("null") || curso== "") {
+				return new ResponseEntity<>("There is no course selected", HttpStatus.NO_CONTENT);
+			}
+			Curso javiV = new Curso();
+			javiV.setCursoDeIngles(TipoCurso.valueOf(curso));
+			evento.setCurso(javiV);
 			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-			Validator validator = factory.getValidator();
+			Validator validator = factory.getValidator(); 
 			Set<ConstraintViolation<Evento>> violations = validator.validate(evento);
 			if(result.hasErrors() || violations.size()>0) {
 				List<FieldError> errors = new ArrayList<>();
