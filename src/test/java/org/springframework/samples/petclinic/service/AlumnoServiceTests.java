@@ -25,16 +25,12 @@ public class AlumnoServiceTests {
 	
 	private static List<Alumno> alumnosNotEmpty;	
 	private static List<Alumno> alumnosEmpty;	
-
-
-	 
+ 
 	private static final TipoCurso CURSO_NOT_EMPTY = TipoCurso.B1;
 	private static final TipoCurso CURSO_EMPTY = TipoCurso.C2;
 	
 	private static final String TUTOR_WITH_STUDENTS= "PedroGar";
 	private static final String TUTOR_WITHOUT_STUDENTS= "Manuel12";
-
-
 
 	@Mock
 	private AlumnoRepository alumnoRepository;
@@ -59,45 +55,49 @@ public class AlumnoServiceTests {
 	
 	
 	@Test
-	void testStudentsListIsNotEmpty() {
+	void shouldShowStudentsListIsNotEmpty() {
 		when(alumnoRepository.findStudents()).thenReturn(alumnosNotEmpty);
-		assertThat(alumnoService.getAllAlumnos().size()).isGreaterThan(0);
+		List<Alumno> alumnos = alumnoService.getAllAlumnos();
+		assertThat(alumnos.size()).isGreaterThan(0);
 	}
 	
 	@Test
-	void testStudentsListIsEmpty() {
+	void shouldShowStudentsListIsEmpty() {
 		when(alumnoRepository.findStudents()).thenReturn(alumnosEmpty);
-		assertThat(alumnoService.getAllAlumnos().size()).isEqualTo(0);
+		List<Alumno> alumnos = alumnoService.getAllAlumnos();
+		assertThat(alumnos.size()).isEqualTo(0);
 	} 
 	
 	@Test
-	void testStudentsListByCourseIsNotNull() {
+	void shouldShowStudentsListByCourseIsNotNull() {
 		when(alumnoRepository.findStudentsByCourse(any(TipoCurso.class))).thenReturn(alumnosNotEmpty);
-		assertThat(alumnoService.getStudentsByCourse(CURSO_NOT_EMPTY).size()).isGreaterThan(0);
+		List<Alumno> alumnos = alumnoService.getStudentsByCourse(CURSO_NOT_EMPTY);
+		assertThat(alumnos.size()).isGreaterThan(0);
 	}
 	
 	@Test
-	void testStudentsListByCourseIsNull() {
+	void shouldShowStudentsListByCourseIsNull() {
 		when(alumnoRepository.findStudentsByCourse(any(TipoCurso.class))).thenReturn(alumnosEmpty);
-		assertThat(alumnoService.getStudentsByCourse(CURSO_EMPTY).size()).isEqualTo(0);
+		List<Alumno> alumnos = alumnoService.getStudentsByCourse(CURSO_EMPTY);
+		assertThat(alumnos.size()).isEqualTo(0);
 	}
 	
 	
 	@Test 
-	void testStudentsByTutorIsNotNull() {
+	void shouldShowStudentsByTutorIsNotNull() {
 		when(alumnoRepository.findStudentsByTutor(any(String.class))).thenReturn(alumnosNotEmpty);
-		assertThat(alumnoService.getAllMyStudents(TUTOR_WITH_STUDENTS).size()).isGreaterThan(0);
+		List<Alumno> alumnos = alumnoService.getAllMyStudents(TUTOR_WITH_STUDENTS);
+		assertThat(alumnos.size()).isGreaterThan(0);
 	}
 	
 	@Test 
-	void testStudentsByTutorIsNull() {
+	void shouldShowStudentsByTutorIsNull() {
 		when(alumnoRepository.findStudentsByTutor(any(String.class))).thenReturn(alumnosEmpty);
-		assertThat(alumnoService.getAllMyStudents(TUTOR_WITHOUT_STUDENTS).size()).isEqualTo(0);
+		List<Alumno> alumnos = alumnoService.getAllMyStudents(TUTOR_WITHOUT_STUDENTS);
+		assertThat(alumnos.size()).isEqualTo(0);
 	}
 	
-	
-	
-	
+
 //	@Autowired
 //	protected AlumnoService alumnoService;
 //	

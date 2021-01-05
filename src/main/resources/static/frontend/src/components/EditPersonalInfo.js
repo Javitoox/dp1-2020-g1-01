@@ -53,7 +53,6 @@ export default class EditPersonalInfo extends Component {
             direccionUsuario: data.direccionUsuario,
             fechaNacimiento: data.fechaNacimiento,
             fechaMatriculacion: data.fechaMatriculacion,
-            
         }))
      
        await axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
