@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.repository.AsignacionProfesorReposi
 public class AsignacionProfesorServiceTest {
 	
 	private static List<AsignacionProfesor> asignacionesProf;
+	private static List<String> gruposLibres;
 	private static final String NICK_PROFESOR = "Maroto";
 	@Mock
 	private AsignacionProfesorRepository asignacionProfRepository;
@@ -41,6 +42,9 @@ public class AsignacionProfesorServiceTest {
 		AsignacionProfesor asig = new AsignacionProfesor();
 		asignacionesProf.add(asig);
 		
+		gruposLibres = new ArrayList<>();
+		gruposLibres.add("Grupo C");
+
 	}
 	
 	@BeforeEach
@@ -49,13 +53,13 @@ public class AsignacionProfesorServiceTest {
 	}
 	
 	@Test
-	void testListWithAsignacionesIsNotEmpty() {
+	void shouldShowAListWithAsignationsIsNotEmpty() {
 		when(asignacionProfRepository.getAsignacionesByProfesor(NICK_PROFESOR)).thenReturn(asignacionesProf);
 		assertThat(asignacionProfService.getAllAsignacionesByUser(NICK_PROFESOR)).isNotEmpty();
 	}
 
 	@Test
-	void testAsignationIsValid() {
+	void shouldCreateATeacherAsignation() {
 		AsignacionProfesor asig = new AsignacionProfesor();
 		Grupo g = new Grupo();
 		Profesor p = new Profesor();
@@ -65,5 +69,11 @@ public class AsignacionProfesorServiceTest {
 		
 		asignacionProfService.saveAsignacion(asig);
 		verify(asignacionProfRepository, times(1)).save(any());
+	}
+	
+	@Test
+	void shouldGetNameOfAllFreeGroups() {
+		when(asignacionProfRepository.getFreeGroups()).thenReturn(gruposLibres);
+		assertThat(asignacionProfService.getFreeGroups()).isNotEmpty();
 	}
 }

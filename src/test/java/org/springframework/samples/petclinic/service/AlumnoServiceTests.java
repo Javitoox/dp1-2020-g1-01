@@ -110,21 +110,21 @@ public class AlumnoServiceTests {
 	}
 	
 	@Test
-	void testStudentListByGroupIsNotEmpty() {
+	void shouldShowAStudentListByGroupIsNotEmpty() {
 		String name = notEmptyGroup.getNombreGrupo();
 		when(alumnoRepository.findByGroup(name)).thenReturn(alumnosNotEmpty);
 		assertThat(alumnoService.getStudentsPerGroup(name)).isNotEmpty();
 	}
 	
 	@Test
-	void testStudentListByGroupIsEmpty() {
+	void shouldShowAStudentListByGroupIsEmpty() {
 		String name = emptyGroup.getNombreGrupo();
 		when(alumnoRepository.findByGroup(name)).thenReturn(alumnosEmpty);
 		assertThat(alumnoService.getStudentsPerGroup(name)).isEmpty();
 	}
 	
 	@Test
-	void testEditStudentGroupIsValid() {
+	void shouldUpdateAGroupAlumn() {
 		Alumno a = new Alumno();
 		Grupo g = new Grupo();
 		a.setGrupos(g);

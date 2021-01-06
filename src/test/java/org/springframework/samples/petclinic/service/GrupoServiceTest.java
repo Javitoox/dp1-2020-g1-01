@@ -6,7 +6,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -31,6 +33,8 @@ public class GrupoServiceTest {
 	private static Set<Grupo> emptyGroups;	
 	private static Set<Grupo> notEmptyGroups;	
 	
+	private static List<Grupo> gruposPorCurso;	
+	private static final TipoCurso CURSO= TipoCurso.B1;
 	private static Grupo g;
 	
 	@Mock
@@ -45,7 +49,8 @@ public class GrupoServiceTest {
 		emptyGroups = new HashSet<>();
 		notEmptyGroups = new HashSet<>();
 		notEmptyGroups.add(g);
-	
+		gruposPorCurso = new ArrayList<>();
+		gruposPorCurso.add(g);
 	}
 	
 	@BeforeEach
@@ -54,25 +59,30 @@ public class GrupoServiceTest {
 	}
 	
 	@Test
-	void testGroupListIsNotEmpty() {
+	void shouldShowAGroupListIsNotEmpty() {
 		when(grupoRepository.findAll()).thenReturn(notEmptyGroups);
 		assertThat(grupoService.getAllGrupos()).isNotEmpty();
 	}
 	
 	@Test
-	void testGroupListIsEmpty() {
+	void shouldShowGroupListIsEmpty() {
 		when(grupoRepository.findAll()).thenReturn(emptyGroups);
 		assertThat(grupoService.getAllGrupos()).isEmpty();
 
 	}
 	 
+	@Test 
+	void shouldShowListGroupByCourseIsNotEmpty() {
+		when(grupoRepository.findByCurso(CURSO)).thenReturn(gruposPorCurso);
+		assertThat(grupoService.getGruposByCourse(CURSO)).isNotEmpty();
+	}
 	
 	@Test
 	@Transactional
-	void testCreateGroup() throws DuplicatedGroupNameException {
+	void shoudCreateGroup() throws DuplicatedGroupNameException {
 		Grupo gg = new Grupo();
 		Curso c = new Curso();
-		c.setCursoDeIngles(TipoCurso.B2);
+		c.setCursoDeIngles(CURSO);
 		gg.setNombreGrupo("Grupo A");
 		gg.setCursos(c);
 		
@@ -83,7 +93,7 @@ public class GrupoServiceTest {
 	
 	@Test
 	@Transactional
-	void testDeleteGroupIsOk() {
+	void shouldDeleteGroup() {
 		Grupo gg = new Grupo();
 		String name = "Grupo A";
 		gg.setNombreGrupo(name);
@@ -92,5 +102,6 @@ public class GrupoServiceTest {
 		verify(grupoRepository, times(1)).deleteById(any());
 
 	}
+
 	 
 }
