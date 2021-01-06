@@ -60,4 +60,4 @@ INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (2,'BIZUM'
 INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (3,'BIZUM', 'Pago matricula','2017-10-03','natalia42');
 INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (4,'BIZUM', 'Primer plazo','2017-10-03','patri25');
 
-INSERT INTO asignaciones_profesor VALUES ('MaribelJavi', 'grupo1', '2019-10-03');
+INSERT INTO asignaciones_profesor VALUES ('2019-10-03', 'MaribelJavi', 'grupo1');

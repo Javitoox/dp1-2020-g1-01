@@ -19,8 +19,8 @@ import lombok.Setter;
 @Table(name="profesores")
 public class Profesor extends Usuario{
 	
-    @OneToMany(mappedBy = "profesor")
-    @JsonIgnore
-    private Set<AsignacionProfesor> asignaciones = new HashSet<>();   
+//    @OneToMany(mappedBy = "profesor")
+//    @JsonIgnore
+//    private Set<AsignacionProfesor> asignaciones = new HashSet<>();   
 
 }

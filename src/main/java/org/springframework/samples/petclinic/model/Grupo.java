@@ -30,8 +30,8 @@ public class Grupo {
 	@ManyToOne
     private Curso cursos;
 	
-	@OneToMany(mappedBy = "grupo")
-	@JsonIgnore
-    private Set<AsignacionProfesor> asignaciones = new HashSet<>();
+//	@OneToMany(mappedBy = "grupo")
+//	@JsonIgnore
+//    private Set<AsignacionProfesor> asignaciones = new HashSet<>();
 
 }
