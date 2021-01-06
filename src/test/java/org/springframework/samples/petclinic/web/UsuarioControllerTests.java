@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -10,7 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.service.UsuarioService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import lombok.extern.slf4j.Slf4j;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -20,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import static org.hamcrest.Matchers.*;
 
+@Slf4j
 @WebMvcTest(controllers = UsuarioController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
@@ -34,10 +39,12 @@ public class UsuarioControllerTests {
 	@MockBean
 	private UsuarioService usuarioService;
 	
+	@WithMockUser(value = "spring")
 	@Test
 	void testAuthentication() throws Exception{
-		mockMvc.perform(get("/auth").with(csrf())).andDo(print())
-		.andExpect(status().isOk());
+		mockMvc.perform(get("/auth").sessionAttr("type", "alumno"))
+		.andExpect(status().isOk())
+        .andExpect(jsonPath("$", is("alumno")));
 	}
 
 }
