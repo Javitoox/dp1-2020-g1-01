@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.model.TipoEvento;
 import org.springframework.samples.petclinic.repository.EventoRepository;
@@ -29,7 +30,9 @@ public class EventoService {
 	public List<Evento> getAll(){
 		return eventoRepository.findAllEvents();
 	}
-	
+	public List<Evento> getByCourse(Curso course){
+		return eventoRepository.findByCourse(course);
+	}
 	@Transactional
 	public Evento updateDateEvent(Integer id, String s, String e) throws DataAccessException{
 		Evento evento = eventoRepository.findById(id).orElse(null);

@@ -48,6 +48,9 @@ public class Evento extends BaseEntity{
 	
 	private String color;
 	
+	@ManyToOne(optional=true)
+    private Curso curso;
+	
 	@ManyToOne(optional=false)
     private TipoEvento tipo;
 	
