@@ -28,10 +28,10 @@ public class GrupoService {
 		return grupoRepository.findAll();
 	}
 	
-	@Transactional(readOnly = true)
-	public Optional<Grupo> getGrupo(String id) {
-		return grupoRepository.findById(id);
-	}
+//	@Transactional(readOnly = true)
+//	public Optional<Grupo> getGrupo(String id) {
+//		return grupoRepository.findById(id);
+//	}
 	
 	@Transactional(readOnly = true)
 	public List<Grupo> getGruposByCourse(TipoCurso curso) {
@@ -77,10 +77,10 @@ public class GrupoService {
 		}
 	}
 	
-	@Transactional(readOnly = true)
-	public Grupo getGroupById(String id) {
-    	return grupoRepository.findById(id).get();
-	}
-	
+//	@Transactional(readOnly = true)
+//	public Grupo getGroupById(String id) {
+//    	return grupoRepository.findById(id).get();
+//	}
+//	
 	
 }
