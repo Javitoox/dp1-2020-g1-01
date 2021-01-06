@@ -86,8 +86,6 @@ export class FormEvent extends Component {
     respuesta(status, data) {
         if (status === 203) {
             data.forEach(e => this.error(e.field, e.defaultMessage))
-        }else if (status === 204) {
-            this.setState({ cursoError: <div className="alert alert-danger" role="alert">You have to select a course bro </div> })
         } 
          else if (status === 201) {
             console.log(data.group)
@@ -108,8 +106,10 @@ export class FormEvent extends Component {
 
     error(campo, mensaje) {
         if (campo === "title") {
+            console.log("el javi1")
             this.setState({ titleError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         } else if (campo === "start") {
+            console.log("el fallo de start")
             this.setState({ startError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         } else if (campo === "end") {
             this.setState({ endError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
@@ -117,6 +117,8 @@ export class FormEvent extends Component {
             this.setState({ descriptionError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         } else if (campo === "tipo.tipo") {
             this.setState({ typeError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if (campo === "curso") {
+            this.setState({ cursoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }
     }
 
