@@ -106,10 +106,8 @@ export class FormEvent extends Component {
 
     error(campo, mensaje) {
         if (campo === "title") {
-            console.log("el javi1")
             this.setState({ titleError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         } else if (campo === "start") {
-            console.log("el fallo de start")
             this.setState({ startError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         } else if (campo === "end") {
             this.setState({ endError: <div className="alert alert-danger" role="alert">{mensaje}</div> })

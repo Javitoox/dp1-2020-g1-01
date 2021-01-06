@@ -127,15 +127,15 @@ public class EventoController {
 	}
 
 	@PostMapping("/create/{curso}")
-	public ResponseEntity<?> create(@Valid @RequestBody Evento evento, @PathVariable("curso") String curso,
-			BindingResult result, HttpServletRequest request) {
+	public ResponseEntity<?> create(@Valid @RequestBody Evento evento, BindingResult result, @PathVariable("curso") String curso, 
+			HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session != null && session.getAttribute("type") == "profesor") {
 			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 			Validator validator = factory.getValidator();
 			Set<ConstraintViolation<Evento>> violations = validator.validate(evento);
 			if (!(curso.equals("null") || curso == "")) {
-				Curso course = new Curso();
+				Curso course = new Curso(); // poner en servicio
 				course.setCursoDeIngles(TipoCurso.valueOf(curso));
 				evento.setCurso(course);
 			}
