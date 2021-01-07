@@ -31,7 +31,8 @@ public class EventoService {
 		return eventoRepository.findAllEvents();
 	}
 	public List<Evento> getByCourse(Curso course){
-		return eventoRepository.findByCourse(course);
+		List<Evento> eventos = eventoRepository.findByCourse(course);
+		return eventos;
 	}
 	@Transactional
 	public Evento updateDateEvent(Integer id, String s, String e) throws DataAccessException{
