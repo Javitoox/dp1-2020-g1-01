@@ -38,9 +38,8 @@ public class PagosController {
 	@GetMapping
 	public ResponseEntity<Set<String>> allPayments(HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
-
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			Set<String> all = pagoService.getAllPayments();
 			return ResponseEntity.ok(all);
 		}else {
@@ -52,9 +51,8 @@ public class PagosController {
 	@GetMapping("/{concepto}")
 	public ResponseEntity<List<Alumno>> listadoAlumnosPagos(@PathVariable("concepto") String concepto, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
-
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			List<Alumno> all =  pagoService.getStudentsByPayment(concepto);
 			return ResponseEntity.ok(all);
 		}else {
@@ -65,9 +63,8 @@ public class PagosController {
 	@GetMapping("/notPaid/{concepto}")
 	public ResponseEntity<List<Alumno>> listadoAlumnosNoPagos(@PathVariable("concepto") String concepto, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
-
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			List<Alumno> all =  pagoService.getStudentsNoPayment(concepto);
 			return ResponseEntity.ok(all);
 		}else {
@@ -83,10 +80,9 @@ public class PagosController {
 	
 	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, BindingResult result, HttpServletRequest request){
-		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
-		
+		HttpSession session = request.getSession(false);		
 		if(session != null && session.getAttribute("type") == "alumno") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando crear pago: {}", resource);
 			if(result.hasErrors()) {
 				return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
