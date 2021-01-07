@@ -67,14 +67,13 @@ public class PremiadoController {
 	}
 	 
 	
-	@PostMapping(value="/añadirPremiado/{fechaWall}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) 
+	@PostMapping(value="/anadirPremiado/{fechaWall}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) 
 	public ResponseEntity<?>añadirPremiado(@PathVariable("fechaWall") String fechaWall,
 			@Valid @ModelAttribute BodyPremiado body,  BindingResult result, HttpServletRequest request) throws DataAccessException, IOException{
 		
 		if(result.hasErrors()) {
 			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		}
-		
 		HttpSession session = request.getSession(false);
 		
 		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
@@ -105,11 +104,9 @@ public class PremiadoController {
 	@PutMapping(value="/editarPremiado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> editarPremiado(@RequestParam(value = "photo", required = false) MultipartFile file, @RequestParam("id") Integer id, @RequestParam("description") String descripcion,
 			 @RequestParam("nickUsuario") String nickUsuario, HttpServletRequest request) throws DataAccessException, IOException {
-		
 		HttpSession session = request.getSession(false);
-
-		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 			log.info("Editanto el premiado cuya id es : "+id);
 			 
 			premiadoService.editarPremiado(id, descripcion, file, nickUsuario);
@@ -121,11 +118,9 @@ public class PremiadoController {
 	
 	@DeleteMapping(value="/borrarPremiado/{id}")
 	public ResponseEntity<?> deletePremiado(@PathVariable(name = "id") Integer id, HttpServletRequest request) {
-		
 		HttpSession session = request.getSession(false);
-
-		log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 			premiadoService.deletePremiadoById(id); 
 			return ResponseEntity.ok().build();
 		}else {
