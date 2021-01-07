@@ -1,10 +1,10 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,7 +21,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
+import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.model.TipoEvento;
 import org.springframework.samples.petclinic.repository.EventoRepository;
 
@@ -41,6 +43,8 @@ public class EventoServiceTests {
 	
 	@BeforeAll
 	void data() {
+		Curso b2 = new Curso();
+		b2.setCursoDeIngles(TipoCurso.B2);
 		e = new Evento();
 		e.setTitle("Tea League");
 		e.setStart(LocalDate.parse("2020-12-18"));
@@ -48,6 +52,7 @@ public class EventoServiceTests {
 		TipoEvento tipo = new TipoEvento();
 		tipo.setTipo("internal");
 		e.setTipo(tipo);
+		e.setCurso(b2);
 	}
 	
 	@Test
@@ -58,6 +63,20 @@ public class EventoServiceTests {
         
         List<Evento> es = eventoService.getAll();
         
+        assertThat(es).hasSize(1);
+        Evento e = es.iterator().next();
+        assertThat(e.getTitle()).isEqualTo("Tea League");
+        assertThat(e.getStart()).isEqualTo(LocalDate.parse("2020-12-18"));
+	}
+	@Test
+	void shouldFindEventsbyGroup() {
+        List<Evento> eventos = new ArrayList<Evento>();
+        List<Curso> cursos = new ArrayList<Curso>();
+        eventos.add(e);
+        Curso b2 = new Curso();
+		b2.setCursoDeIngles(TipoCurso.B2);
+        when(eventoRepository.findByCourse(b2)).thenReturn(eventos); 
+        List<Evento> es = eventoService.getByCourse(b2);
         assertThat(es).hasSize(1);
         Evento e = es.iterator().next();
         assertThat(e.getTitle()).isEqualTo("Tea League");

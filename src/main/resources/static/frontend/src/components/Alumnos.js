@@ -124,9 +124,12 @@ class Alumnos extends Component {
     showSelectCourse(course) {
         console.log(course);
         if (course !== null) {
+
             this.setState({ curso: course });
             if (course === "allCourses") {
                 this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+                this.setState({ listaGrupos: "" });
+
             } else {
                 this.alumnos.getStudentsByCourse(this.props.urlBase, course).then(data => this.setState({ alumnos: data }));
                 this.grupos.getGroupNamesByCourse(course).then(data => this.setState({ listaGrupos: data }));
@@ -140,6 +143,7 @@ class Alumnos extends Component {
         if (group !== null) {
             this.setState({ grupo: group });
             if (group === "allGroups") {
+                this.setState({ listaGrupos: "" });
                 this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
             } else {
                 this.alumnos.getStudentsByNameOfGroup(this.props.urlBase, group).then(data => this.setState({ alumnos: data }));

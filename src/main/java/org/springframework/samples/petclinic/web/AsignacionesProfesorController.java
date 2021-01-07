@@ -68,8 +68,16 @@ public class AsignacionesProfesorController {
 			if(result.hasErrors()) {
 				return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
-				asignacionS.saveAsignacion(resource);
-				return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);
+				if(resource.getGrupo().getNombreGrupo()==""||resource.getGrupo().getNombreGrupo()==null) {
+					log.info("Incorrect name of group:"+ resource.getGrupo().getNombreGrupo());
+	
+					return new ResponseEntity<>("Name of group incorrect", 
+							HttpStatus.OK);
+					
+				}else {
+					asignacionS.saveAsignacion(resource);
+					return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);						
+				}
 			}
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 

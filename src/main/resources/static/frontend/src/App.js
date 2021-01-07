@@ -105,6 +105,7 @@ class App extends Component {
 				<Route path="/createPayment" render={() =>
 					<RealizarPago nickUser={this.calculateUserName()}/>
 				} />
+				
 			</Router>
 		)
 	}
