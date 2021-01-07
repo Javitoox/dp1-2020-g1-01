@@ -38,8 +38,8 @@ public class AsignacionesProfesorController {
 	@GetMapping("/{user}")
 	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			List<AsignacionProfesor> all =  asignacionS.getAllAsignacionesByUser(user);
 			return ResponseEntity.ok(all);
 		}else {
@@ -50,8 +50,8 @@ public class AsignacionesProfesorController {
 	@GetMapping("/freeAssignments")
     public ResponseEntity<List<String>> listaAsignaciones(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 	        List<String> all =  asignacionS.getFreeGroups();
 	        return ResponseEntity.ok(all);
 		}else {
@@ -62,8 +62,8 @@ public class AsignacionesProfesorController {
 	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando asignar profesor: {}", resource);
 			if(result.hasErrors()) {
 				return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
