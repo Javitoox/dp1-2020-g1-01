@@ -26,7 +26,7 @@ export class RealizarPago extends Component {
                 concepto:""
             },
             succes:null,
-            exist:null
+            exist:null,
 
         }
         this.grupos = new GrupoComponent();
@@ -52,7 +52,7 @@ export class RealizarPago extends Component {
            
         }
 
-        axios.post("http://localhost:8081/pagos/new", grupo).then(res => {
+        axios.post("http://localhost:8081/pagos/new", grupo, {withCredentials: true}).then(res => {
             this.respuesta(res.status, res.data);
         })
         

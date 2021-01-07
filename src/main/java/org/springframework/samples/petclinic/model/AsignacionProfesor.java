@@ -24,12 +24,12 @@ public class AsignacionProfesor {
 	
 	@ManyToOne(optional=false)
     @MapsId("nickProfesor")
-    @JoinColumn(name = "nick_profesor")
+//    @JoinColumn(name = "nick_profesor")
 	private Profesor profesor;
 	
 	@ManyToOne(optional=true)
     @MapsId("nombreGrupo")
-    @JoinColumn(name = "nombre_grupo")
+//    @JoinColumn(name = "nombre_grupo")
 	private Grupo grupo;
 	
 	@Column(name="fecha_asignacion")

@@ -41,8 +41,7 @@ public class AlumnoController {
 	}
 	
 	@PutMapping("/editStudent")
-	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, HttpServletRequest request,HttpServletResponse response , BindingResult result)
-			throws IOException {
+	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, HttpServletRequest request,HttpServletResponse response) {
 		HttpSession session = request.getSession(false);
     	if(session != null && session.getAttribute("type") == "alumno" || session.getAttribute("type") == "profesor" ) {
     		if (result.hasErrors()) {
