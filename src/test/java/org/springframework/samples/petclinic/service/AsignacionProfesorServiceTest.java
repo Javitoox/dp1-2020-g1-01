@@ -1,8 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -22,6 +20,7 @@ import org.springframework.samples.petclinic.model.AsignacionProfesor;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Profesor;
 import org.springframework.samples.petclinic.repository.AsignacionProfesorRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
@@ -59,7 +58,8 @@ public class AsignacionProfesorServiceTest {
 	}
 
 	@Test
-	void shouldCreateATeacherAsignation() {
+	@Transactional
+	void shouldSaveATeacherAsignation() {
 		AsignacionProfesor asig = new AsignacionProfesor();
 		Grupo g = new Grupo();
 		Profesor p = new Profesor();
@@ -68,7 +68,7 @@ public class AsignacionProfesorServiceTest {
 		asig.setProfesor(p);
 		
 		asignacionProfService.saveAsignacion(asig);
-		verify(asignacionProfRepository, times(1)).save(any());
+		verify(asignacionProfRepository).save(asig);
 	}
 	
 	@Test

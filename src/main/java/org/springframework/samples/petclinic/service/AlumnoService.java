@@ -11,14 +11,10 @@ import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
-@Slf4j
 public class AlumnoService {
 	
 	AlumnoRepository alumnoRepository;
-	//GrupoService grupoService;
 	
 	@Autowired
 	public AlumnoService(AlumnoRepository alumnoRepository) {
@@ -36,7 +32,8 @@ public class AlumnoService {
 	public Alumno getAlumno(String nickUsuario) {
 		return alumnoRepository.findByNick(nickUsuario);
 	}
-		
+	
+	@Transactional	
 	public void deleteStudents(Alumno alumno) {
 		alumnoRepository.delete(alumno);
 	}
@@ -53,15 +50,7 @@ public class AlumnoService {
     public List<Alumno>getAllMyStudents(String nickTutor){
     	return alumnoRepository.findStudentsByTutor(nickTutor);
     }
-    
-    /*Parte de grupos*/
-    
-   /* public Grupo getGrupo(String id) {
-    	return grupoService.getGroupById(id);
-    }*/
-    
-    
-    
+     
     
     
 }
