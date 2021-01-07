@@ -14,7 +14,6 @@ import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
-import org.springframework.samples.petclinic.service.exceptions.BadRequestException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -136,23 +135,6 @@ public class GrupoController {
 		}
 	}
 	
-
-	
-	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo)throws BadRequestException{
-		if(nombreGrupo==null||nombreGrupo=="") {
-			log.info("Incorrect name of group:"+ nombreGrupo);
-
-			return new ResponseEntity<>("Name of group incorrect", 
-					HttpStatus.OK);
-			
-		}else {
-			log.info("Solicitando borrar grupo: {}", nombreGrupo);
-			grupoService.deleteGroup(nombreGrupo);
-			return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
-		}
-		
-		
-	}	
 	@DeleteMapping("/delete/{nombreGrupo}")
 	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo, HttpServletRequest request){
 		HttpSession session = request.getSession(false);

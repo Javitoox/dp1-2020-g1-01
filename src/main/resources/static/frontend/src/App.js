@@ -24,6 +24,7 @@ import Pagos from './components/Pagos'
 import { RealizarPago } from './components/RealizarPago'
 import TeacherGroups from './components/TeacherGroups'
 import { StudentPayments } from './components/StudentPayments'
+import { CalendarioAlumno } from './components/CalendarioAlumno'
 
 class App extends Component {
 
@@ -99,6 +100,9 @@ class App extends Component {
                 } /> 
 				<Route path="/calendarTeacher" render={() =>
 					<CalendarioProfesor urlBase={this.state.urlBase}></CalendarioProfesor>
+                } />
+				<Route path="/calendarStudent" render={() =>
+					<CalendarioAlumno urlBase={this.state.urlBase} nickUser={this.calculateUserName()} ></CalendarioAlumno>
                 } />
 				<Route path="/payments" render={() =>
 					<Pagos urlBase={this.state.urlBase}> </Pagos>

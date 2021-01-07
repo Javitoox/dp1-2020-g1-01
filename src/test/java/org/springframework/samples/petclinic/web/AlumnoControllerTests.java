@@ -43,7 +43,7 @@ public class AlumnoControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowStudentInfoWhenNotLoggedAsProfessor() throws Exception {
-		mockMvc.perform(get("/alumnos/getStudentInfo/manolo").sessionAttr("type","alumno")).andExpect(status().isUnauthorized());
+		mockMvc.perform(get("/alumnos/getStudentInfo/manolo")).andExpect(status().isUnauthorized());
 	}
 	
 	@WithMockUser(value = "spring")
