@@ -32,7 +32,7 @@ public class AlumnoService {
 	public List<Alumno> getAllAlumnos() {
 		return alumnoRepository.findStudents();
 	}
-	
+	//esta es la otra mia 
 	public Alumno getAlumno(String nickUsuario) {
 		return alumnoRepository.findByNick(nickUsuario);
 	}
@@ -40,7 +40,7 @@ public class AlumnoService {
 	public void deleteStudents(Alumno alumno) {
 		alumnoRepository.delete(alumno);
 	}
-	
+	//esta es una mia 
 	@Transactional
 	public Alumno saveAlumno(Alumno alumno) throws DataAccessException {
 		return alumnoRepository.save(alumno);		
