@@ -24,7 +24,7 @@ public class AlumnoService {
 	public List<Alumno> getStudentsPerGroup(String nombreGrupo) {
         return alumnoRepository.findByGroup(nombreGrupo);
     }
-	
+
 	public List<Alumno> getAllAlumnos() {
 		return alumnoRepository.findStudents();
 	}

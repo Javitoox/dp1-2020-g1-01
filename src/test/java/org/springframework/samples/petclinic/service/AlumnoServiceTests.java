@@ -6,8 +6,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,10 +28,10 @@ import org.springframework.samples.petclinic.repository.AlumnoRepository;
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class AlumnoServiceTests {
-	
+
 	private static List<Alumno> alumnosNotEmpty;	
 	private static List<Alumno> alumnosEmpty;	
- 
+
 	private static final TipoCurso CURSO_NOT_EMPTY = TipoCurso.B1;
 	private static final TipoCurso CURSO_EMPTY = TipoCurso.C2;
 	
@@ -42,17 +45,16 @@ public class AlumnoServiceTests {
 	private AlumnoRepository alumnoRepository;
 	
 	protected AlumnoService alumnoService;
-		
+
 	@BeforeAll
 	void data() { 
 		emptyGroup = new Grupo();
 		emptyGroup.setNombreGrupo("Grupo A");
 		notEmptyGroup = new Grupo();
 		notEmptyGroup.setNombreGrupo("Grupo B");
-		
 		Alumno a = new Alumno();
 		a.setGrupos(notEmptyGroup);
-		
+
 		alumnosNotEmpty= new ArrayList<Alumno>();
 		alumnosNotEmpty.add(a);
 		
@@ -97,18 +99,64 @@ public class AlumnoServiceTests {
 	
 	@Test 
 	void shouldShowStudentsByTutorIsNotNull() {
+		Alumno a= new Alumno();
 		when(alumnoRepository.findStudentsByTutor(any(String.class))).thenReturn(alumnosNotEmpty);
 		List<Alumno> alumnos = alumnoService.getAllMyStudents(TUTOR_WITH_STUDENTS);
 		assertThat(alumnos.size()).isGreaterThan(0);
 	}
-	
+	@Test 
+	void shouldShowStudentByNickIsNotNull() {
+		Alumno a= new Alumno();
+		a.setNickUsuario("Gonsalo");
+		a.setContraseya("NahDeLocos99");
+		a.setDniUsuario("20502441B");
+		a.setCorreoElectronicoUsuario("nukescream@gmail.com");
+		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
+		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
+		a.setNumTelefonoUsuario("622110555");
+		when(alumnoRepository.findByNick(any(String.class))).thenReturn((Alumno) a);
+		Alumno alumno = alumnoService.getAlumno(a.getNickUsuario());
+		assertThat(alumno).isNotNull();
+	} 
+	@Test 
+	void shouldShowStudentByNickIsNull() {
+		Alumno a= new Alumno();
+		a.setNickUsuario("Gonsalo");
+		a.setContraseya("NahDeLocos99");
+		a.setDniUsuario("20502441B");
+		a.setCorreoElectronicoUsuario("nukescream@gmail.com");
+		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
+		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
+		a.setNumTelefonoUsuario("622110555");
+		when(alumnoRepository.findByNick(any(String.class))).thenReturn((Alumno) a);
+		Alumno alumno = null;
+		try {
+			alumno = alumnoService.getAlumno(a.getNickUsuario());
+		}catch(Exception e) {
+			assertThat(alumno).isNull();
+		}
+	}
 	@Test 
 	void shouldShowStudentsByTutorIsNull() {
 		when(alumnoRepository.findStudentsByTutor(any(String.class))).thenReturn(alumnosEmpty);
 		List<Alumno> alumnos = alumnoService.getAllMyStudents(TUTOR_WITHOUT_STUDENTS);
 		assertThat(alumnos.size()).isEqualTo(0);
 	}
-	
+	@Test
+	@Transactional
+	void shouldSaveStudent() {
+		Alumno a= new Alumno();
+		a.setNickUsuario("Gonsalo");
+		a.setContraseya("NahDeLocos99");
+		a.setDniUsuario("20502441B");
+		a.setCorreoElectronicoUsuario("nukescream@gmail.com");
+		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
+		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
+		a.setNumTelefonoUsuario("622110555");
+		alumnoService.saveAlumno(a);
+		
+		verify(alumnoRepository, times(1)).save(any());
+	}
 	@Test
 	void shouldShowAStudentListByGroupIsNotEmpty() {
 		String name = notEmptyGroup.getNombreGrupo();
