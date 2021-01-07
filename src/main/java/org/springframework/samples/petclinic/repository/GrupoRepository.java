@@ -11,9 +11,6 @@ import org.springframework.samples.petclinic.model.TipoCurso;
 
 public interface GrupoRepository extends CrudRepository<Grupo, String>{		
 	public Set<Grupo> findAll();
-		
-	@Query("SELECT g FROM Grupo g JOIN g.cursos c WHERE c.cursoDeIngles = :curso")
-	public List<Grupo> findByCurso(@Param("curso")TipoCurso curso);
 	
 	@Query("SELECT g.nombreGrupo FROM Grupo g JOIN g.cursos c WHERE c.cursoDeIngles = :curso")
 	public List<String> findNameByCurso(@Param("curso")TipoCurso curso);
