@@ -48,6 +48,7 @@ class Pagos extends Component {
             textBuscar:"",
             textBuscar2:"",
             comprobation: false,
+            redirect:false
 
 
             //nodes: null,
@@ -58,6 +59,7 @@ class Pagos extends Component {
         this.filter = this.filter.bind(this);
         this.filterDNI = this.filterDNI.bind(this);
         this.notificar = this.notificar.bind(this);
+        this.botonPagos = this.botonPagos.bind(this);
 
         //this.edicion = this.edicion.bind(this);
         //this.assignGroup = this.assignGroup.bind(this)      
@@ -141,11 +143,26 @@ class Pagos extends Component {
         })
     }
 
+    botonPagos() {
+        this.setState({ 
+            redirect: "/createPayment",
+        
+    });
+    }
+
 
     render() {
         if (!this.state.comprobation) {
             return <Auth authority="teacher"></Auth>
         }else{
+                if (this.state.redirect) {
+                    if(this.state.redirect==="/createPayment"){
+                        return <Redirect
+                        to={{
+                        pathname: "/createPayment"
+                        }}
+                    />}}
+                
         
         const pagoSelectItems = [
             { label: 'CONCEPTS:', value: '' },
@@ -167,6 +184,9 @@ class Pagos extends Component {
                     <InputText class="form-control" placeholder="Search by name" value={this.state.text} onChange={this.filter} />
                     {` `}
                     <InputText class="form-control" placeholder="Search by DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
+                    {` `}
+                    <Button icon="pi pi-fw pi-users" label="Create payment" className="p-button-secondary" onClick={this.botonPagos} />
+
 
                     <div>&nbsp;</div>
                     

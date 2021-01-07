@@ -23,6 +23,7 @@ import {CalendarioProfesor} from './components/CalendarioProfesor'
 import Pagos from './components/Pagos'
 import { RealizarPago } from './components/RealizarPago'
 import TeacherGroups from './components/TeacherGroups'
+import { StudentPayments } from './components/StudentPayments'
 
 class App extends Component {
 
@@ -104,6 +105,9 @@ class App extends Component {
                 } />
 				<Route path="/createPayment" render={() =>
 					<RealizarPago nickUser={this.calculateUserName()}/>
+				} />
+				<Route path="/studentPayments" render={() =>
+					<StudentPayments nickUser={this.calculateUserName()}/>
 				} />
 				
 			</Router>
