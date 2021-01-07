@@ -2,6 +2,8 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,25 +37,43 @@ public class AsignacionesProfesorController {
 	}
 
 	@GetMapping("/{user}")
-	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user) {
-		List<AsignacionProfesor> all =  asignacionS.getAllAsignacionesByUser(user);
-		return ResponseEntity.ok(all);
+	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user,HttpServletRequest request) {
+		
+			List<AsignacionProfesor> all =  asignacionS.getAllAsignacionesByUser(user);
+			return ResponseEntity.ok(all);
+		
+		
 	}
 	
 	@GetMapping("/freeAssignments")
-    public ResponseEntity<List<String>> listaAsignaciones() {
-        List<String> all =  asignacionS.getFreeGroups();
-        return ResponseEntity.ok(all);
+    public ResponseEntity<List<String>> listaAsignaciones(HttpServletRequest request) {
+	
+			List<String> all =  asignacionS.getFreeGroups();
+	        return ResponseEntity.ok(all);
+		
+        
     }
 	
 	@PostMapping("/new")
-	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result) throws DuplicatedGroupNameException{
+	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result,HttpServletRequest request) throws DuplicatedGroupNameException{
 		log.info("Solicitando asignar profesor: {}", resource);
 		if(result.hasErrors()) {
 			return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		}else {
-			asignacionS.saveAsignacion(resource);
-			return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);
+			if(resource.getGrupo().getNombreGrupo()==""||resource.getGrupo().getNombreGrupo()==null) {
+				log.info("Incorrect name of group:"+ resource.getGrupo().getNombreGrupo());
+
+				return new ResponseEntity<>("Name of group incorrect", 
+						HttpStatus.OK);
+				
+			}else {
+				asignacionS.saveAsignacion(resource);
+				return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);						
+			}
+			
+						
+			
+			
 		}
 	}
 

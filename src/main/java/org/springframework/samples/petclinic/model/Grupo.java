@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,9 +25,11 @@ import lombok.Setter;
 public class Grupo {
 	@Id
 	@Column(name="nombre_grupo")
+	@NotEmpty(message = "Required field")
 	private String nombreGrupo;
 	
 	@ManyToOne
+	@Valid
     private Curso cursos;
 	
 	@OneToMany(mappedBy = "grupo")

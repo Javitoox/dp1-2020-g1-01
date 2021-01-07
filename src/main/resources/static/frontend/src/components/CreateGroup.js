@@ -20,6 +20,8 @@ export class CreateGroup extends Component {
             listaGrupos:{
                 nombreGrupo: ""
             },
+            nombreGrupoError:null,
+            cursoError:null,
             succes:null,
             exist:null
 
@@ -31,6 +33,11 @@ export class CreateGroup extends Component {
     }
     save = event => {
         event.preventDefault();
+
+        this.setState({
+            nombreGrupoError:null,
+            cursoError:null
+        });
 
         const grupo = {
             nombreGrupo:this.state.grupoS.nombreGrupo,
@@ -67,7 +74,8 @@ export class CreateGroup extends Component {
     respuesta(status, data){
         console.log(status);
         if(status===203){
-            data.forEach(e => this.error(e.field, e.defaultMessage))
+            console.log(data)
+            this.error(data.field, data.defaultMessage)
         }else if(status===201){
             this.setState({               
 
@@ -83,6 +91,13 @@ export class CreateGroup extends Component {
             this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
         }
     }
+    error(campo, mensaje){
+        if(campo === "nombreGrupo"){
+            this.setState({ nombreGrupoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "grupo.cursoDeIngles"){
+            this.setState({ cursoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }
+    }
     componentDidMount() {
         this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
     }
@@ -90,7 +105,6 @@ export class CreateGroup extends Component {
     render() {
 
         const courseSelectItems = [
-            { label: 'All courses', value: 'allCourses' },
             { label: 'A1', value: 'A1' },
             { label: 'A2', value: 'A2' },
             { label: 'B1', value: 'B1' },
@@ -100,8 +114,7 @@ export class CreateGroup extends Component {
             { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
         ];
 
-        console.log(this.state.grupoS.nombreGrupo)
-        console.log(this.state.grupoS.cursos.cursoDeIngles)
+        console.log(this.state)
 
         return (
 
@@ -114,15 +127,17 @@ export class CreateGroup extends Component {
                             <div className="t"><div><h5>Create Group</h5></div></div>
 
                                 <div className="i">
+                                {this.state.cursoError}
                                 <div className="p-inputgroup">
-                                <Dropdown name="grupo.cursoDeIngles" value={this.state.grupoS.cursos.cursoDeIngles} placeholder="Select a course" options={courseSelectItems} onChange={this.handleCI} />
+                                <Dropdown field="grupo.cursoDeIngles" name="grupo.cursoDeIngles" value={this.state.grupoS.cursos.cursoDeIngles} placeholder="Select a course" options={courseSelectItems} onChange={this.handleCI} />
 
                                 </div>
                                 </div>
 
                                 <div className="i">
+                                {this.state.nombreGrupoError}
                                 <div className="p-inputgroup">
-                                <InputText placeholder="NG" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
+                                <InputText field="nombreGrupo" placeholder="NG" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
 
                                 </div>
                                 </div>

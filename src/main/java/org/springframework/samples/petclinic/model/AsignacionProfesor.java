@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +33,7 @@ public class AsignacionProfesor {
 	@ManyToOne(optional=true)
     @MapsId("nombreGrupo")
     @JoinColumn(name = "nombre_grupo")
+	@Valid
 	private Grupo grupo;
 	
 	@Column(name="fecha_asignacion")

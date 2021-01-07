@@ -33,7 +33,7 @@ class MenubarResponsive extends Component {
                 this.props.history.push("/students/EditPersonalInfo")}},
             { label: 'Students', icon: 'pi pi-fw pi-users'},
             { label: 'Payments', icon: 'pi pi-fw pi-dollar', command: (event) => {
-                this.props.history.push("/createPayment");
+                this.props.history.push("/studentPayments");
             }},
             { label: 'Material', icon: 'pi pi-fw pi-pencil' },
             { label: 'School calendar', icon: 'pi pi-fw pi-calendar' },

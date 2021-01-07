@@ -80,17 +80,41 @@ public class GrupoController {
 		if(result.hasErrors()) {
 			return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		}else {
-			grupoService.saveGroup(resource);
-			return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);
+			if(resource.getCursos().getCursoDeIngles().toString()==null||resource.getCursos().getCursoDeIngles().toString()=="") {
+				log.info("Incorrect course:"+ resource.getCursos());
+				return new ResponseEntity<>("Course incorrect", 
+						HttpStatus.OK);
+				
+			}else if(resource.getNombreGrupo()==null||resource.getNombreGrupo()=="") {
+				log.info("Incorrect name of group:"+ resource.getNombreGrupo());
+
+				return new ResponseEntity<>("Name of group incorrect", 
+						HttpStatus.OK);
+				
+			}else {
+				grupoService.saveGroup(resource);
+				return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);				
+			}
+			
 		}
 	}
 	
 
 	@DeleteMapping("/delete/{nombreGrupo}")
 	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo)throws BadRequestException{
-		log.info("Solicitando borrar grupo: {}", nombreGrupo);
-		grupoService.deleteGroup(nombreGrupo);
-		return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
+		if(nombreGrupo==null||nombreGrupo=="") {
+			log.info("Incorrect name of group:"+ nombreGrupo);
+
+			return new ResponseEntity<>("Name of group incorrect", 
+					HttpStatus.OK);
+			
+		}else {
+			log.info("Solicitando borrar grupo: {}", nombreGrupo);
+			grupoService.deleteGroup(nombreGrupo);
+			return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
+		}
+		
+		
 	}	
 
 }
