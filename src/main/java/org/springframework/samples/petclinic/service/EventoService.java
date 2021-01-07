@@ -7,9 +7,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.model.TipoEvento;
 import org.springframework.samples.petclinic.repository.EventoRepository;
+import org.springframework.samples.petclinic.util.Colors;
 import org.springframework.samples.petclinic.util.DateFormatter;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,10 @@ public class EventoService {
 	public List<Evento> getAll(){
 		return eventoRepository.findAllEvents();
 	}
-	
+	public List<Evento> getByCourse(Curso course){
+		List<Evento> eventos = eventoRepository.findByCourse(course);
+		return eventos;
+	}
 	@Transactional
 	public Evento updateDateEvent(Integer id, String s, String e) throws DataAccessException{
 		Evento evento = eventoRepository.findById(id).orElse(null);
@@ -70,6 +75,7 @@ public class EventoService {
 		TipoEvento t = tipoEventoService.getType(type);
 		if(t != null) {
 			evento.setTipo(t);
+			evento.setColor(Colors.generateRandomColor());
 			eventoRepository.save(evento);
 			return true;
 		}else {

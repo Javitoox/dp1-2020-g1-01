@@ -1,4 +1,4 @@
-# T.E.A aplication
+# T.E.A application
 
 Requisitos para nuestra aplicación implementada con React:<br></br>
   1.Instalación de la última versión de node: 14.15.0 LTS.<br>

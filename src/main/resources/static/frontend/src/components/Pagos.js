@@ -5,6 +5,8 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import Auth from './Auth';
+import axios from 'axios';
 
 import { Redirect } from 'react-router-dom';
 import { ListBox } from 'primereact/listbox';
@@ -44,7 +46,8 @@ class Pagos extends Component {
 
             },
             textBuscar:"",
-            textBuscar2:""
+            textBuscar2:"",
+            comprobation: false,
 
 
             //nodes: null,
@@ -64,13 +67,15 @@ class Pagos extends Component {
     }
 
     componentDidMount() {
-        //this.pagos.getAllStudentsPaid().then(data => this.setState({ alumnos: data }));
+        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+            if(res.data==="profesor"){
+                this.setState({comprobation: true})
+                }
+            })
+        
         this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
         this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ lista: data }));
         this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ listaTemporal: data }));
-
-        //this.grupos.getAllGroups().then(data => this.setState({ groupSelectItems: data }));
-        //this.cursos.getCourses().then(data => this.setState({ nodes: data }));
     }
 
    
@@ -138,6 +143,9 @@ class Pagos extends Component {
 
 
     render() {
+        if (!this.state.comprobation) {
+            return <Auth authority="teacher"></Auth>
+        }else{
         
         const pagoSelectItems = [
             { label: 'CONCEPTS:', value: '' },
@@ -176,8 +184,10 @@ class Pagos extends Component {
                     </DataTable>
                 </div>
             </React.Fragment>
+        
         )
     }
+}
 }
 
 function  matchDispatchToProps(dispatch) {

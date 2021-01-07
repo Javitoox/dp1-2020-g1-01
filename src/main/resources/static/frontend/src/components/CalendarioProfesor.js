@@ -9,6 +9,7 @@ import Auth from './Auth'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { FormEvent } from './FormEvent'
+import moment from 'moment'
 
 export const CalendarioProfesor = (props) => {
     const [events, setEvents] = useState(null)
@@ -26,10 +27,11 @@ export const CalendarioProfesor = (props) => {
     }
 
     function selectInfo(info, id) {
+        console.log(info);
         var parts = info.split("/")
         return (
             <Dialog header="Information" visible={true} style={{ width: '25vw' }} onHide={() => setInfo(null)}>
-                <p><b>Descripton:</b> {parts[0]}</p>
+                <p><b>Description:</b> {parts[0]}</p>
                 <p><b>Type:</b> {parts[1]}</p>
                 <Button label="Delete" className="p-button-danger" onClick={() => remove(id)}></Button>
             </Dialog>
@@ -66,7 +68,7 @@ export const CalendarioProfesor = (props) => {
     const options = {
         plugins: [dayGridPlugin, interactionPlugin],
         defaultView: 'dayGridMonth',
-        defaultDate: '2020-12-01',
+        defaultDate: moment().format('YYYY-MM-DD'),
         header: {
             left: 'prev,next',
             center: 'title',
@@ -85,6 +87,7 @@ export const CalendarioProfesor = (props) => {
         eventClick: function (info) {
             eventService.getDescription(props.urlBase, info.event.id).then(data =>
                 setInfo(selectInfo(data.data, info.event.id))
+
             )
         }
     }

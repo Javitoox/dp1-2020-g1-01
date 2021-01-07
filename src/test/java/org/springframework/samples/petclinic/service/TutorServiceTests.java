@@ -1,79 +1,95 @@
 package org.springframework.samples.petclinic.service;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
+import javax.transaction.Transactional;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.Alumno;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.petclinic.model.Tutor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.samples.petclinic.repository.TutorRepository;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class TutorServiceTests {
 	
+	private static Tutor t;
 	
-	@Autowired
+	@Mock
+	private TutorRepository tutorRepository;
+	
+	@InjectMocks
 	protected TutorService tutorService;
 	
-	@Autowired
-	protected AlumnoService alumnoService;
+	@BeforeAll
+	void data() {
+		t = new Tutor();
+		t.setNickUsuario("Roberto23");
+	}
 	
-	@BeforeEach
-	@Transactional
-	void insertTutorAndStudent() {
-		Tutor tutor = new Tutor();
-		tutor.setContraseya("EyEyHola6");
-		tutor.setCorreoElectronicoUsuario("pedro@gmail.com");
-		tutor.setDireccionUsuario("Calle Lora");
-		tutor.setDniUsuario("23232323H");
-		tutor.setFechaNacimiento(LocalDate.of(2000, 06, 22));
-		tutor.setNickUsuario("PedroGar");
-		tutor.setNombreCompletoUsuario("Pedro García");
-		tutor.setNumTelefonoUsuario("676767453");
-		tutorService.saveTutor(tutor);
+	@Test
+	void shouldFindTutors() {
+        List<Tutor> tutores = new ArrayList<Tutor>();
+        tutores.add(t);
+        when(tutorRepository.findAll()).thenReturn(tutores);
+        
+        List<Tutor> ts = tutorService.getAllTutores();
+        
+        assertThat(ts).hasSize(1);
+        Tutor t = ts.iterator().next();
+        assertThat(t.getNickUsuario()).isEqualTo("Roberto23");
+        assertThat(t.getFechaMatriculacion()).isNull();
+	}
+	
+	@Test
+	void shouldGetTutor() {
+		when(tutorRepository.findByNick("Roberto23")).thenReturn(t);
 		
-		Alumno alumno = new Alumno();
-		alumno.setContraseya("HolaBuenas777");
-		alumno.setCorreoElectronicoUsuario("javikuka7@gmail.com");
-		alumno.setDireccionUsuario("Calle error");
-		alumno.setDniUsuario("76766776Y");
-		alumno.setFechaMatriculacion(LocalDate.now());
-		alumno.setFechaSolicitud(LocalDate.now());
-		alumno.setFechaNacimiento(LocalDate.of(2000, 06, 22));
-		alumno.setNickUsuario("JaviMartinez");
-		alumno.setNombreCompletoUsuario("Javi Martínez");
-		alumno.setNumTelefonoUsuario("635096767");
-		alumno.setNumTareasEntregadas(4);
-		alumno.setTutores(tutor);
-		alumnoService.saveAlumno(alumno);
+		Tutor tutor = tutorService.getTutor("Roberto23");
+		
+		assertThat(tutor).isNotNull();
+		assertThat(tutor.getNickUsuario()).isEqualTo("Roberto23");
 	}
 	
-	@Test 
-	void testStudentsByTutorIsNotNull() {
-		Tutor tutor = tutorService.getTutor("PedroGar");
-		List<Alumno> alumnos = alumnoService.getAllMyStudents(tutor.getNickUsuario());
-		assertFalse(alumnos.size() == 0);
-	}
-	
-	@Test 
-	void testStudentsByTutorIsNull() {
-		Tutor tutor = tutorService.getTutor("PedroGar");
-		List<Alumno> alumnos = alumnoService.getAllMyStudents(tutor.getNickUsuario());
-		for(Alumno a: alumnos) {
-			alumnoService.deleteStudents(a);
+	@Test
+	void shouldntGetTutor() {
+		when(tutorRepository.findByNick("Roberto23")).thenReturn(t);
+		
+		Tutor tutor = null;
+		try {
+			tutor = tutorService.getTutor("LuisRoberto23");
+		}catch(Exception e) {
+			assertThat(tutor).isNull();
 		}
-		List<Alumno> alumnosDeTutorBorrados = alumnoService.getAllMyStudents(tutor.getNickUsuario());
-		assertTrue(alumnosDeTutorBorrados.size() == 0);
 	}
+	
+	@Test
+	@Transactional
+	void shouldSaveTutor() {
+		tutorService.saveTutor(t);
+		
+		verify(tutorRepository, times(1)).save(any());
+	}
+	
+	@Test
+	@Transactional
+	void shouldDeleteTutor() {
+		tutorService.delete("Roberto23");
+		
+		verify(tutorRepository, times(1)).deleteById(any());
+	}
+	
 }

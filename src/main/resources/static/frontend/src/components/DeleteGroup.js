@@ -3,6 +3,7 @@ import { Button } from 'primereact/button';
 import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
+import Auth from './Auth';
 
 
 
@@ -15,7 +16,8 @@ export class DeleteGroup extends Component {
             },
             listaGrupos:{
                 nombreGrupo: ""
-            }
+            },
+            comprobation: false,
 
         }
         this.grupos = new GrupoComponent();
@@ -111,25 +113,34 @@ export class DeleteGroup extends Component {
     }
 
     componentDidMount() {
+        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+            if(res.data==="profesor"){
+                this.setState({comprobation: true})
+                }
+            })
         this.grupos.getEmptyGroupNames().then(data => this.setState({ listaGrupos: data }));
     }
 
     render() {
-        console.log(this.state);
-        return (
+        if (!this.state.comprobation) {
+            return <Auth authority="teacher"></Auth>
+        }else{
+            console.log(this.state);
+            return (
 
-            <div>
-                <div className="c">
-                    <div className="login request">
-                        <form onSubmit={this.delete}>
-                        {this.state.succes}
-                        {this.state.exist}
-                        {this.form()}
-                        </form>
+                <div>
+                    <div className="c">
+                        <div className="login request">
+                            <form onSubmit={this.delete}>
+                            {this.state.succes}
+                            {this.state.exist}
+                            {this.form()}
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
 

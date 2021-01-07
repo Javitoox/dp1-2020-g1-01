@@ -35,46 +35,54 @@ public class AsignacionesProfesorController {
 	public AsignacionesProfesorController(AsignacionProfesorService asignacionS) {
 		this.asignacionS = asignacionS;
 	}
-
+	
 	@GetMapping("/{user}")
-	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user,HttpServletRequest request) {
-		
+	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		log.info("Sesión iniciada como: " + session.getAttribute("type"));
+		if(session != null && session.getAttribute("type") == "profesor") {
 			List<AsignacionProfesor> all =  asignacionS.getAllAsignacionesByUser(user);
 			return ResponseEntity.ok(all);
-		
-		
-	}
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+			 }
+		}
 	
 	@GetMapping("/freeAssignments")
     public ResponseEntity<List<String>> listaAsignaciones(HttpServletRequest request) {
-	
-			List<String> all =  asignacionS.getFreeGroups();
+		HttpSession session = request.getSession(false);
+		log.info("Sesión iniciada como: " + session.getAttribute("type"));
+		if(session != null && session.getAttribute("type") == "profesor") {
+	        List<String> all =  asignacionS.getFreeGroups();
 	        return ResponseEntity.ok(all);
-		
-        
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+			 }
     }
 	
 	@PostMapping("/new")
-	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result,HttpServletRequest request) throws DuplicatedGroupNameException{
-		log.info("Solicitando asignar profesor: {}", resource);
-		if(result.hasErrors()) {
-			return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-		}else {
-			if(resource.getGrupo().getNombreGrupo()==""||resource.getGrupo().getNombreGrupo()==null) {
-				log.info("Incorrect name of group:"+ resource.getGrupo().getNombreGrupo());
-
-				return new ResponseEntity<>("Name of group incorrect", 
-						HttpStatus.OK);
-				
+	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result, HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		log.info("Sesión iniciada como: " + session.getAttribute("type"));
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Solicitando asignar profesor: {}", resource);
+			if(result.hasErrors()) {
+				return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
-				asignacionS.saveAsignacion(resource);
-				return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);						
+				if(resource.getGrupo().getNombreGrupo()==""||resource.getGrupo().getNombreGrupo()==null) {
+					log.info("Incorrect name of group:"+ resource.getGrupo().getNombreGrupo());
+	
+					return new ResponseEntity<>("Name of group incorrect", 
+							HttpStatus.OK);
+					
+				}else {
+					asignacionS.saveAsignacion(resource);
+					return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);						
+				}
 			}
-			
-						
-			
-			
-		}
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+			 }
 	}
 
 }

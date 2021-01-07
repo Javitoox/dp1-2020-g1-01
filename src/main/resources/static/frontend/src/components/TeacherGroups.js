@@ -7,6 +7,8 @@ import { Redirect } from 'react-router-dom';
 
 import GrupoComponent from './GrupoComponent';
 import AssignmentComponent from './AssignmentComponent';
+import axios from 'axios';
+import Auth from './Auth';
 
 export default class TeacherGroups extends Component {
 
@@ -19,10 +21,8 @@ export default class TeacherGroups extends Component {
            
             listaGrupos:{
                 nombreGrupo: ""
-            }
-
-            //nodes: null,
-            //selectedKey: null,
+            },
+            comprobation: false,
         }
         this.alumnos = new AlumnoComponent();
         this.asignaciones = new AssignmentComponent();
@@ -33,6 +33,11 @@ export default class TeacherGroups extends Component {
     }
 
     componentDidMount() {
+        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+            if(res.data==="profesor"){
+                this.setState({comprobation: true})
+                }
+            })
         this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data }));
         this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
 
@@ -60,36 +65,40 @@ export default class TeacherGroups extends Component {
     
 
     render() {
-        console.log(this.state.alumnos);
-    if (this.state.redirect) {
-        if(this.state.redirect==="/assignTeacher"){
-            return <Redirect
-            to={{
-              pathname: "/assignTeacher"
-            }}
-          />
-        }
-         
+        if (!this.state.comprobation) {
+            return <Auth authority="teacher"></Auth>
+        }else{
         
-    }
-       
-        return (
-            <React.Fragment>
-                <div className="datatable-templating-demo">
-                    <div>
-                   
-                   
-                    <Button icon="pi pi-plus-circle" label="Assign group" className="p-button-secondary" onClick={this.botonGrupos} />
+            if (this.state.redirect) {
+                if(this.state.redirect==="/assignTeacher"){
+                    return <Redirect
+                    to={{
+                    pathname: "/assignTeacher"
+                    }}
+                />
+                }
+                
+                
+            }
+        
+            return (
+                <React.Fragment>
+                    <div className="datatable-templating-demo">
+                        <div>
+                    
+                    
+                        <Button icon="pi pi-plus-circle" label="Assign group" className="p-button-secondary" onClick={this.botonGrupos} />
 
+                        </div>
+                        <div>&nbsp;</div>
+
+                        <DataTable value={this.state.alumnos}>
+                            <Column field="grupo.nombreGrupo" header="Group"></Column>
+                            <Column field="fecha" header="Date of assignment"></Column>
+                        </DataTable>
                     </div>
-                    <div>&nbsp;</div>
-
-                    <DataTable value={this.state.alumnos}>
-                        <Column field="grupo.nombreGrupo" header="Group"></Column>
-                        <Column field="fecha" header="Date of assignment"></Column>
-                    </DataTable>
-                </div>
-            </React.Fragment>
-        )
+                </React.Fragment>
+            )
+        }
     }
 }

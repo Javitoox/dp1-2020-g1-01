@@ -12,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.Tutor;
-import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.SolicitudService;
-import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,11 +32,11 @@ import lombok.extern.slf4j.Slf4j;
 public class SolicitudController {
 
 	   private final SolicitudService solicitudServ;
-	   
+  
 	   @Autowired
-	   public SolicitudController(SolicitudService solicitudServ, AlumnoService alumnoService, TutorService tutorService) {
+	   public SolicitudController(SolicitudService solicitudServ) {
 		   this.solicitudServ = solicitudServ;
-	   }
+	   } 
 	   
 	   @GetMapping("/pending")
 	   public ResponseEntity<?> getSolicitudes(HttpServletRequest request) {
@@ -50,7 +48,7 @@ public class SolicitudController {
 		   }else {
 			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		   }
-	   }
+	   } 
 	   
 	   @PutMapping("/decline/{nickUsuario}")
 	   public ResponseEntity<?> declineRequest(@PathVariable("nickUsuario")String nickUsuario, HttpServletRequest request){
@@ -70,20 +68,13 @@ public class SolicitudController {
 	   @PutMapping("/accept/{nickUsuario}")
 	   public ResponseEntity<?> acceptRequest(@PathVariable("nickUsuario")String nickUsuario, HttpServletRequest request) {
 		   HttpSession session = request.getSession(false);
-		   log.info("SESION: " + session);
 
 		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 		   if(session != null && session.getAttribute("type") == "profesor") {
 			   Alumno alumnoAceptado = solicitudServ.getAlumno(nickUsuario);
-			   System.out.println("ALUMNO ACEPTADO:"+alumnoAceptado);
-			   alumnoAceptado.setFechaMatriculacion(LocalDate.now());
-			   Tutor t = alumnoAceptado.getTutores();
-			   if(t != null && t.getFechaMatriculacion() == null) {
-				   t.setFechaMatriculacion(LocalDate.now());
-				   alumnoAceptado.setTutores(t);
-			   }
+			   log.info("ALUMNO ACEPTADO: "+alumnoAceptado);
 			   solicitudServ.acceptRequest(alumnoAceptado);
-			   return ResponseEntity.ok().build();
+			   return ResponseEntity.ok().build(); 
 
 		   }else {
 			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 

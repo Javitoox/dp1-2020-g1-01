@@ -1,15 +1,12 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
-import org.springframework.samples.petclinic.service.exceptions.BadRequestException;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,19 +20,13 @@ public class GrupoService {
 		this.grupoRepository = grupoRepository;
 	}
 	
+	public boolean exists(String id) {
+		return grupoRepository.existsById(id);
+	}
+	
 	@Transactional(readOnly = true)
 	public Set<Grupo> getAllGrupos(){
 		return grupoRepository.findAll();
-	}
-	
-	@Transactional(readOnly = true)
-	public Optional<Grupo> getGrupo(String id) {
-		return grupoRepository.findById(id);
-	}
-	
-	@Transactional(readOnly = true)
-	public List<Grupo> getGruposByCourse(TipoCurso curso) {
-		return grupoRepository.findByCurso(curso);
 	}
 	
 	@Transactional(readOnly = true)
@@ -59,28 +50,13 @@ public class GrupoService {
 	}
 	
 	@Transactional
-	public void saveGroup(Grupo grupo) throws DuplicatedGroupNameException{
-		if(grupoRepository.existsById(grupo.getNombreGrupo())) {
-			throw new DuplicatedGroupNameException();
-		}else {
-			grupoRepository.save(grupo);
-		}	
+	public void saveGroup(Grupo grupo){
+		grupoRepository.save(grupo);
 	}
 
 	@Transactional
-	public void deleteGroup(String id) throws BadRequestException{
-		try {
-			grupoRepository.deleteById(id);
-
-		}catch (BadRequestException e) {
-			throw new BadRequestException("No se puede borrar el grupo porque tiene alumnos");
-		}
+	public void deleteGroup(String id){
+		grupoRepository.deleteById(id);
 	}
-	
-	@Transactional(readOnly = true)
-	public Grupo getGroupById(String id) {
-    	return grupoRepository.findById(id).get();
-	}
-	
 	
 }

@@ -16,11 +16,13 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="eventos")
-@Data
+@Getter
+@Setter
 public class Evento extends BaseEntity{
 	
 	@Column(name="title")
@@ -43,6 +45,11 @@ public class Evento extends BaseEntity{
 	@Size(max = 300, message = "The maximum size is 300 characters")
 	@NotBlank(message = "Required field")
 	private String descripcion;
+	
+	private String color;
+	
+	@ManyToOne(optional=true)
+    private Curso curso;
 	
 	@ManyToOne(optional=false)
     private TipoEvento tipo;

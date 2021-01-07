@@ -25,3 +25,4 @@ public class WallOfFameService {
 		wallOfFameRepository.delete(w);
 	}
 }
+ 

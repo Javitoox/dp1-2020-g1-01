@@ -4,6 +4,7 @@ import { InputText } from 'primereact/inputtext';
 import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
+import Auth from './Auth';
 
 
 
@@ -23,7 +24,8 @@ export class CreateGroup extends Component {
             nombreGrupoError:null,
             cursoError:null,
             succes:null,
-            exist:null
+            exist:null,
+            comprobation: false,
 
         }
         this.grupos = new GrupoComponent();
@@ -46,7 +48,7 @@ export class CreateGroup extends Component {
             } 
         }
 
-        axios.post("http://localhost:8081/grupos/new", grupo).then(res => {
+        axios.post("http://localhost:8081/grupos/new", grupo, {withCredentials: true}).then(res => {
             this.respuesta(res.status, res.data);
         })
         
@@ -99,10 +101,18 @@ export class CreateGroup extends Component {
         }
     }
     componentDidMount() {
+        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+            if(res.data==="profesor"){
+                this.setState({comprobation: true})
+                }
+            })
         this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
     }
 
     render() {
+        if (!this.state.comprobation) {
+            return <Auth authority="teacher"></Auth>
+        }else{
 
         const courseSelectItems = [
             { label: 'A1', value: 'A1' },
@@ -118,40 +128,42 @@ export class CreateGroup extends Component {
 
         return (
 
-            <div>
-                <div className="c">
-                    <div className="login request">
-                        <form onSubmit={this.save}>
-                        {this.state.succes}
-                        {this.state.exist}
-                            <div className="t"><div><h5>Create Group</h5></div></div>
+            
+            
 
-                                <div className="i">
-                                {this.state.cursoError}
-                                <div className="p-inputgroup">
-                                <Dropdown field="grupo.cursoDeIngles" name="grupo.cursoDeIngles" value={this.state.grupoS.cursos.cursoDeIngles} placeholder="Select a course" options={courseSelectItems} onChange={this.handleCI} />
+                <div>
+                    <div className="c">
+                        <div className="login request">
+                            <form onSubmit={this.save}>
+                            {this.state.succes}
+                            {this.state.exist}
+                                <div className="t"><div><h5>Create Group</h5></div></div>
 
+                                    <div className="i">
+                                    <div className="p-inputgroup">
+                                    <Dropdown name="grupo.cursoDeIngles" value={this.state.grupoS.cursos.cursoDeIngles} placeholder="Select a course" options={courseSelectItems} onChange={this.handleCI} />
+
+                                    </div>
+                                    </div>
+
+                                    <div className="i">
+                                    <div className="p-inputgroup">
+                                    <InputText placeholder="NG" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
+
+                                    </div>
+                                    </div>
+
+                                    <div className="b">
+                                    <div className="i">
+                                    <Button className="p-button-secondary" label="OK" label="Guardar" icon="pi pi-fw pi-check"/>
+
+                                    </div>
                                 </div>
-                                </div>
-
-                                <div className="i">
-                                {this.state.nombreGrupoError}
-                                <div className="p-inputgroup">
-                                <InputText field="nombreGrupo" placeholder="NG" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
-
-                                </div>
-                                </div>
-
-                                <div className="b">
-                                <div className="i">
-                                <Button className="p-button-secondary" label="OK" label="Guardar" icon="pi pi-fw pi-check"/>
-
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }

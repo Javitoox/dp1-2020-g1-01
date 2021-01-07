@@ -3,8 +3,6 @@ package org.springframework.samples.petclinic.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.service.UsuarioService;
@@ -14,11 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 public class UsuarioController {
-	
-	private static final Logger log = LoggerFactory.logger(UsuarioController.class);
 	
 	private final UsuarioService usuarioService;
 	
