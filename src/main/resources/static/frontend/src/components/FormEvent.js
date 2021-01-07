@@ -10,6 +10,7 @@ export class FormEvent extends Component {
     start = this.start.bind(this);
     end = this.end.bind(this);
     description = this.description.bind(this);
+    curso = this.curso.bind(this);
     type = this.type.bind(this);
 
     state = {
@@ -18,10 +19,12 @@ export class FormEvent extends Component {
         end: "",
         description: "",
         type: "",
+        curso: null,
         titleError: null,
         startError: null,
         endError: null,
         descriptionError: null,
+        cursoError: null,
         typeError: null,
         succes: null,
         exist:null
@@ -46,6 +49,9 @@ export class FormEvent extends Component {
     type(event) {
         this.setState({ type: event.target.value });
     }
+    curso(event) {
+        this.setState({ curso: event.target.value });
+    }
 
     handleSubmit = event => {
         event.preventDefault();
@@ -55,6 +61,7 @@ export class FormEvent extends Component {
             startError: null,
             endError: null,
             descriptionError: null,
+            cursoError:null,
             typeError: null,
             succes: null,
             exist:null
@@ -70,7 +77,7 @@ export class FormEvent extends Component {
             }
         }
 
-        axios.post(this.props.urlBase + "/events/create", evento, { withCredentials: true }).then(res => {
+        axios.post(this.props.urlBase + "/events/create/" + this.state.curso , evento, { withCredentials: true }).then(res => {
             this.respuesta(res.status, res.data)
         })
 
@@ -79,12 +86,15 @@ export class FormEvent extends Component {
     respuesta(status, data) {
         if (status === 203) {
             data.forEach(e => this.error(e.field, e.defaultMessage))
-        } else if (status === 201) {
+        } 
+         else if (status === 201) {
+            console.log(data.group)
             this.setState({
                 title: "",
                 start: "",
                 end: "",
                 description: "",
+                curso: "",
                 type: "",
                 succes: <div className="alert alert-success" role="alert">Successful creation</div>
             })
@@ -105,6 +115,8 @@ export class FormEvent extends Component {
             this.setState({ descriptionError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         } else if (campo === "tipo.tipo") {
             this.setState({ typeError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if (campo === "curso") {
+            this.setState({ cursoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }
     }
 
@@ -161,6 +173,16 @@ export class FormEvent extends Component {
                                 </span>
                                 <Dropdown value={this.state.type} options={["internal", "external"]} 
                                 onChange={this.type} placeholder="Type" name="tipo.tipo"/>
+                            </div>
+                        </div>
+                        <div className="i">
+                        {this.state.cursoError}
+                            <div className="p-inputgroup">
+                                <span className="p-inputgroup-addon">
+                                    <i className="pi pi-sort-down"></i>
+                                </span>
+                                <Dropdown value={this.state.curso} options={["A1","A2","B1","B2","C1","C2","APRENDIZAJELIBRE"]} 
+                                onChange={this.curso} placeholder="Course" name="curso"/>
                             </div>
                         </div>
                         <div className="b">

@@ -47,9 +47,10 @@ INSERT INTO tipos_pagos(tipo) VALUES ('bizum');
 INSERT INTO tipos_pagos(tipo) VALUES ('efectivo');
 INSERT INTO tipos_pagos(tipo) VALUES ('transferencia');
 
-INSERT INTO eventos(title,descripcion,start,tipo_tipo,color) VALUES ('The Champions','Amazing','2021-01-23','internal','red');
-INSERT INTO eventos(title,descripcion,start,end,tipo_tipo) VALUES ('HoolaHoop','Amzing play','2020-12-23','2020-12-25','external');
-INSERT INTO eventos(title,descripcion,start,tipo_tipo,color) VALUES ('Fall Guys','Amazing wow','2021-01-15','internal','purple');
+INSERT INTO eventos(title,descripcion,start,tipo_tipo,curso_curso_de_ingles,color) VALUES ('The Champions','Amazing','2021-01-23','internal','B1','red');
+INSERT INTO eventos(title,descripcion,start,end,tipo_tipo,curso_curso_de_ingles) VALUES ('HoolaHoop','Amzing play','2020-12-23','2020-12-25','external','B2');
+INSERT INTO eventos(title,descripcion,start,tipo_tipo,curso_curso_de_ingles,color) VALUES ('Fall Guys','Amazing wow','2021-01-15','internal','B2','purple');
+
 
 INSERT INTO inscripciones(registrado) VALUES ('false');
 
@@ -60,4 +61,4 @@ INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (2,'BIZUM'
 INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (3,'BIZUM', 'Pago matricula','2017-10-03','natalia42');
 INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (4,'BIZUM', 'Primer plazo','2017-10-03','patri25');
 
-INSERT INTO asignaciones_profesor VALUES ('MaribelJavi', 'grupo1', '2019-10-03');
+INSERT INTO asignaciones_profesor VALUES ('2019-10-03', 'MaribelJavi', 'grupo1');

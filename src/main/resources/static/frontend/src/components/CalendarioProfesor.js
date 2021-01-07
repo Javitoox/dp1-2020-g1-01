@@ -27,6 +27,7 @@ export const CalendarioProfesor = (props) => {
     }
 
     function selectInfo(info, id) {
+        console.log(info);
         var parts = info.split("/")
         return (
             <Dialog header="Information" visible={true} style={{ width: '25vw' }} onHide={() => setInfo(null)}>
@@ -86,6 +87,7 @@ export const CalendarioProfesor = (props) => {
         eventClick: function (info) {
             eventService.getDescription(props.urlBase, info.event.id).then(data =>
                 setInfo(selectInfo(data.data, info.event.id))
+
             )
         }
     }

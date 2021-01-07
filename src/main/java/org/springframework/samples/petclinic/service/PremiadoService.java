@@ -18,18 +18,21 @@ import org.springframework.samples.petclinic.repository.PremiadoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 @Service
+@Slf4j
 public class PremiadoService {
 	
-	@Autowired
 	private PremiadoRepository premiadoRepository;
-	
-	@Autowired
-	private AlumnoService alumnoService;
-	
-	@Autowired
 	private WallOfFameService wallOfFameService;
+	
+	@Autowired
+	public PremiadoService(PremiadoRepository premiadoRepository, WallOfFameService wallOfFameService) {
+		this.premiadoRepository = premiadoRepository;
+		this.wallOfFameService = wallOfFameService;
+	}
 
 	public List<Premiado> premiadosPorFecha(String fechaWall){
 		return premiadoRepository.premiadosPorFecha(fechaWall);
@@ -40,28 +43,19 @@ public class PremiadoService {
 	}
 	
 	@Transactional
-	public void insertarPremiado(String nickUsuario, String fechaWall, String descripcion, MultipartFile file) throws DataAccessException {
-		
+	public void insertarPremiado(Alumno alumno, String fechaWall, String descripcion, MultipartFile file) throws DataAccessException, IOException {
+		 
 		Path directorioImagenes =Paths.get("src//main//resources//static//frontend//public/photosWall");
 		String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+		  	 
+	    byte[] bytes = file.getBytes(); 
+	    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + alumno.getNickUsuario() + ".jpg");
+	    Files.write(rutaCompleta, bytes); 
 		  
-		try { 
-		  byte[] bytes = file.getBytes(); 
-		  Path rutaCompleta =
-	  
-		  Paths.get(rutaAbsoluta + "//" + nickUsuario + ".jpg");
-		  Files.write(rutaCompleta, bytes); 
-		  
-		} catch (IOException e) { 
-			  e.printStackTrace(); 
-		}
-				  
-		
-		Alumno alumno = alumnoService.getAlumno(nickUsuario);
 		Premiado p = new Premiado();
 		p.setAlumnos(alumno);
 		p.setDescripcion(descripcion);
-		p.setFoto(nickUsuario + ".jpg");
+		p.setFoto(alumno.getNickUsuario() + ".jpg");
 		 
 		Optional<WallOfFame> wallofFame = wallOfFameService.getWallById(fechaWall);
 		if(wallofFame.isPresent()) {	//existe el wall, no hay que crearlo
@@ -78,16 +72,27 @@ public class PremiadoService {
 		}
 		
 	}
-	
+	 
 	@Transactional
-	public void editarPremiado(Integer id, String descripcion) throws DataAccessException {
-		Optional<Premiado> p = premiadoRepository.findById(id);
-		if(p.isPresent()) {
-			Premiado premiado = p.get();
-			premiado.setDescripcion(descripcion);
-			premiadoRepository.save(premiado);
+	public void editarPremiado(Integer id, String descripcion, MultipartFile file, String nickUsuario) throws DataAccessException, IOException {
+		if(file !=null) { 
+			Path directorioImagenes = Paths.get("src//main//resources//static//frontend//public/photosWall");
+			String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+					
+			byte[] bytes = file.getBytes(); 
+			Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + nickUsuario + ".jpg");
+			Files.write(rutaCompleta, bytes);
 		}
 		
+		if(!descripcion.isEmpty()) {
+			log.info("Changing description: "+descripcion);
+			Optional<Premiado> p = premiadoRepository.findById(id);
+			if(p.isPresent()) {
+				Premiado premiado = p.get();
+				premiado.setDescripcion(descripcion);
+				premiadoRepository.save(premiado); 
+			} 
+		}
 	}
 
 	@Transactional

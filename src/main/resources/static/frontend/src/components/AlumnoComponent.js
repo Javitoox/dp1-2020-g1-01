@@ -28,7 +28,7 @@ export default class AlumnoComponent extends Component{
     }
 
 	postNewPremiado(baseUrl, fecha ,formData){
-        return axios.post(baseUrl+"/premiados/añadirPremiado/"+fecha ,formData,{withCredentials: true});
+        return axios.post(baseUrl+"/premiados/anadirPremiado/"+fecha ,formData,{withCredentials: true});
 	}
 	
 	editPremiado(baseUrl, formData){
