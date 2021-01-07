@@ -76,17 +76,48 @@ public class PagosController {
 	}
 	
 	@GetMapping("/notPaidByStudent/{nickUsuario}") /*¿Quién puede acceder aquí?*/
-	public ResponseEntity<List<String>> listadoNoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario) {
-		List<String> all =  pagoService.getNoPaymentByStudent(nickUsuario);
-		return ResponseEntity.ok(all);
+	public ResponseEntity<List<String>> listadoNoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario,  HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if(session != null && session.getAttribute("type") == "profesor") {
+			List<String> all =  pagoService.getNoPaymentByStudent(nickUsuario);
+			return ResponseEntity.ok(all);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
+		
 	}
+	
+	@GetMapping("/paidByStudent/{nickUsuario}") /*¿Quién puede acceder aquí?*/
+	public ResponseEntity<List<Pago>> listadoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario,  HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if(session != null && session.getAttribute("type") == "alumno") {
+			List<Pago> all =  pagoService.getPaymentsByStudent(nickUsuario);
+			return ResponseEntity.ok(all);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
+		
+	}
+	
+	@GetMapping("/studentsNotPaid") /*¿Quién puede acceder aquí?*/
+	public ResponseEntity<List<String>> listadoNombreAlumnoNoPago(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if(session != null && session.getAttribute("type") == "profesor") {
+			List<String> all =  pagoService.getNameStudentByNoPago();
+			return ResponseEntity.ok(all);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
+		
+	}
+	
 	
 	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, BindingResult result, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
 		log.info("Sesión iniciada como: " + session.getAttribute("type"));
 		
-		if(session != null && session.getAttribute("type") == "alumno") {
+		if(session != null && session.getAttribute("type") == "profesor") {
 			log.info("Solicitando crear pago: {}", resource);
 			if(result.hasErrors()) {
 				return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);

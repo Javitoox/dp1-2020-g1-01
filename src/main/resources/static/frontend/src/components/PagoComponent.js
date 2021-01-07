@@ -18,4 +18,13 @@ export default class PagoComponent extends Component{
     getNotPaidByStudent(student){
         return axios.get("http://localhost:8081/pagos/notPaidByStudent/" + student, {withCredentials: true}).then(res => res.data);
     }
+
+    getPaymentsByStudent(student){
+        return axios.get("http://localhost:8081/pagos/paidByStudent/" + student, {withCredentials: true}).then(res => res.data);
+    }
+
+    getNameStudentByNoPago(){
+        return axios.get("http://localhost:8081/pagos/studentsNotPaid", {withCredentials: true}).then(res => res.data);
+    }
+    
 }

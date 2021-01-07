@@ -147,6 +147,7 @@ export class CreateGroup extends Component {
                                     </div>
 
                                     <div className="i">
+                                    {this.state.nombreGrupoError}
                                     <div className="p-inputgroup">
                                     <InputText placeholder="NG" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
 

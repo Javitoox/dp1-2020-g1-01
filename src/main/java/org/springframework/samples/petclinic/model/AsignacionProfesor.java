@@ -27,7 +27,7 @@ public class AsignacionProfesor {
 	
 	@ManyToOne(optional=false)
     @MapsId("nickProfesor")
-//    @JoinColumn(name = "nick_profesor")
+    @JoinColumn(name = "nick_profesor")
 	private Profesor profesor;
 	
 	@ManyToOne(optional=true)
