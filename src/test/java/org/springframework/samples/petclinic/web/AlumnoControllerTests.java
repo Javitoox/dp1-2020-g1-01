@@ -18,8 +18,7 @@ import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-
-import com.sun.org.apache.xerces.internal.parsers.SecurityConfiguration;
+import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
  
 @WebMvcTest(controllers=AlumnoController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
@@ -90,6 +89,20 @@ public class AlumnoControllerTests {
 	@Test
 	void testNotShowListStudentsByTutorNotLoggedWithNameRequired() throws Exception {
 		mockMvc.perform(get("/alumnos/marrambla3/allMyStudents").sessionAttr("type","tutor").sessionAttr("nickUsuario", "marrambla2")).andExpect(status().isUnauthorized());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowAStudentsListByGroupIfLoggedAsTeacher() throws Exception{
+		given(this.alumnoService.getStudentsPerGroup(any(String.class))).willReturn(new ArrayList<>());
+		mockMvc.perform(get("/alumnos/GrupoA").sessionAttr("type", "profesor")).andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowAStudentsListByGroupIfLoggedAsAlumn() throws Exception{
+		given(this.alumnoService.getStudentsPerGroup(any(String.class))).willReturn(new ArrayList<>());
+		mockMvc.perform(get("/alumnos/GrupoA").sessionAttr("type", "alumno")).andExpect(status().isUnauthorized());
 	}
 	
 }

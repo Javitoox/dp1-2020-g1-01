@@ -44,11 +44,10 @@ public class GrupoController {
 	@GetMapping("/all")
 	public ResponseEntity<Set<Grupo>> listaGrupos(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
-
 		if(session != null && session.getAttribute("type") == "profesor") {
-		Set<Grupo> all =  grupoService.getAllGrupos();
-		return ResponseEntity.ok(all);
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
+			Set<Grupo> all =  grupoService.getAllGrupos();
+			return ResponseEntity.ok(all);
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		}
@@ -57,10 +56,10 @@ public class GrupoController {
 	@GetMapping("/nombresGrupo/{curso}")
 	public ResponseEntity<List<String>> listaNombreGruposPorCurso(@PathVariable("curso") TipoCurso curso, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
-		List<String> gruposCurso = grupoService.getNameGruposByCourse(curso);	
-		return ResponseEntity.ok(gruposCurso);
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
+			List<String> gruposCurso = grupoService.getNameGruposByCourse(curso);	
+			return ResponseEntity.ok(gruposCurso);
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		}
@@ -68,12 +67,11 @@ public class GrupoController {
 	
 	@GetMapping("/nombreCurso/{grupo}")
 	public ResponseEntity<List<String>> listaNombreCursoPorGrupo(@PathVariable("grupo") String grupo, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
-		
+		HttpSession session = request.getSession(false);		
 		if(session != null && session.getAttribute("type") == "profesor") {
-		List<String> nombreCurso = grupoService.getCursoByGrupo(grupo);	
-		return ResponseEntity.ok(nombreCurso);
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
+			List<String> nombreCurso = grupoService.getCursoByGrupo(grupo);	
+			return ResponseEntity.ok(nombreCurso);
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		}
@@ -81,12 +79,11 @@ public class GrupoController {
 	
 	@GetMapping("/allGroupNames")
 	public ResponseEntity<List<String>> listaNombreGrupos(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
-		
+		HttpSession session = request.getSession(false);		
 		if(session != null && session.getAttribute("type") == "profesor") {
-		List<String> all =  grupoService.getGroupNames();
-		return ResponseEntity.ok(all);
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
+			List<String> all =  grupoService.getGroupNames();
+			return ResponseEntity.ok(all);
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		}
@@ -95,10 +92,10 @@ public class GrupoController {
 	@GetMapping("/allEmptyGroups")
 	public ResponseEntity<List<String>> listaNombreGruposVacios(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
-		List<String> all =  grupoService.getEmptyGroups();
-		return ResponseEntity.ok(all);
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
+			List<String> all =  grupoService.getEmptyGroups();
+			return ResponseEntity.ok(all);
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		}
@@ -107,9 +104,8 @@ public class GrupoController {
 	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody Grupo resource, BindingResult result, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
-
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando crear grupo: {}", resource);
 			if(result.hasErrors()) {
 				return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
@@ -131,8 +127,8 @@ public class GrupoController {
 	@DeleteMapping("/delete/{nombreGrupo}")
 	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando borrar grupo: {}", nombreGrupo);
 			if(alumnoService.getStudentsPerGroup(nombreGrupo).isEmpty()) {
 				grupoService.deleteGroup(nombreGrupo);

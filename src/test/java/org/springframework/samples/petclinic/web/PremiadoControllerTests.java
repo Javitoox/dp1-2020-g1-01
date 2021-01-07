@@ -35,7 +35,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sun.org.apache.xerces.internal.parsers.SecurityConfiguration;
+import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 
 @WebMvcTest(controllers=PremiadoController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
