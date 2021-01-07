@@ -10,6 +10,7 @@ import {Home} from './components/Home'
 import MenubarResponsive from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
 import {getUserName} from './components/storage'
+//import {getAlumnoInfo} from './components/UserData'
 import { WallOfFameStudents } from './components/WallOfFameStudents'
 import EditStudent from './components/EditStudent'
 import AssignStudent from './components/AssignStudent'
@@ -18,7 +19,7 @@ import {CreateGroup} from './components/CreateGroup'
 import {DeleteGroup} from './components/DeleteGroup'
 import EditPersonalInfo from './components/EditPersonalInfo'
 import {CalendarioProfesor} from './components/CalendarioProfesor'
-import {CalendarioAlumno} from './components/CalendarioAlumno'
+
 import Pagos from './components/Pagos'
 import { RealizarPago } from './components/RealizarPago'
 import TeacherGroups from './components/TeacherGroups'
@@ -98,9 +99,6 @@ class App extends Component {
 				<Route path="/calendarTeacher" render={() =>
 					<CalendarioProfesor urlBase={this.state.urlBase}></CalendarioProfesor>
                 } />
-					<Route path="/calendarStudent" render={() =>
-					<CalendarioAlumno urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></CalendarioAlumno>
-				} />
 				<Route path="/payments" render={() =>
 					<Pagos urlBase={this.state.urlBase}> </Pagos>
                 } />

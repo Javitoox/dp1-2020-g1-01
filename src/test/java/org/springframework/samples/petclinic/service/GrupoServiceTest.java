@@ -1,8 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -23,17 +21,17 @@ import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
 import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class GrupoServiceTest {
 	
-	private static Set<Grupo> emptyGroups;	
 	private static Set<Grupo> notEmptyGroups;	
-	
-	private static List<Grupo> gruposPorCurso;	
+
+	private static List<String> nombresGruposPorCurso;	
+	private static List<String> nombresGruposVacios;	
+	private static final String NOMBRE_GRUPO = "Grupo A";
 	private static final TipoCurso CURSO= TipoCurso.B1;
 	private static Grupo g;
 	
@@ -45,12 +43,15 @@ public class GrupoServiceTest {
 	@BeforeAll
 	void data() {
 		g = new Grupo();
-		g.setNombreGrupo("Grupo A");
-		emptyGroups = new HashSet<>();
+		g.setNombreGrupo(NOMBRE_GRUPO);
+		nombresGruposVacios = new ArrayList<>();
+		nombresGruposVacios.add(NOMBRE_GRUPO);
+		
 		notEmptyGroups = new HashSet<>();
 		notEmptyGroups.add(g);
-		gruposPorCurso = new ArrayList<>();
-		gruposPorCurso.add(g);
+		
+		nombresGruposPorCurso = new ArrayList<>();
+		nombresGruposPorCurso.add(g.getNombreGrupo());
 	}
 	
 	@BeforeEach
@@ -65,30 +66,31 @@ public class GrupoServiceTest {
 	}
 	
 	@Test
-	void shouldShowGroupListIsEmpty() {
-		when(grupoRepository.findAll()).thenReturn(emptyGroups);
-		assertThat(grupoService.getAllGrupos()).isEmpty();
+	void shouldReturnAllEmptyGroups() {
+		when(grupoRepository.findAllEmptyGroups()).thenReturn(nombresGruposVacios);
+		assertThat(grupoService.getEmptyGroups()).isNotEmpty();
 
 	}
 	 
 	@Test 
-	void shouldShowListGroupByCourseIsNotEmpty() {
-		when(grupoRepository.findByCurso(CURSO)).thenReturn(gruposPorCurso);
-		assertThat(grupoService.getGruposByCourse(CURSO)).isNotEmpty();
+	void shouldShowListNamesGroupsByCourseIsNotEmpty() {
+		when(grupoRepository.findNameByCurso(CURSO)).thenReturn(nombresGruposPorCurso);
+		assertThat(grupoService.getNameGruposByCourse(CURSO)).isNotEmpty();
 	}
+	
 	
 	@Test
 	@Transactional
-	void shoudCreateGroup() throws DuplicatedGroupNameException {
+	void shoudCreateGroup(){
 		Grupo gg = new Grupo();
 		Curso c = new Curso();
 		c.setCursoDeIngles(CURSO);
-		gg.setNombreGrupo("Grupo A");
+		gg.setNombreGrupo(NOMBRE_GRUPO);
 		gg.setCursos(c);
 		
 		grupoService.saveGroup(gg);
 		
-		verify(grupoRepository, times(1)).save(any());
+		verify(grupoRepository).save(gg);
 	}
 	
 	@Test
@@ -99,7 +101,7 @@ public class GrupoServiceTest {
 		gg.setNombreGrupo(name);
 		grupoService.deleteGroup(name);
 		
-		verify(grupoRepository, times(1)).deleteById(any());
+		verify(grupoRepository).deleteById(name);
 
 	}
 

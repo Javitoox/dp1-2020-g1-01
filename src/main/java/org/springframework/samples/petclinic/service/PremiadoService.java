@@ -44,7 +44,7 @@ public class PremiadoService {
 	
 	@Transactional
 	public void insertarPremiado(Alumno alumno, String fechaWall, String descripcion, MultipartFile file) throws DataAccessException, IOException {
-		
+		 
 		Path directorioImagenes =Paths.get("src//main//resources//static//frontend//public/photosWall");
 		String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
 		  	 
@@ -72,7 +72,7 @@ public class PremiadoService {
 		}
 		
 	}
-	
+	 
 	@Transactional
 	public void editarPremiado(Integer id, String descripcion, MultipartFile file, String nickUsuario) throws DataAccessException, IOException {
 		if(file !=null) { 

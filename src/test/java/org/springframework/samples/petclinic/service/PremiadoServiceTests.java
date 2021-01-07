@@ -32,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 @TestInstance(Lifecycle.PER_CLASS)
 public class PremiadoServiceTests {
 
-	@Mock
+	@Mock 
 	private WallOfFameService wallOfFameService;
 	@Mock
 	private PremiadoRepository premiadoRepository;
@@ -46,7 +46,7 @@ public class PremiadoServiceTests {
 		Alumno a = new Alumno();
 		a.setNickUsuario("javi56");
 		String descripcion = "El mejor de la clase";
-		String fechaWall = "2020-W50";
+		String fechaWall = "2020-W50"; 
 		Path directorioImagenes =Paths.get("src//main//resources//static//frontend//public/photosWall");
 		String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
 	    Path rutaCompleta = Paths.get(rutaAbsoluta + "//Javi.jpg");
@@ -102,7 +102,7 @@ public class PremiadoServiceTests {
 		premiadoService.editarPremiado(2, "The best student", null, "Maribel");
 		verify(premiadoRepository, times(0)).save(any(Premiado.class));
 		
-	}
+	} 
 	
 	
 	@Test

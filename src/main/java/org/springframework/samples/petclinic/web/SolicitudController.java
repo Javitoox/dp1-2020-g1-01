@@ -12,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.Tutor;
-import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.SolicitudService;
-import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,9 +34,9 @@ public class SolicitudController {
 	   private final SolicitudService solicitudServ;
   
 	   @Autowired
-	   public SolicitudController(SolicitudService solicitudServ, AlumnoService alumnoService, TutorService tutorService) {
+	   public SolicitudController(SolicitudService solicitudServ) {
 		   this.solicitudServ = solicitudServ;
-	   }
+	   } 
 	   
 	   @GetMapping("/pending")
 	   public ResponseEntity<?> getSolicitudes(HttpServletRequest request) {
@@ -76,7 +74,7 @@ public class SolicitudController {
 			   Alumno alumnoAceptado = solicitudServ.getAlumno(nickUsuario);
 			   log.info("ALUMNO ACEPTADO: "+alumnoAceptado);
 			   solicitudServ.acceptRequest(alumnoAceptado);
-			   return ResponseEntity.ok().build();
+			   return ResponseEntity.ok().build(); 
 
 		   }else {
 			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
