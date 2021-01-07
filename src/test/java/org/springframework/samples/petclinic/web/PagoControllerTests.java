@@ -1,9 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -11,8 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,14 +20,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.AsignacionProfesor;
-import org.springframework.samples.petclinic.model.Curso;
-import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Pago;
-import org.springframework.samples.petclinic.model.TipoCurso;
-import org.springframework.samples.petclinic.service.AlumnoService;
-import org.springframework.samples.petclinic.service.AsignacionProfesorService;
-import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.samples.petclinic.service.PagoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -148,14 +137,14 @@ public class PagoControllerTests {
 	@Test
 	void testNotPaidListByStudent() throws Exception {
 		given(this.pagoService.getNoPaymentByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","alumno")).andExpect(status().isOk());
+		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","profesor")).andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testNotPaidListByStudentIfLoggedAsAlumn() throws Exception {
 		given(this.pagoService.getNoPaymentByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","profesor")).andExpect(status().isUnauthorized());
+		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","alumno")).andExpect(status().isUnauthorized());
 	}
 	
 	@WithMockUser(value = "spring")
