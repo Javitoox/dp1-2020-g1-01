@@ -135,23 +135,6 @@ public class GrupoController {
 		}
 	}
 	
-
-	
-	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo)throws BadRequestException{
-		if(nombreGrupo==null||nombreGrupo=="") {
-			log.info("Incorrect name of group:"+ nombreGrupo);
-
-			return new ResponseEntity<>("Name of group incorrect", 
-					HttpStatus.OK);
-			
-		}else {
-			log.info("Solicitando borrar grupo: {}", nombreGrupo);
-			grupoService.deleteGroup(nombreGrupo);
-			return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
-		}
-		
-		
-	}	
 	@DeleteMapping("/delete/{nombreGrupo}")
 	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
@@ -165,6 +148,7 @@ public class GrupoController {
 						HttpStatus.OK);
 				
 			}else if(alumnoService.getStudentsPerGroup(nombreGrupo).isEmpty()) {
+				log.info("aqui");
 				grupoService.deleteGroup(nombreGrupo);
 				return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
 			}else {

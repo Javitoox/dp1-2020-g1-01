@@ -7,7 +7,6 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 
 
@@ -18,15 +17,21 @@ export class RealizarPago extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            nickUsuario:this.props.nickUser,
+            nickUsuario:"",
             fecha:moment().format('YYYY-MM-DD'),
             concepto:"",
             type:"",
             listaConcepto:{
                 concepto:""
             },
+            listaNombres:{
+                nickUsuario:""
+            },
+            usernameError:null,
+            tipoError:null,
+            conceptoError:null,
             succes:null,
-            exist:null,
+            exist:null
 
         }
         this.grupos = new GrupoComponent();
@@ -34,6 +39,7 @@ export class RealizarPago extends Component {
         this.save = this.save.bind(this);
         this.handleP = this.handleP.bind(this);
         this.handlePI = this.handlePI.bind(this);
+        this.handlePU = this.handlePU.bind(this);
         this.handleNU = this.handleNU.bind(this);
         this.handleF = this.handleF.bind(this);
         this.allConceptNames= this.allConceptNames.bind(this);
@@ -41,10 +47,15 @@ export class RealizarPago extends Component {
     }
     save = event => {
         event.preventDefault();
+        this.setState({
+            usernameError:null,
+            tipoError:null,
+            conceptoError:null,
+        });
 
         const grupo = {
             alumnos:{
-                nickUsuario:this.props.nickUser
+                nickUsuario:this.state.nickUsuario
             },            
             fecha:moment().format('YYYY-MM-DD'),
             concepto:this.state.concepto,
@@ -65,6 +76,17 @@ export class RealizarPago extends Component {
             
         });
     }
+
+    handlePU(event) {
+        this.setState({
+           
+            nickUsuario:event.target.value
+            
+            
+        });
+        this.pagos.getNotPaidByStudent(event.target.value).then(data => this.setState({ listaConcepto: data }));  
+
+    }
     handlePI(event) {
         this.setState({
             type:event.target.value
@@ -72,51 +94,56 @@ export class RealizarPago extends Component {
     }
     
     form(){
-        var l = this.state.listaConcepto
-        if(l===""){
+        const tipoPagoSelectItems = [
+            { label: 'BIZUM', value: 'BIZUM' },
+            { label: 'Tranferencia bancaria', value: 'TRANSFERENCIA BANCARIA' },
+            { label: 'Efectivo', value: 'EFECTIVO' }
+        ];
 
-            return <div className="t"><div><h5>There is no payment to make</h5></div></div>
+        if(this.state.nickUsuario===""){
+
+            return <div>
+            <div className="t"><div><h5>Register Payment</h5></div></div>
+
+            <div className="i">
+            <div className="p-inputgroup">
+            <Dropdown name="pago.nickUsuario" value={this.state.nickUsuario} placeholder="Select a student" options={this.allStudentsNames()} onChange={this.handlePU} />
+
+            </div>
+            </div>
+            </div>
+
 
 
         }else{
-            const tipoPagoSelectItems = [
-                { label: 'BIZUM', value: 'BIZUM' },
-                { label: 'Tranferencia bancaria', value: 'TRANSFERENCIA BANCARIA' },
-                { label: 'Efectivo', value: 'EFECTIVO' }
-            ];
+            
 
             return <div>
                                 <div className="t"><div><h5>Register Payment</h5></div></div>
 
-
                                 <div className="i">
+                                {this.state.usernameError}
                                 <div className="p-inputgroup">
-                                <Dropdown name="concepto" value={this.state.concepto} placeholder="Select a payment" options={this.allConceptNames()} onChange={this.handleP} />
-
-                                </div>
-                                </div>
-
-                                <div className="i">
-                                <div className="p-inputgroup">
-                                <Dropdown name="tipo" value={this.state.type} placeholder="Select a payment type" options={tipoPagoSelectItems} onChange={this.handlePI} />
+                                <Dropdown field="pago.nickUsuario" name="pago.nickUsuario" value={this.state.nickUsuario} placeholder="Select a student" options={this.allStudentsNames()} onChange={this.handlePU} />
 
                                 </div>
                                 </div>
 
                                 <div className="i">
+                                {this.state.conceptoError}
                                 <div className="p-inputgroup">
-                                <InputText value={this.props.nickUser} hidden={true}  name="pago.nickUsuario" />
+                                <Dropdown field="concepto" name="concepto" value={this.state.concepto} placeholder="Select a payment" options={this.allConceptNames()} onChange={this.handleP} />
 
                                 </div>
                                 </div>
 
                                 <div className="i">
+                                {this.state.tipoError}
                                 <div className="p-inputgroup">
-                                <InputText value={this.state.fecha}  name="fecha"  hidden={true}/>
+                                <Dropdown field="tipo" name="tipo" value={this.state.type} placeholder="Select a payment type" options={tipoPagoSelectItems} onChange={this.handlePI} />
 
                                 </div>
                                 </div>
-
 
                                 <div className="b">
                                 <div className="i">
@@ -149,9 +176,9 @@ export class RealizarPago extends Component {
     }
 
     respuesta(status, data){
-        console.log(status);
+        console.log(data);
         if(status===203){
-            data.forEach(e => this.error(e.field, e.defaultMessage))
+            this.error(data.field, data.defaultMessage)
         }else if(status===201){
             this.setState({               
 
@@ -167,11 +194,22 @@ export class RealizarPago extends Component {
             this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
         }
     }
+
+    error(campo, mensaje){
+        if(campo === "pago.nickUsuario"){
+            this.setState({ usernameError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "concepto"){
+            this.setState({ conceptoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "tipo"){
+            this.setState({ tipoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }
+    }
     componentDidMount() {
        this.pagos.getNotPaidByStudent(this.props.nickUser).then(data => this.setState({ listaConcepto: data }));
+       this.pagos.getNameStudentByNoPago().then(data => this.setState({ listaNombres: data }))
+
     }
     allConceptNames(){
-
         var t=this.state.listaConcepto
         var i=0
         var conceptoSelectItems = [];
@@ -182,15 +220,21 @@ export class RealizarPago extends Component {
         }
         return conceptoSelectItems
     }
+    allStudentsNames(){
+
+        var t=this.state.listaNombres
+        var i=0
+        var nombresSelectItems = [];
+        while(i<t.length){        
+            nombresSelectItems.push(         
+            { label: String(t[i]) , value: String(t[i]) })        
+        i+=1
+        }
+        return nombresSelectItems
+    }
 
     render() {
-        console.log(this.state.listaConcepto);
-        console.log(this.props.nickUser)
-        
-        
-
-        
-
+        console.log(this.state)
         return (
 
             <div>

@@ -21,6 +21,6 @@ public interface GrupoRepository extends CrudRepository<Grupo, String>{
 	@Query("SELECT g.nombreGrupo FROM Grupo g")
 	public List<String> findAllGroupNames();
 	
-	@Query(value="select g.NOMBRE_GRUPO from grupos g where g.NOMBRE_GRUPO  not in(select g.NOMBRE_GRUPO  from grupos g join ASIGNACIONES_PROFESOR  a where g.NOMBRE_GRUPO = a.NOMBRE_GRUPO  )", nativeQuery=true)
+	@Query(value="select g.NOMBRE_GRUPO from grupos g where g.NOMBRE_GRUPO  not in(select g.NOMBRE_GRUPO  from grupos g join ASIGNACIONES_PROFESOR  a where g.NOMBRE_GRUPO = a.GRUPO_NOMBRE_GRUPO  )", nativeQuery=true)
 	public List<String> findAllEmptyGroups();
 }

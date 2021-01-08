@@ -143,7 +143,7 @@ class AssignStudent extends Component  {
                             <div className="t"><div><h5>Assign Student</h5></div></div>
                             <div className="i">
                                 <div className="p-inputgroup">
-                                    <InputText placeholder="Username" name="alumno.nickUsuario" type="text" value={this.state.nickUsuario} onChange={this.nickUsuario}  />
+                                    <InputText placeholder="Username" name="alumno.nickUsuario" type="text" value={this.props.astudent.nickUsuario} onChange={this.nickUsuario}  />
                                  </div>
                                  </div>
 

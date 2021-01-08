@@ -63,7 +63,7 @@ public class AlumnoController {
     public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
 		
-		if(session != null && session.getAttribute("type") == "profesor") {
+		if(session != null && (session.getAttribute("type") == "profesor" || session.getAttribute("type") == "alumno")) {
 			log.info("Sesion: "+session.getAttribute("type"));
 			Alumno alumno = alumnoServ.getAlumno(nick);
 		    return ResponseEntity.ok(alumno);

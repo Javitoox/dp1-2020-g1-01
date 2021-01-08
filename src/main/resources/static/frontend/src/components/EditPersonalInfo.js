@@ -304,5 +304,4 @@ export default class EditPersonalInfo extends Component {
         );
     }
 }
-
 }
