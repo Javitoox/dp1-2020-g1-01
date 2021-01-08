@@ -148,6 +148,7 @@ public class GrupoController {
 						HttpStatus.OK);
 				
 			}else if(alumnoService.getStudentsPerGroup(nombreGrupo).isEmpty()) {
+				log.info("aqui");
 				grupoService.deleteGroup(nombreGrupo);
 				return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
 			}else {

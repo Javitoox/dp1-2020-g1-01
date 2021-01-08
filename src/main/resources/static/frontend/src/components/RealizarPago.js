@@ -63,7 +63,7 @@ export class RealizarPago extends Component {
            
         }
 
-        axios.post("http://localhost:8081/pagos/new", grupo).then(res => {
+        axios.post("http://localhost:8081/pagos/new", grupo, {withCredentials: true}).then(res => {
             this.respuesta(res.status, res.data);
         })
         
@@ -84,6 +84,8 @@ export class RealizarPago extends Component {
             
             
         });
+        this.pagos.getNotPaidByStudent(event.target.value).then(data => this.setState({ listaConcepto: data }));  
+
     }
     handlePI(event) {
         this.setState({
@@ -130,7 +132,7 @@ export class RealizarPago extends Component {
                                 <div className="i">
                                 {this.state.conceptoError}
                                 <div className="p-inputgroup">
-                                <Dropdown field="concepto" name="concepto" value={this.state.concepto} placeholder="Select a payment" options={this.allConceptNames(this.state.nickUsuario)} onChange={this.handleP} />
+                                <Dropdown field="concepto" name="concepto" value={this.state.concepto} placeholder="Select a payment" options={this.allConceptNames()} onChange={this.handleP} />
 
                                 </div>
                                 </div>
@@ -205,9 +207,9 @@ export class RealizarPago extends Component {
     componentDidMount() {
        this.pagos.getNotPaidByStudent(this.props.nickUser).then(data => this.setState({ listaConcepto: data }));
        this.pagos.getNameStudentByNoPago().then(data => this.setState({ listaNombres: data }))
+
     }
-    allConceptNames(nick){
-        this.pagos.getNotPaidByStudent(nick).then(data => this.setState({ listaConcepto: data }));  
+    allConceptNames(){
         var t=this.state.listaConcepto
         var i=0
         var conceptoSelectItems = [];
