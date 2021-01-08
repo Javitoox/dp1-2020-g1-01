@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.Tutor;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.SolicitudService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,9 +33,8 @@ import lombok.extern.slf4j.Slf4j;
 public class SolicitudController {
 
 	   private final SolicitudService solicitudServ;
-  
 	   @Autowired
-	   public SolicitudController(SolicitudService solicitudServ) {
+	   public SolicitudController(SolicitudService solicitudServ, AlumnoService alumServ) {
 		   this.solicitudServ = solicitudServ;
 	   } 
 	   
