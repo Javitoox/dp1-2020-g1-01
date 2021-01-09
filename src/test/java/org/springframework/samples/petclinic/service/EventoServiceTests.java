@@ -71,7 +71,6 @@ public class EventoServiceTests {
 	@Test
 	void shouldFindEventsbyGroup() {
         List<Evento> eventos = new ArrayList<Evento>();
-        List<Curso> cursos = new ArrayList<Curso>();
         eventos.add(e);
         Curso b2 = new Curso();
 		b2.setCursoDeIngles(TipoCurso.B2);

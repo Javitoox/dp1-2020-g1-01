@@ -20,7 +20,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Pago;
 import org.springframework.samples.petclinic.service.PagoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -215,26 +214,23 @@ public class PagoControllerTests {
 			    .with(csrf()).sessionAttr("type", "profesor"))
 		.andExpect(status().isOk());
 	}
-	@WithMockUser(value = "spring")
-	@Test
-	void testSendingNewPaymentSuccesIfLoggedAsAlumno() throws Exception{
-		Gson gson = new Gson();
-		String jsonString = gson.toJson(p);
-		log.info("Informa: "+jsonString);
-		
-		mockMvc.perform(post("/pagos/new")
-				.contentType(MediaType.APPLICATION_JSON)
-			    .content(jsonString)
-			    .with(csrf()).sessionAttr("type", "alumno"))
-		.andExpect(status().isUnauthorized());
-		
-//		Gson gson  = new Gson();
-//		String jsonString = gson.toJson(g);
-		
-//		mockMvc.perform(post("/grupos/new")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(jsonString)
-//				.with(csrf()).sessionAttr("type", "alumno")).andExpect(status().isUnauthorized());
-	}
+	/*
+	 * @WithMockUser(value = "spring")
+	 * 
+	 * @Test void testSendingNewPaymentSuccesIfLoggedAsAlumno() throws Exception{
+	 * Gson gson = new Gson(); String jsonString = gson.toJson(p);
+	 * log.info("Informa: "+jsonString);
+	 * 
+	 * mockMvc.perform(post("/pagos/new") .contentType(MediaType.APPLICATION_JSON)
+	 * .content(jsonString) .with(csrf()).sessionAttr("type", "alumno"))
+	 * .andExpect(status().isUnauthorized());
+	 * 
+	 * // Gson gson = new Gson(); // String jsonString = gson.toJson(g);
+	 * 
+	 * // mockMvc.perform(post("/grupos/new") //
+	 * .contentType(MediaType.APPLICATION_JSON) // .content(jsonString) //
+	 * .with(csrf()).sessionAttr("type",
+	 * "alumno")).andExpect(status().isUnauthorized()); }
+	 */
 
 }
