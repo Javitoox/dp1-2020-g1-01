@@ -54,8 +54,8 @@ public class SolicitudService {
 			if(t.getFechaMatriculacion() == null) {
 				 t.setFechaMatriculacion(LocalDate.now());
 				 student.setTutores(t);
-				 tutorService.saveTutor(student.getTutores());
 			}
+			 tutorService.saveTutor(student.getTutores());
 		}
 		alumnoService.saveAlumno(student);
 	}
