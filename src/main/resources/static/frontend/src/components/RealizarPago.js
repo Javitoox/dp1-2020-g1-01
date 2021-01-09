@@ -176,9 +176,9 @@ export class RealizarPago extends Component {
     }
 
     respuesta(status, data){
-        console.log(data);
+        console.log(status);
         if(status===203){
-            this.error(data.field, data.defaultMessage)
+            data.forEach(e => this.error(e.field, e.defaultMessage))
         }else if(status===201){
             this.setState({               
 
@@ -190,6 +190,9 @@ export class RealizarPago extends Component {
                 },
                 succes: <div className="alert alert-success" role="alert">Successful payment</div>
             })
+        
+
+        
         }else{
             this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
         }

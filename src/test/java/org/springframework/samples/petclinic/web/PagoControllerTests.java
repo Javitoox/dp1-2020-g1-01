@@ -20,6 +20,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Pago;
 import org.springframework.samples.petclinic.service.PagoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -40,11 +41,11 @@ public class PagoControllerTests {
 	private final static String TIPO = "BIZUM";
 	private final static String NICK_USUARIO = "Evelyn";
 	
+	private static Pago p;
 
 	
 	@MockBean
 	private PagoService pagoService;
-	private Pago pago;
 	
 	@Autowired
     private MockMvc mockMvc;
@@ -52,7 +53,7 @@ public class PagoControllerTests {
 	
 	@BeforeEach
 	void setup() {
-		pago = new Pago();
+		p = new Pago();
 		Alumno alumno = new Alumno();
 		alumno.setNickUsuario("JaviMartinez7");
 		alumno.setContraseya("JaviKuka787");
@@ -63,11 +64,11 @@ public class PagoControllerTests {
 		alumno.setDireccionUsuario("Calle Pepe");
 		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
 		alumno.setFechaSolicitud(LocalDate.now());
-		pago.setConcepto(CONCEPTO);
-		pago.setFecha(LocalDate.now());
-		pago.setId(30);
-		pago.setTipo(TIPO);
-		pago.setAlumnos(alumno);
+		p.setConcepto(CONCEPTO);
+		p.setFecha(LocalDate.now());
+		p.setId(30);
+		p.setTipo(TIPO);
+		p.setAlumnos(alumno);
 		
 	}
 	@WithMockUser(value = "spring")
@@ -144,7 +145,7 @@ public class PagoControllerTests {
 	@Test
 	void testNotPaidListByStudentIfLoggedAsAlumn() throws Exception {
 		given(this.pagoService.getNoPaymentByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","alumno")).andExpect(status().isUnauthorized());
+		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","alumno")).andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
@@ -153,18 +154,87 @@ public class PagoControllerTests {
 		given(this.pagoService.getNoPaymentByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","null")).andExpect(status().isUnauthorized());
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testPaymentsListByStudentIfLoggedAsAlumn() throws Exception {
+		given(this.pagoService.getPaymentsByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
+		mockMvc.perform(get("/pagos/paidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","alumno")).andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testPaymentsListByStudentIfNotLogged() throws Exception {
+		given(this.pagoService.getPaymentsByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
+		mockMvc.perform(get("/pagos/paidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","null")).andExpect(status().isUnauthorized());
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testStudentsHaveNotPaidListIfLoggedAsAlumn() throws Exception {
+		given(this.pagoService.getNameStudentByNoPago()).willReturn(new ArrayList<>());
+		mockMvc.perform(get("/pagos/studentsNotPaid").sessionAttr("type","profesor")).andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testStudentsHaveNotPaidListIfNotLogged() throws Exception {
+		given(this.pagoService.getNameStudentByNoPago()).willReturn(new ArrayList<>());
+		mockMvc.perform(get("/pagos/studentsNotPaid").sessionAttr("type","null")).andExpect(status().isUnauthorized());
+	}
+	
+	
 	@WithMockUser(value = "spring")
 	@Test
 	void testSendingNewPaymentSucces() throws Exception{
 		Gson gson = new Gson();
-		String jsonString = gson.toJson(pago);
+		String jsonString = gson.toJson(p);
 		log.info("Informa: "+jsonString);
 		
 		mockMvc.perform(post("/pagos/new")
 				.contentType(MediaType.APPLICATION_JSON)
 			    .content(jsonString)
-			    .with(csrf()))
+			    .with(csrf()).sessionAttr("type", "profesor"))
 		.andExpect(status().isOk());
+	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testSendingNewPaymentSuccesIfLoggedAsAlumno() throws Exception{
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(p);
+		log.info("Informa: "+jsonString);
+		
+		mockMvc.perform(post("/pagos/new")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content(jsonString)
+			    .with(csrf()).sessionAttr("type", "alumno"))
+		.andExpect(status().isUnauthorized());
+		
+//		Gson gson  = new Gson();
+//		String jsonString = gson.toJson(g);
+		
+//		mockMvc.perform(post("/grupos/new")
+//				.contentType(MediaType.APPLICATION_JSON)
+//				.content(jsonString)
+//				.with(csrf()).sessionAttr("type", "alumno")).andExpect(status().isUnauthorized());
 	}
 
 }

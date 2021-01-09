@@ -1,18 +1,27 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Curso;
+import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.model.Pago;
+import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.PagoService;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -115,8 +124,30 @@ public class PagosController {
 		if(session != null && session.getAttribute("type") == "profesor") {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando crear pago: {}", resource);
-			if(result.hasErrors()) {
-				return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+			Validator validator = factory.getValidator();
+			Set<ConstraintViolation<Pago>> violations = validator.validate(resource);
+			
+			if (result.hasErrors() || violations.size() > 0) {
+				List<FieldError> errors = new ArrayList<>();
+				if (violations.size() > 0) {
+					for (ConstraintViolation<Pago> v : violations) {
+						FieldError e = new FieldError("pago", v.getPropertyPath().toString(), v.getMessageTemplate());
+						errors.add(e);
+					}
+				}
+				if (result.hasErrors()) {
+					errors.addAll(result.getFieldErrors());
+				}
+				if (resource.getConcepto().equals("null") || resource.getConcepto() == "") {
+					FieldError e = new FieldError("pago", "concepto", "You have to select a concept");
+					errors.add(e);
+				}
+				if (resource.getTipo().equals("null") || resource.getTipo() == "") {
+					FieldError e = new FieldError("pago", "tipo", "You have to select a type");
+					errors.add(e);
+				}
+				return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
 				pagoService.savePayment(resource);
 				return new ResponseEntity<>("Pago creado correctamente", HttpStatus.CREATED);
