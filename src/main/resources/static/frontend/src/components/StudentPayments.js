@@ -20,7 +20,7 @@ export class StudentPayments extends Component {
             
             pagoS:"",
             redirect: false,
-            nickUsuario: "",
+            nickUsuario: this.props.nickUser,
             contraseya: "",
             dniUsuario: "",
             nombreCompletoUsuario: "",
@@ -86,6 +86,7 @@ export class StudentPayments extends Component {
 
     render() {        
         console.log(this.state);
+        console.log(this.props.nickUser);
         return (
             <React.Fragment>
                 <div className="datatable-templating-demo">                 
