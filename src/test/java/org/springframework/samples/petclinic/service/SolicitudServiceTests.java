@@ -142,7 +142,7 @@ public class SolicitudServiceTests {
 		verify(tutorService, times(0)).saveTutor(any(Tutor.class));
 	}
 	
-	@Test
+	@Test 
 	void shoulAcceptPendingRequestWithTutorNotExistedYet() {
 		ALUMNO_WITH_TUTOR = new Alumno();
 		Tutor t = new Tutor();
@@ -164,7 +164,7 @@ public class SolicitudServiceTests {
 		solicitudService.acceptRequest(ALUMNO_WITH_TUTOR);
 		
 		verify(alumnoService, times(1)).saveAlumno(any(Alumno.class));
-		verify(tutorService, times(0)).saveTutor(any(Tutor.class));
+		verify(tutorService, times(1)).saveTutor(any(Tutor.class));
 	}
 	
 	@Test
@@ -201,9 +201,7 @@ public class SolicitudServiceTests {
 		verify(alumnoService, times(1)).deleteStudents(any(Alumno.class));
 		verify(tutorService, times(0)).delete(any(String.class));
 	}
-	 
-	
-	
+
 }
 
 
