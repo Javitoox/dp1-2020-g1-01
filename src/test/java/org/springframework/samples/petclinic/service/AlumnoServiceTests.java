@@ -99,7 +99,6 @@ public class AlumnoServiceTests {
 	
 	@Test 
 	void shouldShowStudentsByTutorIsNotNull() {
-		Alumno a= new Alumno();
 		when(alumnoRepository.findStudentsByTutor(any(String.class))).thenReturn(alumnosNotEmpty);
 		List<Alumno> alumnos = alumnoService.getAllMyStudents(TUTOR_WITH_STUDENTS);
 		assertThat(alumnos.size()).isGreaterThan(0);

@@ -28,6 +28,6 @@ public interface PagoRepository extends CrudRepository<Pago, Integer> {
 	@Query("SELECT distinct(p.concepto) FROM Pago p WHERE p.concepto NOT IN (SELECT pp.concepto FROM Pago pp WHERE pp.alumnos.nickUsuario = :nickUsuario)")
 	public List<String> findNoPaymentByStudent(@Param("nickUsuario") String nickUsuario);
 	
-	@Query("SELECT p FROM Pago p WHERE p.alumnos.nickUsuario = nickUsuario")
+	@Query("SELECT p FROM Pago p WHERE p.alumnos.nickUsuario = :nickUsuario")
 	public List<Pago> findPaymentsByStudent(@Param("nickUsuario") String nickUsuario);
 }
