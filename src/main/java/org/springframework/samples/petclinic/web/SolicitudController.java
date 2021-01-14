@@ -98,7 +98,7 @@ public class SolicitudController {
 					log.info("Update student´s request with username: "+solicitud.getAlumno().getNickUsuario());
 					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 				}else {
-					log.info("Access denied: "+solicitud.getAlumno().getNickUsuario());
+					log.warn("Access denied: "+solicitud.getAlumno().getNickUsuario());
 					return new ResponseEntity<>("The student already exists and his password is incorrect", 
 							HttpStatus.OK);
 				}
@@ -143,15 +143,15 @@ public class SolicitudController {
 					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 				}else if(alumno != null && !alumno.getContraseya().equals(solicitud.getAlumno().getContraseya()) 
 						&& tutor != null && !tutor.getContraseya().equals(solicitud.getTutor().getContraseya())) {
-					log.info("Access denied: "+solicitud.getAlumno().getNickUsuario()+" and "+solicitud.getTutor().getNickUsuario());
+					log.warn("Access denied: "+solicitud.getAlumno().getNickUsuario()+" and "+solicitud.getTutor().getNickUsuario());
 					return new ResponseEntity<>("Student and tutor already exist and their passwords are incorrect", 
 							HttpStatus.OK);
 				}else if(alumno != null && !alumno.getContraseya().equals(solicitud.getAlumno().getContraseya())) {
-					log.info("Access denied: "+solicitud.getAlumno().getNickUsuario());
+					log.warn("Access denied: "+solicitud.getAlumno().getNickUsuario());
 					return new ResponseEntity<>("The student already exists and his password is incorrect", 
 							HttpStatus.OK);
 				}else{
-					log.info("Access denied: "+solicitud.getTutor().getNickUsuario());
+					log.warn("Access denied: "+solicitud.getTutor().getNickUsuario());
 					return new ResponseEntity<>("The tutor already exists and his password is incorrect", 
 							HttpStatus.OK);
 				}
