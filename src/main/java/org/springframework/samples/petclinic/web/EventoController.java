@@ -64,6 +64,7 @@ public class EventoController {
 		if(session != null && session.getAttribute("type") == "profesor") {
 			return ResponseEntity.ok(eventoService.getAll());
 		}else {
+			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
@@ -76,6 +77,7 @@ public class EventoController {
 			Curso b = a.getGrupos().getCursos();
 			return ResponseEntity.ok(eventoService.getByCourse(b));
 		} else {
+			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
@@ -93,6 +95,7 @@ public class EventoController {
 				return ResponseEntity.ok(evento);
 			}
 		}else {
+			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
@@ -109,6 +112,7 @@ public class EventoController {
 				return ResponseEntity.ok(description);
 			}
 		}else {
+			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
@@ -121,6 +125,7 @@ public class EventoController {
 			log.info("Delete event");
 			return ResponseEntity.ok(eventoService.getAll());
 		}else {
+			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
@@ -162,15 +167,16 @@ public class EventoController {
 						log.info("New event with title: " + evento.getTitle());
 						return new ResponseEntity<>("Successful creation", HttpStatus.CREATED);
 					} else {
-						log.info("Type not exist");
+						log.error("Type not exist");
 						return new ResponseEntity<>("Type not exist", HttpStatus.OK);
 					}
 				} else {
-					log.info("Event Exist");
+					log.warn("Event Exist");
 					return new ResponseEntity<>("The event already exists", HttpStatus.OK);
 				}
 			}
 		} else {
+			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
