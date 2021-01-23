@@ -1,13 +1,18 @@
 package org.springframework.samples.petclinic.web;
 
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,8 +41,9 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @WebMvcTest(controllers=EventoController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
@@ -67,10 +73,10 @@ public class EventoControllerTests {
 		evento.setTitle("El evento de prueba");
 		evento.setCurso(curso);
 		evento.setDescripcion("Que descripcion mas bonita");
-		evento.setStart(LocalDate.of(2021, 01, 20));
-		evento.setEnd(LocalDate.of(2021, 01, 19));
 		evento.setTipo(tipo);
 		evento.setColor("red");
+		evento.setStart(LocalDate.of(2021, 01, 20));
+		evento.setEnd(LocalDate.of(2021, 01, 22));
 		
 		alumno = new Alumno();
  		Grupo grupo = new Grupo();
@@ -209,16 +215,109 @@ public class EventoControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testCreateEvent() throws Exception {
-		Gson json = new Gson();
-		String jsonString = json.toJson(evento);
 		given(eventoService.existEvent(any())).willReturn(false);
 		given(eventoService.assignTypeAndSave(any(), any())).willReturn(true);
 		
-		mockMvc.perform(post("/events/create/A1")
+		mockMvc.perform(post("/events/create/{curso}", "A1")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(jsonString)
+				.content(evento.toJson())
 				.with(csrf()).sessionAttr("type","profesor"))
-		.andExpect(status().isOk());
+		.andExpect(status().isCreated());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testCreateEventWithErrorsDate() throws Exception {
+		Evento evento2 = new Evento();
+		Curso curso2 = new Curso();
+		curso2.setCursoDeIngles(TipoCurso.A1);
+		TipoEvento tipo2 = new TipoEvento();
+		tipo2.setTipo("internal");
+		evento2.setTitle("El evento de prueba");
+		evento2.setCurso(curso2);
+		evento2.setDescripcion("Que descripcion mas bonita");
+		evento2.setTipo(tipo2);
+		evento2.setColor("red");
+		evento2.setStart(LocalDate.of(2021, 01, 20));
+		evento2.setEnd(LocalDate.of(2021, 01, 19));
+		
+		mockMvc.perform(post("/events/create/{curso}", "A1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(evento2.toJson())
+				.with(csrf()).sessionAttr("type","profesor"))
+		.andExpect(status().isNonAuthoritativeInformation())
+		.andExpect(jsonPath("$[0].field", is("start")));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testCreateEventWithErrorsNullTitle() throws Exception {
+		Evento evento2 = new Evento();
+		Curso curso2 = new Curso();
+		curso2.setCursoDeIngles(TipoCurso.A1);
+		TipoEvento tipo2 = new TipoEvento();
+		tipo2.setTipo("internal");
+		evento2.setCurso(curso2);
+		evento2.setDescripcion("Que descripcion mas bonita");
+		evento2.setTipo(tipo2);
+		evento2.setColor("red");
+		evento2.setStart(LocalDate.of(2021, 01, 20));
+		evento2.setEnd(LocalDate.of(2021, 01, 21));
+		
+		mockMvc.perform(post("/events/create/{curso}", "A1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(evento2.toJson())
+				.with(csrf()).sessionAttr("type","profesor"))
+		.andExpect(status().isNonAuthoritativeInformation())
+		.andExpect(jsonPath("$[0].field", is("title")));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testCreateEventWithErrorsNullCurso() throws Exception {
+		Evento evento2 = new Evento();
+		TipoEvento tipo2 = new TipoEvento();
+		tipo2.setTipo("internal");
+		evento2.setTitle("El evento de prueba");
+		evento2.setDescripcion("Que descripcion mas bonita");
+		evento2.setTipo(tipo2);
+		evento2.setColor("red");
+		evento2.setStart(LocalDate.of(2021, 01, 20));
+		evento2.setEnd(LocalDate.of(2021, 01, 21));
+		
+		mockMvc.perform(post("/events/create/{curso}", "null")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(evento2.toJson())
+				.with(csrf()).sessionAttr("type","profesor"))
+		.andExpect(status().isNonAuthoritativeInformation())
+		.andExpect(jsonPath("$[0].field", is("curso")));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testCreateEventWithErrorsExistEvent() throws Exception {
+		given(eventoService.existEvent(any())).willReturn(true);
+		
+		mockMvc.perform(post("/events/create/{curso}", "A1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(evento.toJson())
+				.with(csrf()).sessionAttr("type","profesor"))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$", is("The event already exists")));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testCreateEventWithErrorsExistType() throws Exception {
+		given(eventoService.existEvent(any())).willReturn(false);
+		given(eventoService.assignTypeAndSave(any(), any())).willReturn(false);
+		
+		mockMvc.perform(post("/events/create/{curso}", "A1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(evento.toJson())
+				.with(csrf()).sessionAttr("type","profesor"))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$", is("Type not exist")));
 	}
 	
 }
