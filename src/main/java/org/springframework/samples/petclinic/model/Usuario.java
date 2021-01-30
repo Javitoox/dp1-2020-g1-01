@@ -48,12 +48,12 @@ public class Usuario{
 	private String correoElectronicoUsuario;
 	
 	@Column(name="num_telefono_usuario")
-	@Pattern(regexp = "(6|7)[ -]*([0-9][ -]*){8}", message = "Incorrect format of first number phone")
+	@Pattern(regexp = "(6|7)[ -]*([0-9][ -]*){8}", message = "Incorrect format of first phone number")
 	@NotBlank(message = "Required field")
 	private String numTelefonoUsuario;
 	
 	@Column(name="num_telefono_usuario2")
-	@Pattern(regexp = "(6|7)[ -]*([0-9][ -]*){8}", message = "Incorrect format of second number phone")
+	@Pattern(regexp = "(6|7)[ -]*([0-9][ -]*){8}", message = "Incorrect format of second phone number")
 	private String numTelefonoUsuario2;
 	
 	@Column(name="direccion_usuario")

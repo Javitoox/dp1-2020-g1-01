@@ -47,10 +47,14 @@ export class CreateGroup extends Component {
                 cursoDeIngles:this.state.grupoS.cursos.cursoDeIngles
             } 
         }
-
-        axios.post("http://localhost:8081/grupos/new", grupo, {withCredentials: true}).then(res => {
-            this.respuesta(res.status, res.data);
-        })
+        if(this.state.grupoS.cursos.cursoDeIngles===""){
+            window.alert("You must select a course")
+        }else{
+            axios.post("http://localhost:8081/grupos/new", grupo, {withCredentials: true}).then(res => {
+                this.respuesta(res.status, res.data);
+            })
+        }
+        
         
     }
     handleCI(event) {
@@ -89,14 +93,21 @@ export class CreateGroup extends Component {
                 },
                 succes: <div className="alert alert-success" role="alert">Successful creation</div>
             })
+        }else if(status===226){
+            this.setState({exist: <div className="alert alert-danger" role="alert">The group already exists</div>})
+        }else if(status===204){
+            this.setState({exist: <div className="alert alert-danger" role="alert">You must choose a course</div>})
         }else{
             this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
         }
     }
     error(campo, mensaje){
-        if(campo === "nombreGrupo"){
+        console.log("p")
+        if(String(campo) === "nombreGrupo"){
+            console.log("g")
             this.setState({ nombreGrupoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }else if(campo === "grupo.cursoDeIngles"){
+            console.log("d")
             this.setState({ cursoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }
     }
@@ -149,7 +160,7 @@ export class CreateGroup extends Component {
                                     <div className="i">
                                     {this.state.nombreGrupoError}
                                     <div className="p-inputgroup">
-                                    <InputText placeholder="NG" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
+                                    <InputText placeholder="NG" field="nombreGrupo" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
 
                                     </div>
                                     </div>

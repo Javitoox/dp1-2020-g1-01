@@ -194,7 +194,7 @@ public class GrupoControllerTests {
 		mockMvc.perform(post("/grupos/new")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(jsonString)
-				.with(csrf()).sessionAttr("type", "profesor")).andExpect(status().isBadRequest());
+				.with(csrf()).sessionAttr("type", "profesor")).andExpect(status().isImUsed());
 	}
 	
 	@WithMockUser(value = "spring")

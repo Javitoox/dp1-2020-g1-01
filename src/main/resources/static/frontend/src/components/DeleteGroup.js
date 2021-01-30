@@ -30,9 +30,14 @@ export class DeleteGroup extends Component {
     delete = event => {
         event.preventDefault();
 
-        
-            axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, {withCredentials: true}).then(res => {
-            this.respuesta(res.status, res.data);        })
+            if(this.state.grupoS.nombreGrupo===""){
+                window.alert("You must select a group")
+
+            }else{
+                axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, {withCredentials: true}).then(res => {
+                    this.respuesta(res.status, res.data);        })
+            }
+           
 
         
 

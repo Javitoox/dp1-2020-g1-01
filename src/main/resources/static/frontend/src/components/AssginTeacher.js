@@ -66,7 +66,8 @@ export default class AssignTeacher extends Component  {
     }
     form(){
         var l = this.state.listaGrupos
-        if(l===""){
+        console.log(l)
+        if(String(l)===""){
 
             return <div className="t"><div><h5>There is no group to assign</h5></div></div>
 

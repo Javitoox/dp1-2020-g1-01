@@ -51,7 +51,8 @@ public class EventoService {
 		Evento evento = eventoRepository.findById(id).orElse(null);
 		String result = null;
 		if(evento != null) {
-			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo();
+			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo()+
+					"/"+evento.getCurso().getCursoDeIngles();
 		}
 		return result;
 	}

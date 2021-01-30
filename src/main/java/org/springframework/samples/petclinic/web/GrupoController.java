@@ -107,27 +107,19 @@ public class GrupoController {
 		if(session != null && session.getAttribute("type") == "profesor") {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando crear grupo: {}", resource);
-			if(result.hasErrors()) {
+			if(result.hasErrors()||grupoService.exists(resource.getNombreGrupo())) {
+				if(grupoService.exists(resource.getNombreGrupo())) {
+					return new ResponseEntity<>("Grupo ya existente", HttpStatus.IM_USED);
+				}else {
+					
+				
 				return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-			}else {	
-				if(resource.getCursos().getCursoDeIngles().toString()==null||resource.getCursos().getCursoDeIngles().toString()=="") {
-					log.info("Incorrect course:"+ resource.getCursos());
-					return new ResponseEntity<>("Course incorrect", 
-							HttpStatus.OK);
-					
-				}else if(resource.getNombreGrupo()==null||resource.getNombreGrupo()=="") {
-					log.info("Incorrect name of group:"+ resource.getNombreGrupo());
-	
-					return new ResponseEntity<>("Name of group incorrect", 
-							HttpStatus.OK);
-					
-				}else if(grupoService.exists(resource.getNombreGrupo())) {
-					return new ResponseEntity<>("Grupo ya existente", HttpStatus.BAD_REQUEST);
-				}else{
+				}
+			}else {			
 				
 				grupoService.saveGroup(resource);
 				return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);
-				}
+				
 			}
 		}else {
 			
@@ -141,14 +133,7 @@ public class GrupoController {
 		if(session != null && session.getAttribute("type") == "profesor") {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando borrar grupo: {}", nombreGrupo);
-			if(nombreGrupo==null||nombreGrupo=="") {
-				log.info("Incorrect name of group:"+ nombreGrupo);
-	
-				return new ResponseEntity<>("Name of group incorrect", 
-						HttpStatus.OK);
-				
-			}else if(alumnoService.getStudentsPerGroup(nombreGrupo).isEmpty()) {
-				log.info("aqui");
+			if(alumnoService.getStudentsPerGroup(nombreGrupo).isEmpty()) {
 				grupoService.deleteGroup(nombreGrupo);
 				return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
 			}else {
