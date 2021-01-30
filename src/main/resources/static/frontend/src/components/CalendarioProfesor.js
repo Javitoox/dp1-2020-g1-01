@@ -33,6 +33,7 @@ export const CalendarioProfesor = (props) => {
             <Dialog header="Information" visible={true} style={{ width: '25vw' }} onHide={() => setInfo(null)}>
                 <p><b>Description:</b> {parts[0]}</p>
                 <p><b>Type:</b> {parts[1]}</p>
+                <p><b>Course:</b> {parts[2]}</p>
                 <Button label="Delete" className="p-button-danger" onClick={() => remove(id)}></Button>
             </Dialog>
         )

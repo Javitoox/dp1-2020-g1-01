@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Solicitud;
@@ -25,6 +26,8 @@ import org.springframework.samples.petclinic.service.SolicitudService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.google.gson.Gson;
 
 @WebMvcTest(controllers=SolicitudController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
@@ -50,28 +53,20 @@ public class SolicitudControllerTests {
 		alumno.setCorreoElectronicoUsuario("javikua7@gmail.com");
 		alumno.setNumTelefonoUsuario("677676676");
 		alumno.setDireccionUsuario("Calle Pepe");
-		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
-		alumno.setFechaSolicitud(LocalDate.now());
 		solicitud.setAlumno(alumno);
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testSendingNewAlumSucces() throws Exception{
-		//Gson gson = new Gson();
-		//String jsonString = gson.toJson(solicitud);
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(solicitud);
 		given(solicitudService.getAlumno(solicitud.getAlumno().getNickUsuario())).willReturn(null);
 		
 		mockMvc.perform(post("/requests/sending")
 				.with(csrf())
-				.param("alumno.nickUsuario", "JaviMartinez7")
-				.param("alumno.contraseya", "JaviKuka787")
-				.param("alumno.dniUsuario", "45676787Y")
-				.param("alumno.nombreCompletoUsuario", "Javi Martinez")
-				.param("alumno.correoElectronicoUsuario", "javikua7@gmail.com")
-				.param("alumno.numTelefonoUsuario", "677676676")
-				.param("alumno.direccionUsuario", "Calle Pepe")
-				.param("alumno.fechaNacimiento", "2000-08-13"))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(jsonString))
         .andExpect(status().isOk());
 	}
 	
