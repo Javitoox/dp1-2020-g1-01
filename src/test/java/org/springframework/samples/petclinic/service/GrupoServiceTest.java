@@ -28,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class GrupoServiceTest {
 	
 	private static Set<Grupo> notEmptyGroups;	
+	private static Set<Grupo> emptyGroups;	
+
 
 	private static List<String> nombresGruposPorCurso;	
 	private static List<String> nombresGruposVacios;	
@@ -47,6 +49,8 @@ public class GrupoServiceTest {
 		nombresGruposVacios = new ArrayList<>();
 		nombresGruposVacios.add(NOMBRE_GRUPO);
 		
+		emptyGroups = new HashSet<>();
+		
 		notEmptyGroups = new HashSet<>();
 		notEmptyGroups.add(g);
 		
@@ -60,6 +64,12 @@ public class GrupoServiceTest {
 	}
 	
 	@Test
+	void shouldShowAGroupListIsEmpty() {
+		when(grupoRepository.findAll()).thenReturn(emptyGroups);
+		assertThat(grupoService.getAllGrupos()).isNotEmpty();
+	}
+	
+	@Test
 	void shouldShowAGroupListIsNotEmpty() {
 		when(grupoRepository.findAll()).thenReturn(notEmptyGroups);
 		assertThat(grupoService.getAllGrupos()).isNotEmpty();
@@ -69,7 +79,6 @@ public class GrupoServiceTest {
 	void shouldReturnAllEmptyGroups() {
 		when(grupoRepository.findAllEmptyGroups()).thenReturn(nombresGruposVacios);
 		assertThat(grupoService.getEmptyGroups()).isNotEmpty();
-
 	}
 	 
 	@Test 
