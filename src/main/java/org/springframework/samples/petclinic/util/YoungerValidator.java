@@ -25,12 +25,14 @@ public class YoungerValidator implements Validator{
 		Solicitud solicitud = (Solicitud) target;
 		Tutor tutor = solicitud.getTutor();
 		LocalDate fechaAlumno = solicitud.getAlumno().getFechaNacimiento();
-		Integer edadAlumno = calcularEdad(fechaAlumno);
-		log.info("Edad alumno: "+edadAlumno);
-		
-		if(edadAlumno<18 && tutor==null) {
-			errors.rejectValue("alumno.fechaNacimiento", "If you are a minor, you must have an assigned tutor",
-					"If you are a minor, you must have an assigned tutor");
+		if(fechaAlumno!=null) {
+			Integer edadAlumno = calcularEdad(fechaAlumno);
+			log.info("Edad alumno: "+edadAlumno);
+			
+			if(edadAlumno<18 && tutor==null) {
+				errors.rejectValue("alumno.fechaNacimiento", "If you are a minor, you must have an assigned tutor",
+						"If you are a minor, you must have an assigned tutor");
+			}
 		}
 	}
 	
