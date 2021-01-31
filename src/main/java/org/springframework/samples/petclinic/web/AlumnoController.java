@@ -36,13 +36,11 @@ public class AlumnoController {
 
 	@Autowired
 	public AlumnoController(AlumnoService alumnoServ) {
-		super(); 
 		this.alumnoServ = alumnoServ;
 	}
 	
 	@PutMapping("/editStudent")
-	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, HttpServletRequest request,HttpServletResponse response , BindingResult result)
-			throws IOException {
+	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, HttpServletRequest request,HttpServletResponse response) {
 		HttpSession session = request.getSession(false);
     	if(session != null && session.getAttribute("type") == "alumno" || session.getAttribute("type") == "profesor" ) {
     		if (result.hasErrors()) {
@@ -65,7 +63,7 @@ public class AlumnoController {
     public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
 		
-		if(session != null && session.getAttribute("type") == "profesor") {
+		if(session != null && (session.getAttribute("type") == "profesor" || session.getAttribute("type") == "alumno")) {
 			log.info("Sesion: "+session.getAttribute("type"));
 			Alumno alumno = alumnoServ.getAlumno(nick);
 		    return ResponseEntity.ok(alumno);
@@ -103,9 +101,16 @@ public class AlumnoController {
 	}
 
 	@GetMapping("/{nombreGrupo}")
-	public ResponseEntity<List<Alumno>> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo) {
-		List<Alumno> studentsByGroup = alumnoServ.getStudentsPerGroup(nombreGrupo);
-		return ResponseEntity.ok(studentsByGroup);
+	public ResponseEntity<List<Alumno>> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		log.info("Obteniendo alumnos del curso: "+ nombreGrupo);
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+			List<Alumno> studentsByGroup = alumnoServ.getStudentsPerGroup(nombreGrupo);
+			return ResponseEntity.ok(studentsByGroup);
+		}else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
 	}
 	
 	@GetMapping("/{nickTutor}/allMyStudents")
@@ -125,19 +130,17 @@ public class AlumnoController {
 	public ResponseEntity<?> assignStudent(@Valid @RequestBody Alumno alumno, HttpServletRequest request,HttpServletResponse response , BindingResult result)
 			throws IOException {
 		HttpSession session = request.getSession(false);
-    	if(session != null && session.getAttribute("type") == "alumno" || session.getAttribute("type") == "profesor" ) {
+    	if(session != null && session.getAttribute("type") == "profesor" ) {
     		if (result.hasErrors()) {
-    			log.info("Esto no funciona");
     			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     		}
     		else {
-    			log.info("Ha funcionado");
+    			log.info("Request to edit alumn's group: {} ", alumno.getGrupos());
     			this.alumnoServ.saveAlumno(alumno);
-    			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
     			
     		}
     	}else {
-    		log.info("Que no bro hahah");
     		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     	}
     }

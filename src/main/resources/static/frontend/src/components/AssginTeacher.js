@@ -27,6 +27,8 @@ export default class AssignTeacher extends Component  {
         listaGrupos:{
            nombreGrupo: ""
         },
+        usernameError:null,
+        nombreGrupoError:null,
         succes:null,
         exist:null,
         comprobation:false,
@@ -64,7 +66,8 @@ export default class AssignTeacher extends Component  {
     }
     form(){
         var l = this.state.listaGrupos
-        if(l==""){
+        console.log(l)
+        if(String(l)===""){
 
             return <div className="t"><div><h5>There is no group to assign</h5></div></div>
 
@@ -74,15 +77,17 @@ export default class AssignTeacher extends Component  {
 
             return <div>
                 <div className="t"><div><h5>Assign Teacher</h5></div></div>
-                            <div className="i">
+                                <div className="i">
+                                {this.state.usernameError}
                                 <div className="p-inputgroup">
-                                    <InputText placeholder="Username" name="profesor.nickUsuario" type="text" value={this.props.nickUser}/>
+                                    <InputText field="profesor.nickUsuario" placeholder="Username" name="profesor.nickUsuario" type="text" value={this.props.nickUser}/>
                                  </div>
                                  </div>
 
-                                 <div className="i">
+                                <div className="i">
+                                {this.state.nombreGrupoError}
                                 <div className="p-inputgroup">
-                                    <Dropdown placeholder="Select a group" name="grupo.nombreGrupo" value={this.state.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
+                                    <Dropdown field="grupo.nombreGrupo" placeholder="Select a group" name="grupo.nombreGrupo" value={this.state.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
                                 </div>
                                 </div>
 
@@ -101,7 +106,10 @@ export default class AssignTeacher extends Component  {
 
     save = event => {
         event.preventDefault();
-
+        this.setState({
+            usernameError:null,
+            nombreGrupoError:null
+        });
         const grupo = {
             id:{
                 nickProfesor:this.props.nickUser,
@@ -127,8 +135,9 @@ export default class AssignTeacher extends Component  {
 
     respuesta(status, data){
         console.log(status);
+        console.log(data);
         if(status===203){
-            data.forEach(e => this.error(e.field, e.defaultMessage))
+           this.error(data.field, data.defaultMessage)
         }else if(status===201){
             this.setState({               
 
@@ -137,6 +146,16 @@ export default class AssignTeacher extends Component  {
             })
         }else{
             this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
+        }
+    }
+    error(campo, mensaje){
+        console.log(campo);
+        console.log(mensaje);
+        if(campo === "profesor.nickUsuario"){
+            this.setState({ usernameError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "grupo.nombreGrupo"){
+            console.log("aqui");
+            this.setState({ nombreGrupoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }
     }
 

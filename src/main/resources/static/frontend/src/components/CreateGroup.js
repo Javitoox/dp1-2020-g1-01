@@ -21,6 +21,8 @@ export class CreateGroup extends Component {
             listaGrupos:{
                 nombreGrupo: ""
             },
+            nombreGrupoError:null,
+            cursoError:null,
             succes:null,
             exist:null,
             comprobation: false,
@@ -34,16 +36,25 @@ export class CreateGroup extends Component {
     save = event => {
         event.preventDefault();
 
+        this.setState({
+            nombreGrupoError:null,
+            cursoError:null
+        });
+
         const grupo = {
             nombreGrupo:this.state.grupoS.nombreGrupo,
             cursos:{
                 cursoDeIngles:this.state.grupoS.cursos.cursoDeIngles
             } 
         }
-
-        axios.post("http://localhost:8081/grupos/new", grupo, {withCredentials: true}).then(res => {
-            this.respuesta(res.status, res.data);
-        })
+        if(this.state.grupoS.cursos.cursoDeIngles===""){
+            window.alert("You must select a course")
+        }else{
+            axios.post("http://localhost:8081/grupos/new", grupo, {withCredentials: true}).then(res => {
+                this.respuesta(res.status, res.data);
+            })
+        }
+        
         
     }
     handleCI(event) {
@@ -69,7 +80,8 @@ export class CreateGroup extends Component {
     respuesta(status, data){
         console.log(status);
         if(status===203){
-            data.forEach(e => this.error(e.field, e.defaultMessage))
+            console.log(data)
+            this.error(data.field, data.defaultMessage)
         }else if(status===201){
             this.setState({               
 
@@ -81,8 +93,22 @@ export class CreateGroup extends Component {
                 },
                 succes: <div className="alert alert-success" role="alert">Successful creation</div>
             })
+        }else if(status===226){
+            this.setState({exist: <div className="alert alert-danger" role="alert">The group already exists</div>})
+        }else if(status===204){
+            this.setState({exist: <div className="alert alert-danger" role="alert">You must choose a course</div>})
         }else{
             this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
+        }
+    }
+    error(campo, mensaje){
+        console.log("p")
+        if(String(campo) === "nombreGrupo"){
+            console.log("g")
+            this.setState({ nombreGrupoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }else if(campo === "grupo.cursoDeIngles"){
+            console.log("d")
+            this.setState({ cursoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }
     }
     componentDidMount() {
@@ -99,20 +125,22 @@ export class CreateGroup extends Component {
             return <Auth authority="teacher"></Auth>
         }else{
 
-            const courseSelectItems = [
-                { label: 'A1', value: 'A1' },
-                { label: 'A2', value: 'A2' },
-                { label: 'B1', value: 'B1' },
-                { label: 'B2', value: 'B2' },
-                { label: 'C1', value: 'C1' },
-                { label: 'C2', value: 'C2' },
-                { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
-            ];
+        const courseSelectItems = [
+            { label: 'A1', value: 'A1' },
+            { label: 'A2', value: 'A2' },
+            { label: 'B1', value: 'B1' },
+            { label: 'B2', value: 'B2' },
+            { label: 'C1', value: 'C1' },
+            { label: 'C2', value: 'C2' },
+            { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
+        ];
 
-            console.log(this.state.grupoS.nombreGrupo)
-            console.log(this.state.grupoS.cursos.cursoDeIngles)
+        console.log(this.state)
 
-            return (
+        return (
+
+            
+            
 
                 <div>
                     <div className="c">
@@ -130,8 +158,9 @@ export class CreateGroup extends Component {
                                     </div>
 
                                     <div className="i">
+                                    {this.state.nombreGrupoError}
                                     <div className="p-inputgroup">
-                                    <InputText placeholder="NG" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
+                                    <InputText placeholder="NG" field="nombreGrupo" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
 
                                     </div>
                                     </div>

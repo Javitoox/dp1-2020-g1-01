@@ -17,8 +17,8 @@ import lombok.Setter;
 public class Curso {
 	
 	@Id
-	@Enumerated(value = EnumType.STRING)
 	@Column(name="curso_de_ingles")
+	@Enumerated(value = EnumType.STRING)
 	private TipoCurso cursoDeIngles;
 	
 }

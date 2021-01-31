@@ -1,10 +1,17 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,9 +20,13 @@ import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.SolicitudService;
+import org.springframework.samples.petclinic.util.YoungerValidator;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,7 +47,12 @@ public class SolicitudController {
 	   @Autowired
 	   public SolicitudController(SolicitudService solicitudServ) {
 		   this.solicitudServ = solicitudServ;
-	   } 
+	   }
+	   
+	   @InitBinder("solicitud")
+		public void initEventoBinder(WebDataBinder dataBinder) {
+			dataBinder.setValidator(new YoungerValidator());
+		}
 	   
 	   @GetMapping("/pending")
 	   public ResponseEntity<?> getSolicitudes(HttpServletRequest request) {
@@ -84,8 +100,21 @@ public class SolicitudController {
 		
 		@PostMapping("/sending")
 		public ResponseEntity<?> sending(@Valid @RequestBody Solicitud solicitud, BindingResult result) {
-			if(result.hasErrors()) {
-				return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+			Validator validator = factory.getValidator();
+			Set<ConstraintViolation<Solicitud>> violations = validator.validate(solicitud);
+			if(result.hasErrors() || violations.size() > 0) {
+				List<FieldError> errors = new ArrayList<>();
+				if (violations.size() > 0) {
+					for (ConstraintViolation<Solicitud> v : violations) {
+						FieldError e = new FieldError("solicitud", v.getPropertyPath().toString(), v.getMessageTemplate());
+						errors.add(e);
+					}
+				}
+				if (result.hasErrors()) {
+					errors.addAll(result.getFieldErrors());
+				}
+				return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
 				Alumno alumno = solicitudServ.getAlumno(solicitud.getAlumno().getNickUsuario());
 				if(alumno == null) {
@@ -98,7 +127,7 @@ public class SolicitudController {
 					log.info("Update student´s request with username: "+solicitud.getAlumno().getNickUsuario());
 					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 				}else {
-					log.info("Access denied: "+solicitud.getAlumno().getNickUsuario());
+					log.warn("Access denied: "+solicitud.getAlumno().getNickUsuario());
 					return new ResponseEntity<>("The student already exists and his password is incorrect", 
 							HttpStatus.OK);
 				}
@@ -107,8 +136,21 @@ public class SolicitudController {
 
 		@PostMapping("/sendingAll")
 		public ResponseEntity<?> sendingAll(@Valid @RequestBody Solicitud solicitud, BindingResult result) {
-			if(result.hasErrors()) {
-				return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+			Validator validator = factory.getValidator();
+			Set<ConstraintViolation<Solicitud>> violations = validator.validate(solicitud);
+			if(result.hasErrors() || violations.size() > 0) {
+				List<FieldError> errors = new ArrayList<>();
+				if (violations.size() > 0) {
+					for (ConstraintViolation<Solicitud> v : violations) {
+						FieldError e = new FieldError("solicitud", v.getPropertyPath().toString(), v.getMessageTemplate());
+						errors.add(e);
+					}
+				}
+				if (result.hasErrors()) {
+					errors.addAll(result.getFieldErrors());
+				}
+				return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
 				Alumno alumno = solicitudServ.getAlumno(solicitud.getAlumno().getNickUsuario());
 				Tutor tutor = solicitudServ.getTutor(solicitud.getTutor().getNickUsuario());
@@ -143,15 +185,15 @@ public class SolicitudController {
 					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 				}else if(alumno != null && !alumno.getContraseya().equals(solicitud.getAlumno().getContraseya()) 
 						&& tutor != null && !tutor.getContraseya().equals(solicitud.getTutor().getContraseya())) {
-					log.info("Access denied: "+solicitud.getAlumno().getNickUsuario()+" and "+solicitud.getTutor().getNickUsuario());
+					log.warn("Access denied: "+solicitud.getAlumno().getNickUsuario()+" and "+solicitud.getTutor().getNickUsuario());
 					return new ResponseEntity<>("Student and tutor already exist and their passwords are incorrect", 
 							HttpStatus.OK);
 				}else if(alumno != null && !alumno.getContraseya().equals(solicitud.getAlumno().getContraseya())) {
-					log.info("Access denied: "+solicitud.getAlumno().getNickUsuario());
+					log.warn("Access denied: "+solicitud.getAlumno().getNickUsuario());
 					return new ResponseEntity<>("The student already exists and his password is incorrect", 
 							HttpStatus.OK);
 				}else{
-					log.info("Access denied: "+solicitud.getTutor().getNickUsuario());
+					log.warn("Access denied: "+solicitud.getTutor().getNickUsuario());
 					return new ResponseEntity<>("The tutor already exists and his password is incorrect", 
 							HttpStatus.OK);
 				}

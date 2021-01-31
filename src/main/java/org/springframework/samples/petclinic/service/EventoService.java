@@ -31,7 +31,8 @@ public class EventoService {
 		return eventoRepository.findAllEvents();
 	}
 	public List<Evento> getByCourse(Curso course){
-		return eventoRepository.findByCourse(course);
+		List<Evento> eventos = eventoRepository.findByCourse(course);
+		return eventos;
 	}
 	@Transactional
 	public Evento updateDateEvent(Integer id, String s, String e) throws DataAccessException{
@@ -50,7 +51,8 @@ public class EventoService {
 		Evento evento = eventoRepository.findById(id).orElse(null);
 		String result = null;
 		if(evento != null) {
-			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo();
+			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo()+
+					"/"+evento.getCurso().getCursoDeIngles();
 		}
 		return result;
 	}

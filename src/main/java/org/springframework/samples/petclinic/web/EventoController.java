@@ -50,24 +50,12 @@ public class EventoController {
 	@Autowired
 	public EventoController(EventoService eventoService, AlumnoService alumService) {
 		this.eventoService = eventoService;
-		this.alumService= alumService;
-	}
+		this.alumService = alumService;	
+		}
 	
 	@InitBinder("evento")
 	public void initEventoBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new DateEventValidator());
-	}
-	
-	@GetMapping("/getByCourse/{nick}")
-	public ResponseEntity<?> getUserEvents(HttpServletRequest request, @PathVariable("nick") String nick){
-		HttpSession session = request.getSession(false);
-		if(session != null &&  session.getAttribute("type") == "alumno") {
-			Alumno a = alumService.getAlumno(nick);
-			Curso b = a.getGrupos().getCursos();
-			return ResponseEntity.ok(eventoService.getByCourse(b));
-		}else {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		}
 	}
 	
 	@GetMapping("/all")
@@ -76,6 +64,20 @@ public class EventoController {
 		if(session != null && session.getAttribute("type") == "profesor") {
 			return ResponseEntity.ok(eventoService.getAll());
 		}else {
+			log.warn("Unauthorized");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	@GetMapping("/getByCourse/{nick}")
+	public ResponseEntity<?> getUserEvents(HttpServletRequest request, @PathVariable("nick") String nick) {
+		HttpSession session = request.getSession(false);
+		if (session != null && session.getAttribute("type") == "alumno") {
+			Alumno a = alumService.getAlumno(nick);
+			Curso b = a.getGrupos().getCursos();
+			return ResponseEntity.ok(eventoService.getByCourse(b));
+		} else {
+			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
@@ -93,6 +95,7 @@ public class EventoController {
 				return ResponseEntity.ok(evento);
 			}
 		}else {
+			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
@@ -100,7 +103,7 @@ public class EventoController {
 	@GetMapping("/description/{id}")
 	public ResponseEntity<?> getDescription(@PathVariable("id") Integer id, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		if(session != null && (session.getAttribute("type") == "profesor" || session.getAttribute("type") == "alumno")) {
+		if(session != null && session.getAttribute("type") == "profesor" || session.getAttribute("type") == "alumno") {
 			String description = eventoService.getDescription(id);
 			if(description == null) {
 				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
@@ -109,6 +112,7 @@ public class EventoController {
 				return ResponseEntity.ok(description);
 			}
 		}else {
+			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
@@ -121,53 +125,58 @@ public class EventoController {
 			log.info("Delete event");
 			return ResponseEntity.ok(eventoService.getAll());
 		}else {
+			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
 	@PostMapping("/create/{curso}")
-	public ResponseEntity<?> create(@Valid @RequestBody Evento evento,@PathVariable("curso") String curso, BindingResult result, HttpServletRequest request) {
+	public ResponseEntity<?> create(@Valid @RequestBody Evento evento, BindingResult result, @PathVariable("curso") String curso, 
+			HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		log.info("el Curso es " + curso);	
-		if(session != null && session.getAttribute("type") == "profesor") {
-			if(curso.equals("null") || curso== "") {
-				return new ResponseEntity<>("There is no course selected", HttpStatus.NO_CONTENT);
-			}
-			Curso javiV = new Curso();
-			javiV.setCursoDeIngles(TipoCurso.valueOf(curso));
-			evento.setCurso(javiV);
+		if (session != null && session.getAttribute("type") == "profesor") {
 			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-			Validator validator = factory.getValidator(); 
+			Validator validator = factory.getValidator();
 			Set<ConstraintViolation<Evento>> violations = validator.validate(evento);
-			if(result.hasErrors() || violations.size()>0) {
+			if (!(curso.equals("null") || curso == "")) {
+				Curso course = new Curso(); // poner en servicio
+				course.setCursoDeIngles(TipoCurso.valueOf(curso));
+				evento.setCurso(course);
+			}
+			if (result.hasErrors() || violations.size() > 0 || curso.equals("null") || curso == "") {
 				List<FieldError> errors = new ArrayList<>();
-				if(violations.size()>0) {
-					for(ConstraintViolation<Evento> v: violations) {
+				if (violations.size() > 0) {
+					for (ConstraintViolation<Evento> v : violations) {
 						FieldError e = new FieldError("evento", v.getPropertyPath().toString(), v.getMessageTemplate());
 						errors.add(e);
 					}
 				}
-				if(result.hasErrors()) {
+				if (result.hasErrors()) {
 					errors.addAll(result.getFieldErrors());
 				}
+				if (curso.equals("null") || curso == "") {
+					FieldError e = new FieldError("evento", "curso", "You have to select a course");
+					errors.add(e);
+				}
 				return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-			}else {
+			} else {
 				Boolean existEvent = eventoService.existEvent(evento);
-				if(!existEvent) {
+				if (!existEvent) {
 					Boolean existType = eventoService.assignTypeAndSave(evento, evento.getTipo().getTipo());
-					if(existType) {
-						log.info("New event with title: "+evento.getTitle());
+					if (existType) {
+						log.info("New event with title: " + evento.getTitle());
 						return new ResponseEntity<>("Successful creation", HttpStatus.CREATED);
-					}else {
-						log.info("Type not exist");
+					} else {
+						log.error("Type not exist");
 						return new ResponseEntity<>("Type not exist", HttpStatus.OK);
 					}
-				}else {
-					log.info("Event Exist");
+				} else {
+					log.warn("Event Exist");
 					return new ResponseEntity<>("The event already exists", HttpStatus.OK);
 				}
 			}
-		}else {
+		} else {
+			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}

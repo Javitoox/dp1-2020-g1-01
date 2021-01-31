@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button } from 'primereact/button';
 import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
+import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import Auth from './Auth';
 
@@ -29,9 +30,18 @@ export class DeleteGroup extends Component {
     delete = event => {
         event.preventDefault();
 
-        axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo).then(res => {
-            this.respuesta(res.status, res.data);
-        })
+            if(this.state.grupoS.nombreGrupo===""){
+                window.alert("You must select a group")
+
+            }else{
+                axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, {withCredentials: true}).then(res => {
+                    this.respuesta(res.status, res.data);        })
+            }
+           
+
+        
+
+        
         
         
        
@@ -47,6 +57,7 @@ export class DeleteGroup extends Component {
     allGroupNames(){
 
         var t=this.state.listaGrupos
+        console.log(t);
         var i=0
         var groupSelectItems = [];
         while(i<t.length){        
@@ -72,6 +83,7 @@ export class DeleteGroup extends Component {
 
                                 <div className="i">
                                 <div className="p-inputgroup">
+                                <InputText value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG} hidden={true}/>
                                 <Dropdown name="nombreGrupo" placeholder="Select group" value={this.state.grupoS.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
 
                                 </div>

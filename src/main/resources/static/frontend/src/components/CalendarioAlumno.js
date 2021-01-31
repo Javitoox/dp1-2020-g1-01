@@ -8,13 +8,11 @@ import '@fullcalendar/daygrid/main.css'
 import Auth from './Auth'
 import { Dialog } from 'primereact/dialog'
 import moment from 'moment'
-import UserData from './UserData'
 
 export const CalendarioAlumno = (props) => {
     const [events, setEvents] = useState(null)
     const [auth, setAuth] = useState(true)
     const [info, setInfo] = useState(null)
-    const [curso, setCurso] = useState(null)
 
     function selectInfo(info, id) {
         var parts = info.split("/")
@@ -33,7 +31,6 @@ export const CalendarioAlumno = (props) => {
     }
 
     const eventService = new EventService()
-    const userDataComponent = new UserData();
     const options = {
         plugins: [dayGridPlugin, interactionPlugin],
         defaultView: 'dayGridMonth',

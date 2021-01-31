@@ -16,6 +16,8 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.google.gson.Gson;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -56,5 +58,18 @@ public class Evento extends BaseEntity{
 	
 	@OneToMany(cascade=CascadeType.ALL)
     private Collection<Inscripcion> inscripciones;
+	
+	public String toJson() {
+		LocalDate copiaStart = start;
+		LocalDate copiaEnd = end;
+		Gson json = new Gson();
+		this.setStart(null);
+		this.setEnd(null);
+		String jsonString = json.toJson(this);
+		String result = jsonString.substring(0, jsonString.length()-1)+",\"start\":\""+copiaStart.toString()+"\",\"end\":\""+copiaEnd.toString()+"\"}";
+		this.setStart(copiaStart);
+		this.setEnd(copiaEnd);
+		return result;
+	}
 
 }

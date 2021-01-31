@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.AsignacionProfesor;
 import org.springframework.samples.petclinic.service.AsignacionProfesorService;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedGroupNameException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +38,8 @@ public class AsignacionesProfesorController {
 	@GetMapping("/{user}")
 	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			List<AsignacionProfesor> all =  asignacionS.getAllAsignacionesByUser(user);
 			return ResponseEntity.ok(all);
 		}else {
@@ -51,8 +50,8 @@ public class AsignacionesProfesorController {
 	@GetMapping("/freeAssignments")
     public ResponseEntity<List<String>> listaAsignaciones(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 	        List<String> all =  asignacionS.getFreeGroups();
 	        return ResponseEntity.ok(all);
 		}else {
@@ -63,14 +62,22 @@ public class AsignacionesProfesorController {
 	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		log.info("Sesión iniciada como: " + session.getAttribute("type"));
 		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando asignar profesor: {}", resource);
 			if(result.hasErrors()) {
 				return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
-				asignacionS.saveAsignacion(resource);
-				return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);
+				if(resource.getGrupo().getNombreGrupo()==""||resource.getGrupo().getNombreGrupo()==null) {
+					log.info("Incorrect name of group:"+ resource.getGrupo().getNombreGrupo());
+	
+					return new ResponseEntity<>("Name of group incorrect", 
+							HttpStatus.OK);
+					
+				}else {
+					asignacionS.saveAsignacion(resource);
+					return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);						
+				}
 			}
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
