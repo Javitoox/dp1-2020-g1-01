@@ -60,9 +60,12 @@ public class SolicitudController {
 
 		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 		   if(session != null && session.getAttribute("type") == "profesor") {
+			   log.info("funciona esto");
 			   return ResponseEntity.ok(solicitudServ.getAllSolicitudes());
 		   }else {
+			   log.info("no estas autorizado");
 			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+			
 		   }
 	   } 
 	   
