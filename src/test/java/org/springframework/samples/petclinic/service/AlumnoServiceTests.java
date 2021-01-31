@@ -64,7 +64,7 @@ public class AlumnoServiceTests {
 	
 	@BeforeEach
 	void setup() {
-		alumnoService= new AlumnoService(alumnoRepository);
+		alumnoService= new AlumnoService(alumnoRepository, null);
 	}
 	
 	

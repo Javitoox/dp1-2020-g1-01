@@ -6,6 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import '@fullcalendar/core/main.css'
 import '@fullcalendar/daygrid/main.css'
 import Auth from './Auth'
+import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 import moment from 'moment'
 
@@ -20,6 +21,8 @@ export const CalendarioAlumno = (props) => {
             <Dialog header="Information" visible={true} style={{ width: '25vw' }} onHide={() => setInfo(null)}>
                 <p><b>Description:</b> {parts[0]}</p>
                 <p><b>Type:</b> {parts[1]}</p>
+                <Button label="Join" className="p-button-success" onClick={() => null}></Button>
+                <Button label="Disjoin" className="p-button-danger" onClick={() => null}></Button>
             </Dialog>
         )
     }

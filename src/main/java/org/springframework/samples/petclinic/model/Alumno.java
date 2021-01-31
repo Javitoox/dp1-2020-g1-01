@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,7 +39,8 @@ public class Alumno extends Usuario{
     @ManyToOne(optional=true)
     private Grupo grupos;
     
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="alumno")
+    @JsonIgnore
     private Collection<Inscripcion> inscripciones;
  
 }
