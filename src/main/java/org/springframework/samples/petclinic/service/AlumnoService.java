@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -7,6 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Evento;
+import org.springframework.samples.petclinic.model.Inscripcion;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.stereotype.Service;
@@ -14,11 +17,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class AlumnoService {
 	
-	AlumnoRepository alumnoRepository;
+	private AlumnoRepository alumnoRepository;
+	private InscripcionService inscripcionService;
 	
 	@Autowired
-	public AlumnoService(AlumnoRepository alumnoRepository) {
+	public AlumnoService(AlumnoRepository alumnoRepository, InscripcionService inscripcionService) {
 		this.alumnoRepository = alumnoRepository;
+		this.inscripcionService = inscripcionService;
 	}
 	
 	public List<Alumno> getStudentsPerGroup(String nombreGrupo) {
@@ -51,7 +56,23 @@ public class AlumnoService {
     	return alumnoRepository.findStudentsByTutor(nickTutor);
     }
      
-    
+    public void asignInscripcionesAlumnos(Evento evento, TipoCurso tipoCurso, String type) {
+    	List<Alumno> alumnosCurso = getStudentsByCourse(tipoCurso);
+		Integer idInscripcion = inscripcionService.lastId()+1;
+		for(Alumno a: alumnosCurso) {
+			Inscripcion i = new Inscripcion();
+			i.setId(idInscripcion);
+			i.setFecha(LocalDate.now());
+			if(type.equals("internal"))
+				i.setRegistrado(true);
+			else
+				i.setRegistrado(false);
+			i.setEvento(evento);
+			i.setAlumno(a);
+			inscripcionService.saveInscripcion(i);
+			idInscripcion++;
+		}
+    }
     
 }
 

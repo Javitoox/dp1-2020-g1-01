@@ -18,6 +18,7 @@ import lombok.Setter;
 public class Inscripcion extends BaseEntity{
 	
 	@Column(name="fecha")
+	@NotNull
 	private LocalDate fecha;
 	
 	@Column(name="registrado")
@@ -26,5 +27,11 @@ public class Inscripcion extends BaseEntity{
 	
 	@ManyToOne(optional=true)
 	private TipoPago tipo;
+	
+	@ManyToOne(optional=false)
+	private Evento evento;
+	
+	@ManyToOne(optional=false)
+	private Alumno alumno;
 
 }

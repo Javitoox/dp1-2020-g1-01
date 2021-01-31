@@ -14,8 +14,8 @@ public interface EventoRepository extends CrudRepository<Evento, Integer>{
 	@Query("SELECT evento FROM Evento evento")
 	public List<Evento>findAllEvents();
 	
-	@Query("SELECT e FROM Evento e WHERE e.curso = :curso")
-	public List<Evento> findByCourse(@Param("curso") Curso curso);
+//	@Query("SELECT e FROM Evento e WHERE e.curso = :curso")
+//	public List<Evento> findByCourse(@Param("curso") Curso curso);
 	
 	@Query("SELECT e FROM Evento e WHERE e.title = :title AND e.start = :start")
 	public Evento findExist(@Param("title") String title, @Param("start") LocalDate start);
