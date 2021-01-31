@@ -15,10 +15,7 @@ import javax.validation.ValidatorFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Curso;
-import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.model.Pago;
-import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.PagoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -93,7 +90,7 @@ public class PagosController {
 		
 	}
 	
-	@GetMapping("/paidByStudent/{nickUsuario}") /*¿Quién puede acceder aquí?*/
+	@GetMapping("/paidByStudent/{nickUsuario}") 
 	public ResponseEntity<List<Pago>> listadoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario,  HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if(session != null && session.getAttribute("type") == "alumno" ) {
@@ -105,7 +102,7 @@ public class PagosController {
 		
 	}
 	
-	@GetMapping("/studentsNotPaid") /*¿Quién puede acceder aquí?*/
+	@GetMapping("/studentsNotPaid") 
 	public ResponseEntity<List<String>> listadoNombreAlumnoNoPago(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if(session != null && session.getAttribute("type") == "profesor") {
@@ -143,7 +140,7 @@ public class PagosController {
 					FieldError e = new FieldError("pago", "concepto", "You have to select a concept");
 					errors.add(e);
 				}
-				if (resource.getTipo().equals("null") || resource.getTipo() == "") {
+				if (resource.getTipo().getTipo().equals("null") || resource.getTipo().getTipo() == "") {
 					FieldError e = new FieldError("pago", "tipo", "You have to select a type");
 					errors.add(e);
 				}

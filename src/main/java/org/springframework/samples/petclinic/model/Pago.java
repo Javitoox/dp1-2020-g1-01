@@ -19,7 +19,7 @@ public class Pago extends BaseEntity{
 	
 	@Column(name="tipo")
 	@NotEmpty(message = "Required field")
-	private String tipo;
+	private TipoPago tipo;
 	
 	@Column(name="concepto")
 	@NotEmpty(message = "Required field")

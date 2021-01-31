@@ -33,7 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 public class GrupoController {
 	
 	private final GrupoService grupoService;
-	private final AlumnoService alumnoService;
 
 	@Autowired
 	public GrupoController(GrupoService grupoService, AlumnoService alumnoService) {
@@ -133,8 +132,7 @@ public class GrupoController {
 		if(session != null && session.getAttribute("type") == "profesor") {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando borrar grupo: {}", nombreGrupo);
-			if(alumnoService.getStudentsPerGroup(nombreGrupo).isEmpty()) {
-				grupoService.deleteGroup(nombreGrupo);
+			if(grupoService.deleteGroup(nombreGrupo)) {
 				return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
 			}else {
 				return new ResponseEntity<>("No se puede borrar el grupo porque tiene alumnos", HttpStatus.BAD_REQUEST);

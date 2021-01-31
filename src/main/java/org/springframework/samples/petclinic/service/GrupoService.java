@@ -13,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class GrupoService {
 	
-	private GrupoRepository grupoRepository;	
+	private GrupoRepository grupoRepository;
+	private AlumnoService alumnoService;
 
 	@Autowired
 	public GrupoService(GrupoRepository grupoRepository) {
@@ -53,10 +54,23 @@ public class GrupoService {
 	public void saveGroup(Grupo grupo){
 		grupoRepository.save(grupo);
 	}
-
+	
+	public Boolean grupoVacio(String id) {
+		Boolean res = false;
+		if(alumnoService.getStudentsPerGroup(id).isEmpty()) {
+			res = true;
+		}
+		return res;
+	}
+		
 	@Transactional
-	public void deleteGroup(String id){
-		grupoRepository.deleteById(id);
+	public Boolean deleteGroup(String id){
+		Boolean res = false;
+		if(alumnoService.getStudentsPerGroup(id).isEmpty()) {
+			grupoRepository.deleteById(id);
+			res = true;
+		}
+		return res;
 	}
 	
 }
