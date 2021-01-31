@@ -11,9 +11,6 @@ import org.springframework.samples.petclinic.model.TipoCurso;
 
 public interface AlumnoRepository extends CrudRepository<Alumno, String> {
 	
-	@Query(value = "Select * from alumnos where (alumnos.nick_usuario = :nickUsuario)", nativeQuery = true)
-	public Alumno findByNick(@Param("nickUsuario") String nickUsuario);
-	
 	@Query("SELECT a FROM Alumno a JOIN a.grupos g WHERE g.nombreGrupo = :nombreGrupo")
     public List<Alumno> findByGroup(@Param("nombreGrupo") String nombreGrupo);
 	
