@@ -7,7 +7,6 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import Auth from './Auth';
 import axios from 'axios';
-
 import { Redirect } from 'react-router-dom';
 import { ListBox } from 'primereact/listbox';
 import GrupoComponent from './GrupoComponent';
