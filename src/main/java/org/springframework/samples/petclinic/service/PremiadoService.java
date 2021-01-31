@@ -60,7 +60,7 @@ public class PremiadoService {
 		Optional<WallOfFame> wallofFame = wallOfFameService.getWallById(fechaWall);
 		if(wallofFame.isPresent()) {	//existe el wall, no hay que crearlo
 			p.setWalloffames(wallofFame.get());
-			premiadoRepository.save(p); 
+			premiadoRepository.save(p);
 			
 		}else { //no existe
 			WallOfFame w = new WallOfFame();
