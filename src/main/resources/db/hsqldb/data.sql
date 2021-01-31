@@ -56,9 +56,9 @@ INSERT INTO inscripciones(registrado) VALUES ('false');
 
 INSERT INTO alumnos_inscripciones VALUES('Javi','1');
 
-INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (1,'BIZUM', 'Pago matricula','2019-10-03','Javi');
-INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (2,'BIZUM', 'Pago matricula','2018-10-03','antoniope');
-INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (5,'BIZUM', 'Primer plazo','2019-10-04','Javi');
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (1,'bizum', 'Pago matricula','2019-10-03','Javi');
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (2,'bizum', 'Pago matricula','2018-10-03','antoniope');
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (5,'bizum', 'Primer plazo','2019-10-04','Javi');
 
 
 INSERT INTO asignaciones_profesor VALUES ('2019-10-03', 'MaribelJavi', 'grupo1');

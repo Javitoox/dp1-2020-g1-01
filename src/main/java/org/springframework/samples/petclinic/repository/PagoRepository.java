@@ -20,8 +20,13 @@ public interface PagoRepository extends CrudRepository<Pago, Integer> {
 	@Query("SELECT a FROM Alumno a WHERE a.nickUsuario IN (SELECT a.nickUsuario FROM Alumno a WHERE NOT EXISTS"
 			+ " (SELECT p.alumnos.nickUsuario FROM Pago p where a.nickUsuario=p.alumnos.nickUsuario AND p.concepto = :concepto))  ")
 	public List<Alumno> findStudentByNoPago(@Param("concepto") String concepto);
-	
-	@Query("SELECT a.nickUsuario FROM Alumno a WHERE a.nickUsuario IN ( SELECT p.alumnos.nickUsuario FROM Pago p GROUP BY p.alumnos.nickUsuario HAVING COUNT (p.concepto) < 2 ) OR a.nickUsuario=(SELECT a.nickUsuario FROM Alumno a WHERE a.nickUsuario NOT IN(SELECT p.alumnos.nickUsuario FROM Pago p))")
+	//
+	//SELECT a.NICK_USUARIO FROM Alumnos a WHERE a.NICK_USUARIO IN 
+	//( SELECT p.ALUMNOS_NICK_USUARIO FROM Pagos p GROUP BY p.ALUMNOS_NICK_USUARIO HAVING COUNT (p.CONCEPTO ) 
+	// < (SELECT DISTINCT(COUNT(p.CONCEPTO)) FROM Pagos p) )	
+	//
+	@Query("SELECT a.nickUsuario FROM Alumno a WHERE a.nickUsuario IN ( SELECT p.alumnos.nickUsuario FROM Pago p GROUP BY p.alumnos.nickUsuario "
+			+ "HAVING COUNT (p.concepto) < (SELECT COUNT(DISTINCT p.concepto ) FROM Pago p) )")
 	public List<String> findNameStudentByNoPago();
 	
 	//SELECT p.concepto from pagos p where p.concepto not in (SELECT pp.concepto from pagos pp where pp.ALUMNOS_NICK_USUARIO ='Javi')

@@ -163,6 +163,7 @@ class Alumnos extends Component {
             { label: String(t[i]) , value: String(t[i]) })        
         i+=1
         }
+        console.log(this.state)
         return groupSelectItems
     }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import GrupoComponent from './GrupoComponent';
 import PagoComponent from './PagoComponent';
+import { InputText } from 'primereact/inputtext';
 
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -27,6 +28,7 @@ export class RealizarPago extends Component {
             listaNombres:{
                 nickUsuario:""
             },
+            opcion:"",
             usernameError:null,
             tipoError:null,
             conceptoError:null,
@@ -92,69 +94,131 @@ export class RealizarPago extends Component {
             type:event.target.value
         });
     }
+    assignOption(data) {
+            this.setState({ 
+                opcion: data
+                
+        });
+        console.log(this.state)
+    }
     
-    form(){
+    form(option){
         const tipoPagoSelectItems = [
-            { label: 'BIZUM', value: 'BIZUM' },
+            { label: 'bizum', value: 'bizum' },
             { label: 'Tranferencia bancaria', value: 'TRANSFERENCIA BANCARIA' },
             { label: 'Efectivo', value: 'EFECTIVO' }
         ];
+        if(option===""){
 
-        if(this.state.nickUsuario===""){
 
+                return <div>
+                <div className="t"><div><h5>Register Payment</h5></div></div>
+
+                <Button className="p-button-secondary" label="Create Payment" onClick={() => this.assignOption("op1")}/>
+                                  {` `}{` `}
+                                  <Button className="p-button-secondary" label="Create new concept" onClick={() => this.assignOption("op2")} />
+                
+                </div>
+            
+            
+
+        }else if(option==="op1"){
+            if(this.state.nickUsuario===""){
+
+                return <div>
+                <div className="t"><div><h5>Register Payment</h5></div></div>
+    
+                <div className="i">
+                <div className="p-inputgroup">
+                <Dropdown name="pago.nickUsuario" value={this.state.nickUsuario} placeholder="Select a student" options={this.allStudentsNames()} onChange={this.handlePU} />
+    
+                </div>
+                </div>
+                </div>
+    
+    
+    
+            }else{
+                
+    
+                return <div>
+                                    <div className="t"><div><h5>Register Payment</h5></div></div>
+    
+                                    <div className="i">
+                                    {this.state.usernameError}
+                                    <div className="p-inputgroup">
+                                    <Dropdown field="pago.nickUsuario" name="pago.nickUsuario" value={this.state.nickUsuario} placeholder="Select a student" options={this.allStudentsNames()} onChange={this.handlePU} />
+    
+                                    </div>
+                                    </div>
+    
+                                    <div className="i">
+                                    {this.state.conceptoError}
+                                    <div className="p-inputgroup">
+                                    <Dropdown field="concepto" name="concepto" value={this.state.concepto} placeholder="Select a payment" options={this.allConceptNames()} onChange={this.handleP} />
+    
+                                    </div>
+                                    </div>
+    
+                                    <div className="i">
+                                    {this.state.tipoError}
+                                    <div className="p-inputgroup">
+                                    <Dropdown field="tipo.tipo" name="tipo.tipo" value={this.state.type} placeholder="Select a payment type" options={["bizum"]} onChange={this.handlePI} />
+    
+                                    </div>
+                                    </div>
+    
+                                    <div className="b">
+                                    <div className="i">
+                                    <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check"/>
+    
+                                    </div>
+                                </div>
+                                </div>
+    
+    
+            }
+
+        }else if(option==="op2"){
             return <div>
             <div className="t"><div><h5>Register Payment</h5></div></div>
 
             <div className="i">
+            {this.state.usernameError}
             <div className="p-inputgroup">
-            <Dropdown name="pago.nickUsuario" value={this.state.nickUsuario} placeholder="Select a student" options={this.allStudentsNames()} onChange={this.handlePU} />
+            <InputText field="pago.nickUsuario" name="pago.nickUsuario" value={this.state.nickUsuario} placeholder="Select a student"  onChange={this.handlePU} />
 
             </div>
             </div>
+
+            <div className="i">
+            {this.state.conceptoError}
+            <div className="p-inputgroup">
+            <InputText placeholder="New Concept" field="concepto" value={this.state.concepto} name="concepto" onChange={this.handleP}/>
+
+            </div>
             </div>
 
+            <div className="i">
+            {this.state.tipoError}
+            <div className="p-inputgroup">
+            <Dropdown field="tipo" name="tipo" value={this.state.type} placeholder="Select a payment type" options={tipoPagoSelectItems} onChange={this.handlePI} />
 
+            </div>
+            </div>
 
-        }else{
-            
+            <div className="b">
+            <div className="i">
+            <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check"/>
 
-            return <div>
-                                <div className="t"><div><h5>Register Payment</h5></div></div>
+            </div>
+        </div>
+        </div>
 
-                                <div className="i">
-                                {this.state.usernameError}
-                                <div className="p-inputgroup">
-                                <Dropdown field="pago.nickUsuario" name="pago.nickUsuario" value={this.state.nickUsuario} placeholder="Select a student" options={this.allStudentsNames()} onChange={this.handlePU} />
-
-                                </div>
-                                </div>
-
-                                <div className="i">
-                                {this.state.conceptoError}
-                                <div className="p-inputgroup">
-                                <Dropdown field="concepto" name="concepto" value={this.state.concepto} placeholder="Select a payment" options={this.allConceptNames()} onChange={this.handleP} />
-
-                                </div>
-                                </div>
-
-                                <div className="i">
-                                {this.state.tipoError}
-                                <div className="p-inputgroup">
-                                <Dropdown field="tipo" name="tipo" value={this.state.type} placeholder="Select a payment type" options={tipoPagoSelectItems} onChange={this.handlePI} />
-
-                                </div>
-                                </div>
-
-                                <div className="b">
-                                <div className="i">
-                                <Button className="p-button-secondary" label="OK" icon="pi pi-fw pi-check"/>
-
-                                </div>
-                            </div>
-                            </div>
-
+           
 
         }
+       
     }
     
     
@@ -238,23 +302,91 @@ export class RealizarPago extends Component {
 
     render() {
         console.log(this.state)
-        return (
+        
+        if(this.state.opcion===""){
 
-            <div>
-                <div className="c">
-                    <div className="login request">
-                        <form onSubmit={this.save}>
+            return (
+                <React.Fragment>
 
-                        {this.state.succes}
-                        {this.state.exist}
-                        {this.form()}
 
-                            
-                        </form>
+                
+
+                <div>
+                    <div className="c">
+                        <div className="login request">
+                            <form onSubmit={this.save}>
+    
+                            {this.state.succes}
+                            {this.state.exist}
+                            {this.form("")}
+    
+                                
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+                </React.Fragment>
+
+            );
+
+        }else if(this.state.opcion==="op1"){
+
+            return (
+                <React.Fragment>
+                                  
+                
+
+                <div>
+                    <div className="c">
+                        <div className="login request">
+                            <form onSubmit={this.save}>
+    
+                            {this.state.succes}
+                            {this.state.exist}
+                            {this.form("op1")}
+    
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </React.Fragment>
+            );
+           
+
+        }else if(this.state.opcion==="op2"){
+
+            return (
+                <React.Fragment>
+                                 
+
+                
+
+                <div>
+                    <div className="c">
+                        <div className="login request">
+                            <form onSubmit={this.save}>
+    
+                            {this.state.succes}
+                            {this.state.exist}
+                            {this.form("op2")}
+    
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </React.Fragment>
+            );
+
+        }
+
+            
+
+            
+
+        
+        
     }
 }
 function mapStateToProps(state) { //metodo para poder pillar datos del store
