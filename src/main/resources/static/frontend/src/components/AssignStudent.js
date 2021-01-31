@@ -105,9 +105,14 @@ class AssignStudent extends Component  {
             }
             }
         }
+        if(this.state.grupos.nombreGrupo===""){
+            window.alert("You must select a group")
+
+        }else{
         axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
             this.respuesta(res.status, res.data)
             })
+        }
       }
 
       respuesta(status, data){

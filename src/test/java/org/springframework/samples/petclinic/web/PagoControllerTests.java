@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Pago;
+import org.springframework.samples.petclinic.model.TipoPago;
 import org.springframework.samples.petclinic.service.PagoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -54,6 +55,8 @@ public class PagoControllerTests {
 	void setup() {
 		p = new Pago();
 		Alumno alumno = new Alumno();
+		TipoPago t = new TipoPago();
+		t.setTipo("BIZUM");
 		alumno.setNickUsuario("JaviMartinez7");
 		alumno.setContraseya("JaviKuka787");
 		alumno.setDniUsuario("45676787Y");
@@ -66,7 +69,7 @@ public class PagoControllerTests {
 		p.setConcepto(CONCEPTO);
 		p.setFecha(LocalDate.now());
 		p.setId(30);
-		p.setTipo(TIPO);
+		p.setTipo(t);
 		p.setAlumnos(alumno);
 		
 	}
@@ -214,23 +217,6 @@ public class PagoControllerTests {
 			    .with(csrf()).sessionAttr("type", "profesor"))
 		.andExpect(status().isOk());
 	}
-	/*
-	 * @WithMockUser(value = "spring")
-	 * 
-	 * @Test void testSendingNewPaymentSuccesIfLoggedAsAlumno() throws Exception{
-	 * Gson gson = new Gson(); String jsonString = gson.toJson(p);
-	 * log.info("Informa: "+jsonString);
-	 * 
-	 * mockMvc.perform(post("/pagos/new") .contentType(MediaType.APPLICATION_JSON)
-	 * .content(jsonString) .with(csrf()).sessionAttr("type", "alumno"))
-	 * .andExpect(status().isUnauthorized());
-	 * 
-	 * // Gson gson = new Gson(); // String jsonString = gson.toJson(g);
-	 * 
-	 * // mockMvc.perform(post("/grupos/new") //
-	 * .contentType(MediaType.APPLICATION_JSON) // .content(jsonString) //
-	 * .with(csrf()).sessionAttr("type",
-	 * "alumno")).andExpect(status().isUnauthorized()); }
-	 */
+	
 
 }

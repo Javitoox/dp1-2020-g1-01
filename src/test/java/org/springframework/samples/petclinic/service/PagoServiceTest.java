@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Pago;
+import org.springframework.samples.petclinic.model.TipoPago;
 import org.springframework.samples.petclinic.repository.PagoRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,6 +28,7 @@ public class PagoServiceTest {
 	private static final String CONCEPTO = "Matricula";	
 	private static List<Alumno> alumnosPagados;
 	private static List<Alumno> alumnosMorosos;
+	
 
 	private static Pago p;
 	
@@ -37,8 +39,10 @@ public class PagoServiceTest {
 	@BeforeAll
 	void data() {
 		p = new Pago();
+		TipoPago t = new TipoPago();
+		t.setTipo("BIZUM");
 		p.setId(1);
-		p.setTipo("Bizum");
+		p.setTipo(t);
 		p.setConcepto(CONCEPTO);
 		p.setFecha(LocalDate.now());
 		

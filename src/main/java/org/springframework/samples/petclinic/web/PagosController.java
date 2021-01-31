@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.web;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,12 +46,13 @@ public class PagosController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Set<String>> allPayments(HttpServletRequest request){
+	public ResponseEntity<List<String>> allPayments(HttpServletRequest request){
 		HttpSession session = request.getSession(false);
 		if(session != null && session.getAttribute("type") == "profesor") {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			Set<String> all = pagoService.getAllPayments();
-			return ResponseEntity.ok(all);
+			List<String> allList = all.stream().collect(Collectors.toList());
+			return ResponseEntity.ok(allList);
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		}
@@ -139,16 +141,21 @@ public class PagosController {
 				if (result.hasErrors()) {
 					errors.addAll(result.getFieldErrors());
 				}
-				if (resource.getConcepto().equals("null") || resource.getConcepto() == "") {
-					FieldError e = new FieldError("pago", "concepto", "You have to select a concept");
+				if (resource.getAlumnos().getNickUsuario().equals("null") || resource.getAlumnos().getNickUsuario() == "") {
+					FieldError e = new FieldError("pago", "nickUsuario", "You must write a nickname");
 					errors.add(e);
 				}
-				if (resource.getTipo().equals("null") || resource.getTipo() == "") {
-					FieldError e = new FieldError("pago", "tipo", "You have to select a type");
+				if (resource.getConcepto().equals("null") || resource.getConcepto() == "") {
+					FieldError e = new FieldError("pago", "concepto", "You must select a concept");
+					errors.add(e);
+				}
+				if (resource.getTipo().getTipo().equals("null") || resource.getTipo().getTipo() == "") {
+					FieldError e = new FieldError("pago", "tipo", "You must select a type");
 					errors.add(e);
 				}
 				return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
+			
 				pagoService.savePayment(resource);
 				return new ResponseEntity<>("Pago creado correctamente", HttpStatus.CREATED);
 			}

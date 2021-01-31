@@ -12,3 +12,11 @@ h3{
 .h{
     margin: 25px 0px 0px 0px;
 } 
+.t2{
+    display: flex;
+    background-color: white;
+    border-radius: 3px;
+  }
+  .t3{
+    margin: 0px 0px 0px 12px;
+  }
