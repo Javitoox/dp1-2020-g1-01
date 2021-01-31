@@ -11,7 +11,6 @@ import lombok.Setter;
 @Entity
 @Table(name="tipos_eventos")
 @Getter
-@Setter
 public class TipoEvento {
 	
 	@Id

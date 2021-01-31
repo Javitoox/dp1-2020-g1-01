@@ -26,6 +26,27 @@ export const CalendarioProfesor = (props) => {
         setInfo(null)
     }
 
+    function calculateCourse(course){
+        if(!course){
+            return "'Event assigned to a course without students'";
+        }else{
+            return course;
+        }
+    }
+
+    function inscriptions(parts){
+        var result = []
+        var index = 0
+        for(var i=3;i<parts.length;i++){
+            result[index] = <p><center>{parts[i]}</center></p>
+            index++
+        }
+        if(result.length === 0)
+            return <p><center>'There are not inscriptions'</center></p>
+        else
+            return result
+    }
+
     function selectInfo(info, id) {
         console.log(info);
         var parts = info.split("/")
@@ -33,7 +54,9 @@ export const CalendarioProfesor = (props) => {
             <Dialog header="Information" visible={true} style={{ width: '25vw' }} onHide={() => setInfo(null)}>
                 <p><b>Description:</b> {parts[0]}</p>
                 <p><b>Type:</b> {parts[1]}</p>
-                <p><b>Course:</b> {parts[2]}</p>
+                <p><b>Course:</b> {calculateCourse(parts[2])}</p>
+                <p className="lead"><center><u>Inscriptions</u></center></p>
+                {inscriptions(parts)}
                 <Button label="Delete" className="p-button-danger" onClick={() => remove(id)}></Button>
             </Dialog>
         )
