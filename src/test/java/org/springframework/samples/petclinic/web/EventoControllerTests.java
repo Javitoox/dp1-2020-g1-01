@@ -71,7 +71,7 @@ public class EventoControllerTests {
 		evento.setColor("red");
 		evento.setStart(LocalDate.of(2021, 01, 20));
 		evento.setEnd(LocalDate.of(2021, 01, 22));
-		
+		//joder
 		Curso curso = new Curso();
 		curso.setCursoDeIngles(TipoCurso.A1);
 		alumno = new Alumno();
