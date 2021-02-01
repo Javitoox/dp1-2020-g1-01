@@ -1,12 +1,14 @@
 package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.model.Inscripcion;
@@ -39,11 +41,19 @@ public class EventoService {
 	public List<Evento> getAll(){
 		return eventoRepository.findAllEvents();
 	}
-	public List<Evento> getByCourse(Curso course){
-		//List<Evento> eventos = eventoRepository.findByCourse(course);
-		List<Evento> eventos = eventoRepository.findAllEvents();
+	
+	public List<Evento> getAlumEvents(String nick){
+		Alumno a = alumnoService.getAlumno(nick);
+		List<Evento> eventos = new ArrayList<>();
+		if(a !=null) {
+			List<Inscripcion> inscripciones = (List<Inscripcion>) a.getInscripciones();
+			for(Inscripcion i: inscripciones) {
+				eventos.add(i.getEvento());
+			}
+		}
 		return eventos;
 	}
+	
 	@Transactional
 	public Evento updateDateEvent(Integer id, String s, String e) throws DataAccessException{
 		Evento evento = eventoRepository.findById(id).orElse(null);
@@ -71,18 +81,20 @@ public class EventoService {
 		return result;
 	}
 	
+	public String getDescriptionAlumno(Integer id, String nickUser) {
+		Alumno a = alumnoService.getAlumno(nickUser);
+		Evento evento = eventoRepository.findById(id).orElse(null);
+		String result = null;
+		if(evento != null && a != null) {
+			Inscripcion i = inscripcionService.getInscripcionByEventoAlumno(evento, a);
+			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo()+"/"+i.getRegistrado();
+		}
+		return result;
+	}
+	
 	@Transactional
 	public void deleteDescription(Integer id) throws DataAccessException{
 		eventoRepository.deleteById(id);
-	}
-	
-	public Evento getEvento(Integer id) {
-		return eventoRepository.findById(id).orElse(null);
-	}
-	
-	@Transactional
-	public void saveEvent(Evento evento) throws DataAccessException{
-		eventoRepository.save(evento);
 	}
 	
 	@Transactional

@@ -25,9 +25,6 @@ public class Inscripcion extends BaseEntity{
 	@NotNull
 	private Boolean registrado;
 	
-	@ManyToOne(optional=true)
-	private TipoPago tipo;
-	
 	@ManyToOne(optional=false)
 	private Evento evento;
 	
