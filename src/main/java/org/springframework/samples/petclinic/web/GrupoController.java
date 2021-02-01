@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.TipoCurso;
-import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -109,9 +108,7 @@ public class GrupoController {
 			if(result.hasErrors()||grupoService.exists(resource.getNombreGrupo())) {
 				if(grupoService.exists(resource.getNombreGrupo())) {
 					return new ResponseEntity<>("Grupo ya existente", HttpStatus.IM_USED);
-				}else {
-					
-				
+				}else {			
 				return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 				}
 			}else {			

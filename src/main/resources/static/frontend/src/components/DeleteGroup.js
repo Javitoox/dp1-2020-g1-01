@@ -63,7 +63,7 @@ export class DeleteGroup extends Component {
 
     form(){
         var l = this.state.listaGrupos
-        if(l==""){
+        if(Object.keys(l).length===0){
 
             return <div className="t"><div><h5>There are no groups to delete</h5></div></div>
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
@@ -54,12 +55,12 @@ public class GrupoService {
 	}
 	
 	@Transactional
-	public void saveGroup(Grupo grupo){
+	public void saveGroup(Grupo grupo) throws DataAccessException{
 		this.grupoRepository.save(grupo);
 	}
 		
 	@Transactional
-	public void deleteGroup(String id){
+	public void deleteGroup(String id) throws DataAccessException{
 			this.grupoRepository.deleteById(id);
 	}
 	

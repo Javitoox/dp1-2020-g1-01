@@ -6,10 +6,6 @@ import { Column } from 'primereact/column';
 
 
 import { ListBox } from 'primereact/listbox';
-import {selectStudent} from '../actions/index';
-import {selectAssignedStudent}  from '../actions/index';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import "../css/payment.css"
 
 export class StudentPayments extends Component {
@@ -35,17 +31,9 @@ export class StudentPayments extends Component {
                 concepto: ""
             }
 
-
-            //nodes: null,
-            //selectedKey: null,
         }
         this.pagos = new PagoComponent();
         this.alumnos = new AlumnoComponent();
-        //this.edicion = this.edicion.bind(this);
-        //this.assignGroup = this.assignGroup.bind(this)      
-        //this.botonAssign = this.botonAssign.bind(this);
-        //this.cursos = new CursoComponent();
-        //this.onNodeSelect = this.onNodeSelect.bind(this);
     }
 
     allGroupNames(){
@@ -74,14 +62,9 @@ export class StudentPayments extends Component {
     }
 
     componentDidMount() {
-        //this.pagos.getAllStudentsPaid().then(data => this.setState({ alumnos: data }));
         this.pagos.getNotPaidByStudent(this.props.nickUser).then(data => this.setState({ listaGrupos: data }));
         this.pagos.getPaymentsByStudent(this.props.nickUser).then(data => this.setState({ paid: data }));
-
-
-        //this.grupos.getAllGroups().then(data => this.setState({ groupSelectItems: data }));
-        //this.cursos.getCourses().then(data => this.setState({ nodes: data }));
-    }
+     }
 
 
     render() {        
@@ -102,9 +85,4 @@ export class StudentPayments extends Component {
             </React.Fragment>
         )
     }
-}
-
-function  matchDispatchToProps(dispatch) {
-    return bindActionCreators({selectStudent : selectStudent,
-        selectAssignedStudent: selectAssignedStudent}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
 }

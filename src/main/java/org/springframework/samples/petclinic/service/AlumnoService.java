@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class AlumnoService {
 	
 	private AlumnoRepository alumnoRepository;
-//	private GrupoService grupoService;
 	
 	@Autowired
 	public AlumnoService(AlumnoRepository alumnoRepository) {
@@ -34,7 +33,7 @@ public class AlumnoService {
 	}
 	
 	@Transactional	
-	public void deleteStudents(Alumno alumno) {
+	public void deleteStudents(Alumno alumno) throws DataAccessException{
 		alumnoRepository.delete(alumno);
 	}
 	@Transactional
@@ -42,9 +41,6 @@ public class AlumnoService {
 		return alumnoRepository.save(alumno);		
 	}		
 	
-//	public Integer numAlumnosGrupo(String nombreGrupo) {
-//		return grupoService.numAlumnos(nombreGrupo);
-//	}
     public List<Alumno> getStudentsByCourse(TipoCurso cursoDeIngles){
         return alumnoRepository.findStudentsByCourse(cursoDeIngles);
     }
