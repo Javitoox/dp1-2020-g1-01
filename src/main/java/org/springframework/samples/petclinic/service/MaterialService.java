@@ -26,4 +26,8 @@ public class MaterialService {
 		return materialRepository.getMaterialByProfesor(nickProfesor);		
 	}
 
+	public List<Material> getMaterialPorAlumno(String nickUsuario){
+		return materialRepository.getMaterialByAlumno(nickUsuario);		
+	}
+
 }

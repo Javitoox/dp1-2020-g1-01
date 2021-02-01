@@ -10,7 +10,10 @@ import org.springframework.samples.petclinic.model.Material;
 
 public interface MaterialRepository extends CrudRepository<Material, Integer> {
 
-	
 	@Query("Select m from Material m where m.profesores.nickUsuario =:nickProfesor")
 	public List<Material> getMaterialByProfesor(@Param("nickProfesor")String nickProfesor);
+	
+	@Query("Select m from Feedback f join f.materiales m where f.alumnos.nickUsuario =:nickUsuario")
+	public List<Material> getMaterialByAlumno(@Param("nickUsuario")String nickUsuario);
+	
 }

@@ -63,3 +63,8 @@ INSERT INTO tipos_materiales VALUES ('Video');
 INSERT INTO tipos_materiales VALUES ('Homework');
 
 INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (1,'2021-02-03','Worbu','MaribelJavi','Homework');
+
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(1,'A perfect way to learn','true','2020-10-03',5,'Javi',1);
+
+
+

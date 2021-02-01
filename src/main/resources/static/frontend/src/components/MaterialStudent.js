@@ -6,7 +6,7 @@ import { Button } from 'primereact/button';
 import Pdf from './all-pages';
 import { Dialog } from 'primereact/dialog';
 
- export  class MaterialTeacher extends Component{
+ export  class MaterialStudent extends Component{
 
     constructor(props){
         super(props);
@@ -20,7 +20,6 @@ import { Dialog } from 'primereact/dialog';
         this.obtenerMaterial= this.obtenerMaterial.bind(this);
         this.botonVerMaterial = this.botonVerMaterial.bind(this);
         this.botonDescargarMaterial = this.botonDescargarMaterial.bind(this);
-        this.mostrarBotonUpload = this.mostrarBotonUpload.bind(this);
     }
 
     componentDidMount() {
@@ -28,16 +27,8 @@ import { Dialog } from 'primereact/dialog';
     }
 
     async obtenerMaterial() {
-        await axios.get(this.state.urlBase+"/materiales/getMaterialByProfesor/"+this.state.nickUsuario).then(res => this.setState({materiales: res.data}))
+        await axios.get(this.state.urlBase+"/materiales/getMaterialByAlumno/"+this.state.nickUsuario).then(res => this.setState({materiales: res.data}))
         console.log(this.state.materiales);
-    }
-
-    mostrarBotonUpload(){
-        return(
-        <div className="mt-3 mb-3">  
-            <Button className="p-button-secondary" label="Upload new content" icon="pi pi-plus" onClick={()=>console.log("hola")}/>
-        </div>
-        );
     }
 
     mostrarMaterial(){
@@ -76,7 +67,6 @@ import { Dialog } from 'primereact/dialog';
     render(){
         return (
             <React.Fragment>
-                {this.mostrarBotonUpload()}
                 {this.mostrarMaterial()}
                 {this.state.visualizarPDF}
             </React.Fragment>

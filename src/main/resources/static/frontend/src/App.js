@@ -25,6 +25,7 @@ import { StudentPayments } from './components/StudentPayments'
 import { CalendarioAlumno } from './components/CalendarioAlumno'
 import  NotificationProfesor from './components/NotificationProfesor'
 import {MaterialTeacher} from './components/MaterialTeacher'
+import {MaterialStudent} from './components/MaterialStudent'
 
 
 class App extends Component {
@@ -121,6 +122,9 @@ class App extends Component {
 				} />
 				<Route path="/materialsTeacher" render={() =>
 					<MaterialTeacher urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
+				} />
+				<Route path="/materialsStudent" render={() =>
+					<MaterialStudent urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
 				} />
 				
 			</Router>

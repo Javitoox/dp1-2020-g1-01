@@ -30,5 +30,10 @@ public class MaterialController {
 		return ResponseEntity.ok(materialService.getMaterialPorProfesor(nickProfesor));
 	}
 	
+	@GetMapping("/getMaterialByAlumno/{nickAlumno}")
+	public ResponseEntity<?>getMaterialByAlumno(@PathVariable("nickAlumno")String nickAlumno){
+		return ResponseEntity.ok(materialService.getMaterialPorAlumno(nickAlumno));
+	}
+	
 
 }

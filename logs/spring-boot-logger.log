@@ -519,3 +519,470 @@ INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuari
 2021-02-01 00:43:42,051 INFO org.springframework.samples.petclinic.web.UsuarioController [http-nio-8081-exec-2] MaribelJavi login: profesor
 2021-02-01 01:02:55,514 INFO org.springframework.samples.petclinic.service.UsuarioService [http-nio-8081-exec-4] Type of user: profesor
 2021-02-01 01:02:55,521 INFO org.springframework.samples.petclinic.web.UsuarioController [http-nio-8081-exec-4] MaribelJavi login: profesor
+2021-02-01 12:58:00,449 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting PetclinicApplication on LAPTOP-8V5BH0HP with PID 15880 (C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01\target\classes started by lenovo in C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01)
+2021-02-01 12:58:00,455 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-02-01 12:58:00,562 INFO org.springframework.boot.logging.DeferredLog [restartedMain] The Class-Path manifest attribute in C:\Users\lenovo\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2021-02-01 12:58:00,562 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-02-01 12:58:00,563 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-02-01 12:58:05,096 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-02-01 12:58:05,789 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 637ms. Found 14 JPA repository interfaces.
+2021-02-01 12:58:07,332 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-02-01 12:58:10,851 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-02-01 12:58:10,901 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-02-01 12:58:10,903 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-02-01 12:58:10,904 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.30]
+2021-02-01 12:58:12,713 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2021-02-01 12:58:12,733 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-02-01 12:58:12,737 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 12174 ms
+2021-02-01 12:58:12,951 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2021-02-01 12:58:13,620 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2021-02-01 12:58:13,649 INFO org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2021-02-01 12:58:14,312 INFO org.hibernate.jpa.internal.util.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-02-01 12:58:14,561 INFO org.hibernate.Version [restartedMain] HHH000412: Hibernate Core {5.4.10.Final}
+2021-02-01 12:58:15,017 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-02-01 12:58:15,440 INFO org.hibernate.dialect.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-02-01 12:58:16,301 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000038: Composite-id class does not override equals(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 12:58:16,303 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000039: Composite-id class does not override hashCode(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 12:58:17,896 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-02-01 12:58:17,910 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-02-01 12:58:17,955 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-02-01 12:58:18,411 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-02-01 12:58:24,220 INFO org.springframework.security.web.DefaultSecurityFilterChain [restartedMain] Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@33940b40, org.springframework.security.web.context.SecurityContextPersistenceFilter@6e34742f, org.springframework.security.web.header.HeaderWriterFilter@769c8e13, org.springframework.security.web.csrf.CsrfFilter@648ede34, org.springframework.security.web.authentication.logout.LogoutFilter@13058d4e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@12d47c11, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@e678dd3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6fa1aa5d, org.springframework.security.web.session.SessionManagementFilter@5aa1e3d2, org.springframework.security.web.access.ExceptionTranslationFilter@781f965, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@452b1af9]
+2021-02-01 12:58:24,788 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-02-01 12:58:36,009 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2021-02-01 12:58:36,137 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2021-02-01 12:58:36,148 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started PetclinicApplication in 36.625 seconds (JVM running for 39.727)
+2021-02-01 13:00:45,861 INFO org.apache.juli.logging.DirectJDKLog [http-nio-8081-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-02-01 13:00:45,863 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-1] Initializing Servlet 'dispatcherServlet'
+2021-02-01 13:00:45,888 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-1] Completed initialization in 23 ms
+2021-02-01 13:00:48,831 INFO org.springframework.samples.petclinic.service.UsuarioService [http-nio-8081-exec-10] Type of user: profesor
+2021-02-01 13:00:48,863 INFO org.springframework.samples.petclinic.web.UsuarioController [http-nio-8081-exec-10] MaribelJavi login: profesor
+2021-02-01 13:15:56,837 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting PetclinicApplication on LAPTOP-8V5BH0HP with PID 972 (C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01\target\classes started by lenovo in C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01)
+2021-02-01 13:15:56,843 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-02-01 13:15:56,941 INFO org.springframework.boot.logging.DeferredLog [restartedMain] The Class-Path manifest attribute in C:\Users\lenovo\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2021-02-01 13:15:56,941 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-02-01 13:15:56,942 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-02-01 13:15:59,935 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-02-01 13:16:00,366 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 399ms. Found 14 JPA repository interfaces.
+2021-02-01 13:16:01,309 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-02-01 13:16:02,590 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-02-01 13:16:02,620 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-02-01 13:16:02,622 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-02-01 13:16:02,622 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.30]
+2021-02-01 13:16:03,579 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2021-02-01 13:16:03,597 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-02-01 13:16:03,600 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 6658 ms
+2021-02-01 13:16:03,703 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2021-02-01 13:16:04,357 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2021-02-01 13:16:04,380 INFO org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2021-02-01 13:16:05,019 INFO org.hibernate.jpa.internal.util.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-02-01 13:16:05,314 INFO org.hibernate.Version [restartedMain] HHH000412: Hibernate Core {5.4.10.Final}
+2021-02-01 13:16:05,861 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-02-01 13:16:06,578 INFO org.hibernate.dialect.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-02-01 13:16:07,627 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000038: Composite-id class does not override equals(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 13:16:07,629 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000039: Composite-id class does not override hashCode(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 13:16:09,709 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-02-01 13:16:09,719 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-02-01 13:16:09,751 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-02-01 13:16:09,941 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-02-01 13:16:11,769 INFO org.springframework.security.web.DefaultSecurityFilterChain [restartedMain] Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5f32ce31, org.springframework.security.web.context.SecurityContextPersistenceFilter@1b5f16aa, org.springframework.security.web.header.HeaderWriterFilter@68cd7bdc, org.springframework.security.web.csrf.CsrfFilter@588709fe, org.springframework.security.web.authentication.logout.LogoutFilter@572773d8, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7464bbab, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@f818c39, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6ae38981, org.springframework.security.web.session.SessionManagementFilter@eb2e429, org.springframework.security.web.access.ExceptionTranslationFilter@1252d6b3, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@662801dd]
+2021-02-01 13:16:11,982 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-02-01 13:17:06,761 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2021-02-01 13:17:06,845 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2021-02-01 13:17:06,849 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started PetclinicApplication in 71.662 seconds (JVM running for 73.311)
+2021-02-01 13:23:06,147 INFO org.apache.juli.logging.DirectJDKLog [http-nio-8081-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-02-01 13:23:06,149 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-1] Initializing Servlet 'dispatcherServlet'
+2021-02-01 13:23:06,164 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-1] Completed initialization in 15 ms
+2021-02-01 14:04:54,485 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [Thread-5] Shutting down ExecutorService 'applicationTaskExecutor'
+2021-02-01 14:04:54,519 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [Thread-5] Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-02-01 14:04:54,544 INFO org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2021-02-01 14:04:54,566 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000478: Unsuccessful: 
+    drop table alumnos if exists
+2021-02-01 14:04:54,593 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000478: Unsuccessful: 
+    drop table cursos if exists
+2021-02-01 14:04:54,594 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000478: Unsuccessful: 
+    drop table eventos if exists
+2021-02-01 14:04:54,595 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000478: Unsuccessful: 
+    drop table grupos if exists
+2021-02-01 14:04:54,619 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000478: Unsuccessful: 
+    drop table tipos_eventos if exists
+2021-02-01 14:04:54,623 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000478: Unsuccessful: 
+    drop table tutores if exists
+2021-02-01 14:04:54,881 WARN org.springframework.beans.factory.support.DisposableBeanAdapter [Thread-5] Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: La base de datos ya esta cerrada (para des-habilitar el cerrado automatico durante el shutdown de la VM, agregue ";DB_CLOSE_ON_EXIT=FALSE" a la URL de conexión)
+Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-200]
+2021-02-01 14:04:54,884 INFO com.zaxxer.hikari.HikariDataSource [Thread-5] HikariPool-1 - Shutdown initiated...
+2021-02-01 14:04:54,907 INFO com.zaxxer.hikari.HikariDataSource [Thread-5] HikariPool-1 - Shutdown completed.
+2021-02-01 14:04:57,063 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting PetclinicApplication on LAPTOP-8V5BH0HP with PID 972 (C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01\target\classes started by lenovo in C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01)
+2021-02-01 14:04:57,067 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-02-01 14:04:58,338 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-02-01 14:04:58,655 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 315ms. Found 14 JPA repository interfaces.
+2021-02-01 14:04:58,985 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-02-01 14:04:59,484 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-02-01 14:04:59,485 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-02-01 14:04:59,486 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-02-01 14:04:59,487 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.30]
+2021-02-01 14:04:59,745 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2021-02-01 14:04:59,754 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-02-01 14:04:59,755 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 2670 ms
+2021-02-01 14:04:59,815 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-2 - Starting...
+2021-02-01 14:04:59,827 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-2 - Start completed.
+2021-02-01 14:04:59,828 INFO org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2021-02-01 14:05:00,072 INFO org.hibernate.jpa.internal.util.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-02-01 14:05:00,090 INFO org.hibernate.dialect.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-02-01 14:05:00,244 WARN org.springframework.context.support.AbstractApplicationContext [restartedMain] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: No identifier specified for entity: org.springframework.samples.petclinic.model.Feedback
+2021-02-01 14:05:00,463 WARN org.springframework.beans.factory.support.DisposableBeanAdapter [restartedMain] Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: La base de datos ya esta cerrada (para des-habilitar el cerrado automatico durante el shutdown de la VM, agregue ";DB_CLOSE_ON_EXIT=FALSE" a la URL de conexión)
+Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-200]
+2021-02-01 14:05:00,464 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-2 - Shutdown initiated...
+2021-02-01 14:05:00,473 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-2 - Shutdown completed.
+2021-02-01 14:05:00,474 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Stopping service [Tomcat]
+2021-02-01 14:05:00,501 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [restartedMain] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-02-01 14:05:00,541 ERROR org.springframework.boot.SpringApplication [restartedMain] Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: No identifier specified for entity: org.springframework.samples.petclinic.model.Feedback
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1796)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:595)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1108)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:868)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at org.springframework.samples.petclinic.PetclinicApplication.main(PetclinicApplication.java:10)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.hibernate.AnnotationException: No identifier specified for entity: org.springframework.samples.petclinic.model.Feedback
+	at org.hibernate.cfg.InheritanceState.determineDefaultAccessType(InheritanceState.java:266)
+	at org.hibernate.cfg.InheritanceState.getElementsToProcess(InheritanceState.java:211)
+	at org.hibernate.cfg.AnnotationBinder.bindClass(AnnotationBinder.java:781)
+	at org.hibernate.boot.model.source.internal.annotations.AnnotationMetadataSourceProcessorImpl.processEntityHierarchies(AnnotationMetadataSourceProcessorImpl.java:254)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess$1.processEntityHierarchies(MetadataBuildingProcess.java:230)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:273)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1202)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1233)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:391)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:378)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1855)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1792)
+	... 21 common frames omitted
+2021-02-01 14:09:33,969 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting PetclinicApplication on LAPTOP-8V5BH0HP with PID 18396 (C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01\target\classes started by lenovo in C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01)
+2021-02-01 14:09:33,974 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-02-01 14:09:34,076 INFO org.springframework.boot.logging.DeferredLog [restartedMain] The Class-Path manifest attribute in C:\Users\lenovo\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2021-02-01 14:09:34,077 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-02-01 14:09:34,077 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-02-01 14:09:35,857 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-02-01 14:09:36,176 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 300ms. Found 14 JPA repository interfaces.
+2021-02-01 14:09:36,971 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-02-01 14:09:37,925 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-02-01 14:09:37,941 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-02-01 14:09:37,943 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-02-01 14:09:37,943 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.30]
+2021-02-01 14:09:38,753 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2021-02-01 14:09:38,764 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-02-01 14:09:38,765 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 4688 ms
+2021-02-01 14:09:38,842 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2021-02-01 14:09:39,219 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2021-02-01 14:09:39,230 INFO org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2021-02-01 14:09:39,606 INFO org.hibernate.jpa.internal.util.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-02-01 14:09:39,887 INFO org.hibernate.Version [restartedMain] HHH000412: Hibernate Core {5.4.10.Final}
+2021-02-01 14:09:40,350 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-02-01 14:09:40,840 INFO org.hibernate.dialect.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-02-01 14:09:41,695 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000038: Composite-id class does not override equals(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 14:09:41,696 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000039: Composite-id class does not override hashCode(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 14:09:42,751 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-02-01 14:09:42,761 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-02-01 14:09:42,797 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-02-01 14:09:43,045 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-02-01 14:09:45,051 INFO org.springframework.security.web.DefaultSecurityFilterChain [restartedMain] Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@74be5515, org.springframework.security.web.context.SecurityContextPersistenceFilter@3180d741, org.springframework.security.web.header.HeaderWriterFilter@2da49b1b, org.springframework.security.web.csrf.CsrfFilter@5223e89f, org.springframework.security.web.authentication.logout.LogoutFilter@12c694e0, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@53db5791, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6818e4ba, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1708401c, org.springframework.security.web.session.SessionManagementFilter@37091d85, org.springframework.security.web.access.ExceptionTranslationFilter@2b4937ce, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1d4d1fbd]
+2021-02-01 14:09:45,337 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-02-01 14:10:21,990 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2021-02-01 14:10:22,062 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2021-02-01 14:10:22,066 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started PetclinicApplication in 48.826 seconds (JVM running for 49.886)
+2021-02-01 14:10:35,955 INFO org.apache.juli.logging.DirectJDKLog [http-nio-8081-exec-6] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-02-01 14:10:35,958 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-6] Initializing Servlet 'dispatcherServlet'
+2021-02-01 14:10:35,979 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-6] Completed initialization in 19 ms
+2021-02-01 14:14:30,498 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting PetclinicApplication on LAPTOP-8V5BH0HP with PID 6900 (C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01\target\classes started by lenovo in C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01)
+2021-02-01 14:14:30,503 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-02-01 14:14:30,566 INFO org.springframework.boot.logging.DeferredLog [restartedMain] The Class-Path manifest attribute in C:\Users\lenovo\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2021-02-01 14:14:30,567 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-02-01 14:14:30,567 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-02-01 14:14:32,250 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-02-01 14:14:32,631 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 361ms. Found 14 JPA repository interfaces.
+2021-02-01 14:14:33,285 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-02-01 14:14:34,126 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-02-01 14:14:34,142 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-02-01 14:14:34,144 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-02-01 14:14:34,144 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.30]
+2021-02-01 14:14:35,072 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2021-02-01 14:14:35,087 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-02-01 14:14:35,087 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 4520 ms
+2021-02-01 14:14:35,205 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2021-02-01 14:14:35,672 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2021-02-01 14:14:35,686 INFO org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2021-02-01 14:14:36,037 INFO org.hibernate.jpa.internal.util.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-02-01 14:14:36,167 INFO org.hibernate.Version [restartedMain] HHH000412: Hibernate Core {5.4.10.Final}
+2021-02-01 14:14:36,384 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-02-01 14:14:36,577 INFO org.hibernate.dialect.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-02-01 14:14:37,109 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000038: Composite-id class does not override equals(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 14:14:37,111 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000039: Composite-id class does not override hashCode(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 14:14:38,097 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-02-01 14:14:38,108 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-02-01 14:14:38,139 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-02-01 14:14:38,201 WARN org.springframework.context.support.AbstractApplicationContext [restartedMain] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Initialization of bean failed; nested exception is org.springframework.jdbc.datasource.init.ScriptStatementFailedException: Failed to execute SQL script statement #42 of URL [file:/C:/Users/lenovo/Desktop/WorkSpace-DP/dp1-2020-g1-01/target/classes/db/hsqldb/data.sql]: INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(1,'A perfect way to learn','2020-10-03',5,'Javi',1); nested exception is org.h2.jdbc.JdbcSQLSyntaxErrorException: La cantidad de columnas no coincide
+Column count does not match; SQL statement:
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(1,'A perfect way to learn','2020-10-03',5,'Javi',1) [21002-200]
+2021-02-01 14:14:38,421 WARN org.springframework.beans.factory.support.DisposableBeanAdapter [restartedMain] Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: La base de datos ya esta cerrada (para des-habilitar el cerrado automatico durante el shutdown de la VM, agregue ";DB_CLOSE_ON_EXIT=FALSE" a la URL de conexión)
+Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-200]
+2021-02-01 14:14:38,422 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Shutdown initiated...
+2021-02-01 14:14:38,426 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Shutdown completed.
+2021-02-01 14:14:38,430 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Stopping service [Tomcat]
+2021-02-01 14:14:38,445 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [restartedMain] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-02-01 14:14:38,452 ERROR org.springframework.boot.SpringApplication [restartedMain] Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Initialization of bean failed; nested exception is org.springframework.jdbc.datasource.init.ScriptStatementFailedException: Failed to execute SQL script statement #42 of URL [file:/C:/Users/lenovo/Desktop/WorkSpace-DP/dp1-2020-g1-01/target/classes/db/hsqldb/data.sql]: INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(1,'A perfect way to learn','2020-10-03',5,'Javi',1); nested exception is org.h2.jdbc.JdbcSQLSyntaxErrorException: La cantidad de columnas no coincide
+Column count does not match; SQL statement:
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(1,'A perfect way to learn','2020-10-03',5,'Javi',1) [21002-200]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:603)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1108)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:868)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at org.springframework.samples.petclinic.PetclinicApplication.main(PetclinicApplication.java:10)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.jdbc.datasource.init.ScriptStatementFailedException: Failed to execute SQL script statement #42 of URL [file:/C:/Users/lenovo/Desktop/WorkSpace-DP/dp1-2020-g1-01/target/classes/db/hsqldb/data.sql]: INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(1,'A perfect way to learn','2020-10-03',5,'Javi',1); nested exception is org.h2.jdbc.JdbcSQLSyntaxErrorException: La cantidad de columnas no coincide
+Column count does not match; SQL statement:
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(1,'A perfect way to learn','2020-10-03',5,'Javi',1) [21002-200]
+	at org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript(ScriptUtils.java:626)
+	at org.springframework.jdbc.datasource.init.ResourceDatabasePopulator.populate(ResourceDatabasePopulator.java:254)
+	at org.springframework.jdbc.datasource.init.DatabasePopulatorUtils.execute(DatabasePopulatorUtils.java:49)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceInitializer.runScripts(DataSourceInitializer.java:202)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceInitializer.initSchema(DataSourceInitializer.java:119)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker.onApplicationEvent(DataSourceInitializerInvoker.java:91)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker.onApplicationEvent(DataSourceInitializerInvoker.java:38)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:403)
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:360)
+	at org.springframework.boot.autoconfigure.orm.jpa.DataSourceInitializedPublisher.publishEventIfRequired(DataSourceInitializedPublisher.java:99)
+	at org.springframework.boot.autoconfigure.orm.jpa.DataSourceInitializedPublisher.postProcessAfterInitialization(DataSourceInitializedPublisher.java:90)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:431)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:595)
+	... 20 common frames omitted
+Caused by: org.h2.jdbc.JdbcSQLSyntaxErrorException: La cantidad de columnas no coincide
+Column count does not match; SQL statement:
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(1,'A perfect way to learn','2020-10-03',5,'Javi',1) [21002-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:319)
+	at org.h2.command.Parser.prepareCommand(Parser.java:744)
+	at org.h2.engine.Session.prepareLocal(Session.java:657)
+	at org.h2.engine.Session.prepareCommand(Session.java:595)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:212)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript(ScriptUtils.java:605)
+	... 36 common frames omitted
+2021-02-01 14:15:19,970 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting PetclinicApplication on LAPTOP-8V5BH0HP with PID 10032 (C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01\target\classes started by lenovo in C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01)
+2021-02-01 14:15:19,974 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-02-01 14:15:20,055 INFO org.springframework.boot.logging.DeferredLog [restartedMain] The Class-Path manifest attribute in C:\Users\lenovo\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2021-02-01 14:15:20,056 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-02-01 14:15:20,056 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-02-01 14:15:21,691 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-02-01 14:15:22,019 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 309ms. Found 14 JPA repository interfaces.
+2021-02-01 14:15:22,742 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-02-01 14:15:23,680 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-02-01 14:15:23,699 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-02-01 14:15:23,701 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-02-01 14:15:23,701 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.30]
+2021-02-01 14:15:24,565 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2021-02-01 14:15:24,573 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-02-01 14:15:24,573 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 4516 ms
+2021-02-01 14:15:24,671 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2021-02-01 14:15:25,037 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2021-02-01 14:15:25,051 INFO org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2021-02-01 14:15:25,448 INFO org.hibernate.jpa.internal.util.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-02-01 14:15:25,624 INFO org.hibernate.Version [restartedMain] HHH000412: Hibernate Core {5.4.10.Final}
+2021-02-01 14:15:25,915 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-02-01 14:15:26,154 INFO org.hibernate.dialect.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-02-01 14:15:26,657 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000038: Composite-id class does not override equals(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 14:15:26,658 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000039: Composite-id class does not override hashCode(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 14:15:27,653 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-02-01 14:15:27,666 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-02-01 14:15:27,701 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-02-01 14:15:27,913 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-02-01 14:15:29,935 INFO org.springframework.security.web.DefaultSecurityFilterChain [restartedMain] Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@46197786, org.springframework.security.web.context.SecurityContextPersistenceFilter@39416ac6, org.springframework.security.web.header.HeaderWriterFilter@1a3ad849, org.springframework.security.web.csrf.CsrfFilter@296680cc, org.springframework.security.web.authentication.logout.LogoutFilter@412e7b9e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@d4a5d2b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@e6ad105, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@538c867d, org.springframework.security.web.session.SessionManagementFilter@11499682, org.springframework.security.web.access.ExceptionTranslationFilter@31a4008e, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4603a9a9]
+2021-02-01 14:15:30,202 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-02-01 14:16:04,775 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2021-02-01 14:16:04,840 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2021-02-01 14:16:04,843 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started PetclinicApplication in 45.507 seconds (JVM running for 46.616)
+2021-02-01 14:22:52,404 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting PetclinicApplication on LAPTOP-8V5BH0HP with PID 2440 (C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01\target\classes started by lenovo in C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01)
+2021-02-01 14:22:52,410 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-02-01 14:22:52,499 INFO org.springframework.boot.logging.DeferredLog [restartedMain] The Class-Path manifest attribute in C:\Users\lenovo\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2021-02-01 14:22:52,499 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-02-01 14:22:52,500 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-02-01 14:22:54,546 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-02-01 14:22:55,019 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 455ms. Found 14 JPA repository interfaces.
+2021-02-01 14:22:56,125 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-02-01 14:22:57,295 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-02-01 14:22:57,326 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-02-01 14:22:57,329 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-02-01 14:22:57,331 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.30]
+2021-02-01 14:22:58,331 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2021-02-01 14:22:58,341 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-02-01 14:22:58,342 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 5842 ms
+2021-02-01 14:22:58,450 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2021-02-01 14:22:59,302 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2021-02-01 14:22:59,340 INFO org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2021-02-01 14:23:00,206 INFO org.hibernate.jpa.internal.util.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-02-01 14:23:00,644 INFO org.hibernate.Version [restartedMain] HHH000412: Hibernate Core {5.4.10.Final}
+2021-02-01 14:23:01,278 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-02-01 14:23:01,713 INFO org.hibernate.dialect.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-02-01 14:23:02,270 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000038: Composite-id class does not override equals(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 14:23:02,271 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000039: Composite-id class does not override hashCode(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 14:23:03,524 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-02-01 14:23:03,543 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-02-01 14:23:03,602 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-02-01 14:23:03,899 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-02-01 14:23:06,469 INFO org.springframework.security.web.DefaultSecurityFilterChain [restartedMain] Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7b760e9a, org.springframework.security.web.context.SecurityContextPersistenceFilter@62527dc, org.springframework.security.web.header.HeaderWriterFilter@68523605, org.springframework.security.web.csrf.CsrfFilter@6eb2ebb, org.springframework.security.web.authentication.logout.LogoutFilter@6ad27c5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6db491d1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@32e33192, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3bcb70b9, org.springframework.security.web.session.SessionManagementFilter@5c6c3b1, org.springframework.security.web.access.ExceptionTranslationFilter@df6a750, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@73b7bea8]
+2021-02-01 14:23:06,910 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-02-01 14:23:52,909 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2021-02-01 14:23:53,021 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2021-02-01 14:23:53,025 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started PetclinicApplication in 61.491 seconds (JVM running for 62.589)
+2021-02-01 14:24:16,600 INFO org.apache.juli.logging.DirectJDKLog [http-nio-8081-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-02-01 14:24:16,601 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-1] Initializing Servlet 'dispatcherServlet'
+2021-02-01 14:24:16,616 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-1] Completed initialization in 15 ms
+2021-02-01 14:24:16,852 WARN org.hibernate.engine.jdbc.spi.SqlExceptionHelper [http-nio-8081-exec-1] SQL Error: 42001, SQLState: 42001
+2021-02-01 14:24:16,853 ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [http-nio-8081-exec-1] Error de Sintaxis en sentencia SQL "SELECT MATERIAL1_.ID AS ID1_7_, MATERIAL1_.FECHA_SUBIDA AS FECHA_SU2_7_, MATERIAL1_.NOMBRE_MATERIAL AS NOMBRE_M3_7_, MATERIAL1_.PROFESORES_NICK_USUARIO AS PROFESOR4_7_, MATERIAL1_.TIPO_MATERIAL_TIPO AS TIPO_MAT5_7_ FROM FEEDBACKS FEEDBACK0_ INNER JOIN MATERIALES MATERIAL1_ ON WHERE[*] FEEDBACK0_.ALUMNOS_NICK_USUARIO=?"; se esperaba "NOT, EXISTS, INTERSECTS, UNIQUE"
+Syntax error in SQL statement "SELECT MATERIAL1_.ID AS ID1_7_, MATERIAL1_.FECHA_SUBIDA AS FECHA_SU2_7_, MATERIAL1_.NOMBRE_MATERIAL AS NOMBRE_M3_7_, MATERIAL1_.PROFESORES_NICK_USUARIO AS PROFESOR4_7_, MATERIAL1_.TIPO_MATERIAL_TIPO AS TIPO_MAT5_7_ FROM FEEDBACKS FEEDBACK0_ INNER JOIN MATERIALES MATERIAL1_ ON WHERE[*] FEEDBACK0_.ALUMNOS_NICK_USUARIO=?"; expected "NOT, EXISTS, INTERSECTS, UNIQUE"; SQL statement:
+select material1_.id as id1_7_, material1_.fecha_subida as fecha_su2_7_, material1_.nombre_material as nombre_m3_7_, material1_.profesores_nick_usuario as profesor4_7_, material1_.tipo_material_tipo as tipo_mat5_7_ from feedbacks feedback0_ inner join materiales material1_ on where feedback0_.alumnos_nick_usuario=? [42001-200]
+2021-02-01 14:24:16,894 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-1] Resolved [org.springframework.dao.InvalidDataAccessResourceUsageException: could not prepare statement; SQL [select material1_.id as id1_7_, material1_.fecha_subida as fecha_su2_7_, material1_.nombre_material as nombre_m3_7_, material1_.profesores_nick_usuario as profesor4_7_, material1_.tipo_material_tipo as tipo_mat5_7_ from feedbacks feedback0_ inner join materiales material1_ on where feedback0_.alumnos_nick_usuario=?]; nested exception is org.hibernate.exception.SQLGrammarException: could not prepare statement]
+2021-02-01 14:26:12,735 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [Thread-5] Shutting down ExecutorService 'applicationTaskExecutor'
+2021-02-01 14:26:12,741 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [Thread-5] Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-02-01 14:26:12,742 INFO org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2021-02-01 14:26:12,744 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000478: Unsuccessful: 
+    drop table alumnos if exists
+2021-02-01 14:26:12,749 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000478: Unsuccessful: 
+    drop table cursos if exists
+2021-02-01 14:26:12,750 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000478: Unsuccessful: 
+    drop table eventos if exists
+2021-02-01 14:26:12,752 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000478: Unsuccessful: 
+    drop table grupos if exists
+2021-02-01 14:26:12,757 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000478: Unsuccessful: 
+    drop table tipos_eventos if exists
+2021-02-01 14:26:12,759 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [Thread-5] HHH000478: Unsuccessful: 
+    drop table tutores if exists
+2021-02-01 14:26:12,978 WARN org.springframework.beans.factory.support.DisposableBeanAdapter [Thread-5] Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: La base de datos ya esta cerrada (para des-habilitar el cerrado automatico durante el shutdown de la VM, agregue ";DB_CLOSE_ON_EXIT=FALSE" a la URL de conexión)
+Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-200]
+2021-02-01 14:26:12,979 INFO com.zaxxer.hikari.HikariDataSource [Thread-5] HikariPool-1 - Shutdown initiated...
+2021-02-01 14:26:12,987 INFO com.zaxxer.hikari.HikariDataSource [Thread-5] HikariPool-1 - Shutdown completed.
+2021-02-01 14:26:13,681 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting PetclinicApplication on LAPTOP-8V5BH0HP with PID 2440 (C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01\target\classes started by lenovo in C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01)
+2021-02-01 14:26:13,682 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-02-01 14:26:14,548 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-02-01 14:26:14,844 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 294ms. Found 14 JPA repository interfaces.
+2021-02-01 14:26:15,048 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-02-01 14:26:15,346 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-02-01 14:26:15,347 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-02-01 14:26:15,348 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-02-01 14:26:15,348 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.30]
+2021-02-01 14:26:15,552 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2021-02-01 14:26:15,558 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-02-01 14:26:15,559 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 1874 ms
+2021-02-01 14:26:15,597 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-2 - Starting...
+2021-02-01 14:26:15,613 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-2 - Start completed.
+2021-02-01 14:26:15,613 INFO org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2021-02-01 14:26:15,737 INFO org.hibernate.jpa.internal.util.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-02-01 14:26:15,756 INFO org.hibernate.dialect.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-02-01 14:26:15,851 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000038: Composite-id class does not override equals(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 14:26:15,851 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000039: Composite-id class does not override hashCode(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 14:26:16,326 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-02-01 14:26:16,327 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-02-01 14:26:16,334 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-02-01 14:26:16,393 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-02-01 14:26:17,041 INFO org.springframework.security.web.DefaultSecurityFilterChain [restartedMain] Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1d65189d, org.springframework.security.web.context.SecurityContextPersistenceFilter@4e7c5f4f, org.springframework.security.web.header.HeaderWriterFilter@68f25985, org.springframework.security.web.csrf.CsrfFilter@1f1f977e, org.springframework.security.web.authentication.logout.LogoutFilter@163d396b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@31d6aa1d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4b12e3d3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@609eb1ed, org.springframework.security.web.session.SessionManagementFilter@2d3b89f1, org.springframework.security.web.access.ExceptionTranslationFilter@3b9889b4, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6bb2d133]
+2021-02-01 14:26:17,127 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-02-01 14:26:52,271 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2021-02-01 14:26:52,277 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2021-02-01 14:26:52,278 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started PetclinicApplication in 38.644 seconds (JVM running for 241.842)
+2021-02-01 14:26:52,279 INFO org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener [restartedMain] Condition evaluation unchanged
+2021-02-01 14:30:38,970 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting PetclinicApplication on LAPTOP-8V5BH0HP with PID 3496 (C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01\target\classes started by lenovo in C:\Users\lenovo\Desktop\WorkSpace-DP\dp1-2020-g1-01)
+2021-02-01 14:30:38,974 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-02-01 14:30:39,037 INFO org.springframework.boot.logging.DeferredLog [restartedMain] The Class-Path manifest attribute in C:\Users\lenovo\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2021-02-01 14:30:39,038 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-02-01 14:30:39,039 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-02-01 14:30:40,542 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-02-01 14:30:40,844 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 288ms. Found 14 JPA repository interfaces.
+2021-02-01 14:30:41,447 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-02-01 14:30:42,261 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2021-02-01 14:30:42,274 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2021-02-01 14:30:42,275 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-02-01 14:30:42,275 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.30]
+2021-02-01 14:30:43,059 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2021-02-01 14:30:43,070 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-02-01 14:30:43,071 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 4032 ms
+2021-02-01 14:30:43,156 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2021-02-01 14:30:43,566 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2021-02-01 14:30:43,575 INFO org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2021-02-01 14:30:43,868 INFO org.hibernate.jpa.internal.util.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-02-01 14:30:43,959 INFO org.hibernate.Version [restartedMain] HHH000412: Hibernate Core {5.4.10.Final}
+2021-02-01 14:30:44,139 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-02-01 14:30:44,311 INFO org.hibernate.dialect.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-02-01 14:30:44,711 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000038: Composite-id class does not override equals(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 14:30:44,712 WARN org.hibernate.mapping.RootClass [restartedMain] HHH000039: Composite-id class does not override hashCode(): org.springframework.samples.petclinic.model.AsignacionProfesorKey
+2021-02-01 14:30:45,546 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-02-01 14:30:45,557 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-02-01 14:30:45,586 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-02-01 14:30:45,792 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-02-01 14:30:47,548 INFO org.springframework.security.web.DefaultSecurityFilterChain [restartedMain] Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1523cab3, org.springframework.security.web.context.SecurityContextPersistenceFilter@27b3625c, org.springframework.security.web.header.HeaderWriterFilter@3a071227, org.springframework.security.web.csrf.CsrfFilter@695367ff, org.springframework.security.web.authentication.logout.LogoutFilter@4541296b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1a58d631, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@299352ad, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@28bb377, org.springframework.security.web.session.SessionManagementFilter@631431a0, org.springframework.security.web.access.ExceptionTranslationFilter@2ac8eb53, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@873a8dd]
+2021-02-01 14:30:47,793 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-02-01 14:31:21,793 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2021-02-01 14:31:21,882 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2021-02-01 14:31:21,887 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started PetclinicApplication in 43.436 seconds (JVM running for 44.633)
+2021-02-01 14:31:26,140 INFO org.apache.juli.logging.DirectJDKLog [http-nio-8081-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-02-01 14:31:26,142 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-1] Initializing Servlet 'dispatcherServlet'
+2021-02-01 14:31:26,176 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-1] Completed initialization in 34 ms
+2021-02-01 14:33:47,085 INFO org.springframework.samples.petclinic.service.UsuarioService [http-nio-8081-exec-2] Type of user: alumno
+2021-02-01 14:33:47,105 INFO org.springframework.samples.petclinic.web.UsuarioController [http-nio-8081-exec-2] Javi login: alumno
+2021-02-01 14:35:23,386 INFO org.springframework.samples.petclinic.service.UsuarioService [http-nio-8081-exec-7] Type of user: profesor
+2021-02-01 14:35:23,389 INFO org.springframework.samples.petclinic.web.UsuarioController [http-nio-8081-exec-7] MaribelJavi login: profesor
+2021-02-01 14:36:01,625 INFO org.springframework.samples.petclinic.service.UsuarioService [http-nio-8081-exec-6] Type of user: alumno
+2021-02-01 14:36:01,626 INFO org.springframework.samples.petclinic.web.UsuarioController [http-nio-8081-exec-6] Javi login: alumno
+2021-02-01 14:36:19,398 INFO org.springframework.samples.petclinic.service.UsuarioService [http-nio-8081-exec-7] Type of user: profesor
+2021-02-01 14:36:19,399 INFO org.springframework.samples.petclinic.web.UsuarioController [http-nio-8081-exec-7] MaribelJavi login: profesor
+2021-02-01 14:37:45,521 INFO org.springframework.samples.petclinic.service.UsuarioService [http-nio-8081-exec-6] Type of user: profesor
+2021-02-01 14:37:45,523 INFO org.springframework.samples.petclinic.web.UsuarioController [http-nio-8081-exec-6] MaribelJavi login: profesor
