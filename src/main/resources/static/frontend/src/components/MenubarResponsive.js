@@ -35,7 +35,9 @@ class MenubarResponsive extends Component {
             { label: 'Payments', icon: 'pi pi-fw pi-dollar', command: (event) => {
                 this.props.history.push("/studentPayments");
             }},
-            { label: 'Material', icon: 'pi pi-fw pi-pencil' },
+            { label: 'Material', icon: 'pi pi-fw pi-pencil',command: (event) => {
+                this.props.history.push("/materialsTeacher") 
+            }},
             { label: 'School calendar', icon: 'pi pi-fw pi-calendar',  command: (event) => {
                 this.props.history.push("/calendarStudent")} },
             { label: 'Wall of Fame', icon: 'pi pi-fw pi-star', command: (event) => {
@@ -56,14 +58,18 @@ class MenubarResponsive extends Component {
             { label: 'Payments', icon: 'pi pi-fw pi-dollar', command: (event) => {
                 this.props.history.push("/payments");
             }},
-            { label: 'Material', icon: 'pi pi-fw pi-pencil' },
+            { label: 'Material', icon: 'pi pi-fw pi-pencil',command: (event) => {
+                this.props.history.push("/materialsTeacher") 
+            }},
             { label: 'School calendar', icon: 'pi pi-fw pi-calendar', command: (event) => {
                 this.props.history.push("/calendarTeacher")
             }},
             { label: 'Wall of Fame', icon: 'pi pi-fw pi-star', command: (event) => {
                 this.props.history.push("/walloffame"); 
             }},
-            { label: 'About us', icon: 'pi pi-fw pi-question' }
+            { label: 'About us', icon: 'pi pi-fw pi-question' },
+            { label: 'Notifications', icon: 'pi-bell',command: (event) => {
+                this.props.history.push("/notifications") }  }
         ],
         items4: [
             { label: 'Home', icon: 'pi pi-fw pi-home', command: (event) => {

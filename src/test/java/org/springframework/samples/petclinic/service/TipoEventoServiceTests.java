@@ -30,7 +30,7 @@ public class TipoEventoServiceTests {
 	@Test
 	void shouldGetType() {
 		TipoEvento tipo = new TipoEvento();
-		tipo.setTipo("internal");
+		//tipo.setTipo("internal");
 		Optional<TipoEvento> op = Optional.of(tipo);
 		when(tipoEventoRepository.findById(any())).thenReturn(op);
 		

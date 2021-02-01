@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.Tutor;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.SolicitudService;
 import org.springframework.samples.petclinic.util.YoungerValidator;
 import org.springframework.validation.BindingResult;
@@ -43,9 +44,8 @@ import lombok.extern.slf4j.Slf4j;
 public class SolicitudController {
 
 	   private final SolicitudService solicitudServ;
-  
 	   @Autowired
-	   public SolicitudController(SolicitudService solicitudServ) {
+	   public SolicitudController(SolicitudService solicitudServ, AlumnoService alumServ) {
 		   this.solicitudServ = solicitudServ;
 	   }
 	   
@@ -60,9 +60,12 @@ public class SolicitudController {
 
 		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 		   if(session != null && session.getAttribute("type") == "profesor") {
+			   log.info("funciona esto");
 			   return ResponseEntity.ok(solicitudServ.getAllSolicitudes());
 		   }else {
+			   log.info("no estas autorizado");
 			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+			
 		   }
 	   } 
 	   

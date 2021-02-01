@@ -76,10 +76,8 @@ public class SolicitudServiceTests {
 		Alumno alumno = new Alumno();
 		alumno.setNickUsuario("JaviKuka7");
 		alumno.setFechaSolicitud(LocalDate.now());
-		solicitud.setAlumno(alumno);
-		
-		solicitudService.saveRequest(solicitud);
-		
+		solicitud.setAlumno(alumno);		
+		solicitudService.saveRequest(solicitud);		
 		verify(alumnoService, times(1)).saveAlumno(any());
 		verify(tutorService, times(0)).saveTutor(any());
 	}

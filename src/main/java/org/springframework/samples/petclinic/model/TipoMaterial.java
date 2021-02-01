@@ -8,12 +8,10 @@ import javax.persistence.Table;
 import lombok.Getter;
 
 @Entity
-@Table(name="tipos_pagos")
+@Table(name="tipos_materiales")
 @Getter
-public class TipoPago {
-
+public class TipoMaterial {
 	@Id
 	@Column(name="tipo")
 	private String tipo;
-	
 }

@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
-import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.EventoService;
 import org.springframework.samples.petclinic.util.DateEventValidator;
@@ -117,6 +116,23 @@ public class EventoController {
 		}
 	}
 	
+	@GetMapping("/descriptionAlumno/{id}")
+	public ResponseEntity<?> getDescriptionAlumno(@PathVariable("id") Integer id, HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		if(session != null && session.getAttribute("type") == "alumno") {
+			String description = eventoService.getDescription(id);
+			if(description == null) {
+				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
+			}else {
+				log.info("Event's description with id "+id+": "+description);
+				return ResponseEntity.ok(description);
+			}
+		}else {
+			log.warn("Unauthorized");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteDescription(@PathVariable("id") Integer id, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
@@ -138,11 +154,6 @@ public class EventoController {
 			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 			Validator validator = factory.getValidator();
 			Set<ConstraintViolation<Evento>> violations = validator.validate(evento);
-			if (!(curso.equals("null") || curso == "")) {
-				Curso course = new Curso(); // poner en servicio
-				course.setCursoDeIngles(TipoCurso.valueOf(curso));
-				evento.setCurso(course);
-			}
 			if (result.hasErrors() || violations.size() > 0 || curso.equals("null") || curso == "") {
 				List<FieldError> errors = new ArrayList<>();
 				if (violations.size() > 0) {
@@ -162,13 +173,13 @@ public class EventoController {
 			} else {
 				Boolean existEvent = eventoService.existEvent(evento);
 				if (!existEvent) {
-					Boolean existType = eventoService.assignTypeAndSave(evento, evento.getTipo().getTipo());
-					if (existType) {
+					Boolean noError = eventoService.assignEvent(evento, evento.getTipo().getTipo(), curso);
+					if (noError) {
 						log.info("New event with title: " + evento.getTitle());
 						return new ResponseEntity<>("Successful creation", HttpStatus.CREATED);
 					} else {
-						log.error("Type not exist");
-						return new ResponseEntity<>("Type not exist", HttpStatus.OK);
+						log.error("Type or course not exist");
+						return new ResponseEntity<>("Type or course not exist", HttpStatus.OK);
 					}
 				} else {
 					log.warn("Event Exist");

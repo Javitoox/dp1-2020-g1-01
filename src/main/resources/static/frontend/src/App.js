@@ -10,7 +10,6 @@ import {Home} from './components/Home'
 import MenubarResponsive from './components/MenubarResponsive'
 import {getUserType} from './components/storage'
 import {getUserName} from './components/storage'
-//import {getAlumnoInfo} from './components/UserData'
 import { WallOfFameStudents } from './components/WallOfFameStudents'
 import EditStudent from './components/EditStudent'
 import AssignStudent from './components/AssignStudent'
@@ -19,12 +18,14 @@ import {CreateGroup} from './components/CreateGroup'
 import {DeleteGroup} from './components/DeleteGroup'
 import EditPersonalInfo from './components/EditPersonalInfo'
 import {CalendarioProfesor} from './components/CalendarioProfesor'
-
 import Pagos from './components/Pagos'
 import { RealizarPago } from './components/RealizarPago'
 import TeacherGroups from './components/TeacherGroups'
 import { StudentPayments } from './components/StudentPayments'
 import { CalendarioAlumno } from './components/CalendarioAlumno'
+import  NotificationProfesor from './components/NotificationProfesor'
+import {MaterialTeacher} from './components/MaterialTeacher'
+
 
 class App extends Component {
 
@@ -33,9 +34,12 @@ class App extends Component {
 	state = {
 		urlBase: "http://localhost:8081",
 		username: "",
-		userType: ""
+		userType: "",
+		requests: 0,
+		eventos: 0,
 	}
-	
+
+
 
 	changeType(type){
 		this.setState({userType: type})
@@ -48,12 +52,11 @@ class App extends Component {
 	calculateUserName() {
 		return getUserName()
 	}
-	// getUsernameInfo() {
-	// 	return getAlumnoInfo(this.state.urlBase, getUserName())
-	// }
+
 	render() {
 
 		return (
+			
 			<Router>
 				<MenubarResponsive tipoDeUsuario={this.state.userType} onChange={this.changeType} urlBase={this.state.urlBase}></MenubarResponsive>
 				<Route path="/home" render={() =>
@@ -61,6 +64,9 @@ class App extends Component {
 				} />
 				<Route path="/requests" render={() =>
 					<Solicitudes urlBase={this.state.urlBase}></Solicitudes>
+				} />
+					<Route path="/notifications" render={() =>
+					<NotificationProfesor urlBase={this.state.urlBase}></NotificationProfesor>
 				} />
 				<Route path="/students/EditPersonalInfo" render={() =>
 					<EditPersonalInfo urlBase={this.state.urlBase} nickUser={this.calculateUserName()} ></EditPersonalInfo>
@@ -112,6 +118,9 @@ class App extends Component {
 				} />
 				<Route path="/studentPayments" render={() =>
 					<StudentPayments nickUser={this.calculateUserName()}/>
+				} />
+				<Route path="/materialsTeacher" render={() =>
+					<MaterialTeacher urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
 				} />
 				
 			</Router>

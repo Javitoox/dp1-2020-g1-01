@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
+import org.springframework.samples.petclinic.model.Inscripcion;
+import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.model.TipoEvento;
 import org.springframework.samples.petclinic.repository.EventoRepository;
 import org.springframework.samples.petclinic.util.Colors;
@@ -20,18 +22,26 @@ public class EventoService {
 	
 	private EventoRepository eventoRepository;
 	private TipoEventoService tipoEventoService;
+	private CursoService cursoService;
+	private AlumnoService alumnoService;
+	private InscripcionService inscripcionService;
 	
 	@Autowired
-	public EventoService(EventoRepository eventoRepository, TipoEventoService tipoEventoService) {
+	public EventoService(EventoRepository eventoRepository, TipoEventoService tipoEventoService, CursoService cursoService, AlumnoService alumnoService,
+			InscripcionService inscripcionService) {
 		this.eventoRepository = eventoRepository;
 		this.tipoEventoService = tipoEventoService;
+		this.cursoService = cursoService;
+		this.alumnoService = alumnoService;
+		this.inscripcionService = inscripcionService;
 	}
 	
 	public List<Evento> getAll(){
 		return eventoRepository.findAllEvents();
 	}
 	public List<Evento> getByCourse(Curso course){
-		List<Evento> eventos = eventoRepository.findByCourse(course);
+		//List<Evento> eventos = eventoRepository.findByCourse(course);
+		List<Evento> eventos = eventoRepository.findAllEvents();
 		return eventos;
 	}
 	@Transactional
@@ -51,8 +61,12 @@ public class EventoService {
 		Evento evento = eventoRepository.findById(id).orElse(null);
 		String result = null;
 		if(evento != null) {
-			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo()+
-					"/"+evento.getCurso().getCursoDeIngles();
+			List<Inscripcion> inscripciones = inscripcionService.inscripcionesEvento(id);
+			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo()+"/"+ 
+			(inscripciones.size()>0 ? inscripciones.get(0).getAlumno().getGrupos().getCursos().getCursoDeIngles().toString() : "");
+			for(Inscripcion i: inscripciones) {
+				if(i.getRegistrado()) result += "/"+i.getAlumno().getNickUsuario();
+			}
 		}
 		return result;
 	}
@@ -72,12 +86,16 @@ public class EventoService {
 	}
 	
 	@Transactional
-	public Boolean assignTypeAndSave(Evento evento, String type) throws DataAccessException{
+	public Boolean assignEvent(Evento evento, String type, String curso) throws DataAccessException{
 		TipoEvento t = tipoEventoService.getType(type);
-		if(t != null) {
+		Curso c = cursoService.getCourseById(TipoCurso.valueOf(curso));
+		if(t != null && c != null) {
 			evento.setTipo(t);
 			evento.setColor(Colors.generateRandomColor());
 			eventoRepository.save(evento);
+			Integer idEvento = eventByPersonalId(evento.getTitle(), evento.getStart()).getId();
+			evento.setId(idEvento);
+			alumnoService.asignInscripcionesAlumnos(evento, c.getCursoDeIngles(), type);
 			return true;
 		}else {
 			return false;
@@ -87,6 +105,10 @@ public class EventoService {
 	public Boolean existEvent(Evento evento) {
 		Evento result = eventoRepository.findExist(evento.getTitle(), evento.getStart());
 		return result != null ? true:false;
+	}
+	
+	public Evento eventByPersonalId(String title, LocalDate start) {
+		return eventoRepository.findExist(title, start);
 	}
 
 }

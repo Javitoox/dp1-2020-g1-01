@@ -6,32 +6,25 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="inscripciones")
+@Table(name="materiales")
 @Getter
 @Setter
-public class Inscripcion extends BaseEntity{
+public class Material extends BaseEntity {
 	
-	@Column(name="fecha")
-	@NotNull
-	private LocalDate fecha;
+	@Column(name="nombre_material")
+	private String nombreMaterial;
 	
-	@Column(name="registrado")
-	@NotNull
-	private Boolean registrado;
-	
-	@ManyToOne(optional=true)
-	private TipoPago tipo;
+	@Column(name="fecha_subida")
+	private LocalDate fechaSubida;
 	
 	@ManyToOne(optional=false)
-	private Evento evento;
+    private TipoMaterial tipoMaterial;
 	
 	@ManyToOne(optional=false)
-	private Alumno alumno;
-
+	private Profesor profesores;
 }
