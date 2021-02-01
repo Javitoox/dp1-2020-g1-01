@@ -15,17 +15,37 @@ export const CalendarioAlumno = (props) => {
     const [auth, setAuth] = useState(true)
     const [info, setInfo] = useState(null)
 
+    function join(id, nick) {
+        eventService.join(props.urlBase, id, nick)
+        setInfo(null)
+    }
+
+    function disjoin(id, nick) {
+        eventService.disjoin(props.urlBase, id, nick)
+        setInfo(null)
+    }
+
+    function registered(isRegistered, id, type){
+        if(type === "external") {
+            if(isRegistered === "true"){
+                return <Button label="Disjoin" className="p-button-danger" onClick={() => disjoin(id, props.nickUser)}></Button>
+            }else{
+                return <Button label="Join" className="p-button-success" onClick={() => join(id, props.nickUser)}></Button>
+            }
+        }
+    }
+
     function selectInfo(info, id) {
         var parts = info.split("/")
         return (
             <Dialog header="Information" visible={true} style={{ width: '25vw' }} onHide={() => setInfo(null)}>
                 <p><b>Description:</b> {parts[0]}</p>
                 <p><b>Type:</b> {parts[1]}</p>
-                <Button label="Join" className="p-button-success" onClick={() => null}></Button>
-                <Button label="Disjoin" className="p-button-danger" onClick={() => null}></Button>
+                {registered(parts[2], id, parts[1])}
             </Dialog>
         )
     }
+
     function actualState() {
         return <div>
             {events}
@@ -46,7 +66,7 @@ export const CalendarioAlumno = (props) => {
         editable: false,
         height: 800,
         eventClick: function (info) {
-            eventService.getDescription(props.urlBase, info.event.id).then(data =>
+            eventService.getDescriptionAlumno(props.urlBase, info.event.id, props.nickUser).then(data =>
                 setInfo(selectInfo(data.data, info.event.id))
             )
         }

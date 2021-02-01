@@ -15,8 +15,6 @@ import javax.validation.ValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.EventoService;
@@ -44,13 +42,11 @@ import lombok.extern.slf4j.Slf4j;
 public class EventoController {
 	
 	private final EventoService eventoService;
-	private final AlumnoService alumService;
 	
 	@Autowired
 	public EventoController(EventoService eventoService, AlumnoService alumService) {
 		this.eventoService = eventoService;
-		this.alumService = alumService;	
-		}
+	}
 	
 	@InitBinder("evento")
 	public void initEventoBinder(WebDataBinder dataBinder) {
@@ -72,9 +68,7 @@ public class EventoController {
 	public ResponseEntity<?> getUserEvents(HttpServletRequest request, @PathVariable("nick") String nick) {
 		HttpSession session = request.getSession(false);
 		if (session != null && session.getAttribute("type") == "alumno") {
-			Alumno a = alumService.getAlumno(nick);
-			Curso b = a.getGrupos().getCursos();
-			return ResponseEntity.ok(eventoService.getByCourse(b));
+			return ResponseEntity.ok(eventoService.getAlumEvents(nick));
 		} else {
 			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -102,7 +96,7 @@ public class EventoController {
 	@GetMapping("/description/{id}")
 	public ResponseEntity<?> getDescription(@PathVariable("id") Integer id, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		if(session != null && session.getAttribute("type") == "profesor" || session.getAttribute("type") == "alumno") {
+		if(session != null && session.getAttribute("type") == "profesor") {
 			String description = eventoService.getDescription(id);
 			if(description == null) {
 				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
@@ -116,15 +110,15 @@ public class EventoController {
 		}
 	}
 	
-	@GetMapping("/descriptionAlumno/{id}")
-	public ResponseEntity<?> getDescriptionAlumno(@PathVariable("id") Integer id, HttpServletRequest request){
+	@GetMapping("/descriptionAlumno/{id}/{nickUser}")
+	public ResponseEntity<?> getDescriptionAlumno(@PathVariable("id") Integer id, @PathVariable("nickUser") String nickUser, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
 		if(session != null && session.getAttribute("type") == "alumno") {
-			String description = eventoService.getDescription(id);
+			String description = eventoService.getDescriptionAlumno(id, nickUser);
 			if(description == null) {
 				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
 			}else {
-				log.info("Event's description with id "+id+": "+description);
+				log.info("Event's description of student with id "+id+": "+description);
 				return ResponseEntity.ok(description);
 			}
 		}else {

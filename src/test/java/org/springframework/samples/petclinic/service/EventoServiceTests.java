@@ -146,34 +146,34 @@ public class EventoServiceTests {
 		verify(eventoRepository, times(1)).deleteById(any());
 	}
 	
-	@Test
-	void shouldGetEvent() {
-		Optional<Evento> op = Optional.of(e);
-		when(eventoRepository.findById(any())).thenReturn(op);
-		
-		Evento evento = eventoService.getEvento(1);
-
-		assertThat(evento).isNotNull();
-		assertThat(evento.getTitle()).isEqualTo("Tea League");
-	}
-	
-	@Test
-	void shouldGetEventNull() {
-		Optional<Evento> op = Optional.empty();
-		when(eventoRepository.findById(any())).thenReturn(op);
-		
-		Evento evento = eventoService.getEvento(1);
-
-		assertThat(evento).isNull();
-	}
-	
-	@Test
-	@Transactional
-	void shouldSaveEvent() {
-		eventoService.saveEvent(e);
-		
-		verify(eventoRepository, times(1)).save(any());
-	}
+//	@Test
+//	void shouldGetEvent() {
+//		Optional<Evento> op = Optional.of(e);
+//		when(eventoRepository.findById(any())).thenReturn(op);
+//		
+//		Evento evento = eventoService.getEvento(1);
+//
+//		assertThat(evento).isNotNull();
+//		assertThat(evento.getTitle()).isEqualTo("Tea League");
+//	}
+//	
+//	@Test
+//	void shouldGetEventNull() {
+//		Optional<Evento> op = Optional.empty();
+//		when(eventoRepository.findById(any())).thenReturn(op);
+//		
+//		Evento evento = eventoService.getEvento(1);
+//
+//		assertThat(evento).isNull();
+//	}
+//	
+//	@Test
+//	@Transactional
+//	void shouldSaveEvent() {
+//		eventoService.saveEvent(e);
+//		
+//		verify(eventoRepository, times(1)).save(any());
+//	}
 	
 //	@Test
 //	@Transactional
