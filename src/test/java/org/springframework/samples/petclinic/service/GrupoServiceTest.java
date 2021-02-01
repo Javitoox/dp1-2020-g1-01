@@ -60,7 +60,7 @@ public class GrupoServiceTest {
 	
 	@BeforeEach
 	void setup() {
-		grupoService = new GrupoService(grupoRepository);
+		grupoService = new GrupoService(grupoRepository, null);
 	}
 	
 	@Test

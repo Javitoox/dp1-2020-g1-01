@@ -10,15 +10,18 @@ import org.springframework.samples.petclinic.repository.GrupoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class GrupoService {
 	
-	private GrupoRepository grupoRepository;
 	private AlumnoService alumnoService;
+	private GrupoRepository grupoRepository;
 
 	@Autowired
-	public GrupoService(GrupoRepository grupoRepository) {
+	public GrupoService(GrupoRepository grupoRepository, AlumnoService alumnoService) {
 		this.grupoRepository = grupoRepository;
+		this.alumnoService = alumnoService;
 	}
 	
 	public boolean exists(String id) {
@@ -52,25 +55,21 @@ public class GrupoService {
 	
 	@Transactional
 	public void saveGroup(Grupo grupo){
-		grupoRepository.save(grupo);
-	}
-	
-	public Boolean grupoVacio(String id) {
-		Boolean res = false;
-		if(alumnoService.getStudentsPerGroup(id).isEmpty()) {
-			res = true;
-		}
-		return res;
+		this.grupoRepository.save(grupo);
 	}
 		
 	@Transactional
-	public Boolean deleteGroup(String id){
-		Boolean res = false;
-		if(alumnoService.getStudentsPerGroup(id).isEmpty()) {
-			grupoRepository.deleteById(id);
-			res = true;
-		}
-		return res;
+	public void deleteGroup(String id){
+			this.grupoRepository.deleteById(id);
 	}
 	
+	public Boolean grupoVacio(String nombreGrupo){
+		return alumnoService.getStudentsPerGroup(nombreGrupo).isEmpty();
+	}
+	
+	public Integer numAlumnos(String nombreGrupo) {
+		Integer num = grupoRepository.numAlumnosGrupo(nombreGrupo).size();
+		log.info("NUMERO DE ALUMNOSSSS: {}", num);
+		return num;
+	}
 }

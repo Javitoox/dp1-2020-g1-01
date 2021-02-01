@@ -34,10 +34,10 @@ public class GrupoController {
 	
 	private final GrupoService grupoService;
 
+
 	@Autowired
-	public GrupoController(GrupoService grupoService, AlumnoService alumnoService) {
+	public GrupoController(GrupoService grupoService) {
 		this.grupoService = grupoService;
-		this.alumnoService = alumnoService;
 	}
 	
 	@GetMapping("/all")
@@ -132,7 +132,8 @@ public class GrupoController {
 		if(session != null && session.getAttribute("type") == "profesor") {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando borrar grupo: {}", nombreGrupo);
-			if(grupoService.deleteGroup(nombreGrupo)) {
+			if(grupoService.grupoVacio(nombreGrupo)) {
+				grupoService.deleteGroup(nombreGrupo);
 				return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
 			}else {
 				return new ResponseEntity<>("No se puede borrar el grupo porque tiene alumnos", HttpStatus.BAD_REQUEST);

@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.web;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
+import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +33,12 @@ public class AlumnoController {
 
 
 	private AlumnoService alumnoServ;
+	private GrupoService grupoService;
 
 	@Autowired
-	public AlumnoController(AlumnoService alumnoServ) {
+	public AlumnoController(AlumnoService alumnoServ, GrupoService grupoService) {
 		this.alumnoServ = alumnoServ;
+		this.grupoService = grupoService;
 	}
 	
 	@PutMapping("/editStudent")
@@ -127,20 +129,27 @@ public class AlumnoController {
 	}
 
 	@PutMapping("/assignStudent")
-	public ResponseEntity<?> assignStudent(@Valid @RequestBody Alumno alumno, HttpServletRequest request,HttpServletResponse response , BindingResult result)
-			throws IOException {
+	public ResponseEntity<?> assignStudent(@Valid @RequestBody Alumno alumno, HttpServletRequest request,HttpServletResponse response , BindingResult result){
 		HttpSession session = request.getSession(false);
     	if(session != null && session.getAttribute("type") == "profesor" ) {
     		if (result.hasErrors()) {
     			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     		}
     		else {
-    			log.info("Request to edit alumn's group: {} ", alumno.getGrupos());
-    			this.alumnoServ.saveAlumno(alumno);
-    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
-    			
+    			if(alumno.getGrupos().getNombreGrupo() != null) {
+	    			Integer numAlumnosGrupo = grupoService.numAlumnos(alumno.getGrupos().getNombreGrupo());
+    			if(numAlumnosGrupo < 3 ) {
+	        			this.alumnoServ.saveAlumno(alumno);
+		    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
+	    			}else {
+		    			return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED); //ERROR 208
+	    			}
+    			}
+    				this.alumnoServ.saveAlumno(alumno);
+	    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);    			
+    			}
     		}
-    	}else {
+    	else {
     		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     	}
     }

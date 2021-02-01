@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.TipoCurso;
 
@@ -23,4 +24,9 @@ public interface GrupoRepository extends CrudRepository<Grupo, String>{
 	
 	@Query(value="select g.NOMBRE_GRUPO from grupos g where g.NOMBRE_GRUPO  not in(select g.NOMBRE_GRUPO  from grupos g join ASIGNACIONES_PROFESOR  a where g.NOMBRE_GRUPO = a.GRUPO_NOMBRE_GRUPO  )", nativeQuery=true)
 	public List<String> findAllEmptyGroups();
+	
+	@Query("SELECT g.alumnos FROM Grupo g WHERE g.nombreGrupo = :grupo")
+	//@Query(value = "SELECT count(distinct(nick_usuario)) FROM GRUPOS natural join alumnos where grupos_nombre_grupo = :grupo", nativeQuery = true)
+	public List<Alumno> numAlumnosGrupo(@Param("grupo") String grupo); 
+	//SELECT count(distinct(nick_usuario)) FROM GRUPOS natural join alumnos where grupos_nombre_grupo = 'grupo1'
 }

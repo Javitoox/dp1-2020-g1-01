@@ -1,12 +1,18 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +31,10 @@ public class Grupo {
 	@ManyToOne
 	@Valid
     private Curso cursos;
+	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy = "grupos")
+	@JsonIgnore
+	private Collection<Alumno> alumnos;
 	
 
 }

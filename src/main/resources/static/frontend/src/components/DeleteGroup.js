@@ -37,13 +37,6 @@ export class DeleteGroup extends Component {
                 axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, {withCredentials: true}).then(res => {
                     this.respuesta(res.status, res.data);        })
             }
-           
-
-        
-
-        
-        
-        
        
     }
 
@@ -102,21 +95,12 @@ export class DeleteGroup extends Component {
         }
     }
     respuesta(status, data){
-        console.log("hola?");
-
         console.log(status);
         if(status===111){
-            console.log("no va");
-
             data.forEach(e => this.error(e.field, e.defaultMessage))
         }else if(status===200){
-            console.log("va");
-
+            this.grupos.getEmptyGroupNames().then(data => this.setState({ listaGrupos: data }));
             this.setState({               
-
-                grupoS:{
-                    nombreGrupo:""
-                },
                 succes: <div className="alert alert-success" role="alert">Successful delete</div>
             })
         }else{
