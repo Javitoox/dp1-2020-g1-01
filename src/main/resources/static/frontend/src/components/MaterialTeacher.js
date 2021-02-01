@@ -3,7 +3,9 @@ import axios from 'axios';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-import { Document } from 'react-pdf'
+import Pdf from './all-pages';
+import { Dialog } from 'primereact/dialog';
+
 
  export  class MaterialTeacher extends Component{
 
@@ -13,7 +15,7 @@ import { Document } from 'react-pdf'
             nickUsuario: this.props.nickUser,
             urlBase: this.props.urlBase, 
             materiales: null,
-            visualizarPDF: null
+            visualizarPDF: null,
         }
         this.mostrarMaterial= this.mostrarMaterial.bind(this);
         this.obtenerMaterial= this.obtenerMaterial.bind(this);
@@ -46,9 +48,9 @@ import { Document } from 'react-pdf'
             <React.Fragment>
                 <Button icon="pi pi-eye" className="p-button-rounded p-button-secondary p-mr-2" onClick={() => 
                     this.setState({visualizarPDF:
-                        <Document
-                            file="/material/1.pdf"
-                        ></Document>
+                        <Dialog visible={true} style={{ width: '40vw' }} onHide={() => this.setState({visualizarPDF: null})}> 
+                            <center><Pdf id = {rowData.id}/></center>
+                        </Dialog>
                     })
                 
                 }
