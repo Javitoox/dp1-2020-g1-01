@@ -1,13 +1,21 @@
 package org.springframework.samples.petclinic.web;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.model.BodyPremiado;
 import org.springframework.samples.petclinic.service.MaterialService;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,5 +43,10 @@ public class MaterialController {
 		return ResponseEntity.ok(materialService.getMaterialPorAlumno(nickAlumno));
 	}
 	
+	@PostMapping("/añadirMaterial/{nickProfesor}")
+	public ResponseEntity<?>añadirMaterial(@PathVariable("nickProfesor") String nickProfesor ,@RequestParam("pdf") MultipartFile pdf){
+		System.out.println(pdf.getOriginalFilename());		
+		return null;
+	}
 
 }

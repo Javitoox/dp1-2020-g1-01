@@ -5,6 +5,7 @@ import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import Pdf from './all-pages';
 import { Dialog } from 'primereact/dialog';
+import {UploadMaterial} from './UploadMaterial'
 
  export  class MaterialTeacher extends Component{
 
@@ -15,12 +16,14 @@ import { Dialog } from 'primereact/dialog';
             urlBase: this.props.urlBase, 
             materiales: null,
             visualizarPDF: null,
+            formularioUpload: null
         }
         this.mostrarMaterial= this.mostrarMaterial.bind(this);
         this.obtenerMaterial= this.obtenerMaterial.bind(this);
         this.botonVerMaterial = this.botonVerMaterial.bind(this);
         this.botonDescargarMaterial = this.botonDescargarMaterial.bind(this);
         this.mostrarBotonUpload = this.mostrarBotonUpload.bind(this);
+        this.mostrarFormUpload = this.mostrarFormUpload.bind(this);
     }
 
     componentDidMount() {
@@ -35,9 +38,19 @@ import { Dialog } from 'primereact/dialog';
     mostrarBotonUpload(){
         return(
         <div className="mt-3 mb-3">  
-            <Button className="p-button-secondary" label="Upload new content" icon="pi pi-plus" onClick={()=>console.log("hola")}/>
+            <Button className="p-button-secondary" label="Upload new content" icon="pi pi-plus" onClick={()=>this.mostrarFormUpload()}/>
         </div>
         );
+    }
+
+    mostrarFormUpload(){
+        this.setState({
+            formularioUpload: 
+                <Dialog visible={true} style={{ width: '40vw' }} onHide={() => this.setState({formularioUpload: null})}>
+                    <UploadMaterial urlBase={this.state.urlBase} nickUsuario={this.state.nickUsuario}></UploadMaterial>
+                </Dialog>
+        })
+
     }
 
     mostrarMaterial(){
@@ -79,6 +92,7 @@ import { Dialog } from 'primereact/dialog';
                 {this.mostrarBotonUpload()}
                 {this.mostrarMaterial()}
                 {this.state.visualizarPDF}
+                {this.state.formularioUpload}
             </React.Fragment>
         );
     }
