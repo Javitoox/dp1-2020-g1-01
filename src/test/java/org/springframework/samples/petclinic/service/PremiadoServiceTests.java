@@ -42,7 +42,7 @@ public class PremiadoServiceTests {
 	
 	
 	@Test
-	void shouldNotExistWallOfFameWhenInsertAnAwardedStudent() throws IOException { 
+	void shouldNotExistWallOfFameWhenInsertAnAwardedStudent() throws IOException {
 		Alumno a = new Alumno();
 		a.setNickUsuario("javi56");
 		String descripcion = "El mejor de la clase";

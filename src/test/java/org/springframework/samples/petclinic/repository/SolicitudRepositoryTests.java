@@ -15,7 +15,6 @@ import org.springframework.samples.petclinic.model.Alumno;
 public class SolicitudRepositoryTests {
 
 	private static Alumno a;
-<<<<<<< HEAD
 
 	@Autowired
 	protected SolicitudRepository solicitudRepository;
@@ -24,16 +23,6 @@ public class SolicitudRepositoryTests {
 	protected AlumnoRepository alumnoRepository;
 
 
-=======
-	
-	@Autowired
-	protected SolicitudRepository solicitudRepository;
-	
-	@Autowired
-	protected AlumnoRepository alumnoRepository;
-	
-	
->>>>>>> parent of a2a68a14... Revert "Repository Tests"
 	@BeforeEach
 	void data() {
 		a = new Alumno();
@@ -48,20 +37,11 @@ public class SolicitudRepositoryTests {
 		a.setFechaSolicitud(LocalDate.now());
 		alumnoRepository.save(a);
 	}
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> parent of a2a68a14... Revert "Repository Tests"
 	@Test
 	void testReturnStudentsNotAcceptedYet() {
 		List<Alumno> alumnosPending = solicitudRepository.findStudentsNotAcceptedYet();
 		assertTrue(alumnosPending.size() > 0);
 	}
-<<<<<<< HEAD
 
 }
-=======
-	
-}
->>>>>>> parent of a2a68a14... Revert "Repository Tests"

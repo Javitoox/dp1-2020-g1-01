@@ -19,7 +19,6 @@ import org.springframework.samples.petclinic.model.Tutor;
 public class AlumnoRepositoryTests {
 
 	private static Alumno a;
-<<<<<<< HEAD
 
 	@Autowired
 	protected AlumnoRepository alumnoRepository;
@@ -34,22 +33,6 @@ public class AlumnoRepositoryTests {
 	protected TutorRepository tutorRepository;
 
 
-=======
-	
-	@Autowired
-	protected AlumnoRepository alumnoRepository;
-	
-	@Autowired
-	protected CursoRepository cursoRepository;
-	
-	@Autowired
-	protected GrupoRepository grupoRepository;
-	
-	@Autowired
-	protected TutorRepository tutorRepository;
-	
-	
->>>>>>> parent of a2a68a14... Revert "Repository Tests"
 	@BeforeEach
 	void data() {
 		a = new Alumno();
@@ -63,37 +46,24 @@ public class AlumnoRepositoryTests {
 		a.setContraseya("Pollito009");
 		a.setNumTelefonoUsuario("698898989");
 	}
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> parent of a2a68a14... Revert "Repository Tests"
 	@Test
 	void testReturnListWithStudents() {
 		alumnoRepository.save(a);
 		List<Alumno>alumnos = alumnoRepository.findStudents();
 		assertTrue(alumnos.size() > 0);
 	}
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> parent of a2a68a14... Revert "Repository Tests"
 	@Test
 	void testReturnStudentsByCourse() {
 		Curso c = new Curso();
 		c.setCursoDeIngles(TipoCurso.A1);
 		Curso curso = cursoRepository.save(c);
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> parent of a2a68a14... Revert "Repository Tests"
 		Grupo g  = new Grupo();
 		g.setNombreGrupo("mi grupo fav");
 		g.setCursos(curso);
 		Grupo grupo = grupoRepository.save(g);
-<<<<<<< HEAD
 
 		a.setGrupos(grupo);
 		alumnoRepository.save(a);
@@ -102,16 +72,6 @@ public class AlumnoRepositoryTests {
 		assertTrue(alumnos.size() > 0);
 	}
 
-=======
-		
-		a.setGrupos(grupo);
-		alumnoRepository.save(a);
-		
-		List<Alumno>alumnos = alumnoRepository.findStudentsByCourse(TipoCurso.A1);
-		assertTrue(alumnos.size() > 0);
-	}
-	
->>>>>>> parent of a2a68a14... Revert "Repository Tests"
 	@Test
 	void testReturnStudentsByTutor() {
 		Tutor t = new Tutor();
@@ -124,7 +84,6 @@ public class AlumnoRepositoryTests {
 		t.setCorreoElectronicoUsuario("jvierdeldolor@gmail.com");
 		t.setContraseya("Pollito0010");
 		t.setNumTelefonoUsuario("668898989");
-<<<<<<< HEAD
 
 		Tutor tutor = tutorRepository.save(t);
 		a.setTutores(tutor);
@@ -141,29 +100,3 @@ public class AlumnoRepositoryTests {
 
 
 
-=======
-		
-		Tutor tutor = tutorRepository.save(t);
-		a.setTutores(tutor);
-		alumnoRepository.save(a);
-		
-		List<Alumno>alumnos = alumnoRepository.findStudentsByTutor(tutor.getNickUsuario());
-		assertTrue(alumnos.size() > 0);	
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}
->>>>>>> parent of a2a68a14... Revert "Repository Tests"

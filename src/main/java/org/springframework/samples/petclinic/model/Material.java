@@ -4,10 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-<<<<<<< HEAD
 import javax.persistence.ManyToOne;
-=======
->>>>>>> parent of a2a68a14... Revert "Repository Tests"
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -25,13 +22,9 @@ public class Material extends BaseEntity {
 	@Column(name="fecha_subida")
 	private LocalDate fechaSubida;
 	
-<<<<<<< HEAD
 	@ManyToOne(optional=false)
     private TipoMaterial tipoMaterial;
 	
 	@ManyToOne(optional=false)
 	private Profesor profesores;
-=======
-	
->>>>>>> parent of a2a68a14... Revert "Repository Tests"
 }
