@@ -41,6 +41,9 @@ export default class AlumnoComponent extends Component{
 
 	getAlumnosPorTutor(urlBase, nickUsuario){
         return axios.get(urlBase+"/alumnos/"+nickUsuario+"/allMyStudents", {withCredentials: true}).then(res=>res.data);
+	}
+	getAlumnosEliminiables(urlBase){
+        return axios.get(urlBase+"/alumnos/ableToDelete", {withCredentials: true}).then(res=>res.data);
     }
 }
 

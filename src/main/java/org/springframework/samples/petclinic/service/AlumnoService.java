@@ -37,6 +37,10 @@ public class AlumnoService {
 	public void deleteStudents(Alumno alumno) {
 		alumnoRepository.delete(alumno);
 	}
+	@Transactional	
+	public void deleteStudent(String id) {
+		alumnoRepository.deleteById(id);
+	}
 	//esta es una mia 
 	@Transactional
 	public Alumno saveAlumno(Alumno alumno) throws DataAccessException {
@@ -50,8 +54,19 @@ public class AlumnoService {
     public List<Alumno>getAllMyStudents(String nickTutor){
     	return alumnoRepository.findStudentsByTutor(nickTutor);
     }
-     
     
+    public List<String> getStudentsToDelete(){
+    	return alumnoRepository.findStudentsAbleToDelete();
+    }
+     
+    public Boolean existStudent(String id){
+    	Alumno a = alumnoRepository.findById(id).orElse(null);
+    	if(a!=null) {
+    		return true;
+    	}else {
+    		return false;
+    	}
+    }
     
 }
 

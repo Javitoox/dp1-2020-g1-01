@@ -17,8 +17,7 @@ import lombok.Setter;
 @Table(name="pagos")
 public class Pago extends BaseEntity{
 	
-	@NotEmpty(message = "Required field")
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=true)
 	private TipoPago tipo;
 	
 	@Column(name="concepto")

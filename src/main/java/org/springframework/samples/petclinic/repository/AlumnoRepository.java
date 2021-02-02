@@ -26,4 +26,8 @@ public interface AlumnoRepository extends CrudRepository<Alumno, String> {
     @Query("SELECT alumno FROM Alumno alumno where (alumno.tutores.nickUsuario LIKE :nickTutor% and alumno.fechaMatriculacion IS NOT null and alumno.fechaBaja IS null)")
     public List<Alumno> findStudentsByTutor(@Param("nickTutor")String nickTutor);
     
+    @Query("SELECT a.nickUsuario FROM Alumno a WHERE a.nickUsuario IN ( SELECT p.alumnos.nickUsuario FROM Pago p GROUP BY p.alumnos.nickUsuario "
+			+ "HAVING COUNT (p.concepto) = (SELECT COUNT(DISTINCT p.concepto ) FROM Pago p) )")
+	public List<String> findStudentsAbleToDelete();
+    
 }

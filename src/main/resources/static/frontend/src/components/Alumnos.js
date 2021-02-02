@@ -39,6 +39,7 @@ class Alumnos extends Component {
             listaGrupos:{
                 nombreGrupo: ""
             }
+            
         }
         this.alumnos = new AlumnoComponent();
         this.boton = this.boton.bind(this);
@@ -48,6 +49,7 @@ class Alumnos extends Component {
         this.botonEliminar=this.botonEliminar.bind(this);
         this.botonGrupos=this.botonGrupos.bind(this);
         this.allGroupNames= this.allGroupNames.bind(this);
+        this.botonDelete= this.botonDelete.bind(this);
         this.botonInfo= this.botonInfo.bind(this);
         this.mostrarInfoStudent= this.mostrarInfoStudent.bind(this);
         this.mostrarInfo= this.mostrarInfo.bind(this);
@@ -62,6 +64,7 @@ class Alumnos extends Component {
         }
         })
         this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+        this.alumnos.getAlumnosEliminiables(this.props.urlBase).then(data =>  this.setState({ listaEliminables: data }) );
     }
 
     boton(rowData) {
@@ -111,6 +114,7 @@ class Alumnos extends Component {
         );
     }
     
+    
 
     
     assignGroup(data) {
@@ -151,8 +155,46 @@ class Alumnos extends Component {
         }
     }
 
-    allGroupNames(){
+   
+    
+   
 
+    botonDelete(rowData) {
+        var s= this.state.listaEliminables
+        if(String(rowData.nickUsuario) === String(s))     {
+            
+            return (    
+                <React.Fragment>
+                                      
+                    <Button icon="pi pi-trash" className="p-button-rounded p-button-secondary p-mr-2"  onClick={() => this.deleteAlumno(rowData)}/>
+                </React.Fragment>
+            );
+        }
+     }
+
+     deleteAlumno(data){
+
+                axios.delete("http://localhost:8081/alumnos/delete/"+data.nickUsuario, {withCredentials: true}).then(res => {
+                    this.respuesta(res.status, res.data);        })
+            
+           
+
+        
+
+        
+        
+        
+       
+    
+
+
+    }
+
+    
+
+    allGroupNames(){
+        var s = this.state.listaEliminables
+        console.log(s)
         var t=this.state.listaGrupos
         var i=0
         var groupSelectItems = [
@@ -297,9 +339,11 @@ class Alumnos extends Component {
                                 <Column header="Info" body={this.botonInfo}></Column>
                                 <Column field="nombreCompletoUsuario" header="Full name"></Column>
                                 <Column field="nickUsuario" header="Nickname"></Column>
+                                <Column field="grupos.nombreGrupo" header="Group's name"></Column>
                                 <Column field="numTareasEntregadas" header="Activities done"></Column>
                                 <Column header="Assign" body={this.botonAssign}></Column>
                                 <Column header="Edit" body={this.boton}></Column>
+                                <Column header="Delete" body={this.botonDelete}></Column>
                             </DataTable>
                         </div>
                         {this.mostrarInfo()}
@@ -309,7 +353,8 @@ class Alumnos extends Component {
         }
     }
 
-    function  matchDispatchToProps(dispatch) {
+    function  matchDispatchToProps(dispatch) {//                                <Column header="Delete" body={this.botonDelete('M')}></Column>
+
         return bindActionCreators({
             selectStudent : selectStudent,
             selectAssignedStudent: selectAssignedStudent}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 

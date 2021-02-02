@@ -16,11 +16,10 @@ import javax.validation.ValidatorFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Curso;
-import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.model.Pago;
-import org.springframework.samples.petclinic.model.TipoCurso;
+import org.springframework.samples.petclinic.model.TipoPago;
 import org.springframework.samples.petclinic.service.PagoService;
+import org.springframework.samples.petclinic.service.TipoPagoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,10 +39,13 @@ import lombok.extern.slf4j.Slf4j;
 public class PagosController {
 	
 	private final PagoService pagoService;
+	private final TipoPagoService tipoPagoService;
 
-	public PagosController(PagoService pagoService) {
+	public PagosController(PagoService pagoService, TipoPagoService tipoPagoService) {
 		this.pagoService = pagoService;
+		this.tipoPagoService = tipoPagoService;
 	}
+	
 	
 	@GetMapping
 	public ResponseEntity<List<String>> allPayments(HttpServletRequest request){
@@ -120,9 +122,16 @@ public class PagosController {
 	}
 	
 	
-	@PostMapping("/new")
-	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, BindingResult result, HttpServletRequest request){
-		HttpSession session = request.getSession(false);		
+	@PostMapping("/new/{tipoPago}")
+	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, @PathVariable("tipoPago") String tipoPago ,BindingResult result, HttpServletRequest request){
+		HttpSession session = request.getSession(false);	
+		log.info("Pago"+resource);
+		TipoPago t = tipoPagoService.getType(tipoPago);
+		resource.setTipo(t);
+		log.info("Tipo pago"+resource.getTipo().toString());
+
+		log.info("Tipo pago mandadod"+ tipoPago);
+
 		if(session != null && session.getAttribute("type") == "profesor") {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando crear pago: {}", resource);
@@ -155,9 +164,18 @@ public class PagosController {
 				}
 				return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
+				
+//				Boolean noError = pagoService.assignPago(resource, tipoPago);
+				
+					pagoService.savePayment(resource);				
+					return new ResponseEntity<>("Pago creado correctamente", HttpStatus.CREATED);
+
+					
+					
+
+					
+				
 			
-				pagoService.savePayment(resource);
-				return new ResponseEntity<>("Pago creado correctamente", HttpStatus.CREATED);
 			}
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 

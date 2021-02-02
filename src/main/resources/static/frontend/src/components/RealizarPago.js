@@ -60,12 +60,10 @@ export class RealizarPago extends Component {
                 nickUsuario:this.state.nickUsuario
             },            
             fecha:moment().format('YYYY-MM-DD'),
-            concepto:this.state.concepto,
-            tipo:this.state.type,
-           
+            concepto:this.state.concepto           
         }
 
-        axios.post("http://localhost:8081/pagos/new", grupo, {withCredentials: true}).then(res => {
+        axios.post("http://localhost:8081/pagos/new/"+this.state.type, grupo, {withCredentials: true}).then(res => {
             this.respuesta(res.status, res.data);
         })
         

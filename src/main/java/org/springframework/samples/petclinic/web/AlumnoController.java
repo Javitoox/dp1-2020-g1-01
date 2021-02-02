@@ -16,6 +16,7 @@ import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -85,6 +86,19 @@ public class AlumnoController {
 		}
 	}
 
+	@GetMapping("/ableToDelete")
+	public ResponseEntity<?> listAlumnosToDelete(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+			List<String> allStudents = alumnoServ.getStudentsToDelete();
+			return ResponseEntity.ok(allStudents);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
+	}
+
 	@GetMapping("/getByCourse/{course}")
 	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") TipoCurso cursoDeIngles, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
@@ -144,6 +158,24 @@ public class AlumnoController {
     		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     	}
     }
+	
+	@DeleteMapping("/delete/{nickUsuario}")
+	public ResponseEntity<?> deleteStudent(@PathVariable("nickUsuario") String nickUsuario, HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
+			log.info("Solicitando borrar alumno: {}", nickUsuario);
+			if(alumnoServ.getStudentsToDelete().contains(nickUsuario.toString())) {
+				alumnoServ.deleteStudent(nickUsuario);
+				return new ResponseEntity<>("Alumno eliminado correctamente", HttpStatus.OK);
+			}else {
+				return new ResponseEntity<>("No se puede borrar el alumno porque tiene pagos pendientes", HttpStatus.BAD_REQUEST);
+			}
+//			
+		}else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+			}
+		}
 	
 	
 

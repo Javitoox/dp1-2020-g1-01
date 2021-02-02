@@ -26,5 +26,8 @@ public class Inscripcion extends BaseEntity{
 	
 	@ManyToOne(optional=true)
 	private TipoPago tipo;
+	
+	@ManyToOne(optional=false)
+	private Alumno alumno;
 
 }

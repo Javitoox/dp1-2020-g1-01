@@ -52,9 +52,7 @@ INSERT INTO eventos(title,descripcion,start,end,tipo_tipo,curso_curso_de_ingles)
 INSERT INTO eventos(title,descripcion,start,tipo_tipo,curso_curso_de_ingles,color) VALUES ('Fall Guys','Amazing wow','2021-01-15','internal','B2','purple');
 
 
-INSERT INTO inscripciones(registrado) VALUES ('false');
-
-INSERT INTO alumnos_inscripciones VALUES('Javi','1');
+INSERT INTO inscripciones(fecha,registrado,evento_id,alumno_nick_usuario) VALUES ('2021-01-15','false','1','Javi');
 
 INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (1,'bizum', 'Pago matricula','2019-10-03','Javi');
 INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (2,'bizum', 'Pago matricula','2018-10-03','antoniope');
