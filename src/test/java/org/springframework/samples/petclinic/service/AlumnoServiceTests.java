@@ -142,7 +142,6 @@ public class AlumnoServiceTests {
 		assertThat(alumnos.size()).isEqualTo(0);
 	}
 	@Test
-	@Transactional
 	void shouldSaveStudent() {
 		Alumno a= new Alumno();
 		a.setNickUsuario("Gonsalo");

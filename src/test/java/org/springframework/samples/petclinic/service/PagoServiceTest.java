@@ -26,6 +26,7 @@ import org.springframework.samples.petclinic.repository.PagoRepository;
 public class PagoServiceTest {
 	
 	private static final String CONCEPTO = "Matricula";	
+	private static List<Alumno> ningunPago;
 	private static List<Alumno> alumnosPagados;
 	private static List<Alumno> alumnosMorosos;
 	
@@ -50,6 +51,7 @@ public class PagoServiceTest {
 		Alumno a2 = new Alumno();
 		Alumno m1 = new Alumno();
 		Alumno m2 = new Alumno();
+		ningunPago = new ArrayList<>();
 		alumnosPagados = new ArrayList<>();
 		alumnosMorosos = new ArrayList<>();
 		alumnosPagados.add(a1);
@@ -68,6 +70,11 @@ public class PagoServiceTest {
 	void testPaymentListIsNotEmpty() {
 		when(pagoRepository.findStudentsByPago(CONCEPTO)).thenReturn(alumnosPagados);
 		assertThat(pagoService.getStudentsByPayment(CONCEPTO)).isNotEmpty();
+	}
+	@Test
+	void testPaymentListIsEmpty() {
+		when(pagoRepository.findStudentsByPago(CONCEPTO)).thenReturn(ningunPago);
+		assertThat(pagoService.getStudentsByPayment(CONCEPTO)).isEmpty();
 	}
 	
 	@Test

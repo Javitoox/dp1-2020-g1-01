@@ -79,6 +79,9 @@ export class CreateGroup extends Component {
 
     respuesta(status, data){
         console.log(status);
+        this.setState({
+            exist: "",
+            succes: ""})
         if(status===203){
             console.log(data)
             this.error(data.field, data.defaultMessage)
@@ -94,7 +97,9 @@ export class CreateGroup extends Component {
                 succes: <div className="alert alert-success" role="alert">Successful creation</div>
             })
         }else if(status===226){
-            this.setState({exist: <div className="alert alert-danger" role="alert">The group already exists</div>})
+            
+            this.setState({
+                exist: <div className="alert alert-danger" role="alert">The group already exists</div>})
         }else if(status===204){
             this.setState({exist: <div className="alert alert-danger" role="alert">You must choose a course</div>})
         }else{

@@ -21,13 +21,14 @@ import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class GrupoServiceTest {
 	
 	private static Set<Grupo> notEmptyGroups;	
+	private static Set<Grupo> emptyGroups;	
+
 
 	private static List<String> nombresGruposPorCurso;	
 	private static List<String> nombresGruposVacios;	
@@ -47,6 +48,8 @@ public class GrupoServiceTest {
 		nombresGruposVacios = new ArrayList<>();
 		nombresGruposVacios.add(NOMBRE_GRUPO);
 		
+		emptyGroups = new HashSet<>();
+		
 		notEmptyGroups = new HashSet<>();
 		notEmptyGroups.add(g);
 		
@@ -56,7 +59,13 @@ public class GrupoServiceTest {
 	
 	@BeforeEach
 	void setup() {
-		grupoService = new GrupoService(grupoRepository);
+		grupoService = new GrupoService(grupoRepository, null);
+	}
+	
+	@Test
+	void shouldShowAGroupListIsEmpty() {
+		when(grupoRepository.findAll()).thenReturn(emptyGroups);
+		assertThat(grupoService.getAllGrupos()).isNotEmpty();
 	}
 	
 	@Test
@@ -69,7 +78,6 @@ public class GrupoServiceTest {
 	void shouldReturnAllEmptyGroups() {
 		when(grupoRepository.findAllEmptyGroups()).thenReturn(nombresGruposVacios);
 		assertThat(grupoService.getEmptyGroups()).isNotEmpty();
-
 	}
 	 
 	@Test 
@@ -80,7 +88,6 @@ public class GrupoServiceTest {
 	
 	
 	@Test
-	@Transactional
 	void shoudCreateGroup(){
 		Grupo gg = new Grupo();
 		Curso c = new Curso();
@@ -94,7 +101,6 @@ public class GrupoServiceTest {
 	}
 	
 	@Test
-	@Transactional
 	void shouldDeleteGroup() {
 		Grupo gg = new Grupo();
 		String name = "Grupo A";

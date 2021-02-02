@@ -33,13 +33,12 @@ public class AlumnoService {
 	public List<Alumno> getAllAlumnos() {
 		return alumnoRepository.findStudents();
 	}
-	//esta es la otra mia 
 	public Alumno getAlumno(String nickUsuario) {
 		return alumnoRepository.findByNick(nickUsuario);
 	}
 	
 	@Transactional	
-	public void deleteStudents(Alumno alumno) {
+	public void deleteStudents(Alumno alumno) throws DataAccessException{
 		alumnoRepository.delete(alumno);
 	}
 	@Transactional	
@@ -51,7 +50,7 @@ public class AlumnoService {
 	public Alumno saveAlumno(Alumno alumno) throws DataAccessException {
 		return alumnoRepository.save(alumno);		
 	}		
-
+	
     public List<Alumno> getStudentsByCourse(TipoCurso cursoDeIngles){
         return alumnoRepository.findStudentsByCourse(cursoDeIngles);
     }

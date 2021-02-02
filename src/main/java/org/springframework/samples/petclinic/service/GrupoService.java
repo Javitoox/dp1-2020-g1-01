@@ -4,20 +4,25 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class GrupoService {
 	
-	private GrupoRepository grupoRepository;	
+	private AlumnoService alumnoService;
+	private GrupoRepository grupoRepository;
 
 	@Autowired
-	public GrupoService(GrupoRepository grupoRepository) {
+	public GrupoService(GrupoRepository grupoRepository, AlumnoService alumnoService) {
 		this.grupoRepository = grupoRepository;
+		this.alumnoService = alumnoService;
 	}
 	
 	public boolean exists(String id) {
@@ -46,17 +51,27 @@ public class GrupoService {
 	
 	@Transactional(readOnly = true)
 	public List<String> getEmptyGroups() {
-		return grupoRepository.findAllEmptyGroups();
+		List<String> ls = grupoRepository.findAllEmptyGroups();
+		log.info("GRUPOSSS:", ls);
+		return ls;
 	}
 	
 	@Transactional
-	public void saveGroup(Grupo grupo){
-		grupoRepository.save(grupo);
+	public void saveGroup(Grupo grupo) throws DataAccessException{
+		this.grupoRepository.save(grupo);
 	}
-
+		
 	@Transactional
-	public void deleteGroup(String id){
-		grupoRepository.deleteById(id);
+	public void deleteGroup(String id) throws DataAccessException{
+			this.grupoRepository.deleteById(id);
 	}
 	
+	public Boolean grupoVacio(String nombreGrupo){
+		return alumnoService.getStudentsPerGroup(nombreGrupo).isEmpty();
+	}
+	
+	public Integer numAlumnos(String nombreGrupo) {
+		Integer num = grupoRepository.numAlumnosGrupo(nombreGrupo).size();
+		return num;
+	}
 }

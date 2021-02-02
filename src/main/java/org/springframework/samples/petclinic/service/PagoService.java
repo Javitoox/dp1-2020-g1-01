@@ -48,7 +48,7 @@ public class PagoService {
 	}
 	
 	@Transactional
-	public void savePayment(Pago pago){
+	public void savePayment(Pago pago) throws DataAccessException{
 		
 		pagoRepository.save(pago);
 			
