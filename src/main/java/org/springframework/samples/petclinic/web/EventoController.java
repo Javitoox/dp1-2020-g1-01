@@ -15,10 +15,7 @@ import javax.validation.ValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
-import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.EventoService;
 import org.springframework.samples.petclinic.util.DateEventValidator;
@@ -45,13 +42,11 @@ import lombok.extern.slf4j.Slf4j;
 public class EventoController {
 	
 	private final EventoService eventoService;
-	private final AlumnoService alumService;
 	
 	@Autowired
 	public EventoController(EventoService eventoService, AlumnoService alumService) {
 		this.eventoService = eventoService;
-		this.alumService = alumService;	
-		}
+	}
 	
 	@InitBinder("evento")
 	public void initEventoBinder(WebDataBinder dataBinder) {
@@ -73,9 +68,7 @@ public class EventoController {
 	public ResponseEntity<?> getUserEvents(HttpServletRequest request, @PathVariable("nick") String nick) {
 		HttpSession session = request.getSession(false);
 		if (session != null && session.getAttribute("type") == "alumno") {
-			Alumno a = alumService.getAlumno(nick);
-			Curso b = a.getGrupos().getCursos();
-			return ResponseEntity.ok(eventoService.getByCourse(b));
+			return ResponseEntity.ok(eventoService.getAlumEvents(nick));
 		} else {
 			log.warn("Unauthorized");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -103,12 +96,29 @@ public class EventoController {
 	@GetMapping("/description/{id}")
 	public ResponseEntity<?> getDescription(@PathVariable("id") Integer id, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		if(session != null && session.getAttribute("type") == "profesor" || session.getAttribute("type") == "alumno") {
+		if(session != null && session.getAttribute("type") == "profesor") {
 			String description = eventoService.getDescription(id);
 			if(description == null) {
 				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
 			}else {
 				log.info("Event's description with id "+id+": "+description);
+				return ResponseEntity.ok(description);
+			}
+		}else {
+			log.warn("Unauthorized");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	@GetMapping("/descriptionAlumno/{id}/{nickUser}")
+	public ResponseEntity<?> getDescriptionAlumno(@PathVariable("id") Integer id, @PathVariable("nickUser") String nickUser, HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		if(session != null && session.getAttribute("type") == "alumno") {
+			String description = eventoService.getDescriptionAlumno(id, nickUser);
+			if(description == null) {
+				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
+			}else {
+				log.info("Event's description of student with id "+id+": "+description);
 				return ResponseEntity.ok(description);
 			}
 		}else {
@@ -138,11 +148,6 @@ public class EventoController {
 			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 			Validator validator = factory.getValidator();
 			Set<ConstraintViolation<Evento>> violations = validator.validate(evento);
-			if (!(curso.equals("null") || curso == "")) {
-				Curso course = new Curso(); // poner en servicio
-				course.setCursoDeIngles(TipoCurso.valueOf(curso));
-				evento.setCurso(course);
-			}
 			if (result.hasErrors() || violations.size() > 0 || curso.equals("null") || curso == "") {
 				List<FieldError> errors = new ArrayList<>();
 				if (violations.size() > 0) {
@@ -162,13 +167,13 @@ public class EventoController {
 			} else {
 				Boolean existEvent = eventoService.existEvent(evento);
 				if (!existEvent) {
-					Boolean existType = eventoService.assignTypeAndSave(evento, evento.getTipo().getTipo());
-					if (existType) {
+					Boolean noError = eventoService.assignEvent(evento, evento.getTipo().getTipo(), curso);
+					if (noError) {
 						log.info("New event with title: " + evento.getTitle());
 						return new ResponseEntity<>("Successful creation", HttpStatus.CREATED);
 					} else {
-						log.error("Type not exist");
-						return new ResponseEntity<>("Type not exist", HttpStatus.OK);
+						log.error("Type or course not exist");
+						return new ResponseEntity<>("Type or course not exist", HttpStatus.OK);
 					}
 				} else {
 					log.warn("Event Exist");

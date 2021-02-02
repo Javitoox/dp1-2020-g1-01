@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
 
 import lombok.Getter;
@@ -50,13 +51,11 @@ public class Evento extends BaseEntity{
 	
 	private String color;
 	
-	@ManyToOne(optional=true)
-    private Curso curso;
-	
 	@ManyToOne(optional=false)
     private TipoEvento tipo;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="evento")
+	@JsonIgnore
     private Collection<Inscripcion> inscripciones;
 	
 	public String toJson() {

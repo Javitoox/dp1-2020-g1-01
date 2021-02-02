@@ -1,14 +1,18 @@
 package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
+import org.springframework.samples.petclinic.model.Inscripcion;
+import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.model.TipoEvento;
 import org.springframework.samples.petclinic.repository.EventoRepository;
 import org.springframework.samples.petclinic.util.Colors;
@@ -20,20 +24,36 @@ public class EventoService {
 	
 	private EventoRepository eventoRepository;
 	private TipoEventoService tipoEventoService;
+	private CursoService cursoService;
+	private AlumnoService alumnoService;
+	private InscripcionService inscripcionService;
 	
 	@Autowired
-	public EventoService(EventoRepository eventoRepository, TipoEventoService tipoEventoService) {
+	public EventoService(EventoRepository eventoRepository, TipoEventoService tipoEventoService, CursoService cursoService, AlumnoService alumnoService,
+			InscripcionService inscripcionService) {
 		this.eventoRepository = eventoRepository;
 		this.tipoEventoService = tipoEventoService;
+		this.cursoService = cursoService;
+		this.alumnoService = alumnoService;
+		this.inscripcionService = inscripcionService;
 	}
 	
 	public List<Evento> getAll(){
 		return eventoRepository.findAllEvents();
 	}
-	public List<Evento> getByCourse(Curso course){
-		List<Evento> eventos = eventoRepository.findByCourse(course);
+	
+	public List<Evento> getAlumEvents(String nick){
+		Alumno a = alumnoService.getAlumno(nick);
+		List<Evento> eventos = new ArrayList<>();
+		if(a !=null) {
+			List<Inscripcion> inscripciones = (List<Inscripcion>) a.getInscripciones();
+			for(Inscripcion i: inscripciones) {
+				eventos.add(i.getEvento());
+			}
+		}
 		return eventos;
 	}
+	
 	@Transactional
 	public Evento updateDateEvent(Integer id, String s, String e) throws DataAccessException{
 		Evento evento = eventoRepository.findById(id).orElse(null);
@@ -51,8 +71,23 @@ public class EventoService {
 		Evento evento = eventoRepository.findById(id).orElse(null);
 		String result = null;
 		if(evento != null) {
-			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo()+
-					"/"+evento.getCurso().getCursoDeIngles();
+			List<Inscripcion> inscripciones = inscripcionService.inscripcionesEvento(id);
+			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo()+"/"+ 
+			(inscripciones.size()>0 ? inscripciones.get(0).getAlumno().getGrupos().getCursos().getCursoDeIngles().toString() : "");
+			for(Inscripcion i: inscripciones) {
+				if(i.getRegistrado()) result += "/"+i.getAlumno().getNickUsuario();
+			}
+		}
+		return result;
+	}
+	
+	public String getDescriptionAlumno(Integer id, String nickUser) {
+		Alumno a = alumnoService.getAlumno(nickUser);
+		Evento evento = eventoRepository.findById(id).orElse(null);
+		String result = null;
+		if(evento != null && a != null) {
+			Inscripcion i = inscripcionService.getInscripcionByEventoAlumno(evento, a);
+			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo()+"/"+i.getRegistrado();
 		}
 		return result;
 	}
@@ -62,22 +97,17 @@ public class EventoService {
 		eventoRepository.deleteById(id);
 	}
 	
-	public Evento getEvento(Integer id) {
-		return eventoRepository.findById(id).orElse(null);
-	}
-	
 	@Transactional
-	public void saveEvent(Evento evento) throws DataAccessException{
-		eventoRepository.save(evento);
-	}
-	
-	@Transactional
-	public Boolean assignTypeAndSave(Evento evento, String type) throws DataAccessException{
+	public Boolean assignEvent(Evento evento, String type, String curso) throws DataAccessException{
 		TipoEvento t = tipoEventoService.getType(type);
-		if(t != null) {
+		Curso c = cursoService.getCourseById(TipoCurso.valueOf(curso));
+		if(t != null && c != null) {
 			evento.setTipo(t);
 			evento.setColor(Colors.generateRandomColor());
 			eventoRepository.save(evento);
+			Integer idEvento = eventByPersonalId(evento.getTitle(), evento.getStart()).getId();
+			evento.setId(idEvento);
+			alumnoService.asignInscripcionesAlumnos(evento, c.getCursoDeIngles(), type);
 			return true;
 		}else {
 			return false;
@@ -87,6 +117,10 @@ public class EventoService {
 	public Boolean existEvent(Evento evento) {
 		Evento result = eventoRepository.findExist(evento.getTitle(), evento.getStart());
 		return result != null ? true:false;
+	}
+	
+	public Evento eventByPersonalId(String title, LocalDate start) {
+		return eventoRepository.findExist(title, start);
 	}
 
 }

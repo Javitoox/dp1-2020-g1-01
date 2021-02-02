@@ -21,8 +21,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
+import org.springframework.samples.petclinic.model.Grupo;
+import org.springframework.samples.petclinic.model.Inscripcion;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.model.TipoEvento;
 import org.springframework.samples.petclinic.repository.EventoRepository;
@@ -33,26 +36,56 @@ public class EventoServiceTests {
 	
 	private static Evento e;
 	
+	private static Alumno a;
+	
+	private static Inscripcion i;
+	
 	@Mock
 	private EventoRepository eventoRepository;
+	
 	@Mock
 	private TipoEventoService tipoEventoService;
+	
+	@Mock
+	private CursoService cursoService;
+	
+	@Mock
+	private AlumnoService alumnoService;
+	
+	@Mock
+	private InscripcionService inscripcionService;
 	
 	@InjectMocks
 	protected EventoService eventoService;
 	
 	@BeforeAll
 	void data() {
-		Curso b2 = new Curso();
-		b2.setCursoDeIngles(TipoCurso.B2);
+		i = new Inscripcion();
+		i.setFecha(LocalDate.of(2021, 1, 7));
+		i.setRegistrado(true);
+		
+		List<Inscripcion> inscripciones = new ArrayList<>();
+		inscripciones.add(i);
+		
 		e = new Evento();
+		TipoEvento tipo = new TipoEvento();
+		e.setTipo(tipo);
 		e.setTitle("Tea League");
 		e.setStart(LocalDate.parse("2020-12-18"));
 		e.setDescripcion("Amazing league");
-		TipoEvento tipo = new TipoEvento();
-		tipo.setTipo("internal");
-		e.setTipo(tipo);
-		e.setCurso(b2);
+		e.setInscripciones(inscripciones);
+		
+		a = new Alumno();
+		Grupo grupo = new Grupo();
+		Curso curso = new Curso();
+		curso.setCursoDeIngles(TipoCurso.B1);
+		grupo.setCursos(curso);
+		a.setGrupos(grupo);
+		a.setNickUsuario("JaviMarFer");
+		a.setInscripciones(inscripciones);
+		
+		i.setAlumno(a);
+		i.setEvento(e);
 	}
 	
 	@Test
@@ -68,14 +101,15 @@ public class EventoServiceTests {
         assertThat(e.getTitle()).isEqualTo("Tea League");
         assertThat(e.getStart()).isEqualTo(LocalDate.parse("2020-12-18"));
 	}
+	
 	@Test
-	void shouldFindEventsbyGroup() {
+	void shouldFindEventsbyStudent() {
         List<Evento> eventos = new ArrayList<Evento>();
         eventos.add(e);
-        Curso b2 = new Curso();
-		b2.setCursoDeIngles(TipoCurso.B2);
-        when(eventoRepository.findByCourse(b2)).thenReturn(eventos); 
-        List<Evento> es = eventoService.getByCourse(b2);
+        when(alumnoService.getAlumno(any())).thenReturn(a); 
+        
+        List<Evento> es = eventoService.getAlumEvents("JaviMarFer");
+        
         assertThat(es).hasSize(1);
         Evento e = es.iterator().next();
         assertThat(e.getTitle()).isEqualTo("Tea League");
@@ -83,7 +117,15 @@ public class EventoServiceTests {
 	}
 	
 	@Test
-	@Transactional
+	void shouldFindEventsbyStudentNotExist() {
+        when(alumnoService.getAlumno(any())).thenReturn(null); 
+        
+        List<Evento> es = eventoService.getAlumEvents("JaviMarFer");
+        
+        assertThat(es).hasSize(0);
+	}
+	
+	@Test
 	void shouldUpdateEvent() {
 		Optional<Evento> op = Optional.of(e);
 		when(eventoRepository.findById(any())).thenReturn(op);
@@ -124,11 +166,15 @@ public class EventoServiceTests {
 	void shouldGetDescription() {
 		Optional<Evento> op = Optional.of(e);
 		when(eventoRepository.findById(any())).thenReturn(op);
+		when(inscripcionService.inscripcionesEvento(any())).thenReturn((List<Inscripcion>) e.getInscripciones());
 		
 		String description = eventoService.getDescription(1);
+		String[] partes = description.split("/");
 		
 		assertThat(description).isNotEmpty();
 		assertThat(description).isNotNull();
+		assertThat(partes.length).isGreaterThan(2);
+		assertThat(partes[partes.length-1]).isEqualTo("JaviMarFer");
 	}
 	
 	@Test
@@ -142,6 +188,64 @@ public class EventoServiceTests {
 	}
 	
 	@Test
+	void shouldGetDescriptionInscriptionsEmpty() {
+		List<Inscripcion> inscripciones = new ArrayList<>();
+		Optional<Evento> op = Optional.of(e);
+		when(eventoRepository.findById(any())).thenReturn(op);
+		when(inscripcionService.inscripcionesEvento(any())).thenReturn(inscripciones);
+		
+		String description = eventoService.getDescription(1);
+		String[] partes = description.split("/");
+		
+		assertThat(description).isNotEmpty();
+		assertThat(description).isNotNull();
+		assertThat(partes.length).isEqualTo(2);
+	}
+	
+	@Test
+	void shouldGetDescriptionStudentNotRegistered() {
+		List<Inscripcion> inscripciones = new ArrayList<>();
+		Inscripcion inscripcion = new Inscripcion();
+		inscripcion.setRegistrado(false);
+		Optional<Evento> op = Optional.of(e);
+		when(eventoRepository.findById(any())).thenReturn(op);
+		when(inscripcionService.inscripcionesEvento(any())).thenReturn(inscripciones);
+		
+		String description = eventoService.getDescription(1);
+		String[] partes = description.split("/");
+		
+		assertThat(description).isNotEmpty();
+		assertThat(description).isNotNull();
+		assertThat(partes[partes.length-1]).isNotEqualTo("JaviMarFer");
+	}
+	
+	@Test
+	void shouldGetStudentDescription() {
+		Optional<Evento> op = Optional.of(e);
+		when(eventoRepository.findById(1)).thenReturn(op);
+		when(alumnoService.getAlumno("JaviMarFer")).thenReturn(a);
+		when(inscripcionService.getInscripcionByEventoAlumno(e, a)).thenReturn(i);
+		
+		String description = eventoService.getDescriptionAlumno(1, a.getNickUsuario());
+		String[] partes = description.split("/");
+		
+		assertThat(description).isNotEmpty();
+		assertThat(description).isNotNull();
+		assertThat(partes[partes.length-1]).isEqualTo("true");
+	}
+	
+	@Test
+	void shouldGetStudentDescriptionStudentNull() {
+		Optional<Evento> op = Optional.of(e);
+		when(eventoRepository.findById(1)).thenReturn(op);
+		when(alumnoService.getAlumno("JaviMarFerrrrr")).thenReturn(null);
+		
+		String description = eventoService.getDescriptionAlumno(1, "JaviMarFerrrrr");
+		
+		assertThat(description).isNull();
+	}
+	
+	@Test
 	@Transactional
 	void shouldDeleteEvent() {
 		eventoService.deleteDescription(1);
@@ -150,57 +254,31 @@ public class EventoServiceTests {
 	}
 	
 	@Test
-	void shouldGetEvent() {
-		Optional<Evento> op = Optional.of(e);
-		when(eventoRepository.findById(any())).thenReturn(op);
-		
-		Evento evento = eventoService.getEvento(1);
-
-		assertThat(evento).isNotNull();
-		assertThat(evento.getTitle()).isEqualTo("Tea League");
-	}
-	
-	@Test
-	void shouldGetEventNull() {
-		Optional<Evento> op = Optional.empty();
-		when(eventoRepository.findById(any())).thenReturn(op);
-		
-		Evento evento = eventoService.getEvento(1);
-
-		assertThat(evento).isNull();
-	}
-	
-	@Test
-	@Transactional
-	void shouldSaveEvent() {
-		eventoService.saveEvent(e);
-		
-		verify(eventoRepository, times(1)).save(any());
-	}
-	
-	@Test
-	@Transactional
-	void shouldAssignTypeAndSave() {
+	void shouldAssignEvent() {
 		TipoEvento tipo = new TipoEvento();
-		tipo.setTipo("external");
 		when(tipoEventoService.getType(any())).thenReturn(tipo);
+		when(cursoService.getCourseById(any())).thenReturn(a.getGrupos().getCursos());
+		when(eventoRepository.findExist(any(), any())).thenReturn(e);
 		
-		Boolean result = eventoService.assignTypeAndSave(e, "external");
+		Boolean result = eventoService.assignEvent(e, "external", "B1");
 		
 		assertThat(result).isTrue();
-		assertThat(e.getTipo()).isEqualTo(tipo);
 		verify(eventoRepository, times(1)).save(any());
+		verify(alumnoService, times(1)).asignInscripcionesAlumnos(e, a.getGrupos().getCursos().getCursoDeIngles(), "external");
 	}
 	
 	@Test
-	void shouldNotAssignTypeAndSave() {
-		when(tipoEventoService.getType("typenotexist")).thenReturn(null);
+	void shouldAssignEventTypeNull() {
+		when(tipoEventoService.getType(any())).thenReturn(null);
+		when(cursoService.getCourseById(any())).thenReturn(a.getGrupos().getCursos());
 		
-		Boolean result = eventoService.assignTypeAndSave(e, "typenotexist");
+		Boolean result = eventoService.assignEvent(e, "external", "B1");
 		
 		assertThat(result).isFalse();
 		verify(eventoRepository, times(0)).save(any());
+		verify(alumnoService, times(0)).asignInscripcionesAlumnos(e, a.getGrupos().getCursos().getCursoDeIngles(), "external");
 	}
+
 	
 	@Test
 	void shouldExistEvent() {

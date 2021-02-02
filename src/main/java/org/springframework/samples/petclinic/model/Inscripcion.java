@@ -18,14 +18,15 @@ import lombok.Setter;
 public class Inscripcion extends BaseEntity{
 	
 	@Column(name="fecha")
+	@NotNull
 	private LocalDate fecha;
 	
 	@Column(name="registrado")
 	@NotNull
 	private Boolean registrado;
 	
-	@ManyToOne(optional=true)
-	private TipoPago tipo;
+	@ManyToOne(optional=false)
+	private Evento evento;
 	
 	@ManyToOne(optional=false)
 	private Alumno alumno;

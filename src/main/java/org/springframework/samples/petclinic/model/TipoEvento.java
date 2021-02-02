@@ -6,12 +6,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name="tipos_eventos")
 @Getter
-@Setter
 public class TipoEvento {
 	
 	@Id
