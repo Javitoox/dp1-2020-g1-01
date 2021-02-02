@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
 import { Button } from 'primereact/button';
-import axios from 'axios';
 import AlumnoComponent from './AlumnoComponent';
 import { PickList } from 'primereact/picklist';
+import MaterialComponent from './MaterialComponent';
+
 
 export class UploadMaterial extends Component{
 
@@ -14,12 +15,15 @@ export class UploadMaterial extends Component{
             file : null,
             source: [],
             target: [],
-            material: null
+            material: null,
+            fileError: null,
         }
         this.handleSubmit= this.handleSubmit.bind(this);
         this.alumnos = new AlumnoComponent(); 
         this.itemTemplate = this.itemTemplate.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.materiales = new MaterialComponent();
+        this.respuesta= this.respuesta.bind(this);
     }
 
 
@@ -30,20 +34,36 @@ export class UploadMaterial extends Component{
     }
 
     file(event){
-        this.setState({file : event.files[0]})
-        this.toast.show({
-            severity: "info",
-            summary: "Success",
-            detail: "File Uploaded"
-        });
+        if(event.files[0].size > 1048576){
+            this.setState({ fileError: <div className="alert alert-danger" role="alert">The file exceeds its maximum permitted size</div> })
+        }else{
+            this.setState({file : event.files[0]})
+            this.toast.show({
+                severity: "info",
+                summary: "Success",
+                detail: "File Uploaded"
+            });
+        }
     }
 
-    async handleSubmit(){
+    async handleSubmit(event){
+        event.preventDefault();
+        this.setState({
+            fileError:null
+        })
         const formData = new FormData();
         formData.append('pdf', this.state.file);
+        await this.materiales.crearMaterial(this.props.urlBase,this.props.nickUsuario,formData).then(res => this.respuesta(res.status, res.data));
+        this.state.target.forEach(e => this.materiales.asignarAlumnoMaterial(this.props.urlBase,this.state.material.id,e));
+    }
 
-        await axios.post(this.props.urlBase+"/materiales/añadirMaterial/"+this.props.nickUsuario, formData).then(res => this.setState({material: res.data}));
-        this.state.target.forEach(e => axios.put(this.props.urlBase+"/feedback/"+this.state.material.id+"/añadirAlumno/",e));
+    respuesta(status, data){
+        console.log(status);
+        if(status === 203){
+            this.setState({ fileError: <div className="alert alert-danger" role="alert">Required field</div> })
+        }else{
+            this.setState({material: data})
+        }
     }
 
     itemTemplate(item) {
@@ -63,14 +83,16 @@ export class UploadMaterial extends Component{
         });
     }
 
+
     render(){
         return(
+        <React.Fragment>    
             <div className="c" >
                 <form onSubmit={this.handleSubmit} style={{width:'700px'}}  >
                 <div className="t">
                     <div><h5>Upload a new material</h5></div>
                 </div>
-
+                {this.state.fileError}
                 <div className="i c">
                     <Toast
                     ref={(el) => {
@@ -107,8 +129,7 @@ export class UploadMaterial extends Component{
                 </div>
                 </form>
             </div>
-
-
+        </React.Fragment>
 
 
         );
