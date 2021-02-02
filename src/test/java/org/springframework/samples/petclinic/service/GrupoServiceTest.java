@@ -21,7 +21,6 @@ import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
@@ -89,7 +88,6 @@ public class GrupoServiceTest {
 	
 	
 	@Test
-	@Transactional
 	void shoudCreateGroup(){
 		Grupo gg = new Grupo();
 		Curso c = new Curso();
@@ -103,7 +101,6 @@ public class GrupoServiceTest {
 	}
 	
 	@Test
-	@Transactional
 	void shouldDeleteGroup() {
 		Grupo gg = new Grupo();
 		String name = "Grupo A";

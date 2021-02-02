@@ -51,7 +51,9 @@ public class GrupoService {
 	
 	@Transactional(readOnly = true)
 	public List<String> getEmptyGroups() {
-		return grupoRepository.findAllEmptyGroups();
+		List<String> ls = grupoRepository.findAllEmptyGroups();
+		log.info("GRUPOSSS:", ls);
+		return ls;
 	}
 	
 	@Transactional
@@ -70,7 +72,6 @@ public class GrupoService {
 	
 	public Integer numAlumnos(String nombreGrupo) {
 		Integer num = grupoRepository.numAlumnosGrupo(nombreGrupo).size();
-		log.info("NUMERO DE ALUMNOSSSS: {}", num);
 		return num;
 	}
 }

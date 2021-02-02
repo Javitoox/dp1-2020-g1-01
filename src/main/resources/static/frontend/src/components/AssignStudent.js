@@ -119,6 +119,10 @@ class AssignStudent extends Component  {
         console.log(status);
         if(status===203 ){
             data.forEach(e => this.error(e.field, e.defaultMessage))
+        }else if(status === 208){
+            this.setState({
+                succes: <div className="alert alert-danger" role="alert">There are already 12 alumns in this group</div>
+            })
         }else{
             this.setState({
                 username: this.state.username,
