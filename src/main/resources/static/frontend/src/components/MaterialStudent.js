@@ -38,6 +38,11 @@ import { Dialog } from 'primereact/dialog';
                 <Column header="Upload date" field="fechaSubida"></Column>
                 <Column header="Preview" body={this.botonVerMaterial}></Column>
                 <Column header="Download" body={this.botonDescargarMaterial}></Column>
+                <Column header="Feedback"></Column>
+                {/* Nuestra idea es que al pulsar en feedback, se llame a un método en el que aparezca un <Dialog> donde aparezcan dos
+                cosas: la valoracion y el comentario. Fijaros en  mostrarFormUpload de MaterialTeacher para hacerlo igual 
+                
+                Pd: no usar redux*/}
             </DataTable>
         );
 
@@ -60,7 +65,7 @@ import { Dialog } from 'primereact/dialog';
 
     botonDescargarMaterial(rowData){
         return(
-            <a href={"/material/"+rowData.id+".pdf"} download><i className="pi pi-download"></i></a>
+            <a href={"/material/"+rowData.id+".pdf"} download={rowData.nombreMaterial}><i className="pi pi-download"></i></a>
         )
     }
 

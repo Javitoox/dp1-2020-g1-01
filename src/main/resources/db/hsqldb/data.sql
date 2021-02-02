@@ -62,9 +62,13 @@ INSERT INTO asignaciones_profesor VALUES ('2019-10-03', 'MaribelJavi', 'grupo1')
 INSERT INTO tipos_materiales VALUES ('Video');
 INSERT INTO tipos_materiales VALUES ('Homework');
 
-INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (1,'2021-02-03','Worbu','MaribelJavi','Homework');
+INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (1,'2021-02-03','Worbu.pdf','MaribelJavi','Homework');
+INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (2,'2021-02-04','VERBS.pdf','MaribelJavi','Homework');
 
 INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(1,'A perfect way to learn','true','2020-10-03',5,'Javi',1);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(2,'A perfect way to learn','true','2020-10-04',5,'Javi',2);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(3,'A perfect way to learn','true','2020-10-04',5,'antoniope',2);
+
 
 
 

@@ -1,15 +1,14 @@
 package org.springframework.samples.petclinic.web;
 
-import javax.validation.Valid;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.samples.petclinic.model.BodyPremiado;
+import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.service.MaterialService;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,9 +43,13 @@ public class MaterialController {
 	}
 	
 	@PostMapping("/añadirMaterial/{nickProfesor}")
-	public ResponseEntity<?>añadirMaterial(@PathVariable("nickProfesor") String nickProfesor ,@RequestParam("pdf") MultipartFile pdf){
-		System.out.println(pdf.getOriginalFilename());		
-		return null;
+	public ResponseEntity<?>añadirMaterial(@PathVariable("nickProfesor") String nickProfesor, @RequestParam("pdf") MultipartFile pdf) throws IOException{
+		log.info("he entrado en añadirMaterial");
+		Material m = materialService.uploadMaterial(pdf, nickProfesor);
+		return ResponseEntity.ok(m);
 	}
-
+	
+	
+	
+	
 }
