@@ -1,9 +1,13 @@
 package org.springframework.samples.petclinic.web;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
@@ -12,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
@@ -32,6 +37,45 @@ public class AlumnoControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 	
+	@WithMockUser(value = "spring")
+	@Test 
+	void testShouldEditStudent() throws Exception {		     
+		  mockMvc.perform(put("/alumnos/editStudent")
+				  .param("nickUsuario", "Javi")
+				  .param("contraseya", "Bebesita7")
+				  .param("dniUsuario", "55635286A")
+				  .param("nombreCompletoUsuario", "Javi Martínez")
+				  .param("correoElectronicoUsuario", "martinez@gmail.com")
+				  .param("numTelefonoUsuario", "626222111")
+				  .param("numTelefonoUsuario2", "665768567")
+				  .param("direccionUsuario", "Calle El Punto Medio")
+				  .param("fechaNacimiento", "2000/10/15")
+				  .with(csrf())		  
+				  .sessionAttr("type","profesor")).andDo(print())
+		  .andDo(print())
+		  .andExpect(status().isOk());
+	  
+	  } 
+	
+	@WithMockUser(value = "spring")
+	@Test 
+	void testShouldntEditStudentBecauseUnauthorized() throws Exception {		     
+		  mockMvc.perform(put("/alumnos/editStudent")
+				  .param("nickUsuario", "Javi")
+				  .param("contraseya", "Bebesita7")
+				  .param("dniUsuario", "55635286A")
+				  .param("nombreCompletoUsuario", "Javi Martínez")
+				  .param("correoElectronicoUsuario", "martinez@gmail.com")
+				  .param("numTelefonoUsuario", "626222111")
+				  .param("numTelefonoUsuario2", "665768567")
+				  .param("direccionUsuario", "Calle El Punto Medio")
+				  .param("fechaNacimiento", "2000/10/15")
+				  .with(csrf())		  
+				  .sessionAttr("type","alumno")).andDo(print())
+		  .andDo(print())
+		  .andExpect(status().isOk());
+	  
+	  } 
 	
 	@WithMockUser(value = "spring")
 	@Test
