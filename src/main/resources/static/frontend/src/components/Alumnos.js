@@ -38,6 +38,9 @@ class Alumnos extends Component {
             comprobation: false,
             listaGrupos:{
                 nombreGrupo: ""
+            },
+            listaEliminables:{
+               
             }
             
         }
@@ -161,7 +164,13 @@ class Alumnos extends Component {
 
     botonDelete(rowData) {
         var s= this.state.listaEliminables
-        if(String(rowData.nickUsuario) === String(s))     {
+        var list=[];
+        var i=0
+        while(i<s.length){
+            list.push(s[i]);
+            i+=1
+        }
+        if(list.includes(String(rowData.nickUsuario)))     {
             
             return (    
                 <React.Fragment>
@@ -188,6 +197,25 @@ class Alumnos extends Component {
     
 
 
+    }
+
+    respuesta(status, data){
+        console.log("hola?");
+
+        console.log(status);
+        if(status===200){
+            console.log("no va");
+
+            data.forEach(e => this.error(e.field, e.defaultMessage))
+        }else if(status===201){
+            console.log("va");
+
+            this.setState({               
+                succes: <div className="alert alert-success" role="alert">Successful delete</div>
+            })
+        }else{
+            this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
+        }
     }
 
     

@@ -36,10 +36,10 @@ public class Alumno extends Usuario{
     @ManyToOne(optional=true)
     private Tutor tutores;
     
-    @ManyToOne(optional=true,cascade=CascadeType.ALL)
+    @ManyToOne(optional=true)
     private Grupo grupos;
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="alumnos")
+    @OneToMany(cascade=CascadeType.DETACH, mappedBy="alumnos")
     @JsonIgnore
     private Collection<Pago> pagos; 
     

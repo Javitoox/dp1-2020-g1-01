@@ -71,6 +71,7 @@ public class AlumnoService {
     	}else {
     		return false;
     	}
+    }
      
     public void asignInscripcionesAlumnos(Evento evento, TipoCurso tipoCurso, String type) {
     	List<Alumno> alumnosCurso = getStudentsByCourse(tipoCurso);
