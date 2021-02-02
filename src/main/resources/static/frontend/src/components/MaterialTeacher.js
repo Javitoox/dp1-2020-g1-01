@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import Pdf from './all-pages';
 import { Dialog } from 'primereact/dialog';
 import {UploadMaterial} from './UploadMaterial'
+import MaterialComponent from './MaterialComponent';
+import {Feedback} from './Feedback';
 
  export  class MaterialTeacher extends Component{
 
@@ -17,7 +18,8 @@ import {UploadMaterial} from './UploadMaterial'
             materiales: null,
             visualizarPDF: null,
             formularioUpload: null,
-            displayConfirmation: false
+            displayConfirmation: false,
+            visualizarFeedback: null
         }
 
         this.mostrarMaterial= this.mostrarMaterial.bind(this);
@@ -29,6 +31,8 @@ import {UploadMaterial} from './UploadMaterial'
         this.mostrarFormUpload = this.mostrarFormUpload.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.renderFooter = this.renderFooter.bind(this);
+        this.materiales= new MaterialComponent();
+        this.botonFeedback=  this.botonFeedback.bind(this);
     }
 
     componentDidMount() {
@@ -36,8 +40,7 @@ import {UploadMaterial} from './UploadMaterial'
     }
 
     async obtenerMaterial() {
-        await axios.get(this.state.urlBase+"/materiales/getMaterialByProfesor/"+this.state.nickUsuario).then(res => this.setState({materiales: res.data}))
-        console.log(this.state.materiales);
+        await this.materiales.obtenerMaterialTeacher(this.state.urlBase,this.state.nickUsuario).then(res => this.setState({materiales: res.data}))
     }
 
     mostrarBotonUpload(){
@@ -66,14 +69,24 @@ import {UploadMaterial} from './UploadMaterial'
                 <Column header="Preview" body={this.botonVerMaterial}></Column>
                 <Column header="Download" body={this.botonDescargarMaterial}></Column>
                 <Column header="Delete" body={this.botonEliminarMaterial}></Column>
-                <Column header="Feedback"></Column>
-                {/* Nuestra idea es que al pulsar en feedback, se llame a un método en el que aparezca un <Dialog> donde aparezcan el listado
-                de alumnos que tenia asignado el material y los comentarios y valoraciones que hayan hecho. Además, añadir si el alumno
-                ha realizado o no la tarea (que la profesora sea quien lo ponga).
-                
-                Pd: no usar redux*/}
+                <Column header="Feedback" body={this.botonFeedback}></Column>
             </DataTable>
         );
+
+    }
+
+    botonFeedback(rowData){
+        return(
+            <React.Fragment>
+                <Button icon="pi pi-star-o" className="p-button-rounded p-button-secondary p-mr-2" onClick={() => 
+                this.setState({visualizarFeedback:
+                    <Dialog visible={true} style={{ width: '40vw' }} onHide={() => this.setState({visualizarFeedback: null})}> 
+                            <center><Feedback urlBase={this.state.urlBase} id = {rowData.id}/></center>
+                    </Dialog>
+                })}/>      
+            </React.Fragment>
+        );
+
 
     }
 
@@ -107,7 +120,7 @@ import {UploadMaterial} from './UploadMaterial'
     }
 
     async handleDelete(){
-        await axios.delete(this.state.urlBase+"/feedback/deleteMaterial/"+this.state.material.id);
+        await this.materiales.deleteMaterial(this.state.urlBase,this.state.material.id);
         this.setState({displayConfirmation: false})
         this.obtenerMaterial();
     }
@@ -128,6 +141,7 @@ import {UploadMaterial} from './UploadMaterial'
                 {this.mostrarMaterial()}
                 {this.state.visualizarPDF}
                 {this.state.formularioUpload}
+                {this.state.visualizarFeedback}
 
                 <Dialog header="Confirmation" visible={this.state.displayConfirmation} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation: false})}>
                 <div className="confirmation-content">

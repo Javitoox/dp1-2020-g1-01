@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -52,6 +53,23 @@ public class FeedbackService {
 		  	 
 	    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + idMaterial + ".pdf");
 	    Files.delete(rutaCompleta); 
+	}
+	
+	public List<Feedback>getFeedbackByMaterial(Integer idMaterial){
+		return feedbackRepository.findFeedbackByMaterial(idMaterial);
+		
+	}
+
+
+	public void cambiarEstadoDoneActividad(Integer idFeedback) {
+		Feedback f = feedbackRepository.findById(idFeedback).get();
+		f.setCompletado(!f.getCompletado());
+		if(f.getCompletado()) {
+			f.setDiaEntrega(LocalDate.now());
+		}else {
+			f.setDiaEntrega(null);
+		}
+		feedbackRepository.save(f);
 	}
 	
 }

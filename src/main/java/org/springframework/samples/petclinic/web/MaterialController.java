@@ -2,10 +2,16 @@ package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
 
+import javax.naming.Binding;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.service.MaterialService;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,10 +49,15 @@ public class MaterialController {
 	}
 	
 	@PostMapping("/añadirMaterial/{nickProfesor}")
-	public ResponseEntity<?>añadirMaterial(@PathVariable("nickProfesor") String nickProfesor, @RequestParam("pdf") MultipartFile pdf) throws IOException{
+	public ResponseEntity<?>añadirMaterial(@PathVariable("nickProfesor") String nickProfesor, @RequestParam(value="pdf",required=false) MultipartFile pdf) throws IOException{
 		log.info("he entrado en añadirMaterial");
-		Material m = materialService.uploadMaterial(pdf, nickProfesor);
-		return ResponseEntity.ok(m);
+		if(pdf==null) {
+			return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+		}else {
+			Material m = materialService.uploadMaterial(pdf, nickProfesor);
+			return ResponseEntity.ok(m);
+		}	
+		
 	}
 	
 	

@@ -12,5 +12,8 @@ public interface FeedbackRepository extends CrudRepository<Feedback, Integer> {
 
 	@Query("select f from Feedback f where f.materiales =:material")
 	public List<Feedback> findFeedbacksByMaterial(@Param("material") Material material);
+
+	@Query("select f from Feedback f where f.materiales.id=:idMaterial")
+	public List<Feedback> findFeedbackByMaterial(@Param("idMaterial") Integer idMaterial);
 	
 }

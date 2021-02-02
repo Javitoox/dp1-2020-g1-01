@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import Pdf from './all-pages';
 import { Dialog } from 'primereact/dialog';
+import MaterialComponent from './MaterialComponent';
 
  export  class MaterialStudent extends Component{
 
@@ -20,6 +20,8 @@ import { Dialog } from 'primereact/dialog';
         this.obtenerMaterial= this.obtenerMaterial.bind(this);
         this.botonVerMaterial = this.botonVerMaterial.bind(this);
         this.botonDescargarMaterial = this.botonDescargarMaterial.bind(this);
+        this.materiales= new MaterialComponent();
+
     }
 
     componentDidMount() {
@@ -27,7 +29,7 @@ import { Dialog } from 'primereact/dialog';
     }
 
     async obtenerMaterial() {
-        await axios.get(this.state.urlBase+"/materiales/getMaterialByAlumno/"+this.state.nickUsuario).then(res => this.setState({materiales: res.data}))
+        await this.materiales.obtenerMaterialStudent(this.state.urlBase,this.state.nickUsuario).then(res => this.setState({materiales: res.data}))
         console.log(this.state.materiales);
     }
 
