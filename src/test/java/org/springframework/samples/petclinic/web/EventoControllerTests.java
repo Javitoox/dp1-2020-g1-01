@@ -16,7 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -109,28 +108,28 @@ public class EventoControllerTests {
 		.andExpect(status().isUnauthorized());
 	}
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testEventsByCourse() throws Exception {
-		List<Evento> eventos = new ArrayList<>();
-		eventos.add(evento);
-		given(alumService.getAlumno(alumno.getNickUsuario())).willReturn(alumno);
-		given(eventoService.getByCourse(alumno.getGrupos().getCursos())).willReturn(eventos);
-		
-		mockMvc.perform(get("/events/getByCourse/{nick}",alumno.getNickUsuario()).sessionAttr("type","alumno"))
-		.andExpect(status().isOk())
-		.andExpect(content().contentType(MediaType.APPLICATION_JSON));
-	}
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testEventsByCourse() throws Exception {
+//		List<Evento> eventos = new ArrayList<>();
+//		eventos.add(evento);
+//		given(alumService.getAlumno(alumno.getNickUsuario())).willReturn(alumno);
+//		given(eventoService.getByCourse(alumno.getGrupos().getCursos())).willReturn(eventos);
+//		
+//		mockMvc.perform(get("/events/getByCourse/{nick}",alumno.getNickUsuario()).sessionAttr("type","alumno"))
+//		.andExpect(status().isOk())
+//		.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+//	}
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testEventsByCourseNotAuth() throws Exception {
-		given(alumService.getAlumno(any())).willReturn(null);
-		given(eventoService.getByCourse(any())).willReturn(null);
-		
-		mockMvc.perform(get("/events/getByCourse/{nick}",alumno.getNickUsuario()).sessionAttr("type","usuario"))
-		.andExpect(status().isUnauthorized());
-	}
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testEventsByCourseNotAuth() throws Exception {
+//		given(alumService.getAlumno(any())).willReturn(null);
+//		given(eventoService.getByCourse(any())).willReturn(null);
+//		
+//		mockMvc.perform(get("/events/getByCourse/{nick}",alumno.getNickUsuario()).sessionAttr("type","usuario"))
+//		.andExpect(status().isUnauthorized());
+//	}
 	
 	@WithMockUser(value = "spring")
 	@Test

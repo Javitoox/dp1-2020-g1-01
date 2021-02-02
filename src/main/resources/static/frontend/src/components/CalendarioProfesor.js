@@ -111,7 +111,6 @@ export const CalendarioProfesor = (props) => {
         eventClick: function (info) {
             eventService.getDescription(props.urlBase, info.event.id).then(data =>
                 setInfo(selectInfo(data.data, info.event.id))
-
             )
         }
     }
