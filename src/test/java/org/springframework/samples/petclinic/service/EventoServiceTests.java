@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -246,7 +244,6 @@ public class EventoServiceTests {
 	}
 	
 	@Test
-	@Transactional
 	void shouldDeleteEvent() {
 		eventoService.deleteDescription(1);
 		

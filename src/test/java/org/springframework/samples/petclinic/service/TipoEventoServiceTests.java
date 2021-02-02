@@ -30,13 +30,12 @@ public class TipoEventoServiceTests {
 	@Test
 	void shouldGetType() {
 		TipoEvento tipo = new TipoEvento();
-		//tipo.setTipo("internal");
 		Optional<TipoEvento> op = Optional.of(tipo);
 		when(tipoEventoRepository.findById(any())).thenReturn(op);
 		
 		TipoEvento t = tipoEventoService.getType("1");
 		
-		assertThat(t.getTipo()).isEqualTo("internal");
+		assertThat(t).isEqualTo(tipo);
 	}
 	
 	@Test
