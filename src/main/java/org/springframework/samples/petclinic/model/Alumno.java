@@ -39,14 +39,6 @@ public class Alumno extends Usuario{
     @ManyToOne(optional=true)
     private Grupo grupos;
     
-    @OneToMany(cascade=CascadeType.DETACH, mappedBy="alumnos")
-    @JsonIgnore
-    private Collection<Pago> pagos; 
-    
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="alumnos")
-    @JsonIgnore
-    private Collection<Premiado> premiados; 
-    
     @OneToMany(cascade=CascadeType.ALL, mappedBy="alumno")
     @JsonIgnore
     private Collection<Inscripcion> inscripciones;

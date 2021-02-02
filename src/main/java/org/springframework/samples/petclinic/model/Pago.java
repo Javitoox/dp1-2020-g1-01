@@ -28,7 +28,7 @@ public class Pago extends BaseEntity{
 	@Column(name="fecha")
 	private LocalDate fecha;
 		   
-    @ManyToOne(optional=false, cascade=CascadeType.DETACH)
+    @ManyToOne(optional=false)
     private Alumno alumnos;
 	
 
