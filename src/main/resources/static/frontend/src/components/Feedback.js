@@ -3,6 +3,8 @@ import MaterialComponent from './MaterialComponent';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { ToggleButton } from 'primereact/togglebutton';
+import { Rating } from 'primereact/rating';
+
 
 export class Feedback extends Component{
 
@@ -15,6 +17,7 @@ export class Feedback extends Component{
         this.obtenerFeedback= this.obtenerFeedback.bind(this);
         this.botonDone= this.botonDone.bind(this);
         this.cambiarEstadoDeActividad= this.cambiarEstadoDeActividad.bind(this);
+        this.valoracion = this.valoracion.bind(this);
     }
 
     componentDidMount(){
@@ -40,6 +43,17 @@ export class Feedback extends Component{
         this.obtenerFeedback();
     }
 
+    valoracion(rowData) {
+        return(
+            <div>
+                <div className="card">
+                    <Rating value={rowData.valoracion} readOnly stars={5} cancel={false} />
+                </div>
+            </div>
+
+        );
+    }
+
     render(){
         console.log(this.state.feedback);
         return(
@@ -47,7 +61,7 @@ export class Feedback extends Component{
                 <DataTable value={this.state.feedback}>
                     <Column header="Student" field="alumnos.nombreCompletoUsuario"></Column>
                     <Column header="Comment" field="comentario"></Column>
-                    <Column header="Rate (1-5)" field="valoracion"></Column>
+                    <Column header="Rate (1-5)" body={this.valoracion}></Column>
                     <Column header="Done" body={this.botonDone}></Column>
                     <Column header="Date of delivery" field="diaEntrega"></Column>
                 </DataTable>

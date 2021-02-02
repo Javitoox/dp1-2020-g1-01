@@ -30,10 +30,15 @@ export default class MaterialComponent extends Component{
 
     modificarDone(urlBase, id){
         return axios.put(urlBase+"/feedback/cambiarDone/"+id);
-
     }
 
+    getFeedback(urlBase,nickUser,id){
+        return axios.get(urlBase+"/feedback/"+nickUser+"/"+id);
+    }
 
+    updateFeedback(urlBase,formData){
+        return axios.put(urlBase+"/feedback/update", formData);
+    }
 
 
 }
