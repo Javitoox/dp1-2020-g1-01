@@ -72,7 +72,7 @@ export class EditPremiado extends Component{
             <div className="c">
                 <form onSubmit={this.handleSubmitEdit}>
                     <div className="t">
-                        <div><h5>You're editing: {this.state.premiado.alumnos.nickUsuario} </h5></div>
+                        <div><h5>You're editing: {this.state.premiado.alumnos.nombreCompletoUsuario} </h5></div>
                     </div>
 
                     <div className="i">
@@ -108,7 +108,7 @@ export class EditPremiado extends Component{
 
                     <div className="b">
                         <div className="i">
-                            <Button className="p-button-secondary" label="Add the student" icon="pi pi-fw pi-upload"/>
+                            <Button className="p-button-secondary" label="Edit the awarded student" icon="pi pi-fw pi-upload"/>
                         </div>
                     </div>
                 </form>    
