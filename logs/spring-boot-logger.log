@@ -1,0 +1,33 @@
+2021-02-03 01:59:48,043 INFO org.springframework.boot.StartupInfoLogger [main] Starting SolicitudControllerTests on MacBook-Air-de-Gonzalo.local with PID 11638 (started by nukeagony in /Users/nukeagony/Desktop/Universidad/TERCERO/DP1/dp1-2020-g1-01)
+2021-02-03 01:59:48,058 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-02-03 01:59:51,884 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [main] Initializing ExecutorService 'applicationTaskExecutor'
+2021-02-03 01:59:53,989 INFO org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration [main] 
+
+Using generated security password: fc909cac-4899-412b-a017-e150612935fb
+
+2021-02-03 01:59:54,194 INFO org.springframework.security.web.DefaultSecurityFilterChain [main] Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@14189fcc, org.springframework.security.web.context.SecurityContextPersistenceFilter@72274122, org.springframework.security.web.header.HeaderWriterFilter@3057effe, org.springframework.security.web.csrf.CsrfFilter@698b32d5, org.springframework.security.web.authentication.logout.LogoutFilter@74f29997, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4ecc53ae, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@565bed82, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@3afbd1fd, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@14a0f487, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4cb9209b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7de2e3a1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1f829ef1, org.springframework.security.web.session.SessionManagementFilter@4ea83953, org.springframework.security.web.access.ExceptionTranslationFilter@81c63c4, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@14a7acd8]
+2021-02-03 01:59:54,284 INFO org.springframework.mock.web.MockServletContext [main] Initializing Spring TestDispatcherServlet ''
+2021-02-03 01:59:54,284 INFO org.springframework.web.servlet.FrameworkServlet [main] Initializing Servlet ''
+2021-02-03 01:59:54,307 INFO org.springframework.web.servlet.FrameworkServlet [main] Completed initialization in 23 ms
+2021-02-03 01:59:54,378 INFO org.springframework.boot.StartupInfoLogger [main] Started SolicitudControllerTests in 7.857 seconds (JVM running for 12.083)
+2021-02-03 01:59:54,921 INFO org.springframework.samples.petclinic.web.SolicitudController [main] New student´s request with username: JaviMartinez7
+2021-02-03 01:59:54,922 INFO org.springframework.samples.petclinic.web.SolicitudController [main] New tutor´s request with username: Gonzalo
+2021-02-03 01:59:54,974 INFO org.springframework.samples.petclinic.web.SolicitudController [main] Has iniciado sesion como: alumno
+2021-02-03 01:59:54,974 INFO org.springframework.samples.petclinic.web.SolicitudController [main] no estas autorizado
+2021-02-03 01:59:55,106 INFO org.springframework.samples.petclinic.web.SolicitudController [main] Update student´s request with username: JaviMartinez7
+2021-02-03 01:59:55,109 INFO org.springframework.samples.petclinic.web.SolicitudController [main] New tutor´s request with username: Gonzalo
+2021-02-03 01:59:55,152 INFO org.springframework.samples.petclinic.web.SolicitudController [main] Has iniciado sesion como: profesor
+2021-02-03 01:59:55,153 INFO org.springframework.samples.petclinic.web.SolicitudController [main] funciona esto
+2021-02-03 01:59:55,446 INFO org.springframework.samples.petclinic.web.SolicitudController [main] Update student´s request with username: JaviMartinez7
+2021-02-03 01:59:55,448 INFO org.springframework.samples.petclinic.web.SolicitudController [main] Update tutor´s request with username: Gonzalo
+2021-02-03 01:59:55,553 INFO org.springframework.samples.petclinic.web.SolicitudController [main] New student´s request with username: JaviMartinez7
+2021-02-03 01:59:55,745 INFO org.springframework.samples.petclinic.web.SolicitudController [main] Has iniciado sesion como: profesor
+2021-02-03 01:59:55,747 INFO org.springframework.samples.petclinic.web.SolicitudController [main] ALUMNO ACEPTADO: org.springframework.samples.petclinic.model.Alumno@50ea1add
+2021-02-03 01:59:55,880 INFO org.springframework.samples.petclinic.web.SolicitudController [main] New student´s request with username: JaviMartinez7
+2021-02-03 01:59:55,884 INFO org.springframework.samples.petclinic.web.SolicitudController [main] Update tutor´s request with username: Gonzalo
+2021-02-03 01:59:55,959 INFO org.springframework.samples.petclinic.web.SolicitudController [main] Update student´s request with username: JaviMartinez7
+2021-02-03 01:59:56,036 INFO org.springframework.samples.petclinic.web.SolicitudController [main] Has iniciado sesion como: alumno
+2021-02-03 01:59:56,066 INFO org.springframework.samples.petclinic.web.SolicitudController [main] Has iniciado sesion como: profesor
+2021-02-03 01:59:56,112 WARN org.springframework.samples.petclinic.web.SolicitudController [main] Access denied: JaviMartinez7
+2021-02-03 01:59:56,143 INFO org.springframework.samples.petclinic.web.SolicitudController [main] Has iniciado sesion como: alumno
+2021-02-03 01:59:56,258 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [SpringContextShutdownHook] Shutting down ExecutorService 'applicationTaskExecutor'
