@@ -58,13 +58,13 @@ public class Evento extends BaseEntity{
 	@JsonIgnore
     private Collection<Inscripcion> inscripciones;
 	
-	public String toJson() { //hacer esto en el modelo de solicitud con las fechas que hayan
+	public String toJson() {
 		LocalDate copiaStart = start;
 		LocalDate copiaEnd = end;
 		Gson json = new Gson();
 		this.setStart(null);
 		this.setEnd(null);
-		String jsonString = json.toJson(this); //jsonString es el json de esta clase pero sin las fechas
+		String jsonString = json.toJson(this);
 		String result = jsonString.substring(0, jsonString.length()-1)+",\"start\":\""+copiaStart.toString()+"\",\"end\":\""+copiaEnd.toString()+"\"}";
 		this.setStart(copiaStart);
 		this.setEnd(copiaEnd);

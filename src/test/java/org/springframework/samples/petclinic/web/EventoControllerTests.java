@@ -249,6 +249,7 @@ public class EventoControllerTests {
 		evento2.setColor("red");
 		evento2.setStart(LocalDate.of(2021, 01, 20));
 		evento2.setEnd(LocalDate.of(2021, 01, 19));
+		
 		mockMvc.perform(post("/events/create/{curso}", "A1")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(evento2.toJson())
@@ -267,6 +268,7 @@ public class EventoControllerTests {
 		evento2.setColor("red");
 		evento2.setStart(LocalDate.of(2021, 01, 20));
 		evento2.setEnd(LocalDate.of(2021, 01, 21));
+		
 		mockMvc.perform(post("/events/create/{curso}", "A1")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(evento2.toJson())
@@ -280,7 +282,7 @@ public class EventoControllerTests {
 	void testCreateEventWithErrorsNullCurso() throws Exception {
 		Evento evento2 = new Evento();
 		TipoEvento tipo2 = new TipoEvento();
-	 	evento2.setTitle("El evento de prueba");
+		evento2.setTitle("El evento de prueba");
 		evento2.setDescripcion("Que descripcion mas bonita");
 		evento2.setTipo(tipo2);
 		evento2.setColor("red");
