@@ -27,7 +27,7 @@ import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(MockitoExtension.class) 
 @TestInstance(Lifecycle.PER_CLASS)
 public class AlumnoServiceTests {
 

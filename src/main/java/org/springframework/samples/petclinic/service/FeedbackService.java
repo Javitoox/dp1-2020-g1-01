@@ -10,7 +10,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Feedback;
 import org.springframework.samples.petclinic.model.Material;
@@ -26,7 +25,7 @@ public class FeedbackService {
 	
 	@Autowired
 	public FeedbackService(MaterialService materialService, FeedbackRepository feedbackRepository, AlumnoService alumnoService) {
-		super();
+		super(); 
 		this.materialService = materialService;
 		this.feedbackRepository = feedbackRepository;
 		this.alumnoService= alumnoService;
@@ -45,7 +44,7 @@ public class FeedbackService {
 	
 	public void deleteMaterial(Integer idMaterial) throws IOException {
 		Material m = materialService.findMaterialById(idMaterial);
-		List<Feedback> feedbacks = feedbackRepository.findFeedbacksByMaterial(m);
+		List<Feedback> feedbacks = feedbackRepository.findFeedbackByMaterial(idMaterial);
 		for(Feedback f: feedbacks) {
 			feedbackRepository.delete(f);
 		}
@@ -59,8 +58,7 @@ public class FeedbackService {
 	}
 	
 	public List<Feedback>getFeedbackByMaterial(Integer idMaterial){
-		return feedbackRepository.findFeedbackByMaterial(idMaterial);
-		
+		return feedbackRepository.findFeedbackByMaterial(idMaterial);	
 	}
 
 
@@ -95,6 +93,6 @@ public class FeedbackService {
 		f.setValoracion(rate);
 		feedbackRepository.save(f);
 	}
-	
 
+	
 }
