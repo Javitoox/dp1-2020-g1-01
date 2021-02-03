@@ -124,7 +124,7 @@ export class UploadMaterial extends Component{
 
                 <div className="b">
                     <div className="i">
-                        <Button className="p-button-secondary" label="Add the student" icon="pi pi-fw pi-upload" />
+                        <Button className="p-button-secondary" label="Upload homework" icon="pi pi-fw pi-upload" />
                     </div>
                 </div>
                 </form>
