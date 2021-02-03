@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.repository;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -35,7 +34,7 @@ public class PremiadoRepositoryTests {
 	void data() {
 		a = new Alumno();
 		a.setNickUsuario("marrambla");
-		a.setFechaMatriculacion(LocalDate.now());
+		a.setFechaMatriculacion(LocalDate.of(2019, 03, 13));
 		a.setDniUsuario("99876566W");
 		a.setFechaNacimiento(LocalDate.of(2000, 06, 22));
 		a.setNombreCompletoUsuario("Maria Dolores Garcia");
@@ -61,19 +60,20 @@ public class PremiadoRepositoryTests {
 	@Test
 	void testReturnPremiadosPorFecha() {
 		List<Premiado> premiados = premiadoRepository.premiadosPorFecha("2022-W50");
-		assertTrue(premiados.size() > 0);
+        assertThat(premiados.size()).isGreaterThan(0);
+
 	}
 
 	@Test
 	void testReturnLastWallOfFame() {
 		String lastWeek = premiadoRepository.lastWallOfFame();
-		assertEquals("2022-W50", lastWeek);
+        assertThat(lastWeek).isEqualTo("2022-W50");
 	}
 
 	@Test
 	void testReturnNumApariciones() {
 		Integer numApariciones = premiadoRepository.numAparicionesEnFecha("2022-W50", "marrambla");
-		assertTrue(numApariciones == 1);
+        assertThat(numApariciones).isEqualTo(1);
 	}
 
 

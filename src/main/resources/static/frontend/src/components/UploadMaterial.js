@@ -17,6 +17,7 @@ export class UploadMaterial extends Component{
             target: [],
             material: null,
             fileError: null,
+            succes: null
         }
         this.handleSubmit= this.handleSubmit.bind(this);
         this.alumnos = new AlumnoComponent(); 
@@ -55,6 +56,9 @@ export class UploadMaterial extends Component{
         formData.append('pdf', this.state.file);
         await this.materiales.crearMaterial(this.props.urlBase,this.props.nickUsuario,formData).then(res => this.respuesta(res.status, res.data));
         this.state.target.forEach(e => this.materiales.asignarAlumnoMaterial(this.props.urlBase,this.state.material.id,e));
+
+
+
     }
 
     respuesta(status, data){
@@ -62,7 +66,10 @@ export class UploadMaterial extends Component{
         if(status === 203){
             this.setState({ fileError: <div className="alert alert-danger" role="alert">Required field</div> })
         }else{
-            this.setState({material: data})
+            this.setState({
+                material: data,
+                succes: <div className="alert alert-success" role="alert">Successful upload</div>
+            })
         }
     }
 
@@ -70,7 +77,7 @@ export class UploadMaterial extends Component{
         return (
             <div className="product-item">
                 <div className="product-list-detail">
-                    <p className="p-mb-2" style={{fontsize:'100px'}}>{item.nombreCompletoUsuario}</p>
+                    <p className="p-mb-2" style={{fontsize:'100px'}}>{item.nombreCompletoUsuario+" ("+item.grupos.cursos.cursoDeIngles+")"}</p>
                 </div>
             </div>
         );
@@ -89,6 +96,7 @@ export class UploadMaterial extends Component{
         <React.Fragment>    
             <div className="c" >
                 <form onSubmit={this.handleSubmit} style={{width:'700px'}}  >
+                {this.state.succes}
                 <div className="t">
                     <div><h5>Upload a new material</h5></div>
                 </div>

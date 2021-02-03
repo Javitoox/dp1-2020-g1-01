@@ -40,5 +40,7 @@ export default class MaterialComponent extends Component{
         return axios.put(urlBase+"/feedback/update", formData);
     }
 
-
+    obtenerMediaRate(urlBase, id){
+        return axios.get(urlBase+"/feedback/getRateAverage/"+id);
+    }
 }

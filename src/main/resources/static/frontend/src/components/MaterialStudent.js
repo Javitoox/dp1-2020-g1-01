@@ -37,8 +37,15 @@ import {FeedbackAlumno} from './FeedbackAlumno';
     }
 
     mostrarMaterial(){
+        const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
+        const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
+
         return(
-            <DataTable value={this.state.materiales}>
+            <DataTable value={this.state.materiales} paginator
+            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[5,10,20]}
+            paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
+
                 <Column header="Material name" field="nombreMaterial"></Column>
                 <Column header="Upload date" field="fechaSubida"></Column>
                 <Column header="Preview" body={this.botonVerMaterial}></Column>
