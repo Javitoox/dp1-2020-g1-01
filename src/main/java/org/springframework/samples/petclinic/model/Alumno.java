@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.Gson;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -42,5 +43,5 @@ public class Alumno extends Usuario{
     @OneToMany(cascade=CascadeType.ALL, mappedBy="alumno")
     @JsonIgnore
     private Collection<Inscripcion> inscripciones;
- 
+
 }
