@@ -46,6 +46,24 @@ public class AlumnoRepositoryTests {
 		a.setContraseya("Pollito009");
 		a.setNumTelefonoUsuario("698898989");
 	}
+	@Test
+	void testReturnStudentsByGroup() {
+		Curso c = new Curso();
+		c.setCursoDeIngles(TipoCurso.A1);
+		Curso curso = cursoRepository.save(c);
+
+		Grupo g  = new Grupo();
+		g.setNombreGrupo("mi grupo fav");
+		g.setCursos(curso);
+		Grupo grupo = grupoRepository.save(g);
+
+		a.setGrupos(grupo);
+		alumnoRepository.save(a);
+
+		List<Alumno>alumnos = alumnoRepository.findByGroup("mi grupo fav");
+		assertTrue(alumnos.size() > 0);
+	}
+
 
 	@Test
 	void testReturnListWithStudents() {
