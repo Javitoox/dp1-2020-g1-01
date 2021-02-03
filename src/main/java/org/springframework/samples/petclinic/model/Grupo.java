@@ -36,10 +36,6 @@ public class Grupo {
 	@JsonIgnore
 	private Collection<Alumno> alumnos;
 	
-//	@OneToMany(cascade=CascadeType.ALL, mappedBy = "grupos")
-//	@JsonIgnore
-//	private Collection<Alumno> asignaciones;
-	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy = "grupo")
 	@JsonIgnore
     private Collection<AsignacionProfesor> asignaciones;

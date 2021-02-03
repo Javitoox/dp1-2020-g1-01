@@ -251,9 +251,12 @@ class Pagos extends Component {
                                 <Button icon="pi pi-fw pi-users" label="Create payment" className="p-button-secondary" onClick={this.botonPagos} />
     
                                 <div>&nbsp;</div>
-                                <InputText class="form-control" placeholder="Search by name" value={this.state.text} onChange={this.filter} />
+                                <div className="t6">
+                                <InputText className="form-control" placeholder="Search by name" value={this.state.text} onChange={this.filter} />
                                 {` `}
-                                <InputText class="form-control" placeholder="Search by DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
+
+                                <InputText className="form-control" placeholder="Search by DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
+                                </div>
                                 {` `}
                             <div>&nbsp;</div>
                             <DataTable header="Students who have paid:" value={this.state.alumnos}>

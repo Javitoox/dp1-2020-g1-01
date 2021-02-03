@@ -40,6 +40,9 @@ class AssignStudent extends Component  {
         listaGrupos:{
            nombreGrupo: ""
         } ,
+        tutores:{
+            nickUsuario:this.props.astudent.tutores.nickUsuario
+        },
         cursoS:"",
         succes:null,
         comprobation: false 
@@ -84,8 +87,11 @@ class AssignStudent extends Component  {
         }
         return groupSelectItems
     }
+    mostrarTabla(){
+        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+    }
 
-    assign  = event => {
+     assign  =  event => {
         event.preventDefault();
         const alumno ={
             nickUsuario: this.state.nickUsuario,
@@ -97,21 +103,26 @@ class AssignStudent extends Component  {
             numTelefonoUsuario2: this.state.numTelefonoUsuario2,
             direccionUsuario: this.state.direccionUsuario,
             fechaNacimiento: this.state.fechaNacimiento,
+            numTareasEntregadas:this.state.numTareasEntregadas,
             fechaMatriculacion: this.state.fechaMatriculacion,
             grupos: {
                 nombreGrupo: this.state.grupos.nombreGrupo,
                 cursos: {
                     cursoDeIngles: this.state.cursoS[0]
             }
+            },
+            tutores:{
+                nickUsuario:this.state.tutores.nickUsuario
             }
         }
         if(this.state.grupos.nombreGrupo===""){
             window.alert("You must select a group")
 
         }else{
-        axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
+         axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
             this.respuesta(res.status, res.data)
             })
+            window.location.assign("/allStudents")
         }
       }
 
@@ -145,7 +156,7 @@ class AssignStudent extends Component  {
         return (
             <div>
                 <div className="c">
-                    <div className="login request">
+                    <div className="login2 request2">
                         <form onSubmit={this.assign}  >
                         {this.state.succes}
                         

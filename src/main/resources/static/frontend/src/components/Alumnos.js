@@ -13,6 +13,10 @@ import { connect } from 'react-redux';
 import { Dialog } from 'primereact/dialog';
 import axios from 'axios';
 import Auth from './Auth';
+import {CreateGroup} from './CreateGroup';
+import {DeleteGroup} from './DeleteGroup'
+import AssignStudent from './AssignStudent';
+
 
 
 class Alumnos extends Component {
@@ -36,6 +40,9 @@ class Alumnos extends Component {
             groupSelectItems: "",
             rowDataInfo:null,
             comprobation: false,
+            formularioCrearGrupo: null,
+            formularioDeleteGrupo: null,
+            formularioAssginStudent:null,
             listaGrupos:{
                 nombreGrupo: ""
             },
@@ -48,8 +55,8 @@ class Alumnos extends Component {
         this.boton = this.boton.bind(this);
         this.grupos = new GrupoComponent();
         this.botonAssign=this.botonAssign.bind(this);
-        this.botonCrear=this.botonCrear.bind(this);
-        this.botonEliminar=this.botonEliminar.bind(this);
+        this.formCreateGrupo=this.formCreateGrupo.bind(this);
+        this.formDeleteGrupo=this.formDeleteGrupo.bind(this);
         this.botonGrupos=this.botonGrupos.bind(this);
         this.allGroupNames= this.allGroupNames.bind(this);
         this.botonDelete= this.botonDelete.bind(this);
@@ -57,7 +64,9 @@ class Alumnos extends Component {
         this.mostrarInfoStudent= this.mostrarInfoStudent.bind(this);
         this.mostrarInfo= this.mostrarInfo.bind(this);
         this.mostrarDatosTutor= this.mostrarDatosTutor.bind(this);
-      
+        this.mostrarTabla = this.mostrarTabla.bind(this);
+        this.botonDelete = this.botonDelete.bind(this);
+        this.formAssignStudent = this.formAssignStudent.bind(this);
     }
 
     componentDidMount() {
@@ -66,7 +75,7 @@ class Alumnos extends Component {
             this.setState({comprobation: true})
         }
         })
-        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+        this.mostrarTabla();
         this.alumnos.getAlumnosEliminiables(this.props.urlBase).then(data =>  this.setState({ listaEliminables: data }) );
     }
 
@@ -79,19 +88,37 @@ class Alumnos extends Component {
         );
     }
 
-    botonCrear() {
-        this.setState({ 
-            redirect: "/createGroup",
-        
-    });
+    formCreateGrupo() {
+        this.setState({
+            formularioCrearGrupo: 
+            <Dialog visible={true} style={{ width: '40vw' }} onHide={() => this.setState({formularioCrearGrupo: null})}>
+                <CreateGroup urlBase={this.props.urlBase}></CreateGroup>
+            </Dialog>
+        });
+
     
     }
-    botonEliminar() {
-        this.setState({ 
-            redirect: "/deleteGroup",
-        
-    });
+
+    formDeleteGrupo() {
+        this.setState({
+            formularioDeleteGrupo: 
+            <Dialog visible={true} style={{ width: '40vw'}} onHide={() => this.setState({formularioDeleteGrupo: null})}>
+                <DeleteGroup urlBase={this.props.urlBase}></DeleteGroup>
+            </Dialog>
+        });
     }
+
+     
+     formAssignStudent(data) {
+        this.props.selectAssignedStudent(data)
+        this.setState({
+            formularioAssginStudent: 
+            <Dialog visible={true} style={{ width: '40vw'}} onHide={() => this.setState({formularioAssginStudent: null})}>
+                <AssignStudent urlBase={this.props.urlBase}></AssignStudent>
+            </Dialog>
+        });
+        this.mostrarTabla();
+}
 
     botonGrupos() {
         this.setState({ 
@@ -106,27 +133,21 @@ class Alumnos extends Component {
             redirect: "/editStudent",
         
     });
+
    
 }
      
     botonAssign(rowData) {
         return (    
             <React.Fragment>
-                <Button icon="pi pi-plus-circle" className="p-button-rounded p-button-secondary p-mr-2" onClick={() => this.assignGroup(rowData)} />
+                <Button icon="pi pi-plus-circle" className="p-button-rounded p-button-secondary p-mr-2" onClick={() => this.formAssignStudent(rowData)} />
             </React.Fragment>
         );
     }
     
-    
 
-    
-    assignGroup(data) {
-        this.props.selectAssignedStudent(data)
-            this.setState({ 
-                redirect: "/assignStudent",
-                
-        });
-    }
+
+   
     
     showSelectCourse(course) {
         console.log(course);
@@ -181,45 +202,21 @@ class Alumnos extends Component {
         }
      }
 
-     deleteAlumno(data){
-
-                axios.delete("http://localhost:8081/alumnos/delete/"+data.nickUsuario, {withCredentials: true}).then(res => {
-                    this.respuesta(res.status, res.data);        })
-            
-           
-
-        
-
-        
-        
-        
-       
-    
-
-
+     
+    mostrarTabla(){
+        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
     }
-
-    respuesta(status, data){
-        console.log("hola?");
-
-        console.log(status);
-        if(status===200){
-            console.log("no va");
-
-            data.forEach(e => this.error(e.field, e.defaultMessage))
-        }else if(status===201){
-            console.log("va");
-
-            this.setState({               
-                succes: <div className="alert alert-success" role="alert">Successful delete</div>
-            })
-        }else{
-            this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
-        }
-    }
+     
+    async deleteAlumno(data){
+        var result = window.confirm("Are you sure you want to delete the student?");
+        if(result){
+            await this.alumnos.deleteAlumno(this.props.urlBase, data.nickUsuario);
+            this.mostrarTabla()
+          }
+     }
+        
 
     
-
     allGroupNames(){
         var s = this.state.listaEliminables
         console.log(s)
@@ -348,16 +345,21 @@ class Alumnos extends Component {
                 ];
                 return (
                     <React.Fragment>
+
                         <div className="datatable-templating-demo">
+                        {this.state.formularioCrearGrupo} 
+                        {this.state.formularioDeleteGrupo}  
+                        {this.state.formularioAssginStudent}
+
                             <div>
                             <ListBox value={this.state.curso} options={courseSelectItems} onChange={(e) => this.showSelectCourse(e.value)} />
                             <div>&nbsp;</div>
                         
                             <ListBox options={this.allGroupNames()} onChange={(e) => this.showSelectGroup(e.value)} />
                             <div>&nbsp;</div>
-                            <Button icon="pi pi-plus-circle" label="Create group" className="p-button-secondary" onClick={this.botonCrear} />
+                            <Button icon="pi pi-plus-circle" label="Create group" className="p-button-secondary" onClick={()=>this.formCreateGrupo()} />
                             {` `}
-                            <Button icon="pi pi-minus-circle" label="Delete group" className="p-button-secondary" onClick={this.botonEliminar} />
+                            <Button icon="pi pi-minus-circle" label="Delete group" className="p-button-secondary" onClick={()=>this.formDeleteGrupo()} />
                             {` `}
                             <Button icon="pi pi-fw pi-users" label="My groups" className="p-button-secondary" onClick={this.botonGrupos} />
 

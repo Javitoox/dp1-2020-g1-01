@@ -149,7 +149,7 @@ export class CreateGroup extends Component {
 
                 <div>
                     <div className="c">
-                        <div className="login request">
+                        <div className="login2 request2">
                             <form onSubmit={this.save}>
                             {this.state.succes}
                             {this.state.exist}
@@ -180,7 +180,7 @@ export class CreateGroup extends Component {
                         </div>
                     </div>
                 </div>
-            );
+            )
         }
     }
 }

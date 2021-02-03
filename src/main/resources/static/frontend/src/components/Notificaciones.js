@@ -6,8 +6,7 @@ class Notificaciones extends Component {
     constructor() {
         super();
         this.state = {
-            events: 0,
-            payment: 0
+            events: 0
         }
 
     }
@@ -16,20 +15,7 @@ class Notificaciones extends Component {
     }
     async componentDidMount() {
         await this.sleep(500)
-        if (this.state.events === 0 && this.state.payment !== 0 && this.props.solicitudes !== 0) {
-            store.addNotification({
-                title: "PAYMENTS",
-                message: "There are " + this.state.payment + " unpaid months, please check the payments view to see more info",
-                type: "info",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animate__animated", "animate__fadeIn"],
-                animationOut: ["animate__animated", "animate__fadeOut"],
-                dismiss: {
-                    duration: 50000,
-                    onScreen: true
-                }
-            })
+        if (this.state.events === 0 && this.props.solicitudes !== 0) {
             store.addNotification({
                 title: "REQUESTS",
                 message: "There are " + this.props.solicitudes + " new pending requests",
@@ -43,7 +29,7 @@ class Notificaciones extends Component {
                     onScreen: true
                 }
             })
-        } else if (this.state.events !== 0 && this.state.payment === 0 && this.props.solicitudes !== 0) {
+        } else if (this.state.events !== 0 && this.props.solicitudes !== 0) {
             store.addNotification({
                 title: "EVENTS",
                 message: "There are " + this.state.events + " new inscriptions to events that you posted",
@@ -70,7 +56,7 @@ class Notificaciones extends Component {
                     onScreen: true
                 }
             })
-        } else if (this.state.events !== 0 && this.state.payment === 0 && this.props.solicitudes === 0) {
+        } else if (this.state.events !== 0 && this.props.solicitudes === 0) {
             store.addNotification({
                 title: "EVENTS",
                 message: "There are " + this.state.events + " new inscriptions to events that you posted",
@@ -86,22 +72,7 @@ class Notificaciones extends Component {
             })
 
         }
-        else if (this.state.events === 0 && this.state.payment !== 0 && this.props.solicitudes === 0) {
-            store.addNotification({
-                title: "PAYMENTS",
-                message: "There are " + this.state.payment + " unpaid months, please check the payments view to see more info",
-                type: "info",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animate__animated", "animate__fadeIn"],
-                animationOut: ["animate__animated", "animate__fadeOut"],
-                dismiss: {
-                    duration: 50000,
-                    onScreen: true
-                }
-            })
-        } 
-         else if (this.state.events === 0 && this.state.payment === 0 && this.props.solicitudes !== 0) {
+         else if (this.state.events === 0 && this.props.solicitudes !== 0) {
             store.addNotification({
                 title: "REQUESTS",
                 message: "There are " + this.props.solicitudes + " new pending requests",
@@ -118,23 +89,10 @@ class Notificaciones extends Component {
         }
         
 
-            else if (this.state.events !== 0 && this.state.payment !== 0 && this.props.solicitudes === 0) {
+            else if (this.state.events !== 0 && this.props.solicitudes === 0) {
             store.addNotification({
                 title: "EVENTS",
                 message: "There are " + this.state.events + " new inscriptions to events that you posted",
-                type: "info",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animate__animated", "animate__fadeIn"],
-                animationOut: ["animate__animated", "animate__fadeOut"],
-                dismiss: {
-                    duration: 50000,
-                    onScreen: true
-                }
-            })
-            store.addNotification({
-                title: "PAYMENTS",
-                message: "There are " + this.state.payment + " unpaid months, please check the payments view to see more info",
                 type: "info",
                 insert: "top",
                 container: "top-right",
@@ -146,7 +104,7 @@ class Notificaciones extends Component {
                 }
             })
         } 
-        else if (this.state.events !== 0 && this.state.payment !== 0 && this.props.solicitudes !== 0) {
+        else if (this.state.events !== 0 && this.props.solicitudes !== 0) {
             store.addNotification({
                 title: "EVENTS",
                 message: "There are " + this.state.events + " new inscriptions to events that you posted",
@@ -160,19 +118,6 @@ class Notificaciones extends Component {
                     onScreen: true
                 }
             })
-            store.addNotification({
-                title: "PAYMENTS",
-                message: "There are " + this.state.payment + " unpaid months, please check the payments view to see more info",
-                type: "info",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animate__animated", "animate__fadeIn"],
-                animationOut: ["animate__animated", "animate__fadeOut"],
-                dismiss: {
-                    duration: 50000,
-                    onScreen: true
-                }
-            }) 
             store.addNotification({
                 title: "REQUESTS",
                 message: "There are " + this.props.solicitudes + " new pending requests",

@@ -14,6 +14,7 @@ import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
+import org.springframework.samples.petclinic.service.PremiadoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,11 +36,13 @@ public class AlumnoController {
 
 	private AlumnoService alumnoServ;
 	private GrupoService grupoService;
+	private PremiadoService premiadoService;
 
 	@Autowired
-	public AlumnoController(AlumnoService alumnoServ, GrupoService grupoService) {
+	public AlumnoController(AlumnoService alumnoServ, GrupoService grupoService, PremiadoService premiadoService) {
 		this.alumnoServ = alumnoServ;
 		this.grupoService = grupoService;
+		this.premiadoService = premiadoService;
 	}
 	
 	@PutMapping("/editStudent")
@@ -175,7 +178,7 @@ public class AlumnoController {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando borrar alumno: {}", nickUsuario);
 			if(alumnoServ.getStudentsToDelete().contains(nickUsuario.toString())) {
-				alumnoServ.deleteStudent(nickUsuario);
+				premiadoService.deleteAlumno(nickUsuario);
 				return new ResponseEntity<>("Alumno eliminado correctamente", HttpStatus.OK);
 			}else {
 				return new ResponseEntity<>("No se puede borrar el alumno porque tiene pagos pendientes", HttpStatus.BAD_REQUEST);

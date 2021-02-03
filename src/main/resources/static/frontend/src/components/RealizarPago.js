@@ -111,12 +111,15 @@ export class RealizarPago extends Component {
 
                 return <div>
                 <div className="t"><div><h5>Register Payment</h5></div></div>
-
+                <div className="t6">
+                <div className="t8">
                 <Button className="p-button-secondary" label="Create Payment" onClick={() => this.assignOption("op1")}/>
-                                  {` `}{` `}
-                                  <Button className="p-button-secondary" label="Create new concept" onClick={() => this.assignOption("op2")} />
-                
                 </div>
+                <div className="t7"><Button className="p-button-secondary" label="Create new concept" onClick={() => this.assignOption("op2")} />
+                </div>
+                </div>
+                </div>
+                
             
             
 

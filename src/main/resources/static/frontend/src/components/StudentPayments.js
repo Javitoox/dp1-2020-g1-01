@@ -56,7 +56,7 @@ export class StudentPayments extends Component {
 
 
         }else{
-            return <div className="t"><div><h5>There are no payments to make</h5></div></div>
+            return <div className="tt"><div><h5>There are no payments to make</h5></div></div>
         }
 
     }
@@ -75,7 +75,7 @@ export class StudentPayments extends Component {
                 <div className="datatable-templating-demo">                 
                     <DataTable header="Payments made:" value={this.state.paid}>
                         <Column field="concepto" header="Concept"></Column>
-                        <Column field="tipo" header="Type"></Column>
+                        <Column field="tipo.tipo" header="Type"></Column>
                         <Column field="fecha" header="Date of payment"></Column>
                     </DataTable>
                     <div>&nbsp;</div>

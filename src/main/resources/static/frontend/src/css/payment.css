@@ -20,3 +20,26 @@ h3{
   .t3{
     margin: 0px 0px 0px 12px;
   }
+  .t4{
+    margin: 0px 0px 0px 12px;
+  }
+  .tt{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 3px;
+    
+  }
+  .t6{
+    display: inline;
+  }
+  .t7{
+    text-align: right;
+    margin: 9px 119px 0px 0px;
+  }
+  .t8{
+    text-align: left;
+    margin: 0px 0px 0px 136px;
+
+  }
