@@ -52,7 +52,7 @@ export class FeedbackAlumno extends Component{
         return(
             <div className="c">
                 <form onSubmit={this.handleSubmit}>
-                {}
+                {this.state.succes}
                 <div className="t">
                     <div><h5>Add rate and comment</h5></div>
                 </div>
