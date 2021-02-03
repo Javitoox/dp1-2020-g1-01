@@ -106,7 +106,9 @@ public class SolicitudController {
 			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 			Validator validator = factory.getValidator();
 			Set<ConstraintViolation<Solicitud>> violations = validator.validate(solicitud);
-			if(result.hasErrors() || violations.size() > 0) {
+			if(result.hasErrors() 
+					//|| violations.size() > 0
+					) {
 				List<FieldError> errors = new ArrayList<>();
 				if (violations.size() > 0) {
 					for (ConstraintViolation<Solicitud> v : violations) {
@@ -142,7 +144,9 @@ public class SolicitudController {
 			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 			Validator validator = factory.getValidator();
 			Set<ConstraintViolation<Solicitud>> violations = validator.validate(solicitud);
-			if(result.hasErrors() || violations.size() > 0) {
+			if(result.hasErrors() 
+					//|| violations.size() > 0
+					) {
 				List<FieldError> errors = new ArrayList<>();
 				if (violations.size() > 0) {
 					for (ConstraintViolation<Solicitud> v : violations) {
