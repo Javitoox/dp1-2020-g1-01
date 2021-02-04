@@ -21,7 +21,6 @@ import { RealizarPago } from './components/RealizarPago'
 import TeacherGroups from './components/TeacherGroups'
 import { StudentPayments } from './components/StudentPayments'
 import { CalendarioAlumno } from './components/CalendarioAlumno'
-import  NotificationProfesor from './components/NotificationProfesor'
 import {MaterialTeacher} from './components/MaterialTeacher'
 import {MaterialStudent} from './components/MaterialStudent'
 import NotificationStudent from './components/NotificationStudent'
@@ -64,9 +63,6 @@ class App extends Component {
 				} />
 				<Route path="/requests" render={() =>
 					<Solicitudes urlBase={this.state.urlBase}></Solicitudes>
-				} />
-				<Route path="/notifications" render={() =>
-					<NotificationProfesor urlBase={this.state.urlBase}></NotificationProfesor>
 				} />
 				<Route path="/notificationsStudent" render={() =>
 					<NotificationStudent urlBase={this.state.urlBase} nickUser={this.calculateUserName()} ></NotificationStudent>
