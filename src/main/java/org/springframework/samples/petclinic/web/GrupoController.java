@@ -87,6 +87,18 @@ public class GrupoController {
 		}
 	}
 	
+	@GetMapping("/allAsignableGroups/{nickUsuario}")
+	public ResponseEntity<List<String>> listaNombreGruposAsginablesPorAlumno(@PathVariable("nickUsuario") String nickUsuario, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);		
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
+			List<String> all =  grupoService.getAssignableGroupsByStudent(nickUsuario);
+			return ResponseEntity.ok(all);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
+	}
+	
 	@GetMapping("/allEmptyGroups")
 	public ResponseEntity<List<String>> listaNombreGruposVacios(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
@@ -98,6 +110,7 @@ public class GrupoController {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		}
 	}
+	
 	
 	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody Grupo resource, BindingResult result, HttpServletRequest request){

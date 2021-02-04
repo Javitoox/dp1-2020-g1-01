@@ -45,6 +45,10 @@ export default class AlumnoComponent extends Component{
 	getAlumnosEliminiables(urlBase){
         return axios.get(urlBase+"/alumnos/ableToDelete", {withCredentials: true}).then(res=>res.data);
 	}
+
+	getAlumnosSinGrupo(urlBase){
+        return axios.get(urlBase+"/alumnos/studentsWithNoGroups", {withCredentials: true}).then(res=>res.data);
+	}
 	
 	deleteAlumno(urlBase, nickUsuario){
 		return axios.delete(urlBase+"/alumnos/delete/"+nickUsuario, {withCredentials: true})

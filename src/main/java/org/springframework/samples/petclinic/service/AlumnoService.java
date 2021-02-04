@@ -42,10 +42,9 @@ public class AlumnoService {
 		alumnoRepository.delete(alumno);
 	}
 	@Transactional	
-	public void deleteStudent(String id) {
+	public void deleteStudent(String id) throws DataAccessException {
 		alumnoRepository.deleteById(id);
 	}
-	//esta es una mia 
 	@Transactional
 	public Alumno saveAlumno(Alumno alumno) throws DataAccessException {
 		return alumnoRepository.save(alumno);		
@@ -53,6 +52,10 @@ public class AlumnoService {
 	
     public List<Alumno> getStudentsByCourse(TipoCurso cursoDeIngles){
         return alumnoRepository.findStudentsByCourse(cursoDeIngles);
+    }
+    
+    public List<String> getStudentsWithNoGroups(){
+        return alumnoRepository.findSudentsWithNoGroups();
     }
    
     public List<Alumno>getAllMyStudents(String nickTutor){

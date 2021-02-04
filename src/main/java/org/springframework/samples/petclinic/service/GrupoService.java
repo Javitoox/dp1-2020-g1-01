@@ -53,6 +53,12 @@ public class GrupoService {
 		return ls;
 	}
 	
+	@Transactional(readOnly = true)
+	public List<String> getAssignableGroupsByStudent(String nickUsuario) {
+		List<String> ls = grupoRepository.findGroupsToAssign(nickUsuario);
+		return ls;
+	}
+	
 	@Transactional
 	public void saveGroup(Grupo grupo) throws DataAccessException{
 		this.grupoRepository.save(grupo);

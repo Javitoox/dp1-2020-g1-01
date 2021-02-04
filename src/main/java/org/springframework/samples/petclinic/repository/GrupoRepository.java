@@ -27,4 +27,8 @@ public interface GrupoRepository extends CrudRepository<Grupo, String>{
 	
 	@Query("SELECT g.alumnos FROM Grupo g WHERE g.nombreGrupo = :grupo")
 	public List<Alumno> numAlumnosGrupo(@Param("grupo") String grupo); 
+	
+	@Query("SELECT g.nombreGrupo FROM Grupo g WHERE g.nombreGrupo NOT IN (SELECT a.grupos.nombreGrupo FROM Alumno a where a.nickUsuario = :nickUsuario)")
+	public List<String> findGroupsToAssign(@Param("nickUsuario") String nickUsuario); 
+	
 }

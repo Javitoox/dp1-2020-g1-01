@@ -25,8 +25,7 @@ export class CreateGroup extends Component {
             cursoError:null,
             succes:null,
             exist:null,
-            comprobation: false,
-
+            comprobation: false
         }
         this.grupos = new GrupoComponent();
         this.save = this.save.bind(this);
@@ -35,12 +34,10 @@ export class CreateGroup extends Component {
     }
     save = event => {
         event.preventDefault();
-
         this.setState({
             nombreGrupoError:null,
             cursoError:null
         });
-
         const grupo = {
             nombreGrupo:this.state.grupoS.nombreGrupo,
             cursos:{
@@ -54,8 +51,6 @@ export class CreateGroup extends Component {
                 this.respuesta(res.status, res.data);
             })
         }
-        
-        
     }
     handleCI(event) {
         this.setState({
@@ -76,7 +71,6 @@ export class CreateGroup extends Component {
         }
         }});
     }
-
     respuesta(status, data){
         console.log(status);
         this.setState({
@@ -86,8 +80,7 @@ export class CreateGroup extends Component {
             console.log(data)
             this.error(data.field, data.defaultMessage)
         }else if(status===201){
-            this.setState({               
-
+            this.setState({
                 grupoS:{
                     nombreGrupo:"",
                     cursos:{
@@ -129,7 +122,6 @@ export class CreateGroup extends Component {
         if (!this.state.comprobation) {
             return <Auth authority="teacher"></Auth>
         }else{
-
         const courseSelectItems = [
             { label: 'A1', value: 'A1' },
             { label: 'A2', value: 'A2' },
@@ -139,14 +131,7 @@ export class CreateGroup extends Component {
             { label: 'C2', value: 'C2' },
             { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
         ];
-
-        console.log(this.state)
-
         return (
-
-            
-            
-
                 <div>
                     <div className="c">
                         <div className="login2 request2">
@@ -165,14 +150,14 @@ export class CreateGroup extends Component {
                                     <div className="i">
                                     {this.state.nombreGrupoError}
                                     <div className="p-inputgroup">
-                                    <InputText placeholder="NG" field="nombreGrupo" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
+                                    <InputText field="nombreGrupo" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
 
                                     </div>
                                     </div>
 
                                     <div className="b">
                                     <div className="i">
-                                    <Button className="p-button-secondary" label="OK" label="Guardar" icon="pi pi-fw pi-check"/>
+                                    <Button className="p-button-secondary" label="Save" icon="pi pi-fw pi-check"/>
 
                                     </div>
                                 </div>
