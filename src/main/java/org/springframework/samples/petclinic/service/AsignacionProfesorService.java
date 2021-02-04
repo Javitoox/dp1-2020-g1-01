@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AsignacionProfesorService {
 	
-	AsignacionProfesorRepository asignacionRep;
+	private AsignacionProfesorRepository asignacionRep;
 
 	@Autowired
 	public AsignacionProfesorService(AsignacionProfesorRepository asignacionRep) {

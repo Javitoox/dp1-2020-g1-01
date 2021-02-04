@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.repository;
 
-import static org.junit.Assert.assertTrue;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,7 +21,7 @@ public class AlumnoRepositoryTests {
 
 	private static Alumno a;
 
-	@Autowired
+	@Autowired 
 	protected AlumnoRepository alumnoRepository;
 
 	@Autowired
@@ -34,10 +35,10 @@ public class AlumnoRepositoryTests {
 
 
 	@BeforeEach
-	void data() {
+	void data() { 
 		a = new Alumno();
 		a.setNickUsuario("marrambla");
-		a.setFechaMatriculacion(LocalDate.now());
+		a.setFechaMatriculacion(LocalDate.of(2019, 03, 13));
 		a.setDniUsuario("99876566W");
 		a.setFechaNacimiento(LocalDate.of(2000, 06, 22));
 		a.setNombreCompletoUsuario("Maria Dolores Garcia");
@@ -51,7 +52,7 @@ public class AlumnoRepositoryTests {
 	void testReturnListWithStudents() {
 		alumnoRepository.save(a);
 		List<Alumno>alumnos = alumnoRepository.findStudents();
-		assertTrue(alumnos.size() > 0);
+        assertThat(alumnos.size()).isGreaterThan(0);
 	}
 
 	@Test
@@ -69,14 +70,14 @@ public class AlumnoRepositoryTests {
 		alumnoRepository.save(a);
 
 		List<Alumno>alumnos = alumnoRepository.findStudentsByCourse(TipoCurso.A1);
-		assertTrue(alumnos.size() > 0);
+        assertThat(alumnos.size()).isGreaterThan(0);
 	}
 
 	@Test
 	void testReturnStudentsByTutor() {
 		Tutor t = new Tutor();
 		t.setNickUsuario("javierV");
-		t.setFechaMatriculacion(LocalDate.now());
+		t.setFechaMatriculacion(LocalDate.of(2019, 03, 13));
 		t.setDniUsuario("99876566T");
 		t.setFechaNacimiento(LocalDate.of(2000, 06, 23));
 		t.setNombreCompletoUsuario("Javier Garcia");
@@ -90,7 +91,7 @@ public class AlumnoRepositoryTests {
 		alumnoRepository.save(a);
 
 		List<Alumno>alumnos = alumnoRepository.findStudentsByTutor(tutor.getNickUsuario());
-		assertTrue(alumnos.size() > 0);	
+        assertThat(alumnos.size()).isGreaterThan(0);
 	}
 	
 

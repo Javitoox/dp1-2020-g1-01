@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.repository;
 
-import static org.junit.Assert.assertTrue;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -34,14 +34,14 @@ public class SolicitudRepositoryTests {
 		a.setCorreoElectronicoUsuario("mariadeldolor@gmail.com");
 		a.setContraseya("Pollito009");
 		a.setNumTelefonoUsuario("698898989");
-		a.setFechaSolicitud(LocalDate.now());
+		a.setFechaSolicitud(LocalDate.of(2019, 03, 13));
 		alumnoRepository.save(a);
 	}
 
 	@Test
 	void testReturnStudentsNotAcceptedYet() {
 		List<Alumno> alumnosPending = solicitudRepository.findStudentsNotAcceptedYet();
-		assertTrue(alumnosPending.size() > 0);
+        assertThat(alumnosPending.size()).isGreaterThan(0);
 	}
 
 }

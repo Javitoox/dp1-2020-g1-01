@@ -307,6 +307,10 @@ class Alumnos extends Component {
                     { label: 'C2', value: 'C2' },
                     { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
                 ];
+
+            const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
+            const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
+
                 return (
                     <React.Fragment>
 
@@ -329,7 +333,11 @@ class Alumnos extends Component {
 
                             </div>
                             <div>&nbsp;</div>
-                            <DataTable value={this.state.alumnos}>
+                            <DataTable value={this.state.alumnos} paginator
+                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[5,10,20]}
+                            paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
+
                                 <Column header="Info" body={this.botonInfo}></Column>
                                 <Column field="nombreCompletoUsuario" header="Full name"></Column>
                                 <Column field="nickUsuario" header="Nickname"></Column>

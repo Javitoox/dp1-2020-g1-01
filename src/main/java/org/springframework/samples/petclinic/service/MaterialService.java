@@ -30,7 +30,7 @@ public class MaterialService {
 		this.profesorService = profesorService;
 		this.tipoMaterialService = tipoMaterialService;
 	}
-	
+	 
 	public List<Material> getMaterialPorProfesor(String nickProfesor){
 		return materialRepository.getMaterialByProfesor(nickProfesor);		
 	}
