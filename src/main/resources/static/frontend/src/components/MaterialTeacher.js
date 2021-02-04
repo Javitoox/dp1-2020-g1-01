@@ -77,6 +77,7 @@ import {Feedback} from './Feedback';
                 paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
 
                 <Column header="Material name" field="nombreMaterial"></Column>
+                <Column header="Type of Material" field="tipoMaterial.tipo"></Column>
                 <Column header="Upload date" field="fechaSubida"></Column>
                 <Column header="Preview" body={this.botonVerMaterial}></Column>
                 <Column header="Download" body={this.botonDescargarMaterial}></Column>

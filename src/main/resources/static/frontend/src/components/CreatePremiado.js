@@ -83,7 +83,7 @@ export class CreatePremiado extends Component{
         }else if(status===204){
             this.setState({nickNameError: <div className="alert alert-danger" role="alert">The username doesn't exists</div>})
         }else if(status===208){
-            this.setState({nickNameError: <div className="alert alert-danger" role="alert">This student is already added in this week</div>})
+            this.setState({nickNameError: <div className="alert alert-danger" role="alert">The student is already added in this week</div>})
         }
     }
 

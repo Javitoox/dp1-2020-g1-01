@@ -16,6 +16,9 @@ import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.repository.FeedbackRepository;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class FeedbackService {
 
@@ -33,6 +36,7 @@ public class FeedbackService {
 
 	
 	public void añadirAlumnoAMaterial(Integer idMaterial, @Valid Alumno alumno) {
+		log.info("Asignando el material con id ",idMaterial, " al alumno ",alumno.getNickUsuario());
 		Material m = materialService.findMaterialById(idMaterial);
 		Feedback f = new Feedback();
 		f.setAlumnos(alumno);
@@ -43,6 +47,7 @@ public class FeedbackService {
 	}
 	
 	public void deleteMaterial(Integer idMaterial) throws IOException {
+		log.info("Borrando el material con id: ", idMaterial);
 		Material m = materialService.findMaterialById(idMaterial);
 		List<Feedback> feedbacks = feedbackRepository.findFeedbackByMaterial(idMaterial);
 		for(Feedback f: feedbacks) {
@@ -66,6 +71,7 @@ public class FeedbackService {
 		Feedback f = feedbackRepository.findById(idFeedback).get();
 		Alumno a = f.getAlumnos();
 		f.setCompletado(!f.getCompletado());
+		log.info("Cambiando estado de completado de ", f.getCompletado(), " a ", !f.getCompletado());
 		if(f.getCompletado()) {
 			f.setDiaEntrega(LocalDate.now());
 			a.setNumTareasEntregadas(a.getNumTareasEntregadas()+1);

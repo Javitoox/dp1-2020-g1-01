@@ -96,7 +96,7 @@ public class PremiadoService {
 		}
 		
 		if(!descripcion.isEmpty()) {
-			log.info("Changing description: "+descripcion);
+			log.info("Cambiando descripcion: "+descripcion);
 			Optional<Premiado> p = premiadoRepository.findById(id);
 			if(p.isPresent()) {
 				Premiado premiado = p.get();
@@ -116,6 +116,8 @@ public class PremiadoService {
 			if(premiados.size() < 1) {
 				wallOfFameService.deleteWallOfFame(wall);
 			}
+		}else {
+			log.warn("El premiado con id ", id, " no existe");
 		}
 		
 	}
