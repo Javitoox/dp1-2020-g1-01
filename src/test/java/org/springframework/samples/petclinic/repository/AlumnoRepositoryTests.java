@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.repository;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -55,7 +56,6 @@ public class AlumnoRepositoryTests {
 		a.setContraseya("Pollito009");
 		a.setNumTelefonoUsuario("698898989");
 	}
-	
 	@Test
 	void testReturnStudentsByGroup() {
 		Curso c = new Curso();
