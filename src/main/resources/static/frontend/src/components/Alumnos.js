@@ -43,6 +43,7 @@ class Alumnos extends Component {
             formularioCrearGrupo: null,
             formularioDeleteGrupo: null,
             formularioAssginStudent:null,
+            displayConfirmation: false,
             listaGrupos:{
                 nombreGrupo: ""
             },
@@ -193,18 +194,16 @@ class Alumnos extends Component {
             return (    
                 <React.Fragment>
                                       
-                    <Button icon="pi pi-trash" className="p-button-rounded p-button-secondary p-mr-2"  onClick={() => this.deleteAlumno(rowData)}/>
+                    <Button icon="pi pi-trash" className="p-button-rounded p-button-secondary p-mr-2"  onClick={() => this.setState({seleccionado: rowData}, () => this.setState({displayConfirmation: true}))}/>
                 </React.Fragment>
             );
         }
      }     
         
     async deleteAlumno(data){
-        var result = window.confirm("Are you sure you want to delete the student?");
-        if(result){
             await this.alumnos.deleteAlumno(this.props.urlBase, data.nickUsuario);
             this.mostrarTabla()
-          }
+          
     }
     
     allGroupNames(){
@@ -273,6 +272,15 @@ class Alumnos extends Component {
         }
       }
 
+    renderFooter(){
+        return (
+            <div>
+                <Button label="No" icon="pi pi-times" onClick={() => this.setState({displayConfirmation: false})} className="p-button-text" />
+                <Button label="Yes" icon="pi pi-check" onClick={() => this.deleteAlumno(this.state.seleccionado)} autoFocus />
+            </div>
+        );
+    }
+
 
     render() {
         if (!this.state.comprobation) {
@@ -315,6 +323,12 @@ class Alumnos extends Component {
                         {this.state.formularioDeleteGrupo}  
                         {this.state.formularioAssginStudent}
 
+                        <Dialog header="Confirmation" visible={this.state.displayConfirmation} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation: false})}>
+                         <div className="confirmation-content">
+                             <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                               <span>Are you sure you want to delete the student?</span>
+                         </div>
+                         </Dialog>
                             <div>
                             <ListBox value={this.state.curso} options={courseSelectItems} onChange={(e) => this.showSelectCourse(e.value)} />
                             <div>&nbsp;</div>

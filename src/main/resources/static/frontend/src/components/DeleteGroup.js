@@ -5,6 +5,8 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import Auth from './Auth';
+import { Dialog } from 'primereact/dialog';
+
 
 export class DeleteGroup extends Component {
     constructor(props) {
@@ -17,6 +19,8 @@ export class DeleteGroup extends Component {
                 nombreGrupo: ""
             },
             comprobation: false,
+            displayConfirmation: false
+
 
         }
         this.grupos = new GrupoComponent();
@@ -28,7 +32,7 @@ export class DeleteGroup extends Component {
     delete = event => {
         event.preventDefault();
             if(this.state.grupoS.nombreGrupo===""){
-                window.alert("You must select a group")
+                this.setState({displayConfirmation: true})    
 
             }else{
                 axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, {withCredentials: true}).then(res => {
@@ -105,6 +109,12 @@ export class DeleteGroup extends Component {
             })
         this.grupos.getEmptyGroupNames().then(data => this.setState({ listaGrupos: data }));
     }
+    renderFooter(){
+        return (
+            <div>
+            </div>
+        );
+    }
 
     render() {
         if (!this.state.comprobation) {
@@ -120,6 +130,12 @@ export class DeleteGroup extends Component {
                             {this.state.succes}
                             {this.state.exist}
                             {this.form()}
+                        <Dialog header="Confirmation" visible={this.state.displayConfirmation} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation: false})}>
+                         <div className="confirmation-content">
+                             <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                               <span>You must select a course</span>
+                        </div>
+                        </Dialog>
                             </form>
                         </div>
                     </div>

@@ -5,6 +5,8 @@ import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
 import Auth from './Auth';
+import { Dialog } from 'primereact/dialog';
+
 
 
 
@@ -25,7 +27,8 @@ export class CreateGroup extends Component {
             cursoError:null,
             succes:null,
             exist:null,
-            comprobation: false
+            comprobation: false,
+            displayConfirmation: false
         }
         this.grupos = new GrupoComponent();
         this.save = this.save.bind(this);
@@ -45,7 +48,7 @@ export class CreateGroup extends Component {
             } 
         }
         if(this.state.grupoS.cursos.cursoDeIngles===""){
-            window.alert("You must select a course")
+            this.setState({displayConfirmation: true})    
         }else{
             axios.post("http://localhost:8081/grupos/new", grupo, {withCredentials: true}).then(res => {
                 this.respuesta(res.status, res.data);
@@ -118,6 +121,13 @@ export class CreateGroup extends Component {
         this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
     }
 
+    renderFooter(){
+        return (
+            <div>
+            </div>
+        );
+    }
+
     render() {
         if (!this.state.comprobation) {
             return <Auth authority="teacher"></Auth>
@@ -138,6 +148,14 @@ export class CreateGroup extends Component {
                             <form onSubmit={this.save}>
                             {this.state.succes}
                             {this.state.exist}
+
+                        <Dialog header="Confirmation" visible={this.state.displayConfirmation} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation: false})}>
+                         <div className="confirmation-content">
+                             <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                               <span>You must select a course</span>
+                        </div>
+                        </Dialog>
+
                                 <div className="t"><div><h5>Create Group</h5></div></div>
 
                                     <div className="i">

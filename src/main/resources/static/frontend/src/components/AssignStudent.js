@@ -6,6 +6,8 @@ import AlumnoComponent from './AlumnoComponent';
 import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
+import { Dialog } from 'primereact/dialog';
+
 
 
 
@@ -46,7 +48,9 @@ class AssignStudent extends Component  {
               
         cursoS:"",
         succes:null,
-        comprobation: false          
+        comprobation: false  ,
+        displayConfirmation: false
+        
     }
     nickUsuario(event) {
         this.setState({ nickUsuario: event.target.value });
@@ -123,8 +127,7 @@ class AssignStudent extends Component  {
                 
             }
             if(this.state.grupos.nombreGrupo===""){
-                window.alert("You must select a group")
-    
+                this.setState({displayConfirmation: true})    
             }else{
              axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
                 this.respuesta(res.status, res.data)
@@ -191,7 +194,14 @@ class AssignStudent extends Component  {
                 succes: <div className="alert alert-success" role="alert">Modified Succesfully</div>
             })
         }
-    }    
+    } 
+    renderFooter(){
+        return (
+            <div>
+            </div>
+        );
+    }
+   
     
     render() {
         return (
@@ -200,6 +210,12 @@ class AssignStudent extends Component  {
                     <div className="login2 request2">
                         <form onSubmit={this.assign}  >
                         {this.state.succes}
+                        <Dialog header="Confirmation" visible={this.state.displayConfirmation} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation: false})}>
+                         <div className="confirmation-content">
+                             <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                               <span>You must select a group</span>
+                         </div>
+                         </Dialog>
                             <div className="t"><div><h5>Assign Student</h5></div></div>
                             <div className="i">
                                 <div className="p-inputgroup">
