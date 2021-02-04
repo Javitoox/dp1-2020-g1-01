@@ -175,5 +175,17 @@ public class GrupoServiceTests {
 		when(alumnoService.getStudentsPerGroup(NOMBRE_GRUPO)).thenReturn(alumnos);
 		assertThat(grupoService.grupoVacio(NOMBRE_GRUPO)).isTrue();
 	}
+	
+	@Test
+	void shoulReturnFreeGroupsToAsignToAStudent() {
+		List<String> ls = new ArrayList<>();
+		String name1 = "Grupo1";
+		String name2 = "Grupo2";
+		ls.add(name1);
+		ls.add(name2);
+		when(grupoRepository.findGroupsToAssign("Fernando")).thenReturn(ls);
+		assertThat(grupoService.getAssignableGroupsByStudent("Fernando")).isNotEmpty();
+		assertThat(grupoService.getAssignableGroupsByStudent("Fernando").size()).isEqualTo(2);
+	}
 
 }

@@ -13,6 +13,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
@@ -40,7 +41,8 @@ public class PagosController {
 	
 	private final PagoService pagoService;
 	private final TipoPagoService tipoPagoService;
-
+	
+	@Autowired
 	public PagosController(PagoService pagoService, TipoPagoService tipoPagoService) {
 		this.pagoService = pagoService;
 		this.tipoPagoService = tipoPagoService;
