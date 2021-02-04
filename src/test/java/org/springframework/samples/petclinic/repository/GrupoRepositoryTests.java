@@ -31,11 +31,16 @@ public class GrupoRepositoryTests {
 	void setup() {
 		grupo = new Grupo();
 		grupo.setNombreGrupo("Grupo 1");
-		
 		Curso c = new Curso();
 		c.setCursoDeIngles(CURSO);
-		
 		grupo.setCursos(c);
+		
+		Grupo g = new Grupo();
+		g.setNombreGrupo("Grupo H");
+		g.setCursos(c);
+		grupoRepository.save(g);
+
+		
 		List<Alumno> alumnos = new ArrayList<>();
 		Alumno a = new Alumno();
 		a.setNickUsuario("Bebelyn");
@@ -61,6 +66,8 @@ public class GrupoRepositoryTests {
 
 		alumnos.add(a); alumnos.add(a1);
 		grupo.setAlumnos(alumnos);
+		
+		
 		grupoRepository.save(grupo);
 
 	}
@@ -93,6 +100,14 @@ public class GrupoRepositoryTests {
 	void shouldReturnAllGroupAlumns() {
 		List<Alumno> alumnos = grupoRepository.numAlumnosGrupo(grupo.getNombreGrupo());
 		assertThat(alumnos).isNotEmpty();
+	}
+	
+	@Test
+	void shoulReturnAllGroupNamesToAssignByStudent() {
+		List<String> grupoPorEstudiante = grupoRepository.findGroupsToAssign("Bebelyn");
+		assertThat(grupoPorEstudiante.size()).isGreaterThan(0);
+		assertThat(grupoPorEstudiante).isNotEmpty();
+
 	}
 }
 

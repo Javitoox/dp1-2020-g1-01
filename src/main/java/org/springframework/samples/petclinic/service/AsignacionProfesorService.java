@@ -41,7 +41,6 @@ public class AsignacionProfesorService {
 		
 	}
 	public AsignacionProfesor findAsignacionProfesor(AsignacionProfesorKey a) {
-		AsignacionProfesor ap= asignacionRep.findById(a).get();		
-		return ap;
+		return asignacionRep.findById(a).get();		
 	}
 }
