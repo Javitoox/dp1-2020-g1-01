@@ -14,6 +14,7 @@ export class UploadMaterial extends Component{
         super(props);
         this.state={
             file : null,
+            typeMaterial : "",
             source: [],
             target: [],
             material: null,
@@ -56,31 +57,35 @@ export class UploadMaterial extends Component{
             fileError:null
         })
         const formData = new FormData();
-        formData.append('pdf', this.state.file);
+        
         formData.append('tipoMaterial', this.state.typeMaterial);
+        formData.append('pdf', this.state.file);
         await this.materiales.crearMaterial(this.props.urlBase,this.props.nickUsuario,formData).then(res => this.respuesta(res.status, res.data));
-        this.state.target.forEach(e => this.materiales.asignarAlumnoMaterial(this.props.urlBase,this.state.material.id,e));
     }
 
     respuesta(status, data){
+        console.log(data)
+
         if(status === 203){
             data.forEach(e => this.error(e.field, e.defaultMessage))
-            console.log(data)
         }else{
+            this.state.target.forEach(e => this.materiales.asignarAlumnoMaterial(this.props.urlBase,this.state.material.id,e));
             this.setState({
                 material: data,
                 fileError: null,
                 typeMaterialError: null,
+                file: null,
+                tipoMaterial: "",
                 succes: <div className="alert alert-success" role="alert">Successful upload</div>
             })
+
         }
     }
 
     error(field,message){
         if(field === "pdf"){
-            this.setState({ fileError: <div className="alert alert-danger" role="alert">{message}</div> })
+            this.setState({ fileError: <div className="alert alert-danger" role="alert">Required field</div> })
         }else if(field === "tipoMaterial"){
-            console.log("hola")
             this.setState({ typeMaterialError: <div className="alert alert-danger" role="alert">{message}</div> })
         }
     }
@@ -116,8 +121,8 @@ export class UploadMaterial extends Component{
                     <div><h5>Upload a new material</h5></div>
                 </div>
 
+                {this.state.typeMaterialError}
                 <div className="i">
-                    {this.state.typeMaterialError}
                     <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-sort-down"></i>
@@ -140,7 +145,7 @@ export class UploadMaterial extends Component{
                         name="demo[]"
                         customUpload 
                         uploadHandler={this.file}
-                        accept="*"
+                        accept="application/pdf"
                         emptyTemplate={
                         <p className="p-m-0">Drag and drop file to here to upload.</p>
                     }

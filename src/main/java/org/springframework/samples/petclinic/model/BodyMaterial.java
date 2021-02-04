@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
-import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,9 +13,9 @@ import lombok.Setter;
 @Setter
 public class BodyMaterial {
 	
+	@NotBlank(message="Required field")
+	private String tipoMaterial;
+	
 	@NotNull
 	private MultipartFile pdf;
-	
-	@Valid
-	private TipoMaterial tipoMaterial;
 }

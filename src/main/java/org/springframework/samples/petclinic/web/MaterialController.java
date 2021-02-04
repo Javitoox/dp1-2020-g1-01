@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.BodyMaterial;
 import org.springframework.samples.petclinic.model.Material;
-import org.springframework.samples.petclinic.model.TipoMaterial;
 import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,9 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,12 +46,9 @@ public class MaterialController {
 		return ResponseEntity.ok(materialService.getMaterialPorAlumno(nickAlumno));
 	}
 	
-	@PostMapping(value="/añadirMaterial/{nickProfesor}")
+	@PostMapping(value="/añadirMaterial/{nickProfesor}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?>añadirMaterial(@PathVariable("nickProfesor") String nickProfesor, @Valid @ModelAttribute BodyMaterial body, BindingResult result) throws IOException{
 		if(result.hasErrors()) {
-			log.info("errores: ", result.getAllErrors());
-			log.info("errores2: ", result.getFieldErrors());
-
 			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		}else {
 			log.info("Añadiendo PDF con nombre: " + body.getPdf().getOriginalFilename());
