@@ -252,10 +252,10 @@ class Pagos extends Component {
     
                                 <div>&nbsp;</div>
                                 <div className="t6">
-                                <InputText className="form-control" placeholder="Search by name" value={this.state.text} onChange={this.filter} />
+                                <InputText className="form-input" placeholder="Search by name" value={this.state.text} onChange={this.filter} />
                                 {` `}
 
-                                <InputText className="form-control" placeholder="Search by DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
+                                <InputText className="form-input" placeholder="Search by DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
                                 </div>
                                 {` `}
                             <div>&nbsp;</div>

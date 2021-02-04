@@ -11,8 +11,6 @@ import org.springframework.samples.petclinic.repository.GrupoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.extern.slf4j.Slf4j;
-@Slf4j
 @Service
 public class GrupoService {
 	
@@ -52,7 +50,6 @@ public class GrupoService {
 	@Transactional(readOnly = true)
 	public List<String> getEmptyGroups() {
 		List<String> ls = grupoRepository.findAllEmptyGroups();
-		log.info("GRUPOSSS:", ls);
 		return ls;
 	}
 	

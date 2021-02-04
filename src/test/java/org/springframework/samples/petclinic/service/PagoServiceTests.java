@@ -6,7 +6,10 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,13 +26,15 @@ import org.springframework.samples.petclinic.repository.PagoRepository;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
-public class PagoServiceTest {
+public class PagoServiceTests {
 	
 	private static final String CONCEPTO = "Matricula";	
 	private static List<Alumno> ningunPago;
 	private static List<Alumno> alumnosPagados;
 	private static List<Alumno> alumnosMorosos;
-	
+	private static Set<String> conceptos;
+	private static List<String> alumnos;
+
 
 	private static Pago p;
 	
@@ -41,7 +46,6 @@ public class PagoServiceTest {
 	void data() {
 		p = new Pago();
 		TipoPago t = new TipoPago();
-		t.setTipo("BIZUM");
 		p.setId(1);
 		p.setTipo(t);
 		p.setConcepto(CONCEPTO);
@@ -59,6 +63,13 @@ public class PagoServiceTest {
 		
 		alumnosMorosos.add(m1);
 		alumnosMorosos.add(m2);
+		
+		conceptos = new HashSet<>();
+		conceptos.add(CONCEPTO);
+		
+		alumnos = new ArrayList<>();
+		alumnos.add(a1.getNickUsuario());
+		alumnos.add(a2.getNickUsuario());
 	}
 	
 	@BeforeEach
@@ -88,5 +99,46 @@ public class PagoServiceTest {
 		pagoService.savePayment(p);
 		verify(pagoRepository).save(p);		
 	} 
+	
+	@Test
+	void testAllPaymentNames() {
+		when(pagoRepository.allPagos()).thenReturn(conceptos);
+		Set<String> names = pagoService.getAllPayments();
+		assertThat(names).hasSize(1);
+		assertThat(names.iterator().next()).isEqualTo(CONCEPTO);
+	}
+	
+	@Test
+	void testStudentsByNoPagoIsNotEmpty() {
+		when(pagoRepository.findStudentByNoPago(CONCEPTO)).thenReturn(alumnosMorosos);
+		assertThat(pagoService.getStudentsNoPayment(CONCEPTO)).isNotEmpty();
+	}
 
+	
+	@Test
+	void testStudentsNamesByNoPago() {
+		when(pagoRepository.findNameStudentByNoPago()).thenReturn(alumnos);
+		List<String> names = pagoService.getNameStudentByNoPago();
+		assertThat(names).hasSize(2);
+		assertThat(names).isNotEmpty();
+	}
+	
+	@Test 
+	void testPaymentsNamesNotMadeByStudent() {
+		List<String> concepts = conceptos.stream().collect(Collectors.toList());
+		when(pagoRepository.findNoPaymentByStudent("Javiel")).thenReturn(concepts);
+		List<String> names  = pagoService.getNoPaymentByStudent("Javiel");
+		assertThat(names).hasSize(1);
+		assertThat(names).isNotEmpty();
+	}
+	
+	@Test
+	void testPaymentsMadeByStudent() {
+		List<Pago> pagos = new ArrayList<>();
+		pagos.add(p);
+		when(pagoRepository.findPaymentsByStudent("Javiel")).thenReturn(pagos);
+		List<Pago> allPagosMade = pagoService.getPaymentsByStudent("Javiel");
+		assertThat(allPagosMade).hasSize(1);
+		assertThat(allPagosMade).isNotEmpty();
+	}
 }

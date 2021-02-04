@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.repository;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -68,31 +68,31 @@ public class GrupoRepositoryTests {
 	@Test
 	void shouldReturnAllGroupNames() {
 		List<String> allGroupNames = grupoRepository.findAllGroupNames();
-		assertTrue(allGroupNames.size() != 0);
+		assertThat(allGroupNames).isNotEmpty();
 	}
 	
 	@Test
 	void shouldReturnGroupNamesByCourse() {
 		List<String> allGroupNamesByCourse = grupoRepository.findNameByCurso(CURSO);
-		assertTrue(allGroupNamesByCourse.size()>0);
+		assertThat(allGroupNamesByCourse).isNotEmpty();
 	}
 	
 	@Test
 	void shouldReturnAllCoursesByGroup() {
 		List<String> cursoPorGrupo = grupoRepository.findNameByGrupo(grupo.getNombreGrupo());
-		assertTrue(cursoPorGrupo.size()>0);
+		assertThat(cursoPorGrupo).isNotEmpty();
 	}
 	
 	@Test
 	void shouldReturnAllEmptyGroupNames() {
 		List<String> gruposVacios = grupoRepository.findAllEmptyGroups();
-		assertTrue(gruposVacios.size()>0);
+		assertThat(gruposVacios).isNotEmpty();
 	}
 	
 	@Test
 	void shouldReturnAllGroupAlumns() {
 		List<Alumno> alumnos = grupoRepository.numAlumnosGrupo(grupo.getNombreGrupo());
-		assertTrue(alumnos.size()>0);
+		assertThat(alumnos).isNotEmpty();
 	}
 }
 

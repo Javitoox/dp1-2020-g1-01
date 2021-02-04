@@ -125,12 +125,8 @@ public class PagosController {
 	@PostMapping("/new/{tipoPago}")
 	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, @PathVariable("tipoPago") String tipoPago ,BindingResult result, HttpServletRequest request){
 		HttpSession session = request.getSession(false);	
-		log.info("Pago"+resource);
 		TipoPago t = tipoPagoService.getType(tipoPago);
 		resource.setTipo(t);
-		log.info("Tipo pago"+resource.getTipo().toString());
-
-		log.info("Tipo pago mandadod"+ tipoPago);
 
 		if(session != null && session.getAttribute("type") == "profesor") {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
@@ -164,9 +160,7 @@ public class PagosController {
 				}
 				return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
-				
-//				Boolean noError = pagoService.assignPago(resource, tipoPago);
-				
+						
 					pagoService.savePayment(resource);				
 					return new ResponseEntity<>("Pago creado correctamente", HttpStatus.CREATED);
 

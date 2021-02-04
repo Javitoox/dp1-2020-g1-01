@@ -56,7 +56,6 @@ public class PagoControllerTests {
 		p = new Pago();
 		Alumno alumno = new Alumno();
 		TipoPago t = new TipoPago();
-		t.setTipo("BIZUM");
 		alumno.setNickUsuario("JaviMartinez7");
 		alumno.setContraseya("JaviKuka787");
 		alumno.setDniUsuario("45676787Y");
