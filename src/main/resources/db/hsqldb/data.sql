@@ -116,8 +116,13 @@ INSERT INTO walloffames(fechawall) VALUES ('2020-W45');
 INSERT INTO walloffames(fechawall) VALUES ('2020-W40');
 INSERT INTO walloffames(fechawall) VALUES ('2019-W12');
 INSERT INTO walloffames(fechawall) VALUES ('2019-W20');
-INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a very good job this week','Javi.jpg','Javi','2020-W50');
-INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a great job','Gonzalo.jpg','Gonzalo','2020-W51');
+INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a very good job this week','antoniope.jpg','antoniope','2020-W50');
+INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a very good job this week','maria125.jpg','maria125','2020-W51');
+INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a very good job this week','maria127.jpg','maria127','2020-W45');
+INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a very good job this week','maria128.jpg','maria128','2020-W50');
+INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a very good job this week','maria129.jpg','maria129','2020-W40');
+INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a very good job this week','maria130.jpg','maria130','2019-W12');
+INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a great job','Javi.jpg','Javi','2019-W20');
 
 INSERT INTO tipos_eventos(tipo) VALUES ('internal');
 INSERT INTO tipos_eventos(tipo) VALUES ('external');
@@ -152,15 +157,32 @@ INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (12,'
 
 INSERT INTO asignaciones_profesor VALUES ('MaribelJavi','grupo1', '2019-10-03');
 
-INSERT INTO tipos_materiales VALUES ('Video');
+INSERT INTO tipos_materiales VALUES ('Exam');
 INSERT INTO tipos_materiales VALUES ('Homework');
 
-INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (1,'2021-02-03','Worbu.pdf','MaribelJavi','Homework');
-INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (2,'2021-02-04','VERBS.pdf','MaribelJavi','Homework');
+INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (1,'2021-02-03','Relacion_colores.pdf','MaribelJavi','Homework');
+INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (2,'2021-02-04','Verbos_Irregulares.pdf','MaribelJavi','Homework');
+INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (3,'2021-02-04','colores.pdf','MaribelJavi','Homework');
+INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (4,'2021-02-04','Inglés-Primaria-Sexto-2.pdf','MaribelJavi','Homework');
+INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (5,'2021-02-04','Inglés-Primaria-Quinto-1.pdf','MaribelJavi','Exam');
+INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (6,'2021-02-04','1-primaria-1INGLES.pdf','MaribelJavi','Exam');
+INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (7,'2021-02-04','Days of the week.pdf','MaribelJavi','Homework');
+INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (8,'2021-02-04','Verbs tenses.pdf.pdf','MaribelJavi','Exam');
 
-INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(1,'A perfect way to learn','true','2020-10-03',5,'Javi',1);
-INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(2,'A perfect way to learn','true','2020-10-04',5,'Javi',2);
-INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(3,'A perfect way to learn','true','2020-10-04',5,'antoniope',2);
+
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(1,'A perfect way to learn','false',null,5,'Javi',1);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(2,'A perfect way to learn','false',null,2,'Javi',2);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(3,'A perfect way to learn','false',null,5,'maria125',2);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(4,'A perfect way to learn','false',null,4,'maria126',2);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(5,'A perfect way to learn','false',null,2,'maria127',1);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(6,'A perfect way to learn','false',null,2,'maria125',3);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(7,'A perfect way to learn','false',null,5,'maria127',3);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(8,'A perfect way to learn','false',null,3,'maria128',4);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(9,'A perfect way to learn','false',null,2,'maria128',5);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(10,'A perfect way to learn','false',null,4,'maria128',6);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(11,'A perfect way to learn','false',null,3,'maria126',7);
+INSERT INTO feedbacks(id,comentario, completado, dia_entrega,valoracion, alumnos_nick_usuario,materiales_id) values(12,'A perfect way to learn','false',null,2,'antoniope',7);
+
 
 
 

@@ -13,6 +13,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
@@ -40,7 +41,8 @@ public class PagosController {
 	
 	private final PagoService pagoService;
 	private final TipoPagoService tipoPagoService;
-
+	
+	@Autowired
 	public PagosController(PagoService pagoService, TipoPagoService tipoPagoService) {
 		this.pagoService = pagoService;
 		this.tipoPagoService = tipoPagoService;
@@ -85,7 +87,7 @@ public class PagosController {
 		}
 	}
 	
-	@GetMapping("/notPaidByStudent/{nickUsuario}") /*¿Quién puede acceder aquí?*/
+	@GetMapping("/notPaidByStudent/{nickUsuario}") 
 	public ResponseEntity<List<String>> listadoNoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario,  HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if(session != null && (session.getAttribute("type") == "alumno" || session.getAttribute("type") == "profesor" )) {
@@ -97,7 +99,7 @@ public class PagosController {
 		
 	}
 	
-	@GetMapping("/paidByStudent/{nickUsuario}") /*¿Quién puede acceder aquí?*/
+	@GetMapping("/paidByStudent/{nickUsuario}") 
 	public ResponseEntity<List<Pago>> listadoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario,  HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if(session != null && session.getAttribute("type") == "alumno" ) {
@@ -109,7 +111,7 @@ public class PagosController {
 		
 	}
 	
-	@GetMapping("/studentsNotPaid") /*¿Quién puede acceder aquí?*/
+	@GetMapping("/studentsNotPaid") 
 	public ResponseEntity<List<String>> listadoNombreAlumnoNoPago(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if(session != null && session.getAttribute("type") == "profesor") {
@@ -125,12 +127,8 @@ public class PagosController {
 	@PostMapping("/new/{tipoPago}")
 	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, @PathVariable("tipoPago") String tipoPago ,BindingResult result, HttpServletRequest request){
 		HttpSession session = request.getSession(false);	
-		log.info("Pago"+resource);
 		TipoPago t = tipoPagoService.getType(tipoPago);
 		resource.setTipo(t);
-		log.info("Tipo pago"+resource.getTipo().toString());
-
-		log.info("Tipo pago mandadod"+ tipoPago);
 
 		if(session != null && session.getAttribute("type") == "profesor") {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
@@ -164,9 +162,7 @@ public class PagosController {
 				}
 				return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
-				
-//				Boolean noError = pagoService.assignPago(resource, tipoPago);
-				
+						
 					pagoService.savePayment(resource);				
 					return new ResponseEntity<>("Pago creado correctamente", HttpStatus.CREATED);
 

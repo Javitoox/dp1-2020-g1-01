@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Evento;
-import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.EventoService;
 import org.springframework.samples.petclinic.util.DateEventValidator;
 import org.springframework.validation.BindingResult;
@@ -44,7 +43,7 @@ public class EventoController {
 	private final EventoService eventoService;
 	
 	@Autowired
-	public EventoController(EventoService eventoService, AlumnoService alumService) {
+	public EventoController(EventoService eventoService) {
 		this.eventoService = eventoService;
 	}
 	

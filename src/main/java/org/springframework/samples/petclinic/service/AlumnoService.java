@@ -70,15 +70,6 @@ public class AlumnoService {
     	return alumnoRepository.findStudentsAbleToDelete();
     }
      
-    public Boolean existStudent(String id){
-    	Alumno a = alumnoRepository.findById(id).orElse(null);
-    	if(a!=null) {
-    		return true;
-    	}else {
-    		return false;
-    	}
-    }
-     
     public void asignInscripcionesAlumnos(Evento evento, TipoCurso tipoCurso, String type) {
     	List<Alumno> alumnosCurso = getStudentsByCourse(tipoCurso);
 		Integer idInscripcion = inscripcionService.lastId()+1;

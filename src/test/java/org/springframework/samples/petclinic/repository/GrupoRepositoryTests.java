@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.repository;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,11 +31,16 @@ public class GrupoRepositoryTests {
 	void setup() {
 		grupo = new Grupo();
 		grupo.setNombreGrupo("Grupo 1");
-		
 		Curso c = new Curso();
 		c.setCursoDeIngles(CURSO);
-		
 		grupo.setCursos(c);
+		
+		Grupo g = new Grupo();
+		g.setNombreGrupo("Grupo H");
+		g.setCursos(c);
+		grupoRepository.save(g);
+
+		
 		List<Alumno> alumnos = new ArrayList<>();
 		Alumno a = new Alumno();
 		a.setNickUsuario("Bebelyn");
@@ -61,6 +66,8 @@ public class GrupoRepositoryTests {
 
 		alumnos.add(a); alumnos.add(a1);
 		grupo.setAlumnos(alumnos);
+		
+		
 		grupoRepository.save(grupo);
 
 	}
@@ -68,31 +75,39 @@ public class GrupoRepositoryTests {
 	@Test
 	void shouldReturnAllGroupNames() {
 		List<String> allGroupNames = grupoRepository.findAllGroupNames();
-		assertTrue(allGroupNames.size() != 0);
+		assertThat(allGroupNames).isNotEmpty();
 	}
 	
 	@Test
 	void shouldReturnGroupNamesByCourse() {
 		List<String> allGroupNamesByCourse = grupoRepository.findNameByCurso(CURSO);
-		assertTrue(allGroupNamesByCourse.size()>0);
+		assertThat(allGroupNamesByCourse).isNotEmpty();
 	}
 	
 	@Test
 	void shouldReturnAllCoursesByGroup() {
 		List<String> cursoPorGrupo = grupoRepository.findNameByGrupo(grupo.getNombreGrupo());
-		assertTrue(cursoPorGrupo.size()>0);
+		assertThat(cursoPorGrupo).isNotEmpty();
 	}
 	
 	@Test
 	void shouldReturnAllEmptyGroupNames() {
 		List<String> gruposVacios = grupoRepository.findAllEmptyGroups();
-		assertTrue(gruposVacios.size()>0);
+		assertThat(gruposVacios).isNotEmpty();
 	}
 	
 	@Test
 	void shouldReturnAllGroupAlumns() {
 		List<Alumno> alumnos = grupoRepository.numAlumnosGrupo(grupo.getNombreGrupo());
-		assertTrue(alumnos.size()>0);
+		assertThat(alumnos).isNotEmpty();
+	}
+	
+	@Test
+	void shoulReturnAllGroupNamesToAssignByStudent() {
+		List<String> grupoPorEstudiante = grupoRepository.findGroupsToAssign("Bebelyn");
+		assertThat(grupoPorEstudiante.size()).isGreaterThan(0);
+		assertThat(grupoPorEstudiante).isNotEmpty();
+
 	}
 }
 

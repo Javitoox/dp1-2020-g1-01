@@ -11,8 +11,6 @@ import org.springframework.samples.petclinic.repository.GrupoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.extern.slf4j.Slf4j;
-@Slf4j
 @Service
 public class GrupoService {
 	
@@ -76,7 +74,6 @@ public class GrupoService {
 	}
 	
 	public Integer numAlumnos(String nombreGrupo) {
-		Integer num = grupoRepository.numAlumnosGrupo(nombreGrupo).size();
-		return num;
+		return grupoRepository.numAlumnosGrupo(nombreGrupo).size();
 	}
 }

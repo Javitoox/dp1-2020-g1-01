@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -32,9 +33,9 @@ import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.model.Grupo;
+import org.springframework.samples.petclinic.model.Inscripcion;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.model.TipoEvento;
-import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.EventoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -49,9 +50,6 @@ public class EventoControllerTests {
 	@MockBean
 	private EventoService eventoService;
 	
-	@MockBean
-	private AlumnoService alumService;
-	
 	@Autowired
 	private MockMvc mockMvc;
 	
@@ -59,24 +57,30 @@ public class EventoControllerTests {
 	
 	private Alumno alumno;
 	
+	private Inscripcion inscripcion;
+	
 	@BeforeAll
 	void setup() {
+		inscripcion = new Inscripcion();
+		inscripcion.setFecha(LocalDate.now());
+		inscripcion.setRegistrado(true);
+		
 		evento = new Evento();
 		TipoEvento tipo = new TipoEvento();
-		//tipo.setTipo("internal");
 		evento.setTitle("El evento de prueba");
 		evento.setDescripcion("Que descripcion mas bonita");
 		evento.setTipo(tipo);
 		evento.setColor("red");
 		evento.setStart(LocalDate.of(2021, 01, 20));
 		evento.setEnd(LocalDate.of(2021, 01, 22));
-		//joder
+	
 		Curso curso = new Curso();
 		curso.setCursoDeIngles(TipoCurso.A1);
 		alumno = new Alumno();
  		Grupo grupo = new Grupo();
 		grupo.setCursos(curso);
 		grupo.setNombreGrupo("Grupo C4");
+		alumno.setGrupos(grupo);
 		alumno.setNickUsuario("JaviMartinez7");
 		alumno.setContraseya("JaviKuka787");
 		alumno.setDniUsuario("45676787Y");
@@ -86,7 +90,6 @@ public class EventoControllerTests {
 		alumno.setDireccionUsuario("Calle Pepe");
 		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
 		alumno.setFechaSolicitud(LocalDate.now());
-		alumno.setGrupos(grupo);
 	}
 	
 	@WithMockUser(value = "spring")
@@ -102,34 +105,28 @@ public class EventoControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowAllEventsNotAuth() throws Exception {
-		given(eventoService.getAll()).willReturn(new ArrayList<>());
-		
 		mockMvc.perform(get("/events/all").sessionAttr("type","usuario"))
 		.andExpect(status().isUnauthorized());
 	}
 	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testEventsByCourse() throws Exception {
-//		List<Evento> eventos = new ArrayList<>();
-//		eventos.add(evento);
-//		given(alumService.getAlumno(alumno.getNickUsuario())).willReturn(alumno);
-//		given(eventoService.getByCourse(alumno.getGrupos().getCursos())).willReturn(eventos);
-//		
-//		mockMvc.perform(get("/events/getByCourse/{nick}",alumno.getNickUsuario()).sessionAttr("type","alumno"))
-//		.andExpect(status().isOk())
-//		.andExpect(content().contentType(MediaType.APPLICATION_JSON));
-//	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testEventsByCourse() throws Exception {
+		List<Evento> eventos = new ArrayList<>();
+		eventos.add(evento);
+		given(eventoService.getAlumEvents(any())).willReturn(eventos);
+		
+		mockMvc.perform(get("/events/getByCourse/{nick}",alumno.getNickUsuario()).sessionAttr("type","alumno"))
+		.andExpect(status().isOk())
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+	}
 	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testEventsByCourseNotAuth() throws Exception {
-//		given(alumService.getAlumno(any())).willReturn(null);
-//		given(eventoService.getByCourse(any())).willReturn(null);
-//		
-//		mockMvc.perform(get("/events/getByCourse/{nick}",alumno.getNickUsuario()).sessionAttr("type","usuario"))
-//		.andExpect(status().isUnauthorized());
-//	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testEventsByCourseNotAuth() throws Exception {
+		mockMvc.perform(get("/events/getByCourse/{nick}",alumno.getNickUsuario()).sessionAttr("type","usuario"))
+		.andExpect(status().isUnauthorized());
+	}
 	
 	@WithMockUser(value = "spring")
 	@Test
@@ -154,9 +151,7 @@ public class EventoControllerTests {
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testUpdateEventNotAuth() throws Exception {
-		given(eventoService.updateDateEvent(any(), any(), any())).willReturn(evento);
-		
+	void testUpdateEventNotAuth() throws Exception {		
 		mockMvc.perform(put("/events/update/1/Thu Jan 07 2021 00:00:00 GMT+0100 (hora estándar de Europa central)/Thu Jan 09 2021 00:00:00 GMT+0100 (hora estándar de Europa central)")
 				.with(csrf()).sessionAttr("type","usuario"))
 		.andExpect(status().isUnauthorized());
@@ -167,7 +162,7 @@ public class EventoControllerTests {
 	void testGetDescription() throws Exception {
 		given(eventoService.getDescription(1)).willReturn("Description");
 		
-		mockMvc.perform(get("/events/description/{id}",1).sessionAttr("type","alumno"))
+		mockMvc.perform(get("/events/description/{id}",1).sessionAttr("type","profesor"))
 		.andExpect(status().isOk());
 	}
 	
@@ -176,16 +171,39 @@ public class EventoControllerTests {
 	void testGetDescriptionNull() throws Exception {
 		given(eventoService.getDescription(1)).willReturn(null);
 		
-		mockMvc.perform(get("/events/description/{id}",1).sessionAttr("type","alumno"))
+		mockMvc.perform(get("/events/description/{id}",1).sessionAttr("type","profesor"))
 		.andExpect(status().isNotFound());
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testGetDescriptionNotAuth() throws Exception {
-		given(eventoService.getDescription(1)).willReturn("amazing");
-		
 		mockMvc.perform(get("/events/description/{id}",1).sessionAttr("type","usuario"))
+		.andExpect(status().isUnauthorized());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testGetStudentDescription() throws Exception {
+		given(eventoService.getDescriptionAlumno(1, alumno.getNickUsuario())).willReturn("Description");
+		
+		mockMvc.perform(get("/events/descriptionAlumno/{id}/{nickUser}", 1, alumno.getNickUsuario()).sessionAttr("type","alumno"))
+		.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testGetStudentDescriptionNull() throws Exception {
+		given(eventoService.getDescriptionAlumno(1, alumno.getNickUsuario())).willReturn(null);
+		
+		mockMvc.perform(get("/events/descriptionAlumno/{id}/{nickUser}", 1, alumno.getNickUsuario()).sessionAttr("type","alumno"))
+		.andExpect(status().isNotFound());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testGetStudentDescriptionNotAuth() throws Exception {		
+		mockMvc.perform(get("/events/descriptionAlumno/{id}/{nickUser}", 1, alumno.getNickUsuario()).sessionAttr("type","usuario"))
 		.andExpect(status().isUnauthorized());
 	}
 	
@@ -207,80 +225,77 @@ public class EventoControllerTests {
 		verify(eventoService, times(0)).deleteDescription(any());
 	}
 	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testCreateEvent() throws Exception {
-//		given(eventoService.existEvent(any())).willReturn(false);
-//		given(eventoService.assignTypeAndSave(any(), any())).willReturn(true);
-//		
-//		mockMvc.perform(post("/events/create/{curso}", "A1")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(evento.toJson())
-//				.with(csrf()).sessionAttr("type","profesor"))
-//		.andExpect(status().isCreated());
-//	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testCreateEvent() throws Exception {
+		given(eventoService.existEvent(any())).willReturn(false);
+		given(eventoService.assignEvent(any(), any(), any())).willReturn(true);
+		
+		mockMvc.perform(post("/events/create/{curso}", "A1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(evento.toJson())
+				.with(csrf()).sessionAttr("type","profesor"))
+		.andExpect(status().isCreated());
+	}
 	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testCreateEventWithErrorsDate() throws Exception {
-//		Evento evento2 = new Evento();
-//		TipoEvento tipo2 = new TipoEvento();
-//		tipo2.setTipo("internal");
-//		evento2.setTitle("El evento de prueba");
-//		evento2.setDescripcion("Que descripcion mas bonita");
-//		evento2.setTipo(tipo2);
-//		evento2.setColor("red");
-//		evento2.setStart(LocalDate.of(2021, 01, 20));
-//		evento2.setEnd(LocalDate.of(2021, 01, 19));
-//		
-//		mockMvc.perform(post("/events/create/{curso}", "A1")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(evento2.toJson())
-//				.with(csrf()).sessionAttr("type","profesor"))
-//		.andExpect(status().isNonAuthoritativeInformation())
-//		.andExpect(jsonPath("$[0].field", is("start")));
-//	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testCreateEventWithErrorsDate() throws Exception {
+		Evento evento2 = new Evento();
+		TipoEvento tipo2 = new TipoEvento();
+		evento2.setTitle("El evento de prueba");
+		evento2.setDescripcion("Que descripcion mas bonita");
+		evento2.setTipo(tipo2);
+		evento2.setColor("red");
+		evento2.setStart(LocalDate.of(2021, 01, 20));
+		evento2.setEnd(LocalDate.of(2021, 01, 19));
+		
+		mockMvc.perform(post("/events/create/{curso}", "A1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(evento2.toJson())
+				.with(csrf()).sessionAttr("type","profesor"))
+		.andExpect(status().isNonAuthoritativeInformation())
+		.andExpect(jsonPath("$[0].field", is("start")));
+	}
 	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testCreateEventWithErrorsNullTitle() throws Exception {
-//		Evento evento2 = new Evento();
-//		TipoEvento tipo2 = new TipoEvento();
-//		tipo2.setTipo("internal");
-//		evento2.setDescripcion("Que descripcion mas bonita");
-//		evento2.setTipo(tipo2);
-//		evento2.setColor("red");
-//		evento2.setStart(LocalDate.of(2021, 01, 20));
-//		evento2.setEnd(LocalDate.of(2021, 01, 21));
-//		
-//		mockMvc.perform(post("/events/create/{curso}", "A1")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(evento2.toJson())
-//				.with(csrf()).sessionAttr("type","profesor"))
-//		.andExpect(status().isNonAuthoritativeInformation())
-//		.andExpect(jsonPath("$[0].field", is("title")));
-//	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testCreateEventWithErrorsNullTitle() throws Exception {
+		Evento evento2 = new Evento();
+		TipoEvento tipo2 = new TipoEvento();
+		evento2.setDescripcion("Que descripcion mas bonita");
+		evento2.setTipo(tipo2);
+		evento2.setColor("red");
+		evento2.setStart(LocalDate.of(2021, 01, 20));
+		evento2.setEnd(LocalDate.of(2021, 01, 21));
+		
+		mockMvc.perform(post("/events/create/{curso}", "A1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(evento2.toJson())
+				.with(csrf()).sessionAttr("type","profesor"))
+		.andExpect(status().isNonAuthoritativeInformation())
+		.andExpect(jsonPath("$[0].field", is("title")));
+	}
 	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testCreateEventWithErrorsNullCurso() throws Exception {
-//		Evento evento2 = new Evento();
-//		TipoEvento tipo2 = new TipoEvento();
-//		tipo2.setTipo("internal");
-//		evento2.setTitle("El evento de prueba");
-//		evento2.setDescripcion("Que descripcion mas bonita");
-//		evento2.setTipo(tipo2);
-//		evento2.setColor("red");
-//		evento2.setStart(LocalDate.of(2021, 01, 20));
-//		evento2.setEnd(LocalDate.of(2021, 01, 21));
-//		
-//		mockMvc.perform(post("/events/create/{curso}", "null")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(evento2.toJson())
-//				.with(csrf()).sessionAttr("type","profesor"))
-//		.andExpect(status().isNonAuthoritativeInformation())
-//		.andExpect(jsonPath("$[0].field", is("curso")));
-//	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testCreateEventWithErrorsNullCurso() throws Exception {
+		Evento evento2 = new Evento();
+		TipoEvento tipo2 = new TipoEvento();
+		evento2.setTitle("El evento de prueba");
+		evento2.setDescripcion("Que descripcion mas bonita");
+		evento2.setTipo(tipo2);
+		evento2.setColor("red");
+		evento2.setStart(LocalDate.of(2021, 01, 20));
+		evento2.setEnd(LocalDate.of(2021, 01, 21));
+		
+		mockMvc.perform(post("/events/create/{curso}", "null")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(evento2.toJson())
+				.with(csrf()).sessionAttr("type","profesor"))
+		.andExpect(status().isNonAuthoritativeInformation())
+		.andExpect(jsonPath("$[0].field", is("curso")));
+	}
 	
 	@WithMockUser(value = "spring")
 	@Test
@@ -295,18 +310,28 @@ public class EventoControllerTests {
 		.andExpect(jsonPath("$", is("The event already exists")));
 	}
 	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testCreateEventWithErrorsExistType() throws Exception {
-//		given(eventoService.existEvent(any())).willReturn(false);
-//		given(eventoService.assignTypeAndSave(any(), any())).willReturn(false);
-//		
-//		mockMvc.perform(post("/events/create/{curso}", "A1")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(evento.toJson())
-//				.with(csrf()).sessionAttr("type","profesor"))
-//		.andExpect(status().isOk())
-//		.andExpect(jsonPath("$", is("Type not exist")));
-//	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testCreateEventWithErrorsExistType() throws Exception {
+		given(eventoService.existEvent(any())).willReturn(false);
+		given(eventoService.assignEvent(any(), any(), any())).willReturn(false);
+		
+		mockMvc.perform(post("/events/create/{curso}", "A1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(evento.toJson())
+				.with(csrf()).sessionAttr("type","profesor"))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$", is("Type or course not exist")));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testCreateEventNotAuth() throws Exception {
+		mockMvc.perform(post("/events/create/{curso}", "A1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(evento.toJson())
+				.with(csrf()).sessionAttr("type","usuario"))
+		.andExpect(status().isUnauthorized());
+	}
 	
 }

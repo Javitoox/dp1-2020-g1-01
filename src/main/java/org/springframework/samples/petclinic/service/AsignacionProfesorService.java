@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AsignacionProfesorService {
 	
-	AsignacionProfesorRepository asignacionRep;
+	private AsignacionProfesorRepository asignacionRep;
 
 	@Autowired
 	public AsignacionProfesorService(AsignacionProfesorRepository asignacionRep) {
@@ -41,8 +41,7 @@ public class AsignacionProfesorService {
 		
 	}
 	public AsignacionProfesor findAsignacionProfesor(AsignacionProfesorKey a) {
-		AsignacionProfesor ap= asignacionRep.findById(a).get();		
-		return ap;
+		return asignacionRep.findById(a).get();		
 	}
 	public List<String> findAsignacionProfesor(String a) {
 		List<String> ap= asignacionRep.getAsignacionesByGroup(a);		

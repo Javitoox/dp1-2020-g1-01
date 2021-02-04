@@ -5,7 +5,6 @@ import PagoComponent from './PagoComponent';
 import { InputText } from 'primereact/inputtext';
 
 import axios from 'axios';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
@@ -130,7 +129,7 @@ export class RealizarPago extends Component {
                                     <div className="i">
                                     {this.state.usernameError}
                                     <div className="p-inputgroup">
-                                    <Dropdown field="pago.nickUsuario" name="pago.nickUsuario" value={this.state.nickUsuario} placeholder="Select a student" options={this.allStudentsNames()} onChange={this.handlePU} />
+                                    <Dropdown field="pago.nickUsuario" name="pago.nickUsuario" value={this.state.nickUsuario} placeholder=" a student" options={this.allStudentsNames()} onChange={this.handlePU} />
     
                                     </div>
                                     </div>
@@ -168,7 +167,7 @@ export class RealizarPago extends Component {
             <div className="i">
             {this.state.usernameError}
             <div className="p-inputgroup">
-            <InputText field="pago.nickUsuario" name="pago.nickUsuario" value={this.state.nickUsuario} placeholder="Select a student"  onChange={this.handlePU} />
+            <InputText field="pago.nickUsuario" name="pago.nickUsuario" value={this.state.nickUsuario} placeholder="Enter a student's username"  onChange={this.handlePU} />
 
             </div>
             </div>
@@ -247,6 +246,7 @@ export class RealizarPago extends Component {
        this.pagos.getNameStudentByNoPago().then(data => this.setState({ listaNombres: data }))
 
     }
+
     allConceptNames(){
         var t=this.state.listaConcepto
         var i=0
@@ -339,9 +339,3 @@ export class RealizarPago extends Component {
         }
     }
 }
-function mapStateToProps(state) { 
-    return {
-        uselected: state.uselected
-    }
-}
-export default connect(mapStateToProps)(RealizarPago)

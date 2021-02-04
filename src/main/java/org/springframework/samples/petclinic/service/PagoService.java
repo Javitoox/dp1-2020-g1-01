@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Pago;
-import org.springframework.samples.petclinic.model.TipoPago;
 import org.springframework.samples.petclinic.repository.PagoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PagoService {
 	
 	PagoRepository pagoRepository;
-	private TipoPagoService tipoPagoService;
 	
 	@Autowired
 	public PagoService(PagoRepository pagoRepository) {
@@ -53,25 +51,6 @@ public class PagoService {
 		pagoRepository.save(pago);
 			
 	}
-	
-	@Transactional
-	public Boolean assignPago(Pago pago, String type) throws DataAccessException{
-		TipoPago t = tipoPagoService.getType(type);
-		if(t != null) {
-			pago.setTipo(t);
-			pagoRepository.save(pago);
-			return true;
-		}else {
-			return false;
-		}
-	}
-	
-
-
-    
-    
-    
-    
     
 }
 

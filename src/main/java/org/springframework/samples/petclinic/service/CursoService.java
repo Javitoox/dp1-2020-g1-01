@@ -9,10 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class CursoService {
 
+    private CursoRepository cursoRepository;
+    
     @Autowired
-    CursoRepository cursoRepository;
+    public CursoService(CursoRepository cursoRepository) {
+    	this.cursoRepository = cursoRepository;
+    }
     
     public Curso getCourseById(TipoCurso nombreCurso) {
     	return cursoRepository.findById(nombreCurso).orElse(null);
     }
+    
 }

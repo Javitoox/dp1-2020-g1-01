@@ -10,22 +10,23 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Curso;
+import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(MockitoExtension.class) 
 @TestInstance(Lifecycle.PER_CLASS)
 public class AlumnoServiceTests {
 
@@ -44,6 +45,10 @@ public class AlumnoServiceTests {
 	@Mock
 	private AlumnoRepository alumnoRepository;
 	
+	@Mock
+	private InscripcionService inscripcionService;
+	
+	@InjectMocks
 	protected AlumnoService alumnoService;
 
 	@BeforeAll
@@ -52,6 +57,9 @@ public class AlumnoServiceTests {
 		emptyGroup.setNombreGrupo("Grupo A");
 		notEmptyGroup = new Grupo();
 		notEmptyGroup.setNombreGrupo("Grupo B");
+		Curso c = new Curso();
+		c.setCursoDeIngles(TipoCurso.B1);
+		notEmptyGroup.setCursos(c);
 		Alumno a = new Alumno();
 		a.setGrupos(notEmptyGroup);
 
@@ -61,12 +69,6 @@ public class AlumnoServiceTests {
 		alumnosEmpty= new ArrayList<Alumno>();	
 	
 	}
-	
-	@BeforeEach
-	void setup() {
-		alumnoService= new AlumnoService(alumnoRepository, null);
-	}
-	
 	
 	@Test
 	void shouldShowStudentsListIsNotEmpty() {
@@ -179,4 +181,75 @@ public class AlumnoServiceTests {
 		
 		verify(alumnoRepository, times(1)).save(any());
 	 }
+	
+	@Test
+	void shouldAsignInscripcionesAlumnos() {
+		Evento e = new Evento();
+		when(inscripcionService.lastId()).thenReturn(3);
+		when(alumnoRepository.findStudentsByCourse(CURSO_NOT_EMPTY)).thenReturn(alumnosNotEmpty);
+		
+		alumnoService.asignInscripcionesAlumnos(e, CURSO_NOT_EMPTY, "internal");
+		
+		verify(inscripcionService, times(1)).saveInscripcion(any());
+	 }
+	
+	@Test
+	void shouldAsignInscripcionesAlumnosNotAsignInscripciones() {
+		Evento e = new Evento();
+		when(inscripcionService.lastId()).thenReturn(3);
+		when(alumnoRepository.findStudentsByCourse(CURSO_EMPTY)).thenReturn(alumnosEmpty);
+		
+		alumnoService.asignInscripcionesAlumnos(e, CURSO_EMPTY, "internal");
+		
+		verify(inscripcionService, times(0)).saveInscripcion(any());
+	 }
+	
+	@Test
+	void shoulDeleteStudent() {
+		Alumno a = new Alumno();
+		a.setNickUsuario("Felipe");
+		a.setContraseya("NahDeLocos99");
+		a.setDniUsuario("20502441B");
+		a.setCorreoElectronicoUsuario("felipe@gmail.com");
+		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
+		a.setNombreCompletoUsuario("Felipe Gonzalez Garcia");
+		a.setNumTelefonoUsuario("622110555");
+		alumnoService.deleteStudents(a);
+		
+		verify(alumnoRepository, times(1)).delete(any());
+	}
+	
+	@Test
+	void shouldDeleteStudentById() {
+		Alumno a = new Alumno();
+		a.setNickUsuario("Felipe");
+		a.setContraseya("NahDeLocos99");
+		a.setDniUsuario("20502441B");
+		a.setCorreoElectronicoUsuario("felipe@gmail.com");
+		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
+		a.setNombreCompletoUsuario("Felipe Gonzalez Garcia");
+		a.setNumTelefonoUsuario("622110555");
+		alumnoService.deleteStudent(a.getNickUsuario());
+		verify(alumnoRepository, times(1)).deleteById("Felipe");
+
+	}
+	
+	@Test
+	void shouldReturnAllStudentsNamesWithNoGroups() {
+		List<String> allNames = new ArrayList<>();
+		allNames.add("Manuel Resinas"); allNames.add("Sergio Segura");
+		when(alumnoRepository.findSudentsWithNoGroups()).thenReturn(allNames);
+		assertThat(alumnoService.getStudentsWithNoGroups().size()).isGreaterThan(0);
+		assertThat(alumnoService.getStudentsWithNoGroups().size()).isEqualTo(2);
+	}
+	
+	@Test
+	void shoulReturnAllStudentsNameAbleToDelete(){
+		List<String> students = new ArrayList<>();
+		students.add("Maribel"); students.add("Javidekuka");
+		when(alumnoRepository.findStudentsAbleToDelete()).thenReturn(students);
+		assertThat(alumnoService.getStudentsToDelete().size()).isEqualTo(2);
+		assertThat(alumnoService.getStudentsToDelete()).isNotEmpty();
+
+	}
 }
