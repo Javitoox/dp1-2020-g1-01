@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import { Solicitudes } from './components/Solicitudes'
 import './index.css'
 import Login from './components/Login'
@@ -26,8 +26,8 @@ import { CalendarioAlumno } from './components/CalendarioAlumno'
 import  NotificationProfesor from './components/NotificationProfesor'
 import {MaterialTeacher} from './components/MaterialTeacher'
 import {MaterialStudent} from './components/MaterialStudent'
-
-
+import HomePrevioProfesor from './components/HomePrevioProfesor'
+import Auth from './components/Auth'
 class App extends Component {
 
 	changeType = this.changeType.bind(this)
@@ -48,6 +48,7 @@ class App extends Component {
 
 	componentDidMount(){
 		this.setState({userType: getUserType()})
+		
 	}
 
 	calculateUserName() {
@@ -57,7 +58,6 @@ class App extends Component {
 	render() {
 
 		return (
-			
 			<Router>
 				<MenubarResponsive tipoDeUsuario={this.state.userType} onChange={this.changeType} urlBase={this.state.urlBase}></MenubarResponsive>
 				<Route path="/home" render={() =>
@@ -126,8 +126,11 @@ class App extends Component {
 				<Route path="/materialsStudent" render={() =>
 					<MaterialStudent urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
 				} />
-				
+				<Route path="/" exact render={() =>
+					<HomePrevioProfesor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
+				} />
 			</Router>
+			
 		)
 	}
 }
