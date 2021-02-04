@@ -52,7 +52,12 @@ public class GrupoService {
 	@Transactional(readOnly = true)
 	public List<String> getEmptyGroups() {
 		List<String> ls = grupoRepository.findAllEmptyGroups();
-		log.info("GRUPOSSS:", ls);
+		return ls;
+	}
+	
+	@Transactional(readOnly = true)
+	public List<String> getAssignableGroupsByStudent(String nickUsuario) {
+		List<String> ls = grupoRepository.findGroupsToAssign(nickUsuario);
 		return ls;
 	}
 	

@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.AsignacionProfesor;
+import org.springframework.samples.petclinic.model.AsignacionProfesorKey;
 import org.springframework.samples.petclinic.service.AsignacionProfesorService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +61,8 @@ public class AsignacionesProfesorController {
 			 }
     }
 	
+	
+	
 	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result, HttpServletRequest request){
 		HttpSession session = request.getSession(false);
@@ -83,5 +87,22 @@ public class AsignacionesProfesorController {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 			 }
 	}
+	@DeleteMapping("/delete/{nickProfesor}/{nombreGrupo}")
+	public ResponseEntity<?> deleteGroup(@PathVariable("nickProfesor") String resource,@PathVariable("nombreGrupo") String resource2, HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		AsignacionProfesorKey a = new AsignacionProfesorKey();
+		a.setNickProfesor(resource);
+		a.setNombreGrupo(resource2);
+		log.info("Request:"+ resource);
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
+			log.info("Solicitando borrar asignacion: {}", resource);
+			asignacionS.deleteAsignacion(a);
+			return new ResponseEntity<>("Asignacion eliminada correctamente", HttpStatus.OK);
+					
+		}else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+			}
+		}
 
 }

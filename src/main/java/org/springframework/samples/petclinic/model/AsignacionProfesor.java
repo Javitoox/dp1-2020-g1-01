@@ -28,7 +28,7 @@ public class AsignacionProfesor {
 	@JoinColumn(name = "nick_profesor")
 	private Profesor profesor;
 	
-	@ManyToOne(cascade=CascadeType.ALL, optional=true)
+	@ManyToOne(optional=true)
     @MapsId("nombreGrupo")
 	@JoinColumn(name = "nombre_grupo")
 	private Grupo grupo;

@@ -10,10 +10,6 @@ import moment from 'moment';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 
-
-
-
-
 export class RealizarPago extends Component {
     constructor(props) {
         super(props);
@@ -69,20 +65,14 @@ export class RealizarPago extends Component {
         
     }
     handleP(event) {
-        this.setState({
-           
-            concepto:event.target.value
-            
-            
+        this.setState({           
+            concepto:event.target.value            
         });
     }
 
     handlePU(event) {
-        this.setState({
-           
-            nickUsuario:event.target.value
-            
-            
+        this.setState({           
+            nickUsuario:event.target.value            
         });
         this.pagos.getNotPaidByStudent(event.target.value).then(data => this.setState({ listaConcepto: data }));  
 
@@ -102,13 +92,11 @@ export class RealizarPago extends Component {
     
     form(option){
         const tipoPagoSelectItems = [
-            { label: 'bizum', value: 'bizum' },
-            { label: 'Tranferencia bancaria', value: 'TRANSFERENCIA BANCARIA' },
-            { label: 'Efectivo', value: 'EFECTIVO' }
+            { label: 'BIZUM', value: 'bizum' },
+            { label: 'Tranferencia bancaria', value: 'transferencia' },
+            { label: 'Efectivo', value: 'efectivo' }
         ];
         if(option===""){
-
-
                 return <div>
                 <div className="t"><div><h5>Register Payment</h5></div></div>
                 <div className="t6">
@@ -119,13 +107,9 @@ export class RealizarPago extends Component {
                 </div>
                 </div>
                 </div>
-                
-            
-            
 
         }else if(option==="op1"){
             if(this.state.nickUsuario===""){
-
                 return <div>
                 <div className="t"><div><h5>Register Payment</h5></div></div>
     
@@ -136,9 +120,7 @@ export class RealizarPago extends Component {
                 </div>
                 </div>
                 </div>
-    
-    
-    
+                
             }else{
                 
     
@@ -164,7 +146,7 @@ export class RealizarPago extends Component {
                                     <div className="i">
                                     {this.state.tipoError}
                                     <div className="p-inputgroup">
-                                    <Dropdown field="tipo.tipo" name="tipo.tipo" value={this.state.type} placeholder="Select a payment type" options={["bizum"]} onChange={this.handlePI} />
+                                    <Dropdown field="tipo.tipo" name="tipo.tipo" value={this.state.type} placeholder="Select a payment type" options={tipoPagoSelectItems} onChange={this.handlePI} />
     
                                     </div>
                                     </div>
@@ -175,8 +157,7 @@ export class RealizarPago extends Component {
     
                                     </div>
                                 </div>
-                                </div>
-    
+                            </div>   
     
             }
 
@@ -215,28 +196,17 @@ export class RealizarPago extends Component {
             </div>
         </div>
         </div>
-
-           
-
-        }
-       
-    }
-    
+        }       
+    }    
     
     handleF(event) {
         this.setState({
-
             fecha:event.target.value
-
         });
     }
     handleNU(event) {
-
         this.setState({
-
            nickUsuario:event.target.value
-
-           
         });
     }
 
@@ -302,15 +272,11 @@ export class RealizarPago extends Component {
     }
 
     render() {
-        console.log(this.state)
-        
+
         if(this.state.opcion===""){
 
             return (
                 <React.Fragment>
-
-
-                
 
                 <div>
                     <div className="c">
@@ -334,9 +300,6 @@ export class RealizarPago extends Component {
 
             return (
                 <React.Fragment>
-                                  
-                
-
                 <div>
                     <div className="c">
                         <div className="login request">
@@ -344,8 +307,7 @@ export class RealizarPago extends Component {
     
                             {this.state.succes}
                             {this.state.exist}
-                            {this.form("op1")}
-    
+                            {this.form("op1")}    
                                 
                             </form>
                         </div>
@@ -353,15 +315,11 @@ export class RealizarPago extends Component {
                 </div>
                 </React.Fragment>
             );
-           
 
         }else if(this.state.opcion==="op2"){
 
             return (
                 <React.Fragment>
-                                 
-
-                
 
                 <div>
                     <div className="c">
@@ -370,8 +328,7 @@ export class RealizarPago extends Component {
     
                             {this.state.succes}
                             {this.state.exist}
-                            {this.form("op2")}
-    
+                            {this.form("op2")}    
                                 
                             </form>
                         </div>
@@ -379,21 +336,12 @@ export class RealizarPago extends Component {
                 </div>
                 </React.Fragment>
             );
-
         }
-
-            
-
-            
-
-        
-        
     }
 }
-function mapStateToProps(state) { //metodo para poder pillar datos del store
+function mapStateToProps(state) { 
     return {
-        uselected: state.uselected //le pasamos a nuestra variable student la informacion del estudiante almacenada en el store
+        uselected: state.uselected
     }
 }
-
 export default connect(mapStateToProps)(RealizarPago)

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.AsignacionProfesor;
+import org.springframework.samples.petclinic.model.AsignacionProfesorKey;
 import org.springframework.samples.petclinic.repository.AsignacionProfesorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,5 +33,15 @@ public class AsignacionProfesorService {
 	@Transactional
 	public void saveAsignacion(AsignacionProfesor a) throws DataAccessException{
 		asignacionRep.save(a);
+	}
+	
+	@Transactional
+	public void deleteAsignacion(AsignacionProfesorKey a) throws DataAccessException{
+		asignacionRep.deleteById(a);
+		
+	}
+	public AsignacionProfesor findAsignacionProfesor(AsignacionProfesorKey a) {
+		AsignacionProfesor ap= asignacionRep.findById(a).get();		
+		return ap;
 	}
 }

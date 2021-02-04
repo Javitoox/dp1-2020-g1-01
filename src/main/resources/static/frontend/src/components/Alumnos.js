@@ -48,6 +48,12 @@ class Alumnos extends Component {
             },
             listaEliminables:{
                
+            },
+            listaSinGrupos:{
+               
+            },
+            listaAllGrupos:{
+               
             }
             
         }
@@ -77,6 +83,7 @@ class Alumnos extends Component {
         })
         this.mostrarTabla();
         this.alumnos.getAlumnosEliminiables(this.props.urlBase).then(data =>  this.setState({ listaEliminables: data }) );
+        this.alumnos.getAlumnosSinGrupo(this.props.urlBase).then(data =>  this.setState({ listaSinGrupos: data }) );
     }
 
     boton(rowData) {
@@ -114,7 +121,7 @@ class Alumnos extends Component {
         this.setState({
             formularioAssginStudent: 
             <Dialog visible={true} style={{ width: '40vw'}} onHide={() => this.setState({formularioAssginStudent: null})}>
-                <AssignStudent urlBase={this.props.urlBase}></AssignStudent>
+                <AssignStudent urlBase={this.props.urlBase} list={this.state.listaSinGrupos} listaAll={this.allGroupNames()} tut={''}></AssignStudent>
             </Dialog>
         });
         this.mostrarTabla();
@@ -133,8 +140,6 @@ class Alumnos extends Component {
             redirect: "/editStudent",
         
     });
-
-   
 }
      
     botonAssign(rowData) {
@@ -143,14 +148,9 @@ class Alumnos extends Component {
                 <Button icon="pi pi-plus-circle" className="p-button-rounded p-button-secondary p-mr-2" onClick={() => this.formAssignStudent(rowData)} />
             </React.Fragment>
         );
-    }
-    
-
-
-   
+    }   
     
     showSelectCourse(course) {
-        console.log(course);
         if (course !== null) {
 
             this.setState({ curso: course });
@@ -164,10 +164,8 @@ class Alumnos extends Component {
 
             }
         }
-        console.log(this.state.alumnos);
     }
     showSelectGroup(group) {
-        console.log(group);
         if (group !== null) {
             this.setState({ grupo: group });
             if (group === "allGroups") {
@@ -177,11 +175,11 @@ class Alumnos extends Component {
                 this.alumnos.getStudentsByNameOfGroup(this.props.urlBase, group).then(data => this.setState({ alumnos: data }));
             }
         }
-    }
-
-   
+    }   
     
-   
+    mostrarTabla(){
+        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+    }
 
     botonDelete(rowData) {
         var s= this.state.listaEliminables
@@ -191,8 +189,7 @@ class Alumnos extends Component {
             list.push(s[i]);
             i+=1
         }
-        if(list.includes(String(rowData.nickUsuario)))     {
-            
+        if(list.includes(String(rowData.nickUsuario))){            
             return (    
                 <React.Fragment>
                                       
@@ -200,26 +197,17 @@ class Alumnos extends Component {
                 </React.Fragment>
             );
         }
-     }
-
-     
-    mostrarTabla(){
-        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
-    }
-     
+     }     
+        
     async deleteAlumno(data){
         var result = window.confirm("Are you sure you want to delete the student?");
         if(result){
             await this.alumnos.deleteAlumno(this.props.urlBase, data.nickUsuario);
             this.mostrarTabla()
           }
-     }
-        
-
+    }
     
     allGroupNames(){
-        var s = this.state.listaEliminables
-        console.log(s)
         var t=this.state.listaGrupos
         var i=0
         var groupSelectItems = [
@@ -230,10 +218,8 @@ class Alumnos extends Component {
             { label: String(t[i]) , value: String(t[i]) })        
         i+=1
         }
-        console.log(this.state)
         return groupSelectItems
     }
-
 
     botonInfo(rowData){
         return(
@@ -245,12 +231,9 @@ class Alumnos extends Component {
         );
     }
 
-
     mostrarInfoStudent(rowData){
-        console.log(rowData)
         this.setState({rowDataInfo: rowData})
-      }
-
+    }
 
     mostrarInfo(){
         if(this.state.rowDataInfo != null){
@@ -272,7 +255,7 @@ class Alumnos extends Component {
         }
       }
 
-      mostrarDatosTutor(rowData){
+    mostrarDatosTutor(rowData){
         if(rowData.tutores != null){
           return(
             <React.Fragment>
@@ -296,33 +279,14 @@ class Alumnos extends Component {
             return <Auth authority="teacher"></Auth>
         } else {
             if (this.state.redirect) {
-                if(this.state.redirect==="/createGroup"){
-                    return <Redirect
-                    to={{
-                    pathname: "/createGroup"
-                    }}
-                />
-            
-                }else if(this.state.redirect==="/deleteGroup"){
-                    return <Redirect
-                    to={{
-                    pathname: "/deleteGroup"
-                    }}
-                />
-            
-                }else if(this.state.redirect==="/editStudent"){
+
+                if(this.state.redirect==="/editStudent"){
                     return <Redirect
                     to={{
                     pathname: "/editStudent"
                     }}
                 /> 
                 
-                }else if(this.state.redirect==="/assignStudent"){
-                    return <Redirect
-                    to={{
-                    pathname: "/assignStudent"
-                    }}
-                />
                 }else if(this.state.redirect==="/teacherGroups"){
                     return <Redirect
                     to={{
@@ -332,7 +296,7 @@ class Alumnos extends Component {
                 }
                 
             }
-            console.log(this.state.listaGrupos);
+
                 const courseSelectItems = [
                     { label: 'All courses', value: 'allCourses' },
                     { label: 'A1', value: 'A1' },
@@ -383,11 +347,11 @@ class Alumnos extends Component {
         }
     }
 
-    function  matchDispatchToProps(dispatch) {//                                <Column header="Delete" body={this.botonDelete('M')}></Column>
+    function  matchDispatchToProps(dispatch) {
 
         return bindActionCreators({
             selectStudent : selectStudent,
-            selectAssignedStudent: selectAssignedStudent}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
+            selectAssignedStudent: selectAssignedStudent}, dispatch)
     }
 
-    export default connect(null , matchDispatchToProps)(Alumnos) //importante poner primero el null si no hay mapStateToProps en el componente chicxs
+    export default connect(null , matchDispatchToProps)(Alumnos) 

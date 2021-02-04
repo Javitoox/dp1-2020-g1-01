@@ -30,4 +30,7 @@ public interface AlumnoRepository extends CrudRepository<Alumno, String> {
 			+ "HAVING COUNT (p.concepto) = (SELECT COUNT(DISTINCT p.concepto ) FROM Pago p) )")
 	public List<String> findStudentsAbleToDelete();
     
+    @Query("SELECT a.nickUsuario FROM Alumno a WHERE a.nickUsuario NOT IN ( SELECT a.nickUsuario FROM Alumno a WHERE a.grupos.nombreGrupo <> '')")
+	public List<String> findSudentsWithNoGroups();
+    
 }
