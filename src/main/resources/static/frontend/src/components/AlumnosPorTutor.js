@@ -13,7 +13,7 @@ export class AlumnosPorTutor extends Component {
         super()
         this.state = {
             rowDataInfo:null,
-            comprobation: false,
+            comprobation: true,
         }
 
         this.alumnosPorTutorComponent = new AlumnoComponent();
@@ -24,15 +24,15 @@ export class AlumnosPorTutor extends Component {
     }
 
     componentDidMount() {
-        axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
+        /* axios.get(this.props.urlBase + "/auth").then(res => {
         if(res.data==="tutor"){
             this.setState({comprobation: true})
         }
-        })
+        }) */
 
         this.alumnosPorTutorComponent.getAlumnosPorTutor(this.props.urlBase, this.props.nickUser).then(data =>
             this.setState({ alumnos: data })
-        );
+        ).catch(error => this.setState({comprobation: false}));
     }
 
     botonInfo(rowData){

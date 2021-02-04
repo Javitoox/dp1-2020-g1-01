@@ -13,92 +13,92 @@ import Auth from './Auth';
 
 
 
-export default class AssignTeacher extends Component  {
-   
-    
+export default class AssignTeacher extends Component {
+
+
 
     constructor(props) {
         super(props);
         this.state = {
-   
-        nickUsuario:this.props.nickUser,
-        nombreGrupo:"",
-        fecha:moment().format('YYYY-MM-DD'),
-        listaGrupos:{
-           nombreGrupo: ""
-        },
-        usernameError:null,
-        nombreGrupoError:null,
-        succes:null,
-        exist:null,
-        comprobation:false,
-    } 
-        
-    
 
-    this.handleNG = this.handleNG.bind(this);
-    this.save = this.save.bind(this);
-    this.alumnos = new AlumnoComponent();
-    this.grupos = new GrupoComponent();
-    this.asignaciones = new AssignmentComponent();
-    this.form=this.form.bind(this);
+            nickUsuario: this.props.nickUser,
+            nombreGrupo: "",
+            fecha: moment().format('YYYY-MM-DD'),
+            listaGrupos: {
+                nombreGrupo: ""
+            },
+            usernameError: null,
+            nombreGrupoError: null,
+            succes: null,
+            exist: null,
+            comprobation: true,
+        }
+
+
+
+        this.handleNG = this.handleNG.bind(this);
+        this.save = this.save.bind(this);
+        this.alumnos = new AlumnoComponent();
+        this.grupos = new GrupoComponent();
+        this.asignaciones = new AssignmentComponent();
+        this.form = this.form.bind(this);
 
 
     }
-    
+
     handleNG(event) {
         this.setState({ nombreGrupo: event.target.value });
-    }  
+    }
 
-    allGroupNames(){
+    allGroupNames() {
 
-        var t=this.state.listaGrupos
-        var i=0
+        var t = this.state.listaGrupos
+        var i = 0
         var groupSelectItems = [
-            
+
         ];
-        while(i<t.length){        
-        groupSelectItems.push(         
-            { label: String(t[i]) , value: String(t[i]) })        
-        i+=1
+        while (i < t.length) {
+            groupSelectItems.push(
+                { label: String(t[i]), value: String(t[i]) })
+            i += 1
         }
         return groupSelectItems
     }
-    form(){
+    form() {
         var l = this.state.listaGrupos
         console.log(l)
-        if(String(l)===""){
+        if (String(l) === "") {
 
             return <div className="t"><div><h5>There is no group to assign</h5></div></div>
 
 
-        }else{
-            
+        } else {
+
 
             return <div>
                 <div className="t"><div><h5>Assign Teacher</h5></div></div>
-                                <div className="i">
-                                {this.state.usernameError}
-                                <div className="p-inputgroup">
-                                    <InputText field="profesor.nickUsuario" placeholder="Username" name="profesor.nickUsuario" type="text" value={this.props.nickUser}/>
-                                 </div>
-                                 </div>
+                <div className="i">
+                    {this.state.usernameError}
+                    <div className="p-inputgroup">
+                        <InputText field="profesor.nickUsuario" placeholder="Username" name="profesor.nickUsuario" type="text" value={this.props.nickUser} />
+                    </div>
+                </div>
 
-                                <div className="i">
-                                {this.state.nombreGrupoError}
-                                <div className="p-inputgroup">
-                                    <Dropdown field="grupo.nombreGrupo" placeholder="Select a group" name="grupo.nombreGrupo" value={this.state.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
-                                </div>
-                                </div>
+                <div className="i">
+                    {this.state.nombreGrupoError}
+                    <div className="p-inputgroup">
+                        <Dropdown field="grupo.nombreGrupo" placeholder="Select a group" name="grupo.nombreGrupo" value={this.state.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
+                    </div>
+                </div>
 
-                                <div className="b">
-                                <div className="i">
-                                    <Button className="p-button-secondary" label="Guardar" icon="pi pi-fw pi-check"/>
+                <div className="b">
+                    <div className="i">
+                        <Button className="p-button-secondary" label="Guardar" icon="pi pi-fw pi-check" />
 
-                                </div>
-                            </div>
-                                
-                            </div>
+                    </div>
+                </div>
+
+            </div>
 
 
         }
@@ -107,78 +107,73 @@ export default class AssignTeacher extends Component  {
     save = event => {
         event.preventDefault();
         this.setState({
-            usernameError:null,
-            nombreGrupoError:null
+            usernameError: null,
+            nombreGrupoError: null
         });
         const grupo = {
-            id:{
-                nickProfesor:this.props.nickUser,
+            id: {
+                nickProfesor: this.props.nickUser,
                 nombreGrupo: this.state.nombreGrupo
 
             },
-            profesor:{
-                nickUsuario:this.props.nickUser
+            profesor: {
+                nickUsuario: this.props.nickUser
             },
-            grupo:{
+            grupo: {
                 nombreGrupo: this.state.nombreGrupo
             },
-            fecha:moment().format('YYYY-MM-DD')
-           
+            fecha: moment().format('YYYY-MM-DD')
+
         }
 
-        axios.post("http://localhost:8081/asignaciones/new", grupo, {withCredentials: true}).then(res => {
+        axios.post("http://localhost:8081/asignaciones/new", grupo).then(res => {
             this.respuesta(res.status, res.data);
         })
-        
-    }
-   
 
-    respuesta(status, data){
+    }
+
+
+    respuesta(status, data) {
         console.log(status);
         console.log(data);
-        if(status===203){
-           this.error(data.field, data.defaultMessage)
-        }else if(status===201){
-            this.setState({               
+        if (status === 203) {
+            this.error(data.field, data.defaultMessage)
+        } else if (status === 201) {
+            this.setState({
 
-                nombreGrupo:"",
+                nombreGrupo: "",
                 succes: <div className="alert alert-success" role="alert">Successful assignment</div>
             })
-        }else{
-            this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
+        } else {
+            this.setState({ exist: <div className="alert alert-danger" role="alert">{data}</div> })
         }
     }
-    error(campo, mensaje){
+    error(campo, mensaje) {
         console.log(campo);
         console.log(mensaje);
-        if(campo === "profesor.nickUsuario"){
+        if (campo === "profesor.nickUsuario") {
             this.setState({ usernameError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
-        }else if(campo === "grupo.nombreGrupo"){
+        } else if (campo === "grupo.nombreGrupo") {
             console.log("aqui");
             this.setState({ nombreGrupoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }
     }
 
-    
-    componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-                }
-            })
-        this.asignaciones.getListOfEmptyAssignmentGroup(this.props.urlBase).then(data => this.setState({ listaGrupos: data }));
-        
-    }
-    
-    
 
-    
-    
-    
+    componentDidMount() {
+        /* axios.get("http://localhost:8081/auth").then(res => {
+            if (res.data === "profesor") {
+                this.setState({ comprobation: true })
+            }
+        }) */
+        this.asignaciones.getListOfEmptyAssignmentGroup(this.props.urlBase).then(data => this.setState({ listaGrupos: data })).catch(error => this.setState({comprobation: false}));
+    }
+
+
     render() {
         if (!this.state.comprobation) {
             return <Auth authority="teacher"></Auth>
-        }else{
+        } else {
             console.log(this.state.listaGrupos);
             return (
                 <div>

@@ -36,7 +36,7 @@ export default class EditPersonalInfo extends Component {
             addressError: null,
             birthdateError: null,
             succes: null,
-            comprobation: false,
+            comprobation: true,
         }
         this.userDataComponent = new UserData();
     }
@@ -53,13 +53,13 @@ export default class EditPersonalInfo extends Component {
             direccionUsuario: data.direccionUsuario,
             fechaNacimiento: data.fechaNacimiento,
             fechaMatriculacion: data.fechaMatriculacion,
-        }))
+        })).catch(error => this.setState({comprobation: false}));
      
-       await axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
+       /* await axios.get(this.props.urlBase + "/auth").then(res => {
             if(res.data==="alumno"){
                 this.setState({comprobation: true})
             }
-            })
+            }) */
     }
     nickUsuario(event) {
         this.setState({ nickUsuario: event.target.value });
@@ -155,7 +155,7 @@ export default class EditPersonalInfo extends Component {
         if (!this.state.buttonTel1) {
             alumno.numTelefonoUsuario2 = null
         }
-        axios.put(this.props.urlBase + "/alumnos/editStudent", alumno, { withCredentials: true }).then(res => {
+        axios.put(this.props.urlBase + "/alumnos/editStudent", alumno).then(res => {
             this.respuesta(res.status, res.data)
         })
 

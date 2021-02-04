@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 @RequestMapping("/feedback")
 public class FeedbackController {
@@ -35,7 +34,7 @@ public class FeedbackController {
 		this.feedbackService = feedbackService;
 	};
 	
-	@PutMapping("{idMaterial}/añadirAlumno")
+	@PutMapping("{idMaterial}/añadirAlumno") //profesor
 	public ResponseEntity<?> añadirAlumnoAMaterial(@PathVariable("idMaterial") Integer idMaterial, @Valid @RequestBody Alumno alumno){
 		log.info("he entrado en añadirAlumno");
 
@@ -43,30 +42,30 @@ public class FeedbackController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/deleteMaterial/{idMaterial}")
+	@DeleteMapping("/deleteMaterial/{idMaterial}") //profesor
 	public ResponseEntity<?> deleteMaterial(@PathVariable("idMaterial") Integer idMaterial) throws IOException{
 		log.info("Material con id:" + idMaterial);
 		feedbackService.deleteMaterial(idMaterial);
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("/obtenerFeedback/{idMaterial}")
+	@GetMapping("/obtenerFeedback/{idMaterial}") //profesor
 	public ResponseEntity<?> getFeedbackMaterial(@PathVariable("idMaterial")Integer idMaterial){
 		return ResponseEntity.ok(feedbackService.getFeedbackByMaterial(idMaterial));
 	}
 	
-	@PutMapping("/cambiarDone/{idFeedback}")
+	@PutMapping("/cambiarDone/{idFeedback}") //profesor
 	public ResponseEntity<?> cambiarDone(@PathVariable("idFeedback")Integer idFeedback){
 		feedbackService.cambiarEstadoDoneActividad(idFeedback);
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("{nickUser}/{idMaterial}")
+	@GetMapping("{nickUser}/{idMaterial}") //alumno
 	public ResponseEntity<?>getFeedback(@PathVariable("nickUser")String nickUser,@PathVariable("idMaterial")Integer idMaterial){
 		return ResponseEntity.ok(feedbackService.getFeedbackByMaterialAndStudent(nickUser,idMaterial));
 	}
 	
-	@PutMapping("/update")
+	@PutMapping("/update") //alumno
 	public ResponseEntity<?> updateFeedback(@RequestParam(value="comment",required=false)String comment, @RequestParam(value="rate",required=false)Integer rate, @RequestParam("id")Integer id){
 		feedbackService.updateFeedback(comment, rate, id);
 		return ResponseEntity.ok().build();

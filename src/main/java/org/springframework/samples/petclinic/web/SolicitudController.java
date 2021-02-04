@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validation;
@@ -38,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 @RequestMapping("/requests")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @Slf4j
 public class SolicitudController {
@@ -54,54 +52,27 @@ public class SolicitudController {
 			dataBinder.setValidator(new YoungerValidator());
 		}
 	   
-	   @GetMapping("/pending")
-	   public ResponseEntity<?> getSolicitudes(HttpServletRequest request) {
-		   HttpSession session = request.getSession(false);
-
-		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
-		   if(session != null && session.getAttribute("type") == "profesor") {
-			   log.info("funciona esto");
-			   return ResponseEntity.ok(solicitudServ.getAllSolicitudes());
-		   }else {
-			   log.info("no estas autorizado");
-			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
-			
-		   }
+	   @GetMapping("/pending") //profesor
+	   public ResponseEntity<?> getSolicitudes() {
+		   return ResponseEntity.ok(solicitudServ.getAllSolicitudes());
 	   } 
 	   
-	   @PutMapping("/decline/{nickUsuario}")
-	   public ResponseEntity<?> declineRequest(@PathVariable("nickUsuario")String nickUsuario, HttpServletRequest request){
-		   HttpSession session = request.getSession(false);
-		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
-		   
-		   if(session != null && session.getAttribute("type") == "profesor") {
-			   Alumno alumnoDenegado = solicitudServ.getAlumno(nickUsuario);
-			   solicitudServ.declineRequest(alumnoDenegado);
-			   return ResponseEntity.ok().build();
-		   }else {
-			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
-		   }
-		   
+	   @PutMapping("/decline/{nickUsuario}") //profesor
+	   public ResponseEntity<?> declineRequest(@PathVariable("nickUsuario")String nickUsuario){
+		   Alumno alumnoDenegado = solicitudServ.getAlumno(nickUsuario);
+		   solicitudServ.declineRequest(alumnoDenegado);
+		   return ResponseEntity.ok().build();
 	   }
 	   
-	   @PutMapping("/accept/{nickUsuario}")
-	   public ResponseEntity<?> acceptRequest(@PathVariable("nickUsuario")String nickUsuario, HttpServletRequest request) {
-		   HttpSession session = request.getSession(false);
-
-		   log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
-		   if(session != null && session.getAttribute("type") == "profesor") {
-			   Alumno alumnoAceptado = solicitudServ.getAlumno(nickUsuario);
-			   log.info("ALUMNO ACEPTADO: "+alumnoAceptado);
-			   solicitudServ.acceptRequest(alumnoAceptado);
-			   return ResponseEntity.ok().build(); 
-
-		   }else {
-			   return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
-		   }
-		   
+	   @PutMapping("/accept/{nickUsuario}") //profesor
+	   public ResponseEntity<?> acceptRequest(@PathVariable("nickUsuario")String nickUsuario) {
+		   Alumno alumnoAceptado = solicitudServ.getAlumno(nickUsuario);
+		   log.info("ALUMNO ACEPTADO: "+alumnoAceptado);
+		   solicitudServ.acceptRequest(alumnoAceptado);
+		   return ResponseEntity.ok().build();
 	   }   
 		
-		@PostMapping("/sending")
+		@PostMapping("/sending") //todos
 		public ResponseEntity<?> sending(@Valid @RequestBody Solicitud solicitud, BindingResult result) {
 			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 			Validator validator = factory.getValidator();
@@ -138,7 +109,7 @@ public class SolicitudController {
 			}
 		}
 
-		@PostMapping("/sendingAll")
+		@PostMapping("/sendingAll") //todos
 		public ResponseEntity<?> sendingAll(@Valid @RequestBody Solicitud solicitud, BindingResult result) {
 			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 			Validator validator = factory.getValidator();

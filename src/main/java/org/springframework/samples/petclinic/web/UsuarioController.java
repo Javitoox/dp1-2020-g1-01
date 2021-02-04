@@ -26,18 +26,18 @@ public class UsuarioController {
 		this.usuarioService = usuarioService;
 	}
 	
-	@GetMapping(value = { "/login" })
-	public ResponseEntity<String> typeOfUser(@RequestParam("username") String nickUsuario, @RequestParam("password") String contraseya,
-			HttpServletRequest request) {
-		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
-		if(type != "Username not exist" && type != "Incorrect password") {
-			HttpSession session = request.getSession(true);
-			session.setAttribute("type", type);
-			session.setAttribute("nickUsuario", nickUsuario);
-			log.info(nickUsuario+ " login: "+session.getAttribute("type"));
-		}
-		return ResponseEntity.ok(type);
-	}
+//	@GetMapping(value = { "/login" })
+//	public ResponseEntity<String> typeOfUser(@RequestParam("username") String nickUsuario, @RequestParam("password") String contraseya,
+//			HttpServletRequest request) {
+//		String type = usuarioService.typeOfUser(nickUsuario, contraseya);
+//		if(type != "Username not exist" && type != "Incorrect password") {
+//			HttpSession session = request.getSession(true);
+//			session.setAttribute("type", type);
+//			session.setAttribute("nickUsuario", nickUsuario);
+//			log.info(nickUsuario+ " login: "+session.getAttribute("type"));
+//		}
+//		return ResponseEntity.ok(type);
+//	}
 	
 	@GetMapping(value = { "/auth" })
 	public ResponseEntity<String> authentication(HttpServletRequest request) {

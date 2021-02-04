@@ -2,18 +2,12 @@ package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
 
-import javax.naming.Binding;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.service.MaterialService;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 @RequestMapping("/materiales")
 public class MaterialController {
@@ -36,19 +30,19 @@ public class MaterialController {
 	public MaterialController(MaterialService materialService) {
 		super();
 		this.materialService = materialService;
-	};
+	}
 	
-	@GetMapping("/getMaterialByProfesor/{nickProfesor}")
+	@GetMapping("/getMaterialByProfesor/{nickProfesor}") //profesor
 	public ResponseEntity<?>getMaterialByProfesor(@PathVariable("nickProfesor")String nickProfesor){
 		return ResponseEntity.ok(materialService.getMaterialPorProfesor(nickProfesor));
 	}
 	
-	@GetMapping("/getMaterialByAlumno/{nickAlumno}")
+	@GetMapping("/getMaterialByAlumno/{nickAlumno}") //alumno
 	public ResponseEntity<?>getMaterialByAlumno(@PathVariable("nickAlumno")String nickAlumno){
 		return ResponseEntity.ok(materialService.getMaterialPorAlumno(nickAlumno));
 	}
 	
-	@PostMapping("/añadirMaterial/{nickProfesor}")
+	@PostMapping("/añadirMaterial/{nickProfesor}") //profesor
 	public ResponseEntity<?>añadirMaterial(@PathVariable("nickProfesor") String nickProfesor, @RequestParam(value="pdf",required=false) MultipartFile pdf) throws IOException{
 		log.info("he entrado en añadirMaterial");
 		if(pdf==null) {
@@ -59,8 +53,5 @@ public class MaterialController {
 		}	
 		
 	}
-	
-	
-	
 	
 }

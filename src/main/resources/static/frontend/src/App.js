@@ -26,7 +26,7 @@ import { CalendarioAlumno } from './components/CalendarioAlumno'
 import  NotificationProfesor from './components/NotificationProfesor'
 import {MaterialTeacher} from './components/MaterialTeacher'
 import {MaterialStudent} from './components/MaterialStudent'
-
+import AuthenticationService from './service/AuthenticationService'
 
 class App extends Component {
 
@@ -40,18 +40,16 @@ class App extends Component {
 		eventos: 0,
 	}
 
-
-
 	changeType(type){
 		this.setState({userType: type})
 	}
 
 	componentDidMount(){
-		this.setState({userType: getUserType()})
+		this.setState({userType: AuthenticationService.getAuth()})
 	}
 
 	calculateUserName() {
-		return getUserName()
+		return AuthenticationService.getLoggedInUserName()
 	}
 
 	render() {

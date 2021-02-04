@@ -63,7 +63,7 @@ export class RealizarPago extends Component {
            
         }
 
-        axios.post("http://localhost:8081/pagos/new", grupo, {withCredentials: true}).then(res => {
+        axios.post("http://localhost:8081/pagos/new", grupo).then(res => {
             this.respuesta(res.status, res.data);
         })
         

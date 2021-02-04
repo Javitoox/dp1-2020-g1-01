@@ -25,7 +25,7 @@ export class CreateGroup extends Component {
             cursoError:null,
             succes:null,
             exist:null,
-            comprobation: false,
+            comprobation: true
 
         }
         this.grupos = new GrupoComponent();
@@ -50,7 +50,7 @@ export class CreateGroup extends Component {
         if(this.state.grupoS.cursos.cursoDeIngles===""){
             window.alert("You must select a course")
         }else{
-            axios.post("http://localhost:8081/grupos/new", grupo, {withCredentials: true}).then(res => {
+            axios.post("http://localhost:8081/grupos/new", grupo).then(res => {
                 this.respuesta(res.status, res.data);
             })
         }
@@ -112,12 +112,12 @@ export class CreateGroup extends Component {
         }
     }
     componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+       /*  axios.get("http://localhost:8081/auth").then(res => {
             if(res.data==="profesor"){
                 this.setState({comprobation: true})
                 }
-            })
-        this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
+            }) */
+        this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data })).catch(error => this.setState({comprobation: false}));
     }
 
     render() {

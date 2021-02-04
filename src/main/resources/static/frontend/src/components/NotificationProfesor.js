@@ -10,20 +10,19 @@ export default class NotificationProfesor extends Component {
     this.state = {
       numeroSolicitudes: 0,
       numeroEventos: 0,
-      comprobation: false
+      comprobation: true
     }
     this.solicitudesComponent = new ExtraccionSolicitudes();
   }
 
    componentDidMount() {
-    this.solicitudesComponent.getSolicitudes(this.props.urlBase).then(data => this.setState({numeroSolicitudes: data.length}));
-    axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
+    this.solicitudesComponent.getSolicitudes(this.props.urlBase).then(data => this.setState({numeroSolicitudes: data.length}))
+    .catch(error => this.setState({comprobation: false}));
+    /* axios.get(this.props.urlBase + "/auth").then(res => {
       if(res.data==="profesor"){
           this.setState({comprobation: true})
       }
-      })
-     
-
+      }) */
   }
 
 

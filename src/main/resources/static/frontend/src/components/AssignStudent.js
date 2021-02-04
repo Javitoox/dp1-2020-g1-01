@@ -36,17 +36,12 @@ class AssignStudent extends Component  {
             cursoDeIngles: ""
         }
         },
-
         listaGrupos:{
            nombreGrupo: ""
         } ,
         cursoS:"",
         succes:null,
-        comprobation: false 
-        
-    
-
-      
+        comprobation: true 
     }
     nickUsuario(event) {
         this.setState({ nickUsuario: event.target.value });
@@ -61,13 +56,12 @@ class AssignStudent extends Component  {
     }  
     
     componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+        /* axios.get("http://localhost:8081/auth").then(res => {
             if(res.data==="profesor"){
                 this.setState({comprobation: true})
             }
-            })
-        this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
-        
+            }) */
+        this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data })).catch(error => this.setState({comprobation: false}));
     }
     
     allGroupNames(){
@@ -105,7 +99,7 @@ class AssignStudent extends Component  {
             }
             }
         }
-        axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
+        axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno ).then(res => {
             this.respuesta(res.status, res.data)
             })
       }

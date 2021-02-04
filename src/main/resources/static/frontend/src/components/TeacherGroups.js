@@ -22,7 +22,7 @@ export default class TeacherGroups extends Component {
             listaGrupos:{
                 nombreGrupo: ""
             },
-            comprobation: false,
+            comprobation: true,
         }
         this.alumnos = new AlumnoComponent();
         this.asignaciones = new AssignmentComponent();
@@ -33,19 +33,17 @@ export default class TeacherGroups extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+        /* axios.get("http://localhost:8081/auth").then(res => {
             if(res.data==="profesor"){
                 this.setState({comprobation: true})
                 }
-            })
-        this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data }));
+            }) */
+        this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data })).catch(error => this.setState({comprobation: false}));
         this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
 
         //this.grupos.getAllGroups().then(data => this.setState({ groupSelectItems: data }));
         //this.cursos.getCourses().then(data => this.setState({ nodes: data }));
     }
-
-   
 
     
 

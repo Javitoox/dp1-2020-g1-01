@@ -77,7 +77,7 @@ export class FormEvent extends Component {
             }
         }
 
-        axios.post(this.props.urlBase + "/events/create/" + this.state.curso , evento, { withCredentials: true }).then(res => {
+        axios.post(this.props.urlBase + "/events/create/" + this.state.curso , evento).then(res => {
             this.respuesta(res.status, res.data)
         })
 

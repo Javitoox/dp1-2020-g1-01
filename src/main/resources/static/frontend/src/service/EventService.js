@@ -3,34 +3,34 @@ import axios from 'axios'
 export class EventService {
 
     getEvents(urlBase) {
-        return axios.get(urlBase+'/events/all', {withCredentials: true})
+        return axios.get(urlBase+'/events/all')
     }
 
     getUserEvents(urlBase, nickUser) {
-        return axios.get(urlBase+'/events/getByCourse/' + nickUser, {withCredentials: true})
+        return axios.get(urlBase+'/events/getByCourse/' + nickUser)
     }
     
     updateEvent(urlBase, id, start, end){
-        axios.put(urlBase+'/events/update/'+id+'/'+start+'/'+end, {}, {withCredentials: true})
+        axios.put(urlBase+'/events/update/'+id+'/'+start+'/'+end)
     }
 
     getDescription(urlBase, id){
-        return axios.get(urlBase+'/events/description/'+id, {withCredentials: true})
+        return axios.get(urlBase+'/events/description/'+id)
     }
 
     getDescriptionAlumno(urlBase, id, nickUser){
-        return axios.get(urlBase+'/events/descriptionAlumno/'+id+'/'+nickUser, {withCredentials: true})
+        return axios.get(urlBase+'/events/descriptionAlumno/'+id+'/'+nickUser)
     }
 
     deleteEvent(urlBase, id){
-        return axios.delete(urlBase+'/events/delete/'+id, {withCredentials: true})
+        return axios.delete(urlBase+'/events/delete/'+id)
     }
 
     join(urlBase, id, nick){
-        return axios.put(urlBase+'/inscriptions/join/'+id+'/'+nick, {}, {withCredentials: true})
+        return axios.put(urlBase+'/inscriptions/join/'+id+'/'+nick)
     }
 
     disjoin(urlBase, id, nick){
-        return axios.put(urlBase+'/inscriptions/disjoin/'+id+'/'+nick, {}, {withCredentials: true})
+        return axios.put(urlBase+'/inscriptions/disjoin/'+id+'/'+nick)
     }
 }

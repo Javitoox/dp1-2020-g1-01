@@ -14,7 +14,7 @@ export  class SolicitudesProfesor extends Component {
          this.state= {
           redirect:false,
           rowDataInfo:null,
-          comprobation: false
+          comprobation: true
          };
          
          this.solicitudesComponent = new ExtraccionSolicitudes();
@@ -28,11 +28,11 @@ export  class SolicitudesProfesor extends Component {
       }
      
     componentDidMount(){
-      axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
+      /* axios.get(this.props.urlBase + "/auth").then(res => {
       if(res.data==="profesor"){
           this.setState({comprobation: true})
       }
-      })
+      }) */
       
       this.mostrarTabla();
     }
@@ -94,7 +94,7 @@ export  class SolicitudesProfesor extends Component {
 
 
     mostrarTabla(){
-      this.solicitudesComponent.getSolicitudes(this.props.urlBase).then(data => this.setState({solicitudes:data}));
+      this.solicitudesComponent.getSolicitudes(this.props.urlBase).then(data => this.setState({solicitudes:data})).catch(error => this.setState({comprobation: false}));
     }
 
     async delete(rowData){

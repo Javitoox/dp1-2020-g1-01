@@ -4,10 +4,11 @@ import { withRouter } from "react-router-dom"
 import '../login.css'
 import { ExtraccionUsuarios } from './ExtraccionUsuarios'
 import { Component } from 'react'
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import {selectUserLogin}  from '../actions/index';
-import {storageNickUsername, storageUserType} from './storage'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { selectUserLogin } from '../actions/index'
+import { storageNickUsername, storageUserType } from './storage'
+import AuthenticationService from '../service/AuthenticationService'
 
 class Login extends Component {
 
@@ -33,7 +34,7 @@ class Login extends Component {
 
     async calculateType(event) {
         event.preventDefault()
-        await this.type.getType(this.state.username, this.state.password).then(data => this.setState({ type: data }))
+        /* await this.type.getType(this.state.username, this.state.password).then(data => this.setState({ type: data }))
         if (this.state.type === "Username not exist" || this.state.type === "Incorrect password") {
             this.setState({ error: <div className="alert alert-danger" role="alert">{this.state.type}</div> })
             this.props.history.push("/login")
@@ -42,7 +43,15 @@ class Login extends Component {
             storageUserType(this.state.type)
             storageNickUsername(this.state.username)
             this.props.history.push("/")
-        }
+        } */
+        await AuthenticationService.executeBasicAuthenticationService(this.state.username, this.state.password).then(res => {
+            AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password, res.data)
+            this.props.onChange(AuthenticationService.getAuth())
+            this.props.history.push("/")
+        }).catch(() => {
+            this.setState({ error: <div className="alert alert-danger" role="alert">Username or password does not exist</div> })
+            this.props.history.push("/login")
+        })
     }
 
     render() {
@@ -82,9 +91,10 @@ class Login extends Component {
         )
     }
 }
-    function  matchDispatchToProps(dispatch) {
-        return bindActionCreators({
-            selectUserLogin: selectUserLogin}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
-    }
+function matchDispatchToProps(dispatch) {
+    return bindActionCreators({
+        selectUserLogin: selectUserLogin
+    }, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
+}
 
-export default  connect(null , matchDispatchToProps) (withRouter(Login))
+export default connect(null, matchDispatchToProps)(withRouter(Login))

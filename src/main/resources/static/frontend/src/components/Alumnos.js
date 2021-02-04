@@ -35,7 +35,7 @@ class Alumnos extends Component {
             fechaMatriculacion: "",
             groupSelectItems: "",
             rowDataInfo:null,
-            comprobation: false,
+            comprobation: true,
             listaGrupos:{
                 nombreGrupo: ""
             }
@@ -56,12 +56,13 @@ class Alumnos extends Component {
     }
 
     componentDidMount() {
-        axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
+        /* axios.get(this.props.urlBase + "/auth").then(res => {
         if(res.data==="profesor"){
             this.setState({comprobation: true})
         }
-        })
-        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+        }) */
+        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }))
+        .catch(error => this.setState({comprobation: false}));
     }
 
     boton(rowData) {

@@ -10,8 +10,8 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { ListBox } from 'primereact/listbox';
 import GrupoComponent from './GrupoComponent';
-import {selectStudent} from '../actions/index';
-import {selectAssignedStudent}  from '../actions/index';
+import { selectStudent } from '../actions/index';
+import { selectAssignedStudent } from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import "../css/payment.css"
@@ -21,8 +21,8 @@ class Pagos extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            
-            pagoS:"",
+
+            pagoS: "",
             redirect: false,
             nickUsuario: "",
             contraseya: "",
@@ -31,23 +31,23 @@ class Pagos extends Component {
             correoElectronicoUsuario: "",
             numTelefonoUsuario: "",
             direccionUsuario: "",
-            fechaNacimiento:"",
-            numTareasEntregadas :"",
+            fechaNacimiento: "",
+            numTareasEntregadas: "",
             fechaMatriculacion: "",
             groupSelectItems: "",
-            listaGrupos:{
+            listaGrupos: {
                 nombreGrupo: ""
             },
-            listaTemporal:{
+            listaTemporal: {
 
             },
-            lista:{
+            lista: {
 
             },
-            textBuscar:"",
-            textBuscar2:"",
-            comprobation: false,
-            redirect:false
+            textBuscar: "",
+            textBuscar2: "",
+            comprobation: true,
+            redirect: false
 
 
             //nodes: null,
@@ -68,18 +68,19 @@ class Pagos extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-                }
-            })
-        
-        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
-        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ lista: data }));
+        /* axios.get("http://localhost:8081/auth").then(res => {
+            if (res.data === "profesor") {
+                this.setState({ comprobation: true })
+            }
+        }) */
+
+        this.alumnos.getAllStudents(this.props.urlBase).then(data => {
+            this.setState({ alumnos: data })
+            this.setState({ lista: data })
+        }).catch(error => this.setState({comprobation: false}));
+        /* this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ lista: data })); */
     }
 
-   
-    
     showSelectGroup(pago) {
         console.log(pago);
         if (pago !== null) {
@@ -91,45 +92,45 @@ class Pagos extends Component {
                 this.pagos.getAllStudentsNotPaid(pago).then(data => this.setState({ alumnosNP: data }));
                 this.pagos.getAllStudentsPaid(pago).then(data => this.setState({ listaTemporal: data }));
                 this.pagos.getAllStudentsNotPaid(pago).then(data => this.setState({ listaTemporal2: data }));
-               // this.pagos.getAllStudentsPaid(pago).then(data => console.log(data));
+                // this.pagos.getAllStudentsPaid(pago).then(data => console.log(data));
             }
         }
     }
     notificar(rowData) {
-        return (    
+        return (
             <React.Fragment>
-                <Button icon="pi pi-bell" className="p-button-rounded p-button-success p-mr-2"/>
+                <Button icon="pi pi-bell" className="p-button-rounded p-button-success p-mr-2" />
             </React.Fragment>
         );
     }
 
-    filter(event){
+    filter(event) {
         var text = event.target.value
         const data = this.state.listaTemporal2
-        const newData = data.filter(function(item){
+        const newData = data.filter(function (item) {
             console.log(item);
             const itemData = item.nombreCompletoUsuario.toUpperCase()
             console.log(itemData);
             const textData = text.toUpperCase()
             console.log(textData);
-            var r= itemData.indexOf(textData) > -1
+            var r = itemData.indexOf(textData) > -1
             console.log(r)
-            return  r
+            return r
         })
         this.setState({
             alumnosNP: newData,
             text: text
         })
         const data2 = this.state.listaTemporal
-        const newData2 = data2.filter(function(item){
+        const newData2 = data2.filter(function (item) {
             console.log(item);
             const itemData = item.nombreCompletoUsuario.toUpperCase()
             console.log(itemData);
             const textData = text.toUpperCase()
             console.log(textData);
-            var r= itemData.indexOf(textData) > -1
+            var r = itemData.indexOf(textData) > -1
             console.log(r)
-            return  r
+            return r
         })
         this.setState({
             alumnos: newData2,
@@ -137,33 +138,33 @@ class Pagos extends Component {
         })
     }
 
-     filterDNI(event){
+    filterDNI(event) {
         var text = event.target.value
         const data = this.state.alumnosNP
-        const newData = data.filter(function(item){
+        const newData = data.filter(function (item) {
             console.log(item);
             const itemData = item.dniUsuario.toUpperCase()
             console.log(itemData);
             const textData = text.toUpperCase()
             console.log(textData);
-            var r= itemData.indexOf(textData) > -1
+            var r = itemData.indexOf(textData) > -1
             console.log(r)
-            return  r
+            return r
         })
         this.setState({
             alumnosNP: newData,
             text2: text
         })
         const data2 = this.state.alumnos
-        const newData2 = data2.filter(function(item){
+        const newData2 = data2.filter(function (item) {
             console.log(item);
             const itemData = item.dniUsuario.toUpperCase()
             console.log(itemData);
             const textData = text.toUpperCase()
             console.log(textData);
-            var r= itemData.indexOf(textData) > -1
+            var r = itemData.indexOf(textData) > -1
             console.log(r)
-            return  r
+            return r
         })
         this.setState({
             alumnos: newData2,
@@ -172,75 +173,79 @@ class Pagos extends Component {
     }
 
     botonPagos() {
-        this.setState({ 
+        this.setState({
             redirect: "/createPayment",
-        
-    });
+
+        });
     }
 
 
     render() {
         if (!this.state.comprobation) {
             return <Auth authority="teacher"></Auth>
-        }else{
-                if (this.state.redirect) {
-                    if(this.state.redirect==="/createPayment"){
-                        return <Redirect
+        } else {
+            if (this.state.redirect) {
+                if (this.state.redirect === "/createPayment") {
+                    return <Redirect
                         to={{
-                        pathname: "/createPayment"
+                            pathname: "/createPayment"
                         }}
-                    />}}
-                
-        
-        const pagoSelectItems = [
-            { label: 'CONCEPTS:', value: '' },
-            { label: 'First Mat', value: 'Pago matricula' },
-            { label: 'First Pay', value: 'Primer plazo' },
-            { label: 'Second Pay', value: 'Segundo plazo' }
-           
-        ];
-        console.log(this.state)
-        
+                    />
+                }
+            }
 
-        return (
-            <React.Fragment>
-                <div className="datatable-templating-demo">
-                    <div>
-                    <ListBox options={pagoSelectItems} onChange={(e) => this.showSelectGroup(e.value)} />
+
+            const pagoSelectItems = [
+                { label: 'CONCEPTS:', value: '' },
+                { label: 'First Mat', value: 'Pago matricula' },
+                { label: 'First Pay', value: 'Primer plazo' },
+                { label: 'Second Pay', value: 'Segundo plazo' }
+
+            ];
+            console.log(this.state)
+
+
+            return (
+                <React.Fragment>
+                    <div className="datatable-templating-demo">
+                        <div>
+                            <ListBox options={pagoSelectItems} onChange={(e) => this.showSelectGroup(e.value)} />
+                        </div>
+
+                        <div>&nbsp;</div>
+                        <InputText className="form-control" placeholder="Search by name" value={this.state.text} onChange={this.filter} />
+                        {` `}
+                        <InputText className="form-control" placeholder="Search by DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
+                        {` `}
+                        <Button icon="pi pi-fw pi-users" label="Create payment" className="p-button-secondary" onClick={this.botonPagos} />
+
+
+                        <div>&nbsp;</div>
+
+                        <DataTable header="Students who have paid:" value={this.state.alumnos}>
+                            <Column field="nombreCompletoUsuario" header="Full name"></Column>
+                            <Column field="dniUsuario" header="DNI"></Column>
+                            <Column field="correoElectronicoUsuario" header="Email"></Column>
+                        </DataTable>
+                        <div>&nbsp;</div>
+                        <DataTable header="Students who have not paid:" value={this.state.alumnosNP}>
+                            <Column field="nombreCompletoUsuario" header="Full name"></Column>
+                            <Column field="dniUsuario" header="DNI"></Column>
+                            <Column field="correoElectronicoUsuario" header="Email"></Column>
+                            <Column header="Notify payment's lack" body={this.notificar}></Column>
+                        </DataTable>
                     </div>
+                </React.Fragment>
 
-                    <div>&nbsp;</div>
-                    <InputText class="form-control" placeholder="Search by name" value={this.state.text} onChange={this.filter} />
-                    {` `}
-                    <InputText class="form-control" placeholder="Search by DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
-                    {` `}
-                    <Button icon="pi pi-fw pi-users" label="Create payment" className="p-button-secondary" onClick={this.botonPagos} />
-
-
-                    <div>&nbsp;</div>
-                    
-                    <DataTable header="Students who have paid:" value={this.state.alumnos}>
-                        <Column field="nombreCompletoUsuario" header="Full name"></Column>
-                        <Column field="dniUsuario" header="DNI"></Column>
-                        <Column field="correoElectronicoUsuario" header="Email"></Column>
-                    </DataTable>
-                    <div>&nbsp;</div>
-                    <DataTable header="Students who have not paid:" value={this.state.alumnosNP}>
-                        <Column field="nombreCompletoUsuario" header="Full name"></Column>
-                        <Column field="dniUsuario" header="DNI"></Column>
-                        <Column field="correoElectronicoUsuario" header="Email"></Column>
-                        <Column header="Notify payment's lack" body={this.notificar}></Column>
-                    </DataTable>
-                </div>
-            </React.Fragment>
-        
-        )
+            )
+        }
     }
 }
-}
 
-function  matchDispatchToProps(dispatch) {
-    return bindActionCreators({selectStudent : selectStudent,
-        selectAssignedStudent: selectAssignedStudent}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
+function matchDispatchToProps(dispatch) {
+    return bindActionCreators({
+        selectStudent: selectStudent,
+        selectAssignedStudent: selectAssignedStudent
+    }, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
 }
-export default connect(null , matchDispatchToProps)(Pagos) //importante poner primero el null si no hay mapStateToProps en el componente chicxs
+export default connect(null, matchDispatchToProps)(Pagos) //importante poner primero el null si no hay mapStateToProps en el componente chicxs

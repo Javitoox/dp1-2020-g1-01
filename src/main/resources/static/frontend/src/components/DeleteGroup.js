@@ -18,8 +18,7 @@ export class DeleteGroup extends Component {
             listaGrupos:{
                 nombreGrupo: ""
             },
-            comprobation: false,
-
+            comprobation: true,
         }
         this.grupos = new GrupoComponent();
         this.delete = this.delete.bind(this);
@@ -34,16 +33,9 @@ export class DeleteGroup extends Component {
                 window.alert("You must select a group")
 
             }else{
-                axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, {withCredentials: true}).then(res => {
+                axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo).then(res => {
                     this.respuesta(res.status, res.data);        })
             }
-           
-
-        
-
-        
-        
-        
        
     }
 
@@ -70,7 +62,7 @@ export class DeleteGroup extends Component {
 
     form(){
         var l = this.state.listaGrupos
-        if(l==""){
+        if(l===""){
 
             return <div className="t"><div><h5>There are no groups to delete</h5></div></div>
 
@@ -125,12 +117,12 @@ export class DeleteGroup extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+        /* axios.get("http://localhost:8081/auth").then(res => {
             if(res.data==="profesor"){
                 this.setState({comprobation: true})
                 }
-            })
-        this.grupos.getEmptyGroupNames().then(data => this.setState({ listaGrupos: data }));
+            }) */
+        this.grupos.getEmptyGroupNames().then(data => this.setState({ listaGrupos: data })).catch(error => this.setState({comprobation: true}));
     }
 
     render() {
