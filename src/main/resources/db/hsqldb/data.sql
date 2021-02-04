@@ -59,7 +59,7 @@ INSERT INTO pagos(id,tipo,concepto,fecha,alumnos_nick_usuario) VALUES (5,'BIZUM'
 
 INSERT INTO asignaciones_profesor VALUES ('2019-10-03', 'MaribelJavi', 'grupo1');
 
-INSERT INTO tipos_materiales VALUES ('Video');
+INSERT INTO tipos_materiales VALUES ('Exam');
 INSERT INTO tipos_materiales VALUES ('Homework');
 
 INSERT INTO materiales(id, fecha_subida, nombre_material, profesores_nick_usuario, tipo_material_tipo) values (1,'2021-02-03','Worbu.pdf','MaribelJavi','Homework');

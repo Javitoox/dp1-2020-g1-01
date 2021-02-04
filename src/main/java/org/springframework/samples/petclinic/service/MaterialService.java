@@ -39,13 +39,12 @@ public class MaterialService {
 		return materialRepository.getMaterialByAlumno(nickUsuario);		
 	}
 	
-	public Material uploadMaterial(MultipartFile pdf, String nickProfesor) throws IOException {
+	public Material uploadMaterial(MultipartFile pdf, String nickProfesor, TipoMaterial tipoMaterial) throws IOException {
 		Material m = new Material();
 		Profesor profesor = profesorService.getProfesor(nickProfesor);
 		m.setNombreMaterial(pdf.getOriginalFilename());
 		m.setFechaSubida(LocalDate.now());
-		TipoMaterial tipo = tipoMaterialService.findById("Homework");
-		m.setTipoMaterial(tipo);
+		m.setTipoMaterial(tipoMaterial);
 		m.setProfesores(profesor);
 		
 		Material material = materialRepository.save(m);
