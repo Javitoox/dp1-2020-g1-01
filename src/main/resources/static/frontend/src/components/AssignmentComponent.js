@@ -12,4 +12,8 @@ export default class AssignmentComponent extends Component{
         return axios.get(baseUrl + "/asignaciones/freeAssignments", {withCredentials: true}).then(res => res.data);
     }
 
+    deleteAsignacion(baseUrl, data){
+        return axios.delete(baseUrl + "/asignaciones/delete/" + data, {withCredentials: true}).then(res => res.data);
+    }
+
 }

@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.web;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
+import org.springframework.samples.petclinic.service.GrupoService;
+import org.springframework.samples.petclinic.service.PremiadoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,10 +35,14 @@ public class AlumnoController {
 
 
 	private AlumnoService alumnoServ;
+	private PremiadoService premiadoService;
+	private GrupoService grupoService;
 
 	@Autowired
-	public AlumnoController(AlumnoService alumnoServ) {
+	public AlumnoController(AlumnoService alumnoServ, GrupoService grupoService, PremiadoService premiadoService) {
 		this.alumnoServ = alumnoServ;
+		this.premiadoService = premiadoService;
+		this.grupoService = grupoService;
 	}
 	
 	@PutMapping("/editStudent")
@@ -85,6 +91,32 @@ public class AlumnoController {
 		}
 	}
 
+	@GetMapping("/ableToDelete")
+	public ResponseEntity<?> listAlumnosToDelete(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+			List<String> allStudents = alumnoServ.getStudentsToDelete();
+			return ResponseEntity.ok(allStudents);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
+	}
+	
+	@GetMapping("/studentsWithNoGroups")
+	public ResponseEntity<?> listAlumnosWithNoGroups(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+			List<String> allStudents = alumnoServ.getStudentsWithNoGroups();
+			return ResponseEntity.ok(allStudents);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
+	}
+
 	@GetMapping("/getByCourse/{course}")
 	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") TipoCurso cursoDeIngles, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
@@ -127,23 +159,48 @@ public class AlumnoController {
 	}
 
 	@PutMapping("/assignStudent")
-	public ResponseEntity<?> assignStudent(@Valid @RequestBody Alumno alumno, HttpServletRequest request,HttpServletResponse response , BindingResult result)
-			throws IOException {
+	public ResponseEntity<?> assignStudent(@Valid @RequestBody Alumno alumno, HttpServletRequest request,HttpServletResponse response , BindingResult result){
 		HttpSession session = request.getSession(false);
     	if(session != null && session.getAttribute("type") == "profesor" ) {
     		if (result.hasErrors()) {
     			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     		}
     		else {
-    			log.info("Request to edit alumn's group: {} ", alumno.getGrupos());
-    			this.alumnoServ.saveAlumno(alumno);
-    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
-    			
+    			if(alumno.getGrupos().getNombreGrupo() != null) {
+	    			Integer numAlumnosGrupo = grupoService.numAlumnos(alumno.getGrupos().getNombreGrupo());
+    			if(numAlumnosGrupo < 3 ) {
+	        			this.alumnoServ.saveAlumno(alumno);
+		    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
+	    			}else {
+		    			return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED); //ERROR 208
+	    			}
+    			}
+    				this.alumnoServ.saveAlumno(alumno);
+	    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);    			
+    			}
     		}
-    	}else {
+    	else {
     		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     	}
     }
+	
+	@DeleteMapping("/delete/{nickUsuario}")
+	public ResponseEntity<?> deleteStudent(@PathVariable("nickUsuario") String nickUsuario, HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
+			log.info("Solicitando borrar alumno: {}", nickUsuario);
+			if(alumnoServ.getStudentsToDelete().contains(nickUsuario.toString())) {
+				premiadoService.deleteAlumno(nickUsuario);
+				return new ResponseEntity<>("Alumno eliminado correctamente", HttpStatus.OK);
+			}else {
+				return new ResponseEntity<>("No se puede borrar el alumno porque tiene pagos pendientes", HttpStatus.BAD_REQUEST);
+			}
+			
+		}else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+			}
+		}
 	
 	
 

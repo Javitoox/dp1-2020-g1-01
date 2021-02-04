@@ -6,6 +6,8 @@ import AlumnoComponent from './AlumnoComponent';
 import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
+import { Dialog } from 'primereact/dialog';
+
 
 
 
@@ -14,7 +16,7 @@ class AssignStudent extends Component  {
     nickUsuario = this.nickUsuario.bind(this);
     alumnos = new AlumnoComponent();
     grupos = new GrupoComponent();
-    handleNG = this.handleNG.bind(this);    
+    handleNG = this.handleNG.bind(this); 
         state = { 
    
         nickUsuario:this.props.astudent.nickUsuario,
@@ -31,22 +33,24 @@ class AssignStudent extends Component  {
         fechaSolicitud: this.props.astudent.fechaSolicitud,
         fechaBaja: this.props.astudent.fechaBaja,
         grupos: {
-            nombreGrupo: "",
+            nombreGrupo: '',
             cursos: {
             cursoDeIngles: ""
         }
+        },
+        tutores:{
+            nickUsuario:''
         },
 
         listaGrupos:{
            nombreGrupo: ""
         } ,
+              
         cursoS:"",
         succes:null,
-        comprobation: false 
+        comprobation: false  ,
+        displayConfirmation: false
         
-    
-
-      
     }
     nickUsuario(event) {
         this.setState({ nickUsuario: event.target.value });
@@ -66,17 +70,24 @@ class AssignStudent extends Component  {
                 this.setState({comprobation: true})
             }
             })
-        this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
+        if(!this.props.list.includes(this.props.astudent.nickUsuario)){
+            this.grupos.getAssignmentGroupsByStudent(this.state.nickUsuario).then(data => this.setState({ listaGrupos: data }));   
+            this.setState({tutores:{
+                nickUsuario:this.props.astudent.tutores.nickUsuario
+            }})
+        }else if(this.props.list.includes(this.props.astudent.nickUsuario)){
+            this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));   
+            this.setState({tutores:{
+                nickUsuario:null
+            }})
+        }
         
-    }
-    
-    allGroupNames(){
 
+}
+    allGroupNames(){
         var t=this.state.listaGrupos
         var i=0
-        var groupSelectItems = [
-            
-        ];
+        var groupSelectItems = [];
         while(i<t.length){        
         groupSelectItems.push(         
             { label: String(t[i]) , value: String(t[i]) })        
@@ -84,36 +95,91 @@ class AssignStudent extends Component  {
         }
         return groupSelectItems
     }
+    mostrarTabla(){
+        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+    }
 
-    assign  = event => {
+    assign  =  event => {
         event.preventDefault();
-        const alumno ={
-            nickUsuario: this.state.nickUsuario,
-            contraseya: this.state.contraseya,
-            dniUsuario: this.state.dniUsuario,
-            nombreCompletoUsuario: this.state.nombreCompletoUsuario,
-            correoElectronicoUsuario: this.state.correoElectronicoUsuario,
-            numTelefonoUsuario: this.state.numTelefonoUsuario,
-            numTelefonoUsuario2: this.state.numTelefonoUsuario2,
-            direccionUsuario: this.state.direccionUsuario,
-            fechaNacimiento: this.state.fechaNacimiento,
-            fechaMatriculacion: this.state.fechaMatriculacion,
-            grupos: {
-                nombreGrupo: this.state.grupos.nombreGrupo,
-                cursos: {
-                    cursoDeIngles: this.state.cursoS[0]
+
+        if(!this.props.list.includes(this.props.astudent.nickUsuario)){
+            const alumno ={
+                nickUsuario: this.state.nickUsuario,
+                contraseya: this.state.contraseya,
+                dniUsuario: this.state.dniUsuario,
+                nombreCompletoUsuario: this.state.nombreCompletoUsuario,
+                correoElectronicoUsuario: this.state.correoElectronicoUsuario,
+                numTelefonoUsuario: this.state.numTelefonoUsuario,
+                numTelefonoUsuario2: this.state.numTelefonoUsuario2,
+                direccionUsuario: this.state.direccionUsuario,
+                fechaNacimiento: this.state.fechaNacimiento,
+                numTareasEntregadas:this.state.numTareasEntregadas,
+                fechaMatriculacion: this.state.fechaMatriculacion,
+                tutores:{
+                    nickUsuario:this.state.tutores.nickUsuario
+                },
+                grupos: {
+                    nombreGrupo: this.state.grupos.nombreGrupo,
+                    cursos: {
+                        cursoDeIngles: this.state.cursoS[0]
+                }
+                }
+                
             }
+            if(this.state.grupos.nombreGrupo===""){
+                this.setState({displayConfirmation: true})    
+            }else{
+             axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
+                this.respuesta(res.status, res.data)
+                })
+                window.location.assign('/allStudents')
             }
-        }
-        axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
-            this.respuesta(res.status, res.data)
-            })
+            
+           
+        }else if(this.props.list.includes(this.props.astudent.nickUsuario)){
+
+            const alumno ={
+                nickUsuario: this.state.nickUsuario,
+                contraseya: this.state.contraseya,
+                dniUsuario: this.state.dniUsuario,
+                nombreCompletoUsuario: this.state.nombreCompletoUsuario,
+                correoElectronicoUsuario: this.state.correoElectronicoUsuario,
+                numTelefonoUsuario: this.state.numTelefonoUsuario,
+                numTelefonoUsuario2: this.state.numTelefonoUsuario2,
+                direccionUsuario: this.state.direccionUsuario,
+                fechaNacimiento: this.state.fechaNacimiento,
+                numTareasEntregadas:this.state.numTareasEntregadas,
+                fechaMatriculacion: this.state.fechaMatriculacion,
+                grupos: {
+                    nombreGrupo: this.state.grupos.nombreGrupo,
+                    cursos: {
+                        cursoDeIngles: this.state.cursoS[0]
+                }
+                }
+                
+            }
+
+            if(this.state.grupos.nombreGrupo===""){
+                window.alert("You must select a group")
+    
+            }else{
+             axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
+                this.respuesta(res.status, res.data)
+                })
+                window.location.assign('/allStudents')
+            }            
+        }       
+        
       }
 
-      respuesta(status, data){
+    respuesta(status, data){
         console.log(status);
         if(status===203 ){
             data.forEach(e => this.error(e.field, e.defaultMessage))
+        }else if(status === 208){
+            this.setState({
+                succes: <div className="alert alert-danger" role="alert">There are already 12 alumns in this group</div>
+            })
         }else{
             this.setState({
                 username: this.state.username,
@@ -128,19 +194,28 @@ class AssignStudent extends Component  {
                 succes: <div className="alert alert-success" role="alert">Modified Succesfully</div>
             })
         }
+    } 
+    renderFooter(){
+        return (
+            <div>
+            </div>
+        );
     }
-    
+   
     
     render() {
-        console.log(this.state.cursoS[0])
         return (
             <div>
                 <div className="c">
-                    <div className="login request">
+                    <div className="login2 request2">
                         <form onSubmit={this.assign}  >
                         {this.state.succes}
-                        
-
+                        <Dialog header="Confirmation" visible={this.state.displayConfirmation} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation: false})}>
+                         <div className="confirmation-content">
+                             <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                               <span>You must select a group</span>
+                         </div>
+                         </Dialog>
                             <div className="t"><div><h5>Assign Student</h5></div></div>
                             <div className="i">
                                 <div className="p-inputgroup">
@@ -160,7 +235,6 @@ class AssignStudent extends Component  {
 
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>

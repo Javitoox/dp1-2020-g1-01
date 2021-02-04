@@ -12,7 +12,7 @@ export default class AlumnoComponent extends Component{
 	}
         
 	getStudentsByNameOfGroup(baseUrl, group){
-		return axios.get(baseUrl + "/alumnos/"+group).then(res => res.data);
+		return axios.get(baseUrl + "/alumnos/"+group, {withCredentials: true}).then(res => res.data);
 	}
 
 	getWallOfFameForStudents(baseUrl, fecha){
@@ -24,7 +24,7 @@ export default class AlumnoComponent extends Component{
 	}
 
 	assign(persona) {
-        return axios.put("http://localhost:8081/alumnos/assignStudent", persona).then(res => res.data);
+        return axios.put("http://localhost:8081/alumnos/assignStudent", persona, {withCredentials: true}).then(res => res.data);
     }
 
 	postNewPremiado(baseUrl, fecha ,formData){
@@ -41,6 +41,17 @@ export default class AlumnoComponent extends Component{
 
 	getAlumnosPorTutor(urlBase, nickUsuario){
         return axios.get(urlBase+"/alumnos/"+nickUsuario+"/allMyStudents", {withCredentials: true}).then(res=>res.data);
-    }
+	}
+	getAlumnosEliminiables(urlBase){
+        return axios.get(urlBase+"/alumnos/ableToDelete", {withCredentials: true}).then(res=>res.data);
+	}
+
+	getAlumnosSinGrupo(urlBase){
+        return axios.get(urlBase+"/alumnos/studentsWithNoGroups", {withCredentials: true}).then(res=>res.data);
+	}
+	
+	deleteAlumno(urlBase, nickUsuario){
+		return axios.delete(urlBase+"/alumnos/delete/"+nickUsuario, {withCredentials: true})
+	}
 }
 

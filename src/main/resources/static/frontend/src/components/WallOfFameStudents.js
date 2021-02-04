@@ -180,6 +180,7 @@ export class WallOfFameStudents extends Component{
     }
 
     render(){
+        console.log(this.state)
         if (!this.state.comprobation) {
             return <Auth authority="teacher neither as student"></Auth>
         } else {

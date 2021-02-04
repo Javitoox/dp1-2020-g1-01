@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -145,7 +144,6 @@ public class AlumnoServiceTests {
 		assertThat(alumnos.size()).isEqualTo(0);
 	}
 	@Test
-	@Transactional
 	void shouldSaveStudent() {
 		Alumno a= new Alumno();
 		a.setNickUsuario("Gonsalo");
@@ -205,4 +203,53 @@ public class AlumnoServiceTests {
 		
 		verify(inscripcionService, times(0)).saveInscripcion(any());
 	 }
+	
+	@Test
+	void shoulDeleteStudent() {
+		Alumno a = new Alumno();
+		a.setNickUsuario("Felipe");
+		a.setContraseya("NahDeLocos99");
+		a.setDniUsuario("20502441B");
+		a.setCorreoElectronicoUsuario("felipe@gmail.com");
+		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
+		a.setNombreCompletoUsuario("Felipe Gonzalez Garcia");
+		a.setNumTelefonoUsuario("622110555");
+		alumnoService.deleteStudents(a);
+		
+		verify(alumnoRepository, times(1)).delete(any());
+	}
+	
+	@Test
+	void shouldDeleteStudentById() {
+		Alumno a = new Alumno();
+		a.setNickUsuario("Felipe");
+		a.setContraseya("NahDeLocos99");
+		a.setDniUsuario("20502441B");
+		a.setCorreoElectronicoUsuario("felipe@gmail.com");
+		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
+		a.setNombreCompletoUsuario("Felipe Gonzalez Garcia");
+		a.setNumTelefonoUsuario("622110555");
+		alumnoService.deleteStudent(a.getNickUsuario());
+		verify(alumnoRepository, times(1)).deleteById("Felipe");
+
+	}
+	
+	@Test
+	void shouldReturnAllStudentsNamesWithNoGroups() {
+		List<String> allNames = new ArrayList<>();
+		allNames.add("Manuel Resinas"); allNames.add("Sergio Segura");
+		when(alumnoRepository.findSudentsWithNoGroups()).thenReturn(allNames);
+		assertThat(alumnoService.getStudentsWithNoGroups().size()).isGreaterThan(0);
+		assertThat(alumnoService.getStudentsWithNoGroups().size()).isEqualTo(2);
+	}
+	
+	@Test
+	void shoulReturnAllStudentsNameAbleToDelete(){
+		List<String> students = new ArrayList<>();
+		students.add("Maribel"); students.add("Javidekuka");
+		when(alumnoRepository.findStudentsAbleToDelete()).thenReturn(students);
+		assertThat(alumnoService.getStudentsToDelete().size()).isEqualTo(2);
+		assertThat(alumnoService.getStudentsToDelete()).isNotEmpty();
+
+	}
 }

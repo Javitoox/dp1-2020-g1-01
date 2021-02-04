@@ -9,18 +9,12 @@ import axios from 'axios';
 import moment from 'moment';
 import Auth from './Auth';
 
-
-
-
-
-export default class AssignTeacher extends Component  {
-   
-    
+export default class AssignTeacher extends Component  {    
 
     constructor(props) {
         super(props);
         this.state = {
-   
+
         nickUsuario:this.props.nickUser,
         nombreGrupo:"",
         fecha:moment().format('YYYY-MM-DD'),
@@ -33,8 +27,6 @@ export default class AssignTeacher extends Component  {
         exist:null,
         comprobation:false,
     } 
-        
-    
 
     this.handleNG = this.handleNG.bind(this);
     this.save = this.save.bind(this);
@@ -43,7 +35,6 @@ export default class AssignTeacher extends Component  {
     this.asignaciones = new AssignmentComponent();
     this.form=this.form.bind(this);
 
-
     }
     
     handleNG(event) {
@@ -51,12 +42,9 @@ export default class AssignTeacher extends Component  {
     }  
 
     allGroupNames(){
-
         var t=this.state.listaGrupos
         var i=0
-        var groupSelectItems = [
-            
-        ];
+        var groupSelectItems = [];
         while(i<t.length){        
         groupSelectItems.push(         
             { label: String(t[i]) , value: String(t[i]) })        
@@ -68,13 +56,8 @@ export default class AssignTeacher extends Component  {
         var l = this.state.listaGrupos
         console.log(l)
         if(String(l)===""){
-
-            return <div className="t"><div><h5>There is no group to assign</h5></div></div>
-
-
+            return <div className="t"><div><h5>There are no groups to assign</h5></div></div>
         }else{
-            
-
             return <div>
                 <div className="t"><div><h5>Assign Teacher</h5></div></div>
                                 <div className="i">
@@ -94,13 +77,9 @@ export default class AssignTeacher extends Component  {
                                 <div className="b">
                                 <div className="i">
                                     <Button className="p-button-secondary" label="Guardar" icon="pi pi-fw pi-check"/>
-
                                 </div>
                             </div>
-                                
                             </div>
-
-
         }
     }
 
@@ -123,15 +102,20 @@ export default class AssignTeacher extends Component  {
                 nombreGrupo: this.state.nombreGrupo
             },
             fecha:moment().format('YYYY-MM-DD')
-           
+           }
+        if(this.state.nombreGrupo===""){
+            axios.post("http://localhost:8081/asignaciones/new", grupo, {withCredentials: true}).then(res => {
+                this.respuesta(res.status, res.data);
+            })
+        }else{
+            axios.post("http://localhost:8081/asignaciones/new", grupo, {withCredentials: true}).then(res => {
+                this.respuesta(res.status, res.data);
+            })
+            window.location.assign("/teacherGroups")     
         }
 
-        axios.post("http://localhost:8081/asignaciones/new", grupo, {withCredentials: true}).then(res => {
-            this.respuesta(res.status, res.data);
-        })
-        
-    }
-   
+          
+    }  
 
     respuesta(status, data){
         console.log(status);
@@ -139,8 +123,7 @@ export default class AssignTeacher extends Component  {
         if(status===203){
            this.error(data.field, data.defaultMessage)
         }else if(status===201){
-            this.setState({               
-
+            this.setState({
                 nombreGrupo:"",
                 succes: <div className="alert alert-success" role="alert">Successful assignment</div>
             })
@@ -159,7 +142,6 @@ export default class AssignTeacher extends Component  {
         }
     }
 
-    
     componentDidMount() {
         axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
             if(res.data==="profesor"){
@@ -167,14 +149,8 @@ export default class AssignTeacher extends Component  {
                 }
             })
         this.asignaciones.getListOfEmptyAssignmentGroup(this.props.urlBase).then(data => this.setState({ listaGrupos: data }));
-        
     }
-    
-    
-
-    
-    
-    
+        
     render() {
         if (!this.state.comprobation) {
             return <Auth authority="teacher"></Auth>
@@ -183,7 +159,7 @@ export default class AssignTeacher extends Component  {
             return (
                 <div>
                     <div className="c">
-                        <div className="login request">
+                        <div className="login2 request2">
                             <form onSubmit={this.save}>
                                 {this.state.succes}
                                 {this.state.exist}

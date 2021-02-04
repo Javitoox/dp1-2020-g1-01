@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
+import org.springframework.samples.petclinic.model.Pago;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.model.Tutor;
 
@@ -24,6 +26,9 @@ public class AlumnoRepositoryTests {
 
 	@Autowired 
 	protected AlumnoRepository alumnoRepository;
+	
+	@Autowired
+	protected TipoPagoRepository tipoPagoRepository;
 
 	@Autowired
 	protected CursoRepository cursoRepository;
@@ -33,12 +38,15 @@ public class AlumnoRepositoryTests {
 
 	@Autowired
 	protected TutorRepository tutorRepository;
+	
+	@Autowired
+	protected PagoRepository pagoRepository;
 
 
 	@BeforeEach
 	void data() { 
 		a = new Alumno();
-		a.setNickUsuario("marrambla");
+		a.setNickUsuario("javialonso");
 		a.setFechaMatriculacion(LocalDate.of(2019, 03, 13));
 		a.setDniUsuario("99876566W");
 		a.setFechaNacimiento(LocalDate.of(2000, 06, 22));
@@ -53,19 +61,16 @@ public class AlumnoRepositoryTests {
 		Curso c = new Curso();
 		c.setCursoDeIngles(TipoCurso.A1);
 		Curso curso = cursoRepository.save(c);
-
 		Grupo g  = new Grupo();
-		g.setNombreGrupo("mi grupo fav");
+		g.setNombreGrupo("Grupo de evelyn");
 		g.setCursos(curso);
-		Grupo grupo = grupoRepository.save(g);
-
-		a.setGrupos(grupo);
+		grupoRepository.save(g);
+		a.setGrupos(g);
 		alumnoRepository.save(a);
-
-		List<Alumno>alumnos = alumnoRepository.findByGroup("mi grupo fav");
-		assertTrue(alumnos.size() > 0);
+		List<Alumno>alumnos = alumnoRepository.findByGroup("Grupo de evelyn");
+        assertThat(alumnos.size()).isGreaterThan(0);
+		
 	}
-
 
 	@Test
 	void testReturnListWithStudents() {
@@ -111,6 +116,35 @@ public class AlumnoRepositoryTests {
 
 		List<Alumno>alumnos = alumnoRepository.findStudentsByTutor(tutor.getNickUsuario());
         assertThat(alumnos.size()).isGreaterThan(0);
+	}
+	
+	@Test
+	void testReturnStudentsNamesAbleToDelete() {
+		alumnoRepository.save(a);		
+		Pago p = new Pago();
+		p.setId(1);
+		p.setConcepto("Pago matricula");
+		p.setFecha(LocalDate.of(2020, 11, 11));
+		p.setTipo(tipoPagoRepository.findById("bizum").orElse(null));
+		p.setAlumnos(a);
+		Pago p2 = new Pago();
+		p2.setId(2);
+		p2.setConcepto("Primer plazo");
+		p2.setFecha(LocalDate.of(2020, 11, 11));
+		p2.setTipo(tipoPagoRepository.findById("bizum").orElse(null));
+		p2.setAlumnos(a);
+		
+		pagoRepository.save(p);
+		pagoRepository.save(p2);
+
+		List<String> allNames = alumnoRepository.findStudentsAbleToDelete();
+		assertThat(allNames.size()).isGreaterThan(0);
+	}
+	
+	@Test
+	void testReturnStudentsNamesWithNoGroups() {
+		List<String> allStudents = alumnoRepository.findSudentsWithNoGroups();
+		assertThat(allStudents.size()).isGreaterThan(0);
 	}
 
 }

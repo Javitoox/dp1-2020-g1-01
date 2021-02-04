@@ -21,7 +21,9 @@ import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Pago;
+import org.springframework.samples.petclinic.model.TipoPago;
 import org.springframework.samples.petclinic.service.PagoService;
+import org.springframework.samples.petclinic.service.TipoPagoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,11 +39,11 @@ excludeAutoConfiguration= SecurityConfiguration.class)
 public class PagoControllerTests {
 	
 	private final static String CONCEPTO = "PRIMERA_MATRICULA";
-	private final static String TIPO = "BIZUM";
 	private final static String NICK_USUARIO = "Evelyn";
 	
 	private static Pago p;
-
+	@MockBean
+	private  TipoPagoService tipoPagoService;
 	
 	@MockBean
 	private PagoService pagoService;
@@ -63,10 +65,13 @@ public class PagoControllerTests {
 		alumno.setDireccionUsuario("Calle Pepe");
 		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
 		alumno.setFechaSolicitud(LocalDate.now());
+		TipoPago tipoPago = tipoPagoService.getType("bizum");
+		p.setTipo(tipoPago);
 		p.setConcepto(CONCEPTO);
 		p.setFecha(LocalDate.now());
 		p.setId(30);
-		p.setTipo(TIPO);
+		
+		p.setTipo(tipoPago);
 		p.setAlumnos(alumno);
 		
 	}
@@ -155,16 +160,6 @@ public class PagoControllerTests {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@WithMockUser(value = "spring")
 	@Test
 	void testPaymentsListByStudentIfLoggedAsAlumn() throws Exception {
@@ -178,12 +173,6 @@ public class PagoControllerTests {
 		given(this.pagoService.getPaymentsByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/pagos/paidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","null")).andExpect(status().isUnauthorized());
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	@WithMockUser(value = "spring")
