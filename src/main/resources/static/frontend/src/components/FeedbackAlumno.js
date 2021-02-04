@@ -58,7 +58,7 @@ export class FeedbackAlumno extends Component{
                 </div>
                 <div className="i">
                     <div className="p-inputgroup">
-                        <InputText type= "text" placeholder={this.state.comment} onChange={this.comment} />
+                        <InputText type= "text" placeholder="Comment" value={this.state.comment} onChange={this.comment} />
                     </div>
                 </div>
 
