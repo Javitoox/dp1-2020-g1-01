@@ -72,14 +72,8 @@ class AssignStudent extends Component  {
             })
         if(!this.props.list.includes(this.props.astudent.nickUsuario)){
             this.grupos.getAssignmentGroupsByStudent(this.state.nickUsuario).then(data => this.setState({ listaGrupos: data }));   
-            this.setState({tutores:{
-                nickUsuario:this.props.astudent.tutores.nickUsuario
-            }})
         }else if(this.props.list.includes(this.props.astudent.nickUsuario)){
             this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));   
-            this.setState({tutores:{
-                nickUsuario:null
-            }})
         }
         
 
@@ -102,7 +96,7 @@ class AssignStudent extends Component  {
     assign  =  event => {
         event.preventDefault();
 
-        if(!this.props.list.includes(this.props.astudent.nickUsuario)){
+        if(!this.props.listT.includes(this.props.astudent.nickUsuario)){
             const alumno ={
                 nickUsuario: this.state.nickUsuario,
                 contraseya: this.state.contraseya,
@@ -116,7 +110,7 @@ class AssignStudent extends Component  {
                 numTareasEntregadas:this.state.numTareasEntregadas,
                 fechaMatriculacion: this.state.fechaMatriculacion,
                 tutores:{
-                    nickUsuario:this.state.tutores.nickUsuario
+                    nickUsuario:this.props.astudent.tutores.nickUsuario
                 },
                 grupos: {
                     nombreGrupo: this.state.grupos.nombreGrupo,
@@ -136,7 +130,7 @@ class AssignStudent extends Component  {
             }
             
            
-        }else if(this.props.list.includes(this.props.astudent.nickUsuario)){
+        }else if(this.props.listT.includes(this.props.astudent.nickUsuario)){
 
             const alumno ={
                 nickUsuario: this.state.nickUsuario,

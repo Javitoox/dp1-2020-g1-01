@@ -116,6 +116,19 @@ public class AlumnoController {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		}
 	}
+	
+	@GetMapping("/studentsWithNoTutors")
+	public ResponseEntity<?> listAlumnosWithNoTutors(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+			List<String> allStudents = alumnoServ.getStudentsWithNoTutors();
+			return ResponseEntity.ok(allStudents);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
+	}
 
 	@GetMapping("/getByCourse/{course}")
 	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") TipoCurso cursoDeIngles, HttpServletRequest request) {

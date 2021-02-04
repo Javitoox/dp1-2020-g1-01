@@ -57,6 +57,10 @@ public class AlumnoService {
     public List<String> getStudentsWithNoGroups(){
         return alumnoRepository.findSudentsWithNoGroups();
     }
+    
+    public List<String> getStudentsWithNoTutors(){
+        return alumnoRepository.findSudentsWithNoTutors();
+    }
    
     public List<Alumno>getAllMyStudents(String nickTutor){
     	return alumnoRepository.findStudentsByTutor(nickTutor);

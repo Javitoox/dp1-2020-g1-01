@@ -53,6 +53,9 @@ class Alumnos extends Component {
             listaSinGrupos:{
                
             },
+            listaSinTutor:{
+               
+            },
             listaAllGrupos:{
                
             }
@@ -85,6 +88,8 @@ class Alumnos extends Component {
         this.mostrarTabla();
         this.alumnos.getAlumnosEliminiables(this.props.urlBase).then(data =>  this.setState({ listaEliminables: data }) );
         this.alumnos.getAlumnosSinGrupo(this.props.urlBase).then(data =>  this.setState({ listaSinGrupos: data }) );
+        this.alumnos.getAlumnosSinTutores(this.props.urlBase).then(data =>  this.setState({ listaSinTutor: data }) );
+
     }
 
     boton(rowData) {
@@ -122,7 +127,7 @@ class Alumnos extends Component {
         this.setState({
             formularioAssginStudent: 
             <Dialog visible={true} style={{ width: '40vw'}} onHide={() => this.setState({formularioAssginStudent: null})}>
-                <AssignStudent urlBase={this.props.urlBase} list={this.state.listaSinGrupos} listaAll={this.allGroupNames()} tut={''}></AssignStudent>
+                <AssignStudent urlBase={this.props.urlBase} list={this.state.listaSinGrupos} listT={this.state.listaSinTutor} listaAll={this.allGroupNames()} tut={''}></AssignStudent>
             </Dialog>
         });
         this.mostrarTabla();
@@ -304,6 +309,7 @@ class Alumnos extends Component {
                 }
                 
             }
+            console.log(this.state)
 
                 const courseSelectItems = [
                     { label: 'All courses', value: 'allCourses' },
