@@ -149,7 +149,7 @@ public class AlumnoController {
 	public ResponseEntity<List<Alumno>> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		log.info("Obteniendo alumnos del curso: "+ nombreGrupo);
-		if(session != null && session.getAttribute("type") == "profesor") {
+		if(session != null && (session.getAttribute("type") == "profesor" || session.getAttribute("type") == "alumno")) {
 			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 			List<Alumno> studentsByGroup = alumnoServ.getStudentsPerGroup(nombreGrupo);
 			return ResponseEntity.ok(studentsByGroup);

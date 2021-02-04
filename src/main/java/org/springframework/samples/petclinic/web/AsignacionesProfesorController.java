@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.AsignacionProfesor;
 import org.springframework.samples.petclinic.model.AsignacionProfesorKey;
+import org.springframework.samples.petclinic.model.Profesor;
 import org.springframework.samples.petclinic.service.AsignacionProfesorService;
+import org.springframework.samples.petclinic.service.ProfesorService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,10 +33,13 @@ import lombok.extern.slf4j.Slf4j;
 public class AsignacionesProfesorController {
 	
 	private AsignacionProfesorService asignacionS;
+	private ProfesorService profesorS;
+
 	
 	@Autowired
-	public AsignacionesProfesorController(AsignacionProfesorService asignacionS) {
+	public AsignacionesProfesorController(AsignacionProfesorService asignacionS, ProfesorService profesorS) {
 		this.asignacionS = asignacionS;
+		this.profesorS = profesorS;
 	}
 	
 	@GetMapping("/{user}")
@@ -44,6 +49,19 @@ public class AsignacionesProfesorController {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			List<AsignacionProfesor> all =  asignacionS.getAllAsignacionesByUser(user);
 			return ResponseEntity.ok(all);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+			 }
+		}
+	
+	@GetMapping("/{nombreGrupo}")
+	public ResponseEntity<Profesor> profesorByGroup(@PathVariable("nombreGrupo") String nombreGrupo, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
+			List<String> all =  asignacionS.findAsignacionProfesor(nombreGrupo);
+			Profesor p = profesorS.getProfesor(all.get(0));
+			return ResponseEntity.ok(p);
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 			 }

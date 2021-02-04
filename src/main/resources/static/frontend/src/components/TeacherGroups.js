@@ -105,6 +105,7 @@ export default class TeacherGroups extends Component {
                         <div>&nbsp;</div>
                         <DataTable value={this.state.alumnos}>
                             <Column field="grupo.nombreGrupo" header="Group"></Column>
+                            <Column field="grupo.cursos.cursoDeIngles" header="Course"></Column>
                             <Column field="fecha" header="Date of assignment"></Column>
                             <Column header="Delete" body={this.botonDelete}></Column>
 
