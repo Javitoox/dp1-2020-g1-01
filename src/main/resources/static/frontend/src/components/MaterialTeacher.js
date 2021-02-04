@@ -19,7 +19,7 @@ import {Feedback} from './Feedback';
             visualizarPDF: null,
             formularioUpload: null,
             displayConfirmation: false,
-            visualizarFeedback: null
+            visualizarFeedback: null,
         }
 
         this.mostrarMaterial= this.mostrarMaterial.bind(this);
@@ -33,6 +33,7 @@ import {Feedback} from './Feedback';
         this.renderFooter = this.renderFooter.bind(this);
         this.materiales= new MaterialComponent();
         this.botonFeedback=  this.botonFeedback.bind(this);
+        this.onHidenFormUpload = this.onHidenFormUpload.bind(this);
     }
 
     componentDidMount() {
@@ -54,22 +55,35 @@ import {Feedback} from './Feedback';
     mostrarFormUpload(){
         this.setState({
             formularioUpload: 
-                <Dialog visible={true} style={{ width: '50vw' }} onHide={() => this.setState({formularioUpload: null})}>
+                <Dialog visible={true} style={{ width: '50vw' }} onHide={() => this.onHidenFormUpload()}>
                     <UploadMaterial urlBase={this.state.urlBase} nickUsuario={this.state.nickUsuario}></UploadMaterial>
                 </Dialog>
         })
+    }
 
+    onHidenFormUpload(){
+        this.setState({formularioUpload: null})
+        this.obtenerMaterial()
     }
 
     mostrarMaterial(){
+        const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
+        const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
+
         return(
-            <DataTable value={this.state.materiales}>
+            <DataTable value={this.state.materiales} paginator
+                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[5,10,20]}
+                paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
+
                 <Column header="Material name" field="nombreMaterial"></Column>
+                <Column header="Type of Material" field="tipoMaterial.tipo"></Column>
                 <Column header="Upload date" field="fechaSubida"></Column>
                 <Column header="Preview" body={this.botonVerMaterial}></Column>
                 <Column header="Download" body={this.botonDescargarMaterial}></Column>
                 <Column header="Delete" body={this.botonEliminarMaterial}></Column>
                 <Column header="Feedback" body={this.botonFeedback}></Column>
+
             </DataTable>
         );
 
@@ -135,6 +149,7 @@ import {Feedback} from './Feedback';
     }
 
     render(){
+
         return (
             <React.Fragment>
                 {this.mostrarBotonUpload()}
