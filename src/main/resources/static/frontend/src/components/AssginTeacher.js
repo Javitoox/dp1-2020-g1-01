@@ -103,11 +103,18 @@ export default class AssignTeacher extends Component  {
             },
             fecha:moment().format('YYYY-MM-DD')
            }
+        if(this.state.nombreGrupo===""){
+            axios.post("http://localhost:8081/asignaciones/new", grupo, {withCredentials: true}).then(res => {
+                this.respuesta(res.status, res.data);
+            })
+        }else{
+            axios.post("http://localhost:8081/asignaciones/new", grupo, {withCredentials: true}).then(res => {
+                this.respuesta(res.status, res.data);
+            })
+            window.location.assign("/teacherGroups")     
+        }
 
-        axios.post("http://localhost:8081/asignaciones/new", grupo, {withCredentials: true}).then(res => {
-            this.respuesta(res.status, res.data);
-        })
-        window.location.assign("/teacherGroups")        
+          
     }  
 
     respuesta(status, data){
