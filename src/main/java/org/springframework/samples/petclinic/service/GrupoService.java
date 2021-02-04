@@ -74,7 +74,6 @@ public class GrupoService {
 	}
 	
 	public Integer numAlumnos(String nombreGrupo) {
-		Integer num = grupoRepository.numAlumnosGrupo(nombreGrupo).size();
-		return num;
+		return grupoRepository.numAlumnosGrupo(nombreGrupo).size();
 	}
 }

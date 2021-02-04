@@ -19,6 +19,8 @@ import org.springframework.samples.petclinic.configuration.SecurityConfiguration
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
+import org.springframework.samples.petclinic.service.GrupoService;
+import org.springframework.samples.petclinic.service.PremiadoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,6 +33,12 @@ public class AlumnoControllerTests {
 	
 	@MockBean
 	private AlumnoService alumnoService;
+	
+	@MockBean
+	private GrupoService grupoService;
+	
+	@MockBean
+	private PremiadoService premiadoService;
 	
 	@Autowired
 	private MockMvc mockMvc;

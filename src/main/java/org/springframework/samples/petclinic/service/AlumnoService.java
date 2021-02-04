@@ -74,7 +74,7 @@ public class AlumnoService {
     		return false;
     	}
     }
-     
+    
     public void asignInscripcionesAlumnos(Evento evento, TipoCurso tipoCurso, String type) {
     	List<Alumno> alumnosCurso = getStudentsByCourse(tipoCurso);
 		Integer idInscripcion = inscripcionService.lastId()+1;

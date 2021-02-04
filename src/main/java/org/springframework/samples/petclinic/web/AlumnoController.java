@@ -35,14 +35,14 @@ public class AlumnoController {
 
 
 	private AlumnoService alumnoServ;
-	private GrupoService grupoService;
 	private PremiadoService premiadoService;
+	private GrupoService grupoService;
 
 	@Autowired
 	public AlumnoController(AlumnoService alumnoServ, GrupoService grupoService, PremiadoService premiadoService) {
 		this.alumnoServ = alumnoServ;
-		this.grupoService = grupoService;
 		this.premiadoService = premiadoService;
+		this.grupoService = grupoService;
 	}
 	
 	@PutMapping("/editStudent")
@@ -196,7 +196,7 @@ public class AlumnoController {
 			}else {
 				return new ResponseEntity<>("No se puede borrar el alumno porque tiene pagos pendientes", HttpStatus.BAD_REQUEST);
 			}
-//			
+			
 		}else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 			}

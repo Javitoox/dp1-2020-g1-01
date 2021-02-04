@@ -87,7 +87,7 @@ public class PagosController {
 		}
 	}
 	
-	@GetMapping("/notPaidByStudent/{nickUsuario}") /*¿Quién puede acceder aquí?*/
+	@GetMapping("/notPaidByStudent/{nickUsuario}") 
 	public ResponseEntity<List<String>> listadoNoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario,  HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if(session != null && (session.getAttribute("type") == "alumno" || session.getAttribute("type") == "profesor" )) {
@@ -99,7 +99,7 @@ public class PagosController {
 		
 	}
 	
-	@GetMapping("/paidByStudent/{nickUsuario}") /*¿Quién puede acceder aquí?*/
+	@GetMapping("/paidByStudent/{nickUsuario}") 
 	public ResponseEntity<List<Pago>> listadoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario,  HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if(session != null && session.getAttribute("type") == "alumno" ) {
@@ -111,7 +111,7 @@ public class PagosController {
 		
 	}
 	
-	@GetMapping("/studentsNotPaid") /*¿Quién puede acceder aquí?*/
+	@GetMapping("/studentsNotPaid") 
 	public ResponseEntity<List<String>> listadoNombreAlumnoNoPago(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if(session != null && session.getAttribute("type") == "profesor") {
