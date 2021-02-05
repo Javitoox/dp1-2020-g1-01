@@ -24,6 +24,14 @@
     margin-top: 100px;
     width: 400px;
   }
+  .login2 {
+    padding: 15px 0;
+    background-color:white;
+    border-radius: 3px;
+  }
+  .request2 {
+    width: 400px;
+  }
   
   .login form{
     margin: 3px;

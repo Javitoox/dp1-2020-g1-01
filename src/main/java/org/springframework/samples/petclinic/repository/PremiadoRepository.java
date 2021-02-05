@@ -17,5 +17,11 @@ public interface PremiadoRepository extends CrudRepository<Premiado, Integer> {
     
     @Query("SELECT count(p) from Premiado p WHERE (p.walloffames.fechaWall =:fechawall and p.alumnos.nickUsuario =:nickUsuario)")
     public Integer numAparicionesEnFecha(@Param("fechawall") String fechaWall, @Param("nickUsuario") String nickUsuario);
+    
+    @Query("SELECT p from Premiado p WHERE (p.alumnos.nickUsuario =:nickUsuario)")
+    public List<Premiado> aparacionesPorAlumno(@Param("nickUsuario") String nickUsuario);
+    
+    
+    
 }
     

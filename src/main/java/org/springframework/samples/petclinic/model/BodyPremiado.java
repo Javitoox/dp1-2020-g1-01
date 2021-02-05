@@ -18,9 +18,9 @@ public class BodyPremiado {
 	@NotBlank(message = "Required field")
 	private String nickUsuario;
 	
-	@Pattern(regexp = "^[ a-zA-Z0-9á-úÁ-Ú,]+$", message = "Incorrect format")
-	@Size(max = 300, message = "The maximum size is 300 characters")
 	@NotBlank(message = "Required field")
+	@Size(max = 300, message = "The maximum size is 300 characters")
+	@Pattern(regexp = "^[ a-zA-Z0-9á-úÁ-Ú,]+$", message = "Incorrect format")
 	private String description;
 	
 	@NotNull

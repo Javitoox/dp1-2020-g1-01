@@ -5,7 +5,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import Auth from './Auth';
-
+import { Dialog } from 'primereact/dialog';
 
 
 export class DeleteGroup extends Component {
@@ -19,6 +19,8 @@ export class DeleteGroup extends Component {
                 nombreGrupo: ""
             },
             comprobation: false,
+            displayConfirmation: false
+
 
         }
         this.grupos = new GrupoComponent();
@@ -29,24 +31,14 @@ export class DeleteGroup extends Component {
     }
     delete = event => {
         event.preventDefault();
-
             if(this.state.grupoS.nombreGrupo===""){
-                window.alert("You must select a group")
+                this.setState({displayConfirmation: true})    
 
             }else{
                 axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, {withCredentials: true}).then(res => {
                     this.respuesta(res.status, res.data);        })
-            }
-           
-
-        
-
-        
-        
-        
-       
+            }       
     }
-
 
     handleNG(event) {
         this.setState({grupoS:{            
@@ -55,7 +47,6 @@ export class DeleteGroup extends Component {
     }
 
     allGroupNames(){
-
         var t=this.state.listaGrupos
         console.log(t);
         var i=0
@@ -70,16 +61,11 @@ export class DeleteGroup extends Component {
 
     form(){
         var l = this.state.listaGrupos
-        if(l==""){
-
+        if(Object.keys(l).length===0){
             return <div className="t"><div><h5>There are no groups to delete</h5></div></div>
-
-
         }else{
-            
-
             return <div>
-                <div className="t"><div><h5>Delete Group</h5></div></div>
+                                <div className="t"><div><h5>Delete Group</h5></div></div>
 
                                 <div className="i">
                                 <div className="p-inputgroup">
@@ -91,32 +77,23 @@ export class DeleteGroup extends Component {
 
                                 <div className="b">
                                 <div className="i">
-                                <Button className="p-button-secondary" label="Eliminar" icon="pi pi-fw pi-check"/>
+                                <Button className="p-button-secondary" label="Delete" icon="pi pi-fw pi-check"/>
 
                                 </div>
                                 </div>
                                 
-                            </div>
+                    </div>
 
 
         }
     }
     respuesta(status, data){
-        console.log("hola?");
-
         console.log(status);
-        if(status===111){
-            console.log("no va");
-
+        if(status===400){
             data.forEach(e => this.error(e.field, e.defaultMessage))
         }else if(status===200){
-            console.log("va");
-
+            this.grupos.getEmptyGroupNames().then(data => this.setState({ listaGrupos: data }));
             this.setState({               
-
-                grupoS:{
-                    nombreGrupo:""
-                },
                 succes: <div className="alert alert-success" role="alert">Successful delete</div>
             })
         }else{
@@ -132,6 +109,12 @@ export class DeleteGroup extends Component {
             })
         this.grupos.getEmptyGroupNames().then(data => this.setState({ listaGrupos: data }));
     }
+    renderFooter(){
+        return (
+            <div>
+            </div>
+        );
+    }
 
     render() {
         if (!this.state.comprobation) {
@@ -142,11 +125,17 @@ export class DeleteGroup extends Component {
 
                 <div>
                     <div className="c">
-                        <div className="login request">
+                        <div className="login2 request2">
                             <form onSubmit={this.delete}>
                             {this.state.succes}
                             {this.state.exist}
                             {this.form()}
+                        <Dialog header="Confirmation" visible={this.state.displayConfirmation} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation: false})}>
+                         <div className="confirmation-content">
+                             <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                               <span>You must select a course</span>
+                        </div>
+                        </Dialog>
                             </form>
                         </div>
                     </div>

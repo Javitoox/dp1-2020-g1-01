@@ -46,9 +46,7 @@ export class Feedback extends Component{
     valoracion(rowData) {
         return(
             <div>
-                <div className="card">
-                    <Rating value={rowData.valoracion} readOnly stars={5} cancel={false} />
-                </div>
+                <Rating value={rowData.valoracion} readOnly stars={5} cancel={false} />
             </div>
 
         );

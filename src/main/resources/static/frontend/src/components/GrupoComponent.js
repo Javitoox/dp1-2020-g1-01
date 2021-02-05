@@ -20,4 +20,8 @@ export default class GrupoComponent extends Component{
     getEmptyGroupNames(){
         return axios.get("http://localhost:8081/grupos/allEmptyGroups", {withCredentials: true}).then(res => res.data);
     }
+
+    getAssignmentGroupsByStudent(nick){
+        return axios.get("http://localhost:8081/grupos/allAsignableGroups/"+nick, {withCredentials: true}).then(res => res.data);
+    }
 }
