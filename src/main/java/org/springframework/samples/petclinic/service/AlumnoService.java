@@ -40,7 +40,8 @@ public class AlumnoService {
 	
 	@Transactional	
 	public void deleteStudents(Alumno alumno) throws DataAccessException{
-		alumnoRepository.delete(alumno);
+		alumno.setFechaBaja(LocalDate.now());
+		alumno.setGrupos(null);
 	}
 	@Transactional	
 	public void deleteStudent(String id) throws DataAccessException {
@@ -53,12 +54,21 @@ public class AlumnoService {
 		return alumnoRepository.save(alumno);		
 	}		
 	
+	@Transactional
+	public Alumno saveAlumnAsign(Alumno alumno) throws DataAccessException {
+		return alumnoRepository.save(alumno);		
+	}
+	
     public List<Alumno> getStudentsByCourse(TipoCurso cursoDeIngles){
         return alumnoRepository.findStudentsByCourse(cursoDeIngles);
     }
     
     public List<String> getStudentsWithNoGroups(){
         return alumnoRepository.findSudentsWithNoGroups();
+    }
+    
+    public List<String> getStudentsWithNoTutors(){
+        return alumnoRepository.findSudentsWithNoTutors();
     }
    
     public List<Alumno>getAllMyStudents(String nickTutor){

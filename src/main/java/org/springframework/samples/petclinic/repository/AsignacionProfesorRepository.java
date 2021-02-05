@@ -13,6 +13,9 @@ public interface AsignacionProfesorRepository extends CrudRepository<AsignacionP
 	@Query("SELECT a FROM AsignacionProfesor a WHERE a.profesor.nickUsuario=:nickProfesor")
 	List<AsignacionProfesor> getAsignacionesByProfesor(@Param("nickProfesor")String nickProfesor);
 	
+	@Query("SELECT a.profesor.nickUsuario FROM AsignacionProfesor a WHERE a.grupo.nombreGrupo=:nombreGrupo")
+	List<String> getAsignacionesByGroup(@Param("nombreGrupo")String nombreGrupo);
+	
 	@Query("SELECT g.nombreGrupo FROM Grupo g WHERE g.nombreGrupo NOT IN (SELECT a.grupo.nombreGrupo FROM AsignacionProfesor a)")
 	List<String> getFreeGroups();
 }

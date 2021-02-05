@@ -6,11 +6,15 @@ import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
 import Auth from './Auth';
 import { Dialog } from 'primereact/dialog';
+import Alumnos from './Alumnos';
+import {selectCreatedGroup}  from '../actions/index';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 
 
 
-export class CreateGroup extends Component {
+class CreateGroup extends Component {
     constructor(props) {
         super(props);
         this.state = { 
@@ -53,6 +57,7 @@ export class CreateGroup extends Component {
             axios.post("http://localhost:8081/grupos/new", grupo, {withCredentials: true}).then(res => {
                 this.respuesta(res.status, res.data);
             })
+            this.props.selectCreatedGroup(grupo)
         }
     }
     handleCI(event) {
@@ -141,6 +146,11 @@ export class CreateGroup extends Component {
             { label: 'C2', value: 'C2' },
             { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
         ];
+        <React.Fragment>
+                <Alumnos grupo={'pepe'}></Alumnos>
+
+        </React.Fragment>
+
         return (
                 <div>
                     <div className="c">
@@ -187,3 +197,10 @@ export class CreateGroup extends Component {
         }
     }
 }
+function  matchDispatchToProps(dispatch) {
+
+    return bindActionCreators({
+        selectCreatedGroup: selectCreatedGroup}, dispatch)
+}
+
+export default connect(null , matchDispatchToProps)(CreateGroup) 

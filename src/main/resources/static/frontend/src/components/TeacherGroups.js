@@ -45,8 +45,9 @@ export default class TeacherGroups extends Component {
                 this.setState({comprobation: true})
                 }
             })
-        this.mostrarTabla();
-        this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
+            this.mostrarTabla()
+            this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data }));
+            this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
     }
 
     mostrarTabla(){
@@ -69,6 +70,8 @@ export default class TeacherGroups extends Component {
                 <DeleteAssignmentTeacher urlBase={this.props.urlBase} data={data} nickUser={this.props.nickUser}></DeleteAssignmentTeacher>
             </Dialog>
         });    
+        this.mostrarTabla()
+
     }
 
     botonDelete(rowData) {  
@@ -77,7 +80,9 @@ export default class TeacherGroups extends Component {
                                       
                     <Button icon="pi pi-trash" className="p-button-rounded p-button-secondary p-mr-2"  onClick={() => this.formUnassignTeacher(rowData)}/>
                 </React.Fragment>
-            );    
+            ); 
+            this.mostrarTabla()
+   
      }
 
     render() {
@@ -105,6 +110,7 @@ export default class TeacherGroups extends Component {
                         <div>&nbsp;</div>
                         <DataTable value={this.state.alumnos}>
                             <Column field="grupo.nombreGrupo" header="Group"></Column>
+                            <Column field="grupo.cursos.cursoDeIngles" header="Course"></Column>
                             <Column field="fecha" header="Date of assignment"></Column>
                             <Column header="Delete" body={this.botonDelete}></Column>
 
