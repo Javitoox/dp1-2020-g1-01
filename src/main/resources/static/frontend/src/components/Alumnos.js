@@ -13,8 +13,8 @@ import { connect } from 'react-redux';
 import { Dialog } from 'primereact/dialog';
 import axios from 'axios';
 import Auth from './Auth';
-import {CreateGroup} from './CreateGroup';
-import {DeleteGroup} from './DeleteGroup'
+import CreateGroup from './CreateGroup';
+import DeleteGroup from './DeleteGroup'
 import AssignStudent from './AssignStudent';
 
 
@@ -46,7 +46,10 @@ class Alumnos extends Component {
             formularioAssginStudent:null,
             displayConfirmation: false,
             listaGrupos:{
-                nombreGrupo: ""
+                nombreGrupo: "",
+            },
+            lista:{
+                nombreGrupo: "",
             },
             listaEliminables:{
                
@@ -59,7 +62,10 @@ class Alumnos extends Component {
             },
             listaAllGrupos:{
                
-            }
+            },
+            reducerC:this.props.cgselected,
+            cursoS:"",
+            grupoS:""
             
         }
         this.alumnos = new AlumnoComponent();
@@ -92,6 +98,11 @@ class Alumnos extends Component {
         this.alumnos.getAlumnosEliminiables(this.props.urlBase).then(data =>  this.setState({ listaEliminables: data }) );
         this.alumnos.getAlumnosSinGrupo(this.props.urlBase).then(data =>  this.setState({ listaSinGrupos: data }) );
         this.alumnos.getAlumnosSinTutores(this.props.urlBase).then(data =>  this.setState({ listaSinTutor: data }) );
+        if(this.props.cgselected!==null){
+            console.log("jas")
+            this.setState({cursoS:this.props.cgselected.cursos.cursoDeIngles})
+
+        }
 
     }
 
@@ -164,6 +175,8 @@ class Alumnos extends Component {
     }   
     
     showSelectCourse(course) {
+        console.log("ja")
+
         if (course !== null) {
 
             this.setState({ curso: course });
@@ -174,6 +187,9 @@ class Alumnos extends Component {
             } else {
                 this.alumnos.getStudentsByCourse(this.props.urlBase, course).then(data => this.setState({ alumnos: data }));
                 this.grupos.getGroupNamesByCourse(course).then(data => this.setState({ listaGrupos: data }));
+                
+                this.setState({grupoS:this.props.dgselected})
+
 
             }
         }
@@ -223,15 +239,36 @@ class Alumnos extends Component {
     allGroupNames(){
         var t=this.state.listaGrupos
         var i=0
-        var groupSelectItems = [
-            { label: 'All groups' , value: 'allGroups' },
-        ];
-        while(i<t.length){        
-        groupSelectItems.push(         
-            { label: String(t[i]) , value: String(t[i]) })        
-        i+=1
+        if(this.state.curso===this.state.cursoS){
+            var groupSelectItems = [
+                { label: 'All groups' , value: 'allGroups' },
+                { label: this.props.cgselected.nombreGrupo , value: this.props.cgselected.nombreGrupo },
+
+            ];
+            while(i<t.length){        
+                groupSelectItems.push(         
+                    { label: String(t[i]) , value: String(t[i]) })        
+                i+=1
+                }
+                return groupSelectItems
+
+        }else{
+            var groupSelectItems = [
+                { label: 'All groups' , value: 'allGroups' },
+
+            ];
+            while(i<t.length){        
+                groupSelectItems.push(         
+                    { label: String(t[i]) , value: String(t[i]) })        
+                i+=1
+                }
+                return groupSelectItems
+        
+        
+
         }
-        return groupSelectItems
+       
+        
     }
 
     botonInfo(rowData){
@@ -318,7 +355,7 @@ class Alumnos extends Component {
                 }
                 
             }
-            console.log(this.props)
+            console.log(this.props.dgselected)
 
                 const courseSelectItems = [
                     { label: 'All courses', value: 'allCourses' },
@@ -390,5 +427,11 @@ class Alumnos extends Component {
             selectStudent : selectStudent,
             selectAssignedStudent: selectAssignedStudent}, dispatch)
     }
+    function mapStateToProps(state) { //metodo para poder pillar datos del store
+        return {
+            dgselected: state.dgselected,
+            cgselected: state.cgselected //le pasamos a nuestra variable student la informacion del estudiante almacenada en el store
+        }
+    }
 
-    export default connect(null , matchDispatchToProps)(Alumnos) 
+    export default connect(mapStateToProps , matchDispatchToProps)(Alumnos) 

@@ -6,9 +6,12 @@ import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import Auth from './Auth';
 import { Dialog } from 'primereact/dialog';
+import {selectDeletedGroup}  from '../actions/index';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 
-export class DeleteGroup extends Component {
+class DeleteGroup extends Component {
     constructor(props) {
         super(props);
         this.state = { 
@@ -37,7 +40,8 @@ export class DeleteGroup extends Component {
             }else{
                 axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, {withCredentials: true}).then(res => {
                     this.respuesta(res.status, res.data);        })
-                       
+                this.props.selectDeletedGroup(this.state.grupoS.nombreGrupo)
+    
 
             }       
     }
@@ -98,7 +102,7 @@ export class DeleteGroup extends Component {
             this.setState({               
                 succes: <div className="alert alert-success" role="alert">Successful delete</div>
             })
-            
+
             this.setState({displayConfirmation: true})
         }else{
             this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
@@ -149,4 +153,10 @@ export class DeleteGroup extends Component {
     }
 }
 
-export default (DeleteGroup);
+function  matchDispatchToProps(dispatch) {
+
+    return bindActionCreators({
+        selectDeletedGroup: selectDeletedGroup}, dispatch)
+}
+
+export default connect(null , matchDispatchToProps)(DeleteGroup);
