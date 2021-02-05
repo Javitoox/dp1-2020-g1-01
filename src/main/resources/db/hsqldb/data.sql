@@ -1,26 +1,26 @@
 -----------------------------------------------
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_solicitud,fecha_matriculacion)values
-	('marrambla2','Believer123','88645678C','Maribel Ramos,','maribel.r@gmail.com','567825431','mi casa','2000-06-22','2015-06-22','2018-07-22');
+	('marrambla2','Believer123','88645678C','Maribel Ramos','maribel.r@gmail.com','667825431','mi casa','2000-06-22','2015-06-22','2018-07-22');
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
-	('eveyugyug','Believer123','88645678J','20018-04-07','Evelyn Yugsi','ev.r@gmail.com','567825431','mi casa','2000-04-07','2018-07-22');
+	('eveyugyug','Believer123','88645678J','2018-04-07','Evelyn Yugsi','ev.r@gmail.com','667825431','mi casa','2000-04-07','2018-07-22');
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
-	('carmen123','Believer123','88645678Z','20018-04-07','Carmen Garcia','carm1@gmail.com','567825431','mi casa','2000-04-07','2018-07-22');
+	('carmen123','Believer123','88645678Z','2018-04-07','Carmen Garcia','carm1@gmail.com','667825431','mi casa','2000-04-07','2018-07-22');
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
-	('carmen124','Believer123','88645678A','20018-04-07','Carmen Rodriguez','carm2@gmail.com','567825431','mi casa','2000-04-07','2018-07-22');
+	('carmen124','Believer123','88645678A','2018-04-07','Carmen Rodriguez','carm2@gmail.com','667825431','mi casa','2000-04-07','2018-07-22');
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
-	('carmen125','Believer123','88645678B','20018-04-07','Carmen Martin','carm3@gmail.com','567825431','mi casa','2000-04-07','2018-07-22');
+	('carmen125','Believer123','88645678B','2018-04-07','Carmen Martin','carm3@gmail.com','667825431','mi casa','2000-04-07','2018-07-22');
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
-	('carmen126','Believer123','88645670A','20018-04-07','Carmen Lopez','carm4@gmail.com','567825431','mi casa','2000-04-07','2018-07-22');
+	('carmen126','Believer123','88645670A','2018-04-07','Carmen Lopez','carm4@gmail.com','667825431','mi casa','2000-04-07','2018-07-22');
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
-	('carmen127','Believer123','88645678D','20018-04-07','Carmen Vilariño','carm5@gmail.com','567825431','mi casa','2000-04-07','2018-07-22');
+	('carmen127','Believer123','88645678D','2018-04-07','Carmen Vilariño','carm5@gmail.com','667825431','mi casa','2000-04-07','2018-07-22');
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
-	('carmen128','Believer123','88645678X','20018-04-07','Carmen Ramos','carm6@gmail.com','567825431','mi casa','2000-04-07', null);
+	('carmen128','Believer123','88645678X','2018-04-07','Carmen Ramos','carm6@gmail.com','667825431','mi casa','2000-04-07', null);
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
-	('carmen129','Believer123','88645678Y','20018-04-07','Carmen Blanco','carm7@gmail.com','567825431','mi casa','2000-04-07', null);
+	('carmen129','Believer123','88645678Y','2018-04-07','Carmen Blanco','carm7@gmail.com','667825431','mi casa','2000-04-07', null);
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
-	('carmen130','Believer123','88645678M','20018-04-07','Carmen Mayo','carm8@gmail.com','567825431','mi casa','2000-04-07', null);
+	('carmen130','Believer123','88645678M','2018-04-07','Carmen Mayo','carm8@gmail.com','667825431','mi casa','2000-04-07', null);
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
-	('carmen131','Believer123','88645678R','20018-04-07','Carmen Yugsi','carm9@gmail.com','567825431','mi casa','2000-04-07', null);
+	('carmen131','Believer123','88645678R','2018-04-07','Carmen Yugsi','carm9@gmail.com','667825431','mi casa','2000-04-07', null);
 
 INSERT INTO cursos(curso_de_ingles) values ('A1');
 INSERT INTO cursos(curso_de_ingles) values ('A2');

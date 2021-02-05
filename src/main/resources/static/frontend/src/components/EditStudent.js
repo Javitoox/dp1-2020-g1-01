@@ -33,12 +33,7 @@ class EditStudent extends Component {
         birthdate: this.props.student.fechaNacimiento,
         fechaMatriculacion: this.props.student.fechaMatriculacion,
         numTareasEntregadas: this.props.student.numTareasEntregadas,
-        grupos: {
-            nombreGrupo: this.props.student.grupos.nombreGrupo,
-            cursos: {
-                cursoDeIngles: this.props.student.grupos.cursos.cursoDeIngles
-        }
-        },
+        fechaSolicitud: this.props.student.fechaSolicitud,
         button:false,
         buttonTel1:false,
         buttonTel2:false,
@@ -152,7 +147,7 @@ class EditStudent extends Component {
             fechaNacimiento: this.state.birthdate,
             fechaMatriculacion: this.state.fechaMatriculacion,
             numTareasEntregadas: this.state.numTareasEntregadas,
-            grupos : this.state.grupos
+            fechaSolicitud: this.state.fechaSolicitud
         }
         if(!this.state.buttonTel1){
             alumno.numTelefonoUsuario2 = null
@@ -206,7 +201,7 @@ class EditStudent extends Component {
     }
        
     render() {
-        console.log(this.props.student.numTareasEntregadas)
+        console.log(this.props.student.fechaSolicitud)
         if (!this.state.comprobation) {
             return <Auth authority="profesor"></Auth>
         } else {

@@ -64,7 +64,7 @@ export class FeedbackAlumno extends Component{
 
                 <div className="i">
                     <div className="p-inputgroup">
-                        <Rating value={this.state.rate} onChange={(e) => this.setState({rate: e.value})} />
+                        <Rating value={this.state.rate} cancel={false} onChange={(e) => this.setState({rate: e.value})} />
                     </div>
                 </div>
 

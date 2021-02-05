@@ -7,9 +7,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+
 import lombok.Getter;
 import lombok.Setter;
 
+@Audited
 @Entity
 @Getter
 @Setter

@@ -1,0 +1,16 @@
+.padre {
+    width: 100%;
+    margin: auto;
+    display: flex;
+}
+.padre div {
+    display: inline-block;
+    width: 100%;
+}
+
+.hijo{
+    opacity: 93%;
+    border: solid 1px rgb(143, 141, 141);
+    font-size: 16px;
+}
+
