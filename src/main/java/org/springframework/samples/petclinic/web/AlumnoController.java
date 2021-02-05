@@ -111,6 +111,19 @@ public class AlumnoController {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
 		}
 	}
+	
+	@GetMapping("/studentsWithNoTutors")
+	public ResponseEntity<?> listAlumnosWithNoTutors(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+			List<String> allStudents = alumnoServ.getStudentsWithNoTutors();
+			return ResponseEntity.ok(allStudents);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
+	}
 
 	@GetMapping("/getByCourse/{course}")
 	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") TipoCurso cursoDeIngles, HttpServletRequest request) {
@@ -130,7 +143,7 @@ public class AlumnoController {
 	public ResponseEntity<List<Alumno>> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		log.info("Obteniendo alumnos del curso: "+ nombreGrupo);
-		if(session != null && session.getAttribute("type") == "profesor") {
+		if(session != null && (session.getAttribute("type") == "profesor" || session.getAttribute("type") == "alumno")) {
 			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 			List<Alumno> studentsByGroup = alumnoServ.getStudentsPerGroup(nombreGrupo);
 			return ResponseEntity.ok(studentsByGroup);
@@ -163,13 +176,13 @@ public class AlumnoController {
     			if(alumno.getGrupos().getNombreGrupo() != null) {
 	    			Integer numAlumnosGrupo = grupoService.numAlumnos(alumno.getGrupos().getNombreGrupo());
     			if(numAlumnosGrupo < 3 ) {
-	        			this.alumnoServ.saveAlumno(alumno);
+	        			this.alumnoServ.saveAlumnAsign(alumno);
 		    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
 	    			}else {
-		    			return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED); //ERROR 208
+		    			return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED);
 	    			}
     			}
-    				this.alumnoServ.saveAlumno(alumno);
+    				this.alumnoServ.saveAlumnAsign(alumno);
 	    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);    			
     			}
     		}
@@ -185,8 +198,9 @@ public class AlumnoController {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando borrar alumno: {}", nickUsuario);
 			if(alumnoServ.getStudentsToDelete().contains(nickUsuario.toString())) {
-				premiadoService.deleteAlumno(nickUsuario);
-				return new ResponseEntity<>("Alumno eliminado correctamente", HttpStatus.OK);
+				Alumno a = alumnoServ.getAlumno(nickUsuario);
+				alumnoServ.deleteStudents(a);
+				return new ResponseEntity<>("Alumno dado de baja correctamente", HttpStatus.OK);
 			}else {
 				return new ResponseEntity<>("No se puede borrar el alumno porque tiene pagos pendientes", HttpStatus.BAD_REQUEST);
 			}

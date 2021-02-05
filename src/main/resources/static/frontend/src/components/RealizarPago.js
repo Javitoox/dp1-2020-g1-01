@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 
 import GrupoComponent from './GrupoComponent';
 import PagoComponent from './PagoComponent';
+import AlumnoComponent from './AlumnoComponent';
+
 import { InputText } from 'primereact/inputtext';
 
 import axios from 'axios';
@@ -23,6 +25,9 @@ export class RealizarPago extends Component {
             listaNombres:{
                 nickUsuario:""
             },
+            listaNombres2:{
+                nickUsuario:""
+            },
             opcion:"",
             usernameError:null,
             tipoError:null,
@@ -33,6 +38,7 @@ export class RealizarPago extends Component {
         }
         this.grupos = new GrupoComponent();
         this.pagos = new PagoComponent();
+        this.alumnos = new AlumnoComponent();
         this.save = this.save.bind(this);
         this.handleP = this.handleP.bind(this);
         this.handlePI = this.handlePI.bind(this);
@@ -129,7 +135,7 @@ export class RealizarPago extends Component {
                                     <div className="i">
                                     {this.state.usernameError}
                                     <div className="p-inputgroup">
-                                    <Dropdown field="pago.nickUsuario" name="pago.nickUsuario" value={this.state.nickUsuario} placeholder=" a student" options={this.allStudentsNames()} onChange={this.handlePU} />
+                                    <Dropdown field="pago.nickUsuario" name="pago.nickUsuario" value={this.state.nickUsuario} placeholder="Select a student" options={this.allStudentsNames()} onChange={this.handlePU} />
     
                                     </div>
                                     </div>
@@ -224,9 +230,9 @@ export class RealizarPago extends Component {
                 },
                 succes: <div className="alert alert-success" role="alert">Successful payment</div>
             })
-        
 
-        
+        }else if(status===204){
+            this.setState({exist: <div className="alert alert-danger" role="alert">The username doesn't exists</div>})
         }else{
             this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
         }
@@ -244,6 +250,8 @@ export class RealizarPago extends Component {
     componentDidMount() {
        this.pagos.getNotPaidByStudent(this.props.nickUser).then(data => this.setState({ listaConcepto: data }));
        this.pagos.getNameStudentByNoPago().then(data => this.setState({ listaNombres: data }))
+       this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ listaNombres2: data }))
+
 
     }
 
@@ -271,7 +279,21 @@ export class RealizarPago extends Component {
         return nombresSelectItems
     }
 
+    allStudentsNames2(){
+
+        var t=this.state.listaNombres2[0]
+        var i=0
+        var nombresSelectItems = [];
+        while(i<t.length){        
+            nombresSelectItems.push(         
+            { label: String(t[i]) , value: String(t[i]) })        
+        i+=1
+        }
+        return nombresSelectItems
+    }
+
     render() {
+        console.log(this.state)
 
         if(this.state.opcion===""){
 

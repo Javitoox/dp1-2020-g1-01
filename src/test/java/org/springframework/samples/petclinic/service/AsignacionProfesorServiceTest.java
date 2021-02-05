@@ -116,4 +116,13 @@ public class AsignacionProfesorServiceTest {
 		assertThat(asignacionProfService.findAsignacionProfesor(id)).isEqualTo(opt.get());
 
 	}
+	
+	@Test
+	void shoulReturnAsignationsNamesByGroup() {
+		List<String> asignaciones = new ArrayList<>();
+		Grupo g = new Grupo();
+		g.setNombreGrupo("B2 A");
+		when(asignacionProfRepository.getAsignacionesByGroup(g.getNombreGrupo())).thenReturn(asignaciones);
+		assertThat(asignacionProfService.findAsignacionesByGroup(g.getNombreGrupo())).isEqualTo(asignaciones);
+	}
 }

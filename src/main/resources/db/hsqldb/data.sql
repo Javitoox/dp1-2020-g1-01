@@ -1,6 +1,6 @@
 -----------------------------------------------
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_solicitud,fecha_matriculacion)values
-	('marrambla2','Believer123','88645678C','Maribel Ramos,','maribel.r@gmail.com','667825431','mi casa','2000-06-22','2015-06-22','2018-07-22');
+	('marrambla2','Believer123','88645678C','Maribel Ramos','maribel.r@gmail.com','667825431','mi casa','2000-06-22','2015-06-22','2018-07-22');
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
 	('eveyugyug','Believer123','88645678J','2018-04-07','Evelyn Yugsi','ev.r@gmail.com','667825431','mi casa','2000-04-07','2018-07-22');
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
@@ -139,8 +139,20 @@ INSERT INTO eventos(title,descripcion,start,tipo_tipo,color) VALUES ('Fall Guys'
 INSERT INTO inscripciones(fecha,registrado,evento_id,alumno_nick_usuario) VALUES ('2021-01-15','false','1','Javi');
 
 INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (1,'bizum', 'Pago matricula','2019-10-03','Javi');
-INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (2,'bizum', 'Pago matricula','2018-10-03','antoniope');
-INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (5,'bizum', 'Primer plazo','2019-10-04','Javi');
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (2,'efectivo', 'Pago matricula','2018-10-03','antoniope');
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (3,'transferencia', 'Primer plazo','2019-10-04','Javi');
+
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (4,'bizum', 'Pago matricula','2019-10-03','maria123');
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (5,'efectivo', 'Pago matricula','2018-10-03','maria124');
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (6,'transferencia', 'Primer plazo','2018-12-04','maria126');
+
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (7,'bizum', 'Pago matricula','2018-10-03','maria126');
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (8,'efectivo', 'Pago matricula','2018-10-03','maria127');
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (9,'transferencia', 'Primer plazo','2019-10-04','maria123');
+
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (10,'bizum', 'Excursion','2019-12-03','maria123');
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (11,'efectivo', 'Pago matricula','2017-10-03','maria128');
+INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (12,'transferencia', 'Primer plazo','2017-12-04','maria128');
 
 
 INSERT INTO asignaciones_profesor VALUES ('MaribelJavi','grupo1', '2019-10-03');

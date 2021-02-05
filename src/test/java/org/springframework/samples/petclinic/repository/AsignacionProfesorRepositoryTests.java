@@ -76,6 +76,12 @@ public class AsignacionProfesorRepositoryTests {
 	}
 	
 	@Test
+	void shouldReturnAllAsignationsNamesByGroup() {
+		List<String> allAsignations = asignacionRepository.getAsignacionesByGroup("Grupo1");
+		assertThat(allAsignations.size()).isGreaterThan(0);
+	}
+	
+	@Test
 	void shoulReturnAllFreeGroupsNames(){
 		List<String> freeGroups = asignacionRepository.getFreeGroups();
 		assertThat(freeGroups.size()).isGreaterThan(0);

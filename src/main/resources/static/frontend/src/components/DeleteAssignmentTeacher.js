@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { Button } from 'primereact/button';
+import AssignmentComponent from './AssignmentComponent';
 
 
 export class DeleteAssignmentTeacher extends Component  {
@@ -12,8 +13,11 @@ export class DeleteAssignmentTeacher extends Component  {
             redirect: false,
             comprobation: false,
         }
+        this.asig= new AssignmentComponent();
         this.form= this.form.bind(this);
         this.delete = this.delete.bind(this);
+        this.mostrarTabla = this.mostrarTabla.bind(this);
+
     }
     componentDidMount() {
         axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
@@ -21,6 +25,8 @@ export class DeleteAssignmentTeacher extends Component  {
                 this.setState({comprobation: true})
             }
             })  
+            this.mostrarTabla()
+
     }
     form(){
         return <React.Fragment>
@@ -31,12 +37,12 @@ export class DeleteAssignmentTeacher extends Component  {
                     </div>
                 </React.Fragment>
     }
+    mostrarTabla(){
+        this.asig.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data }));
+    }
 
-    delete  =  event => {
-        event.preventDefault();
-        axios.delete(this.props.urlBase + "/asignaciones/delete/"+this.props.nickUser+"/"+this.props.data.grupo.nombreGrupo, {withCredentials: true}).then(res => { console.log(res.status)
-            })
-        window.location.assign("/teacherGroups")
+    delete(){
+         this.asig.deleteAsignacion(this.props.urlBase,this.props.nickUser,this.props.data.grupo.nombreGrupo)
       }
     render(){
         return(

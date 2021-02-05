@@ -24,7 +24,10 @@ import { CalendarioAlumno } from './components/CalendarioAlumno'
 import {MaterialTeacher} from './components/MaterialTeacher'
 import {MaterialStudent} from './components/MaterialStudent'
 import NotificationStudent from './components/NotificationStudent'
+import { AlumnosStudent } from './components/AlumnosStudent'
 import HomePrevioProfesor from './components/HomePrevioProfesor'
+import {AboutUs} from './components/AboutUs'
+
 
 class App extends Component {
 
@@ -82,6 +85,9 @@ class App extends Component {
 				<Route path="/allStudents" render={() =>
 					<Alumnos urlBase={this.state.urlBase}></Alumnos>
 				} />
+				<Route path="/students" render={() =>
+					<AlumnosStudent urlBase={this.state.urlBase} nickUser={this.calculateUserName()}></AlumnosStudent>
+				} />
 				<Route path="/assignStudent" render={() =>
 					<AssignStudent urlBase={this.state.urlBase} />
 				} /> 
@@ -107,7 +113,7 @@ class App extends Component {
 					<Pagos urlBase={this.state.urlBase}> </Pagos>
                 } />
 				<Route path="/createPayment" render={() =>
-					<RealizarPago nickUser={this.calculateUserName()}/>
+					<RealizarPago urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
 				} />
 				<Route path="/studentPayments" render={() =>
 					<StudentPayments nickUser={this.calculateUserName()}/>
@@ -118,11 +124,13 @@ class App extends Component {
 				<Route path="/materialsStudent" render={() =>
 					<MaterialStudent urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
 				} />
+				<Route path="/aboutUs" render={() =>
+					<AboutUs urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
+				} />
 				<Route path="/" exact render={() =>
 					<HomePrevioProfesor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
 				} />
 			</Router>
-			
 		)
 	}
 }
