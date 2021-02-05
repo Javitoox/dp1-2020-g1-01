@@ -69,7 +69,6 @@ export class UploadMaterial extends Component{
         if(status === 203){
             data.forEach(e => this.error(e.field, e.defaultMessage))
         }else{
-            this.state.target.forEach(e => this.materiales.asignarAlumnoMaterial(this.props.urlBase,this.state.material.id,e));
             this.setState({
                 material: data,
                 fileError: null,
@@ -78,7 +77,7 @@ export class UploadMaterial extends Component{
                 tipoMaterial: "",
                 succes: <div className="alert alert-success" role="alert">Successful upload</div>
             })
-
+            this.state.target.forEach(e => this.materiales.asignarAlumnoMaterial(this.props.urlBase,this.state.material.id,e));
         }
     }
 
@@ -89,15 +88,25 @@ export class UploadMaterial extends Component{
             this.setState({ typeMaterialError: <div className="alert alert-danger" role="alert">{message}</div> })
         }
     }
-
+    
     itemTemplate(item) {
-        return (
-            <div className="product-item">
-                <div className="product-list-detail">
-                    <p className="p-mb-2" style={{fontsize:'100px'}}>{item.nombreCompletoUsuario+" ("+item.grupos.cursos.cursoDeIngles+")"}</p>
+        if(item.grupos != null){
+            return (
+                <div className="product-item">
+                    <div className="product-list-detail">
+                        <p className="p-mb-2" style={{fontsize:'100px'}}>{item.nombreCompletoUsuario +" ("+item.grupos.cursos.cursoDeIngles+")"}</p>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }else{
+            return (
+                <div className="product-item">
+                    <div className="product-list-detail">
+                        <p className="p-mb-2" style={{fontsize:'100px'}}>{item.nombreCompletoUsuario}</p>
+                    </div>
+                </div>
+            );
+        }
     }
 
     onChange(event) {
