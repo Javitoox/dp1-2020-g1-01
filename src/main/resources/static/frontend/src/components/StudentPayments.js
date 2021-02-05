@@ -77,8 +77,6 @@ export class StudentPayments extends Component {
         //this.pagos.getAllStudentsPaid().then(data => this.setState({ alumnos: data }));
         this.pagos.getNotPaidByStudent(this.props.nickUser).then(data => this.setState({ listaGrupos: data }));
         this.pagos.getPaymentsByStudent(this.props.nickUser).then(data => this.setState({ paid: data }));
-
-
         //this.grupos.getAllGroups().then(data => this.setState({ groupSelectItems: data }));
         //this.cursos.getCourses().then(data => this.setState({ nodes: data }));
     }

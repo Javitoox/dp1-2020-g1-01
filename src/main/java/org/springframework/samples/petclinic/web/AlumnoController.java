@@ -1,11 +1,8 @@
 package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/alumnos")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class AlumnoController {
 
@@ -40,7 +37,7 @@ public class AlumnoController {
 		this.alumnoServ = alumnoServ;
 	}
 	
-	@PutMapping("/editStudent") //alumno, profesor
+	@PutMapping("/editStudent")
 	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result) {
 		if (result.hasErrors()) {
 			log.info("Esto no funciona");
@@ -50,41 +47,39 @@ public class AlumnoController {
 			log.info("Ha funcionado");
 			this.alumnoServ.saveAlumno(alumno);
 			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
-			
 		}
     }
 	
-    @GetMapping("/getStudentInfo/{nickUsuario}") //profesor, alumno
+    @GetMapping("/getStudentInfo/{nickUsuario}")
     public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick){
 		Alumno alumno = alumnoServ.getAlumno(nick);
 	    return ResponseEntity.ok(alumno);
     }
  
-	@GetMapping("/all") //profesor
+	@GetMapping("/all")
 	public ResponseEntity<?> listAlumnos() {
 		List<Alumno> allStudents = alumnoServ.getAllAlumnos();
 		return ResponseEntity.ok(allStudents);
 	}
 
-	@GetMapping("/getByCourse/{course}") //profesor
+	@GetMapping("/getByCourse/{course}")
 	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") TipoCurso cursoDeIngles) {		
 		log.info("Obteniendo alumnos del curso: "+cursoDeIngles);
 		List<Alumno> allStudentsByCourse = alumnoServ.getStudentsByCourse(cursoDeIngles);
 		return ResponseEntity.ok(allStudentsByCourse);
 	}
 
-	@GetMapping("/{nombreGrupo}") //profesor
+	@GetMapping("/{nombreGrupo}")
 	public ResponseEntity<List<Alumno>> getPersonasByNameOfGroup(@PathVariable("nombreGrupo") String nombreGrupo) {
 		log.info("Obteniendo alumnos del curso: "+ nombreGrupo);
 		List<Alumno> studentsByGroup = alumnoServ.getStudentsPerGroup(nombreGrupo);
 		return ResponseEntity.ok(studentsByGroup);
 	}
 	
-	@GetMapping("/{nickTutor}/allMyStudents") //tutor
+	@GetMapping("/{nickTutor}/allMyStudents")
     public ResponseEntity<?>getStudentsByTutor(@PathVariable("nickTutor") String nickTutor, Authentication authentication){
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		String username = userDetails.getUsername();
-    	if(username.equals(nickTutor)) {
+    	if(userDetails.getUsername().equals(nickTutor)) {
     		List<Alumno>studentsByTutor = alumnoServ.getAllMyStudents(nickTutor);
             return ResponseEntity.ok(studentsByTutor);
     	}else {
@@ -92,7 +87,7 @@ public class AlumnoController {
     	}
 	}
 
-	@PutMapping("/assignStudent") // profesor
+	@PutMapping("/assignStudent")
 	public ResponseEntity<?> assignStudent(@Valid @RequestBody Alumno alumno, BindingResult result) throws IOException {
 		if (result.hasErrors()) {
 			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);

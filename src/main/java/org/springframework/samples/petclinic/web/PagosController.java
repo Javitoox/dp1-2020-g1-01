@@ -39,43 +39,43 @@ public class PagosController {
 		this.pagoService = pagoService;
 	}
 	
-	@GetMapping //profesor
+	@GetMapping
 	public ResponseEntity<Set<String>> allPayments(){
 		Set<String> all = pagoService.getAllPayments();
 		return ResponseEntity.ok(all);
 	}
 	
-	@GetMapping("/{concepto}") //profesor
+	@GetMapping("/{concepto}")
 	public ResponseEntity<List<Alumno>> listadoAlumnosPagos(@PathVariable("concepto") String concepto) {
 		List<Alumno> all =  pagoService.getStudentsByPayment(concepto);
 		return ResponseEntity.ok(all);
 	}
 	
-	@GetMapping("/notPaid/{concepto}") //profesor
+	@GetMapping("/notPaid/{concepto}")
 	public ResponseEntity<List<Alumno>> listadoAlumnosNoPagos(@PathVariable("concepto") String concepto) {
 		List<Alumno> all =  pagoService.getStudentsNoPayment(concepto);
 		return ResponseEntity.ok(all);
 	}
 	
-	@GetMapping("/notPaidByStudent/{nickUsuario}") //alumno, profesor
+	@GetMapping("/notPaidByStudent/{nickUsuario}")
 	public ResponseEntity<List<String>> listadoNoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario) {
 		List<String> all =  pagoService.getNoPaymentByStudent(nickUsuario);
 		return ResponseEntity.ok(all);
 	}
 	
-	@GetMapping("/paidByStudent/{nickUsuario}") //alumno
+	@GetMapping("/paidByStudent/{nickUsuario}")
 	public ResponseEntity<List<Pago>> listadoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario) {
 		List<Pago> all =  pagoService.getPaymentsByStudent(nickUsuario);
 		return ResponseEntity.ok(all);
 	}
 	
-	@GetMapping("/studentsNotPaid") //profesor
+	@GetMapping("/studentsNotPaid")
 	public ResponseEntity<List<String>> listadoNombreAlumnoNoPago() {
 		List<String> all =  pagoService.getNameStudentByNoPago();
 		return ResponseEntity.ok(all);
 	}
 	
-	@PostMapping("/new") // profesor
+	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, BindingResult result) {
 		log.info("Solicitando crear pago: {}", resource);
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

@@ -5,8 +5,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import Auth from './Auth';
-
-
+import AuthenticationService from '../service/AuthenticationService';
 
 export class DeleteGroup extends Component {
     constructor(props) {
@@ -33,7 +32,8 @@ export class DeleteGroup extends Component {
                 window.alert("You must select a group")
 
             }else{
-                axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo).then(res => {
+                axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+                sessionStorage.getItem("password")) } }).then(res => {
                     this.respuesta(res.status, res.data);        })
             }
        
@@ -117,11 +117,6 @@ export class DeleteGroup extends Component {
     }
 
     componentDidMount() {
-        /* axios.get("http://localhost:8081/auth").then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-                }
-            }) */
         this.grupos.getEmptyGroupNames().then(data => this.setState({ listaGrupos: data })).catch(error => this.setState({comprobation: true}));
     }
 

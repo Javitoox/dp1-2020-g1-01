@@ -46,18 +46,18 @@ public class PremiadoController {
 		this.alumnoService = alumnoService; 
 	}  
 	 
-	@GetMapping("/{fechaWall}") // alumno, profesor, tutor
+	@GetMapping("/{fechaWall}")
 	public ResponseEntity<?> premiadosPorFecha(@PathVariable(name = "fechaWall") String fechaWall){
 		List<Premiado> premiados = premiadoService.premiadosPorFecha(fechaWall);
 		return ResponseEntity.ok(premiados);
 	}
  
-	@GetMapping("/ultimaSemana") //todos
+	@GetMapping("/ultimaSemana")
 	public String obtenerUltimaSemana() {
 		return premiadoService.obtenerUltimaSemana();
 	}
 	
-	@PostMapping(value = "/anadirPremiado/{fechaWall}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // profesor
+	@PostMapping(value = "/anadirPremiado/{fechaWall}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> añadirPremiado(@PathVariable("fechaWall") String fechaWall,
 			@Valid @ModelAttribute BodyPremiado body, BindingResult result) throws DataAccessException, IOException {
 		if (result.hasErrors()) {
@@ -83,7 +83,7 @@ public class PremiadoController {
 		}
 	}
 	
-	@PutMapping(value = "/editarPremiado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // profesor
+	@PutMapping(value = "/editarPremiado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> editarPremiado(@RequestParam(value = "photo", required = false) MultipartFile file,
 			@RequestParam("id") Integer id, @RequestParam("description") String descripcion,
 			@RequestParam("nickUsuario") String nickUsuario) throws DataAccessException, IOException {
@@ -92,7 +92,7 @@ public class PremiadoController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@DeleteMapping(value = "/borrarPremiado/{id}") // profesor
+	@DeleteMapping(value = "/borrarPremiado/{id}")
 	public ResponseEntity<?> deletePremiado(@PathVariable(name = "id") Integer id) {
 		premiadoService.deletePremiadoById(id);
 		return ResponseEntity.ok().build();

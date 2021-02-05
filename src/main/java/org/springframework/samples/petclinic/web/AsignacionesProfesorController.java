@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/asignaciones")
 public class AsignacionesProfesorController {
 	
@@ -33,19 +33,19 @@ public class AsignacionesProfesorController {
 		this.asignacionS = asignacionS;
 	}
 	
-	@GetMapping("/{user}") //profesor
+	@GetMapping("/{user}")
 	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user) {
 		List<AsignacionProfesor> all =  asignacionS.getAllAsignacionesByUser(user);
 		return ResponseEntity.ok(all);
 	}
 	
-	@GetMapping("/freeAssignments") //profesor
+	@GetMapping("/freeAssignments")
     public ResponseEntity<List<String>> listaAsignaciones() {
         List<String> all =  asignacionS.getFreeGroups();
         return ResponseEntity.ok(all);
     }
 	
-	@PostMapping("/new") //profesor
+	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result){
 		log.info("Solicitando asignar profesor: {}", resource);
 		if(result.hasErrors()) {

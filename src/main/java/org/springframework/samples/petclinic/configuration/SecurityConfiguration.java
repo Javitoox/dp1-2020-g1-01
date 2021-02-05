@@ -11,8 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /*
@@ -44,14 +43,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers("/basicauth").authenticated()
 		.antMatchers("/requests/pending", "/requests/decline/**", "/requests/accept/**").hasAuthority("profesor")
 		.antMatchers("/premiados/{fechaWall}", "/premiados/ultimaSemana").hasAnyAuthority("profesor", "alumno")
-		.antMatchers("/premiados/anadirPremiado/{fechaWall}", "/premiados/editarPremiado","/premiados/borrarPremiado/{id}").hasAuthority("profesor")
+		.antMatchers("/premiados/**").hasAuthority("profesor")
 		.antMatchers("/pagos/notPaidByStudent/{nickUsuario}").hasAnyAuthority("profesor", "alumno")
 		.antMatchers("/pagos/paidByStudent/{nickUsuario}").hasAuthority("alumno")
-		.antMatchers("/pagos", "/pagos/{concepto}", "/pagos/notPaid/{concepto}", "/pagos/studentsNotPaid", "/pagos/new").hasAuthority("profesor")
-		.antMatchers("/alumnos/**").hasAuthority("profesor")
+		.antMatchers("/pagos/**").hasAuthority("profesor")
 		.antMatchers("/alumnos/editStudent", "/alumnos/getStudentInfo/{nickUsuario}").hasAnyAuthority("profesor", "alumno")
 		.antMatchers("/alumnos/{nickTutor}/allMyStudents").hasAuthority("tutor")
-		.anyRequest().denyAll()
+		.antMatchers("/alumnos/**").hasAuthority("profesor")
+		.antMatchers("/materiales/getMaterialByAlumno/{nickAlumno}").hasAnyAuthority("alumno", "profesor")
+		.antMatchers("/materiales/**").hasAuthority("profesor")
+		.antMatchers("/inscriptions/**").hasAuthority("alumno")
+		.antMatchers("/grupos/**").hasAuthority("profesor")
+		.antMatchers("/feedback/{nickUser}/{idMaterial}", "/feedback/update").hasAnyAuthority("alumno", "profesor")
+		.antMatchers("/feedback/**").hasAuthority("profesor")
+		.antMatchers("/events/getByCourse/{nick}", "/events/descriptionAlumno/{id}/{nickUser}").hasAuthority("alumno")
+		.antMatchers("/events/**").hasAuthority("profesor")
+		.antMatchers("/asignaciones/**").hasAuthority("profesor")
+		.anyRequest().permitAll()
 		.and()
 		.httpBasic();
         http.headers().frameOptions().sameOrigin();
@@ -59,25 +67,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.jdbcAuthentication()
-//	      .dataSource(dataSource)
-//	      .usersByUsernameQuery(
-//	       "select username,password,enabled "
-//	        + "from users "
-//	        + "where username = ?")
-//	      .authoritiesByUsernameQuery(
-//	       "select username, authority "
-//	        + "from authorities "
-//	        + "where username = ?")	      	      
-//	      .passwordEncoder(passwordEncoder());
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 	
 	@Bean
-	public PasswordEncoder passwordEncoder() {	    
-		PasswordEncoder encoder =  NoOpPasswordEncoder.getInstance();
-	    return encoder;
-	}
+    public PasswordEncoder passwordEncoder(){
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder;
+    }
 	
 }
 

@@ -17,6 +17,14 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addConverter(idToEntityConverter);
     }
     
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//        .allowedHeaders("*")
+//        .allowedOrigins("*")
+//        .allowedMethods("*");
+//    }
+    
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();

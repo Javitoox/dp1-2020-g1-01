@@ -1,21 +1,14 @@
 package org.springframework.samples.petclinic.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.service.UsuarioService;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class UsuarioController {
 	
@@ -38,23 +31,23 @@ public class UsuarioController {
 //		}
 //		return ResponseEntity.ok(type);
 //	}
-	
-	@GetMapping(value = { "/auth" })
-	public ResponseEntity<String> authentication(HttpServletRequest request) {
-		String type = "usuario";
-		HttpSession session = request.getSession(false);
-		if(session != null && session.getAttribute("type") != null)
-			type = (String) session.getAttribute("type");
-		log.info("Auth: "+type);
-		return ResponseEntity.ok(type);
-	}
-	
-	@DeleteMapping(value = { "/logout" })
-	public ResponseEntity<String> logout(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if(session != null)
-			session.invalidate();
-		return ResponseEntity.ok("Succesfull logout");
-	}
+//	
+//	@GetMapping(value = { "/auth" })
+//	public ResponseEntity<String> authentication(HttpServletRequest request) {
+//		String type = "usuario";
+//		HttpSession session = request.getSession(false);
+//		if(session != null && session.getAttribute("type") != null)
+//			type = (String) session.getAttribute("type");
+//		log.info("Auth: "+type);
+//		return ResponseEntity.ok(type);
+//	}
+//	
+//	@DeleteMapping(value = { "/logout" })
+//	public ResponseEntity<String> logout(HttpServletRequest request) {
+//		HttpSession session = request.getSession(false);
+//		if(session != null)
+//			session.invalidate();
+//		return ResponseEntity.ok("Succesfull logout");
+//	}
 	
 }

@@ -4,7 +4,6 @@ import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {Button} from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import axios from 'axios';
 import Auth from './Auth';
 
 export  class SolicitudesProfesor extends Component {
@@ -27,13 +26,7 @@ export  class SolicitudesProfesor extends Component {
          this.mostrarInfoRequest = this.mostrarInfoRequest.bind(this);
       }
      
-    componentDidMount(){
-      /* axios.get(this.props.urlBase + "/auth").then(res => {
-      if(res.data==="profesor"){
-          this.setState({comprobation: true})
-      }
-      }) */
-      
+    componentDidMount(){      
       this.mostrarTabla();
     }
     

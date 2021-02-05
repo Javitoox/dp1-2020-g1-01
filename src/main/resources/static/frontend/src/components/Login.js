@@ -7,7 +7,6 @@ import { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { selectUserLogin } from '../actions/index'
-import { storageNickUsername, storageUserType } from './storage'
 import AuthenticationService from '../service/AuthenticationService'
 
 class Login extends Component {
@@ -34,21 +33,12 @@ class Login extends Component {
 
     async calculateType(event) {
         event.preventDefault()
-        /* await this.type.getType(this.state.username, this.state.password).then(data => this.setState({ type: data }))
-        if (this.state.type === "Username not exist" || this.state.type === "Incorrect password") {
-            this.setState({ error: <div className="alert alert-danger" role="alert">{this.state.type}</div> })
-            this.props.history.push("/login")
-        } else {
-            this.props.onChange(this.state.type)
-            storageUserType(this.state.type)
-            storageNickUsername(this.state.username)
-            this.props.history.push("/")
-        } */
         await AuthenticationService.executeBasicAuthenticationService(this.state.username, this.state.password).then(res => {
             AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password, res.data)
             this.props.onChange(AuthenticationService.getAuth())
             this.props.history.push("/")
-        }).catch(() => {
+        }).catch((error) => {
+            console.log(error)
             this.setState({ error: <div className="alert alert-danger" role="alert">Username or password does not exist</div> })
             this.props.history.push("/login")
         })

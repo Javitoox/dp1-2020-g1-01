@@ -7,7 +7,6 @@ import { Redirect } from 'react-router-dom';
 
 import GrupoComponent from './GrupoComponent';
 import AssignmentComponent from './AssignmentComponent';
-import axios from 'axios';
 import Auth from './Auth';
 
 export default class TeacherGroups extends Component {
@@ -33,11 +32,6 @@ export default class TeacherGroups extends Component {
     }
 
     componentDidMount() {
-        /* axios.get("http://localhost:8081/auth").then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-                }
-            }) */
         this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data })).catch(error => this.setState({comprobation: false}));
         this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
 

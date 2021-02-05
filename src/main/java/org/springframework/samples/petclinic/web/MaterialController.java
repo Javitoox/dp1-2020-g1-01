@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/materiales")
 public class MaterialController {
@@ -32,17 +32,17 @@ public class MaterialController {
 		this.materialService = materialService;
 	}
 	
-	@GetMapping("/getMaterialByProfesor/{nickProfesor}") //profesor
+	@GetMapping("/getMaterialByProfesor/{nickProfesor}")
 	public ResponseEntity<?>getMaterialByProfesor(@PathVariable("nickProfesor")String nickProfesor){
 		return ResponseEntity.ok(materialService.getMaterialPorProfesor(nickProfesor));
 	}
 	
-	@GetMapping("/getMaterialByAlumno/{nickAlumno}") //alumno
+	@GetMapping("/getMaterialByAlumno/{nickAlumno}")
 	public ResponseEntity<?>getMaterialByAlumno(@PathVariable("nickAlumno")String nickAlumno){
 		return ResponseEntity.ok(materialService.getMaterialPorAlumno(nickAlumno));
 	}
 	
-	@PostMapping("/añadirMaterial/{nickProfesor}") //profesor
+	@PostMapping("/añadirMaterial/{nickProfesor}")
 	public ResponseEntity<?>añadirMaterial(@PathVariable("nickProfesor") String nickProfesor, @RequestParam(value="pdf",required=false) MultipartFile pdf) throws IOException{
 		log.info("he entrado en añadirMaterial");
 		if(pdf==null) {

@@ -8,10 +8,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
-
-
-
-
+import AuthenticationService from '../service/AuthenticationService';
 
 export class RealizarPago extends Component {
     constructor(props) {
@@ -63,7 +60,8 @@ export class RealizarPago extends Component {
            
         }
 
-        axios.post("http://localhost:8081/pagos/new", grupo).then(res => {
+        axios.post("http://localhost:8081/pagos/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res => {
             this.respuesta(res.status, res.data);
         })
         

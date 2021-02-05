@@ -6,7 +6,7 @@ import AlumnoComponent from './AlumnoComponent';
 import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
-
+import AuthenticationService from '../service/AuthenticationService';
 
 
 class AssignStudent extends Component  {
@@ -56,11 +56,6 @@ class AssignStudent extends Component  {
     }  
     
     componentDidMount() {
-        /* axios.get("http://localhost:8081/auth").then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-            }
-            }) */
         this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data })).catch(error => this.setState({comprobation: false}));
     }
     
@@ -99,7 +94,8 @@ class AssignStudent extends Component  {
             }
             }
         }
-        axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno ).then(res => {
+        axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res => {
             this.respuesta(res.status, res.data)
             })
       }

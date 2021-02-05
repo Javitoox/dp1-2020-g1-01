@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/grupos")
 public class GrupoController {
 	
@@ -39,37 +39,37 @@ public class GrupoController {
 		this.alumnoService = alumnoService;
 	}
 	
-	@GetMapping("/all") //profesor
+	@GetMapping("/all")
 	public ResponseEntity<Set<Grupo>> listaGrupos() {
 		Set<Grupo> all =  grupoService.getAllGrupos();
 		return ResponseEntity.ok(all);
 	}
 	
-	@GetMapping("/nombresGrupo/{curso}") //profesor
+	@GetMapping("/nombresGrupo/{curso}")
 	public ResponseEntity<List<String>> listaNombreGruposPorCurso(@PathVariable("curso") TipoCurso curso) {
 		List<String> gruposCurso = grupoService.getNameGruposByCourse(curso);	
 		return ResponseEntity.ok(gruposCurso);
 	}
 	
-	@GetMapping("/nombreCurso/{grupo}") //profesor
+	@GetMapping("/nombreCurso/{grupo}")
 	public ResponseEntity<List<String>> listaNombreCursoPorGrupo(@PathVariable("grupo") String grupo) {
 		List<String> nombreCurso = grupoService.getCursoByGrupo(grupo);	
 		return ResponseEntity.ok(nombreCurso);
 	}
 	
-	@GetMapping("/allGroupNames") //profesor
+	@GetMapping("/allGroupNames")
 	public ResponseEntity<List<String>> listaNombreGrupos() {
 		List<String> all =  grupoService.getGroupNames();
 		return ResponseEntity.ok(all);
 	}
 	
-	@GetMapping("/allEmptyGroups") //profesor
+	@GetMapping("/allEmptyGroups")
 	public ResponseEntity<List<String>> listaNombreGruposVacios() {
 		List<String> all =  grupoService.getEmptyGroups();
 		return ResponseEntity.ok(all);
 	}
 	
-	@PostMapping("/new") //profesor
+	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody Grupo resource, BindingResult result){
 		log.info("Solicitando crear grupo: {}", resource);
 		if (result.hasErrors() || grupoService.exists(resource.getNombreGrupo())) {
@@ -84,7 +84,7 @@ public class GrupoController {
 		}
 	}
 	
-	@DeleteMapping("/delete/{nombreGrupo}") // profesor
+	@DeleteMapping("/delete/{nombreGrupo}")
 	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo) {
 		log.info("Solicitando borrar grupo: {}", nombreGrupo);
 		if (alumnoService.getStudentsPerGroup(nombreGrupo).isEmpty()) {

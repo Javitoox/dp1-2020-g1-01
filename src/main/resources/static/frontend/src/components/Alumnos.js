@@ -11,9 +11,7 @@ import {selectAssignedStudent}  from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Dialog } from 'primereact/dialog';
-import axios from 'axios';
 import Auth from './Auth';
-
 
 class Alumnos extends Component {
 
@@ -56,11 +54,6 @@ class Alumnos extends Component {
     }
 
     componentDidMount() {
-        /* axios.get(this.props.urlBase + "/auth").then(res => {
-        if(res.data==="profesor"){
-            this.setState({comprobation: true})
-        }
-        }) */
         this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }))
         .catch(error => this.setState({comprobation: false}));
     }

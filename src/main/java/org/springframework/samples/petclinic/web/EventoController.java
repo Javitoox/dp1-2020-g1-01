@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/events")
 public class EventoController {
@@ -50,17 +50,17 @@ public class EventoController {
 		dataBinder.setValidator(new DateEventValidator());
 	}
 	
-	@GetMapping("/all") //profesor
+	@GetMapping("/all")
 	public ResponseEntity<?> getAllEvents(){
 		return ResponseEntity.ok(eventoService.getAll());
 	}
 	
-	@GetMapping("/getByCourse/{nick}") //alumno
+	@GetMapping("/getByCourse/{nick}")
 	public ResponseEntity<?> getUserEvents(@PathVariable("nick") String nick) {
 		return ResponseEntity.ok(eventoService.getAlumEvents(nick));
 	}
 	
-	@PutMapping("/update/{id}/{start}/{end}") //profesor
+	@PutMapping("/update/{id}/{start}/{end}")
 	public ResponseEntity<?> updateEvent(@PathVariable("id") Integer id, @PathVariable("start") String start,
 			@PathVariable("end") String end) {
 		Evento evento = eventoService.updateDateEvent(id, start, end);
@@ -72,7 +72,7 @@ public class EventoController {
 		}
 	}
 	
-	@GetMapping("/description/{id}") //profesor
+	@GetMapping("/description/{id}")
 	public ResponseEntity<?> getDescription(@PathVariable("id") Integer id){
 		String description = eventoService.getDescription(id);
 		if(description == null) {
@@ -83,7 +83,7 @@ public class EventoController {
 		}
 	}
 	
-	@GetMapping("/descriptionAlumno/{id}/{nickUser}") //alumno
+	@GetMapping("/descriptionAlumno/{id}/{nickUser}")
 	public ResponseEntity<?> getDescriptionAlumno(@PathVariable("id") Integer id, @PathVariable("nickUser") String nickUser){
 		String description = eventoService.getDescriptionAlumno(id, nickUser);
 		if(description == null) {
@@ -94,14 +94,14 @@ public class EventoController {
 		}
 	}
 	
-	@DeleteMapping("/delete/{id}") //profesor
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteDescription(@PathVariable("id") Integer id){
 		eventoService.deleteDescription(id);
 		log.info("Delete event");
 		return ResponseEntity.ok(eventoService.getAll());
 	}
 	
-	@PostMapping("/create/{curso}") //profesor
+	@PostMapping("/create/{curso}")
 	public ResponseEntity<?> create(@Valid @RequestBody Evento evento, BindingResult result, @PathVariable("curso") String curso) {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();

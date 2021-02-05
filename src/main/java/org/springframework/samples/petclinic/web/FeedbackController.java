@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/feedback")
 public class FeedbackController {
@@ -34,7 +34,7 @@ public class FeedbackController {
 		this.feedbackService = feedbackService;
 	};
 	
-	@PutMapping("{idMaterial}/añadirAlumno") //profesor
+	@PutMapping("/{idMaterial}/añadirAlumno")
 	public ResponseEntity<?> añadirAlumnoAMaterial(@PathVariable("idMaterial") Integer idMaterial, @Valid @RequestBody Alumno alumno){
 		log.info("he entrado en añadirAlumno");
 
@@ -42,30 +42,30 @@ public class FeedbackController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/deleteMaterial/{idMaterial}") //profesor
+	@DeleteMapping("/deleteMaterial/{idMaterial}")
 	public ResponseEntity<?> deleteMaterial(@PathVariable("idMaterial") Integer idMaterial) throws IOException{
 		log.info("Material con id:" + idMaterial);
 		feedbackService.deleteMaterial(idMaterial);
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("/obtenerFeedback/{idMaterial}") //profesor
+	@GetMapping("/obtenerFeedback/{idMaterial}")
 	public ResponseEntity<?> getFeedbackMaterial(@PathVariable("idMaterial")Integer idMaterial){
 		return ResponseEntity.ok(feedbackService.getFeedbackByMaterial(idMaterial));
 	}
 	
-	@PutMapping("/cambiarDone/{idFeedback}") //profesor
+	@PutMapping("/cambiarDone/{idFeedback}")
 	public ResponseEntity<?> cambiarDone(@PathVariable("idFeedback")Integer idFeedback){
 		feedbackService.cambiarEstadoDoneActividad(idFeedback);
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("{nickUser}/{idMaterial}") //alumno
+	@GetMapping("/{nickUser}/{idMaterial}")
 	public ResponseEntity<?>getFeedback(@PathVariable("nickUser")String nickUser,@PathVariable("idMaterial")Integer idMaterial){
 		return ResponseEntity.ok(feedbackService.getFeedbackByMaterialAndStudent(nickUser,idMaterial));
 	}
 	
-	@PutMapping("/update") //alumno
+	@PutMapping("/update")
 	public ResponseEntity<?> updateFeedback(@RequestParam(value="comment",required=false)String comment, @RequestParam(value="rate",required=false)Integer rate, @RequestParam("id")Integer id){
 		feedbackService.updateFeedback(comment, rate, id);
 		return ResponseEntity.ok().build();

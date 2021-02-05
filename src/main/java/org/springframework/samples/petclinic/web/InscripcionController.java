@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/inscriptions")
 public class InscripcionController {
@@ -25,7 +25,7 @@ public class InscripcionController {
 		this.inscripcionService = inscripcionService;
 	}
 	
-	@PutMapping("/join/{id}/{nick}") //alumno
+	@PutMapping("/join/{id}/{nick}")
 	public ResponseEntity<?> join(@PathVariable("id") Integer id, @PathVariable("nick") String nick){
 		Boolean succes = inscripcionService.joinOrDisjoin(id, nick, true);
 		if(succes) {
@@ -36,7 +36,7 @@ public class InscripcionController {
 		}
 	}
 	
-	@PutMapping("/disjoin/{id}/{nick}") //alumno
+	@PutMapping("/disjoin/{id}/{nick}")
 	public ResponseEntity<?> disjoin(@PathVariable("id") Integer id, @PathVariable("nick") String nick){
 		Boolean succes = inscripcionService.joinOrDisjoin(id, nick, false);
 		if(succes) {

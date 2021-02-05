@@ -7,8 +7,6 @@ import { Component } from 'react';
 import { Menubar } from 'primereact/menubar';
 import { Button } from 'primereact/button';
 import { withRouter } from "react-router-dom"
-import { storageLogout } from './storage';
-import axios from 'axios';
 import AuthenticationService from '../service/AuthenticationService'
 
 class MenubarResponsive extends Component {
@@ -95,10 +93,7 @@ class MenubarResponsive extends Component {
         }
     }
 
-    /* async */ logout(){
-        /* const result = await axios.delete(this.props.urlBase+"/logout")
-        console.log(result.data)
-        storageLogout() */
+    logout(){
         AuthenticationService.logout()
         this.props.onChange("usuario")
         this.props.history.push("/")

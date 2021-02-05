@@ -8,10 +8,7 @@ import AssignmentComponent from './AssignmentComponent';
 import axios from 'axios';
 import moment from 'moment';
 import Auth from './Auth';
-
-
-
-
+import AuthenticationService from '../service/AuthenticationService';
 
 export default class AssignTeacher extends Component {
 
@@ -126,7 +123,8 @@ export default class AssignTeacher extends Component {
 
         }
 
-        axios.post("http://localhost:8081/asignaciones/new", grupo).then(res => {
+        axios.post("http://localhost:8081/asignaciones/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res => {
             this.respuesta(res.status, res.data);
         })
 
@@ -161,11 +159,6 @@ export default class AssignTeacher extends Component {
 
 
     componentDidMount() {
-        /* axios.get("http://localhost:8081/auth").then(res => {
-            if (res.data === "profesor") {
-                this.setState({ comprobation: true })
-            }
-        }) */
         this.asignaciones.getListOfEmptyAssignmentGroup(this.props.urlBase).then(data => this.setState({ listaGrupos: data })).catch(error => this.setState({comprobation: false}));
     }
 

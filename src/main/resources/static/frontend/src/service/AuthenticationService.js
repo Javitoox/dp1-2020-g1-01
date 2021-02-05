@@ -28,7 +28,10 @@ class AuthenticationService {
         //console.log('registerSuccessfulLogin')
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username)
         sessionStorage.setItem("auth", auth)
-        this.setupAxiosInterceptors(this.createBasicAuthToken(username, password))
+        sessionStorage.setItem("password", password)
+        /* const token = this.createBasicAuthToken(username, password)
+        sessionStorage.setItem("token", token)
+        this.setupAxiosInterceptors(this.createBasicAuthToken(username, password)) */
     }
 
     registerSuccessfulLoginForJwt(username, token) {
@@ -67,6 +70,7 @@ class AuthenticationService {
                 console.log("auth: "+this.isUserLoggedIn())
                 if (this.isUserLoggedIn()) {
                     config.headers.authorization = token
+                    console.log(token)
                 }
                 return config
             }

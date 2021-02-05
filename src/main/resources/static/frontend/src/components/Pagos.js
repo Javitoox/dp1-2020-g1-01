@@ -6,10 +6,8 @@ import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import Auth from './Auth';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { ListBox } from 'primereact/listbox';
-import GrupoComponent from './GrupoComponent';
 import { selectStudent } from '../actions/index';
 import { selectAssignedStudent } from '../actions/index';
 import { bindActionCreators } from 'redux';
@@ -68,17 +66,10 @@ class Pagos extends Component {
     }
 
     componentDidMount() {
-        /* axios.get("http://localhost:8081/auth").then(res => {
-            if (res.data === "profesor") {
-                this.setState({ comprobation: true })
-            }
-        }) */
-
         this.alumnos.getAllStudents(this.props.urlBase).then(data => {
             this.setState({ alumnos: data })
             this.setState({ lista: data })
         }).catch(error => this.setState({comprobation: false}));
-        /* this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ lista: data })); */
     }
 
     showSelectGroup(pago) {
