@@ -111,7 +111,7 @@ class App extends Component {
 					<Pagos urlBase={this.state.urlBase}> </Pagos>
                 } />
 				<Route path="/createPayment" render={() =>
-					<RealizarPago nickUser={this.calculateUserName()}/>
+					<RealizarPago urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
 				} />
 				<Route path="/studentPayments" render={() =>
 					<StudentPayments nickUser={this.calculateUserName()}/>

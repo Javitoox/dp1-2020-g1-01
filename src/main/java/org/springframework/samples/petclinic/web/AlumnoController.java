@@ -204,8 +204,9 @@ public class AlumnoController {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
 			log.info("Solicitando borrar alumno: {}", nickUsuario);
 			if(alumnoServ.getStudentsToDelete().contains(nickUsuario.toString())) {
-				premiadoService.deleteAlumno(nickUsuario);
-				return new ResponseEntity<>("Alumno eliminado correctamente", HttpStatus.OK);
+				Alumno a = alumnoServ.getAlumno(nickUsuario);
+				alumnoServ.deleteStudents(a);
+				return new ResponseEntity<>("Alumno dado de baja correctamente", HttpStatus.OK);
 			}else {
 				return new ResponseEntity<>("No se puede borrar el alumno porque tiene pagos pendientes", HttpStatus.BAD_REQUEST);
 			}

@@ -6,6 +6,7 @@ import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
 import Auth from './Auth';
 import { Dialog } from 'primereact/dialog';
+import Alumnos from './Alumnos';
 
 
 
@@ -53,6 +54,8 @@ export class CreateGroup extends Component {
             axios.post("http://localhost:8081/grupos/new", grupo, {withCredentials: true}).then(res => {
                 this.respuesta(res.status, res.data);
             })
+            this.setState({ss:grupo.nombreGrupo})
+            console.log(this.state)
         }
     }
     handleCI(event) {
@@ -141,6 +144,11 @@ export class CreateGroup extends Component {
             { label: 'C2', value: 'C2' },
             { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
         ];
+        <React.Fragment>
+                <Alumnos grupo={'pepe'}></Alumnos>
+
+        </React.Fragment>
+
         return (
                 <div>
                     <div className="c">

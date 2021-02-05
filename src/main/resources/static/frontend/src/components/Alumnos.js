@@ -19,6 +19,7 @@ import AssignStudent from './AssignStudent';
 
 
 
+
 class Alumnos extends Component {
 
     constructor(props) {
@@ -86,6 +87,8 @@ class Alumnos extends Component {
         }
         })
         this.mostrarTabla();
+        this.allGroupNames();
+        setTimeout(console.log("P"), 1)
         this.alumnos.getAlumnosEliminiables(this.props.urlBase).then(data =>  this.setState({ listaEliminables: data }) );
         this.alumnos.getAlumnosSinGrupo(this.props.urlBase).then(data =>  this.setState({ listaSinGrupos: data }) );
         this.alumnos.getAlumnosSinTutores(this.props.urlBase).then(data =>  this.setState({ listaSinTutor: data }) );
@@ -101,24 +104,28 @@ class Alumnos extends Component {
         );
     }
 
-    formCreateGrupo() {
+    async formCreateGrupo() {
         this.setState({
             formularioCrearGrupo: 
             <Dialog visible={true} style={{ width: '40vw' }} onHide={() => this.setState({formularioCrearGrupo: null})}>
-                <CreateGroup urlBase={this.props.urlBase}></CreateGroup>
+                <CreateGroup urlBase={this.props.urlBase} grupo={this.state.listaGrupos.nombreGrupo}></CreateGroup>
             </Dialog>
         });
+        this.allGroupNames();
+        console.log(this.state)
 
     
     }
 
-    formDeleteGrupo() {
+    async formDeleteGrupo() {
         this.setState({
             formularioDeleteGrupo: 
             <Dialog visible={true} style={{ width: '40vw'}} onHide={() => this.setState({formularioDeleteGrupo: null})}>
                 <DeleteGroup urlBase={this.props.urlBase}></DeleteGroup>
             </Dialog>
         });
+        this.mostrarTabla();
+        console.log(this.state)
     }
 
      
@@ -206,8 +213,10 @@ class Alumnos extends Component {
      }     
         
     async deleteAlumno(data){
+            this.mostrarTabla()
             await this.alumnos.deleteAlumno(this.props.urlBase, data.nickUsuario);
             this.mostrarTabla()
+            this.setState({displayConfirmation: false})
           
     }
     
@@ -309,7 +318,7 @@ class Alumnos extends Component {
                 }
                 
             }
-            console.log(this.state)
+            console.log(this.props)
 
                 const courseSelectItems = [
                     { label: 'All courses', value: 'allCourses' },

@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Pago;
 import org.springframework.samples.petclinic.model.TipoPago;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.PagoService;
 import org.springframework.samples.petclinic.service.TipoPagoService;
 import org.springframework.validation.BindingResult;
@@ -41,11 +43,14 @@ public class PagosController {
 	
 	private final PagoService pagoService;
 	private final TipoPagoService tipoPagoService;
+	private final AlumnoService alumnoService;
+
 	
 	@Autowired
-	public PagosController(PagoService pagoService, TipoPagoService tipoPagoService) {
+	public PagosController(PagoService pagoService, TipoPagoService tipoPagoService, AlumnoService alumnoService) {
 		this.pagoService = pagoService;
 		this.tipoPagoService = tipoPagoService;
+		this.alumnoService = alumnoService;
 	}
 	
 	
@@ -162,16 +167,16 @@ public class PagosController {
 				}
 				return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			}else {
-						
+				Alumno alumno = alumnoService.getAlumno(resource.getAlumnos().getNickUsuario());
+				LocalDate fb = alumno.getFechaBaja();
+				if(fb==null){					
 					pagoService.savePayment(resource);				
 					return new ResponseEntity<>("Pago creado correctamente", HttpStatus.CREATED);
-
 					
-					
-
-					
-				
-			
+				}else {
+				 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				}
+								
 			}
 		}else {
 			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
