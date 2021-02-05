@@ -46,7 +46,6 @@ class NotificacioneStudents extends Component {
         }
     }
     render() {
-        console.log(this.props.payment)
         return (
 
             <div className="app-container">

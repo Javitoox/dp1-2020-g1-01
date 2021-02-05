@@ -20,8 +20,6 @@ export default class NotificationStudent extends Component {
   }
 
   render() {   
-
-    console.log("hay en total : " + this.state.impagos)
     return (
       <div>
         <NotificacionesStudents payment={this.state.impagos}></NotificacionesStudents>

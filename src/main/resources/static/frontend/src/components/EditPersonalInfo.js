@@ -41,7 +41,6 @@ export default class EditPersonalInfo extends Component {
         this.userDataComponent = new UserData();
     }
   async componentDidMount() {
-        console.log(this.props.nickUser);
         await this.userDataComponent.getAlumnoInfo(this.props.urlBase, this.props.nickUser).then(data => this.setState({
             nickUsuario: data.nickUsuario,
             contraseya: data.contraseya,
@@ -128,7 +127,7 @@ export default class EditPersonalInfo extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        console.log("entra en el submit");
+
         this.setState({
             usernameError: null,
             passwordError: null,
@@ -166,7 +165,6 @@ export default class EditPersonalInfo extends Component {
     }
 
     respuesta(status, data) {
-        console.log(status);
         if (status === 203) {
             data.forEach(e => this.error(e.field, e.defaultMessage))
         } else {

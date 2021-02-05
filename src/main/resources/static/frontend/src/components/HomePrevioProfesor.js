@@ -28,9 +28,6 @@ export default class HomePrevio extends Component {
 
 
   render() {  
-
-
-    console.log("hay en total : " + this.state.numeroSolicitudes)
     return (
       <div>
         <HomeReal solicitudes={this.state.numeroSolicitudes} comprobation= {this.state.comprobation}></HomeReal>

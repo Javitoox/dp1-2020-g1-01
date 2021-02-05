@@ -121,7 +121,7 @@ class EditStudent extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        console.log("entra en el submit");
+
         this.setState({
             usernameError:null,
             passwordError:null,
@@ -159,7 +159,6 @@ class EditStudent extends Component {
     }
     
     respuesta(status, data){
-        console.log(status);
         if(status===203 ){
             data.forEach(e => this.error(e.field, e.defaultMessage))
         }else{
@@ -201,7 +200,6 @@ class EditStudent extends Component {
     }
        
     render() {
-        console.log(this.props.student.fechaSolicitud)
         if (!this.state.comprobation) {
             return <Auth authority="profesor"></Auth>
         } else {
