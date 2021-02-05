@@ -26,6 +26,8 @@ import {MaterialStudent} from './components/MaterialStudent'
 import NotificationStudent from './components/NotificationStudent'
 import { AlumnosStudent } from './components/AlumnosStudent'
 import HomePrevioProfesor from './components/HomePrevioProfesor'
+import {AboutUs} from './components/AboutUs'
+
 
 class App extends Component {
 
@@ -122,11 +124,13 @@ class App extends Component {
 				<Route path="/materialsStudent" render={() =>
 					<MaterialStudent urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
 				} />
+				<Route path="/aboutUs" render={() =>
+					<AboutUs urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
+				} />
 				<Route path="/" exact render={() =>
 					<HomePrevioProfesor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
 				} />
 			</Router>
-			
 		)
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Evento;
+import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Inscripcion;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
@@ -48,8 +49,15 @@ public class AlumnoService {
 	}
 	@Transactional
 	public Alumno saveAlumno(Alumno alumno) throws DataAccessException {
+		Grupo grupo = alumnoRepository.findById(alumno.getNickUsuario()).get().getGrupos();
+		alumno.setGrupos(grupo);
 		return alumnoRepository.save(alumno);		
 	}		
+	
+	@Transactional
+	public Alumno saveAlumnAsign(Alumno alumno) throws DataAccessException {
+		return alumnoRepository.save(alumno);		
+	}
 	
     public List<Alumno> getStudentsByCourse(TipoCurso cursoDeIngles){
         return alumnoRepository.findStudentsByCourse(cursoDeIngles);

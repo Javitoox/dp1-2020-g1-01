@@ -43,8 +43,8 @@ public class AsignacionProfesorService {
 	public AsignacionProfesor findAsignacionProfesor(AsignacionProfesorKey a) {
 		return asignacionRep.findById(a).get();		
 	}
-	public List<String> findAsignacionProfesor(String a) {
-		List<String> ap= asignacionRep.getAsignacionesByGroup(a);		
-		return ap;
+	public List<String> findAsignacionesByGroup(String a) {
+		return asignacionRep.getAsignacionesByGroup(a);		
 	}
+	
 }

@@ -250,6 +250,15 @@ public class AlumnoServiceTests {
 		when(alumnoRepository.findStudentsAbleToDelete()).thenReturn(students);
 		assertThat(alumnoService.getStudentsToDelete().size()).isEqualTo(2);
 		assertThat(alumnoService.getStudentsToDelete()).isNotEmpty();
-
 	}
+	
+	@Test
+	void shouldReturnAllStudentNamesWithNoTutors() {
+		List<String> studentsWithNoTutors = new ArrayList<>();
+		studentsWithNoTutors.add("Fernando"); studentsWithNoTutors.add("Gonzalo");
+		when(alumnoRepository.findSudentsWithNoTutors()).thenReturn(studentsWithNoTutors);
+		assertThat(alumnoService.getStudentsWithNoTutors().size()).isEqualTo(2);
+		assertThat(alumnoService.getStudentsWithNoTutors()).isNotEmpty();
+	}
+	
 }
