@@ -50,17 +50,14 @@ public class AlumnoController {
 		HttpSession session = request.getSession(false);
     	if(session != null && session.getAttribute("type") == "alumno" || session.getAttribute("type") == "profesor" ) {
     		if (result.hasErrors()) {
-    			log.info("Esto no funciona");
     			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     		}
     		else {
-    			log.info("Ha funcionado");
     			this.alumnoServ.saveAlumno(alumno);
     			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
     			
     		}
     	}else {
-    		log.info("Que no bro hahah");
     		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     	}
     }
