@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Pago;
 import org.springframework.samples.petclinic.repository.PagoRepository;
@@ -45,16 +46,11 @@ public class PagoService {
 	}
 	
 	@Transactional
-	public void savePayment(Pago pago){
+	public void savePayment(Pago pago) throws DataAccessException{
 		
 		pagoRepository.save(pago);
 			
 	}
-
-    
-    
-    
-    
     
 }
 

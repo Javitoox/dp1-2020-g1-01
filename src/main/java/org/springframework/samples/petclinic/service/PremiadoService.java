@@ -12,8 +12,12 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Feedback;
+import org.springframework.samples.petclinic.model.Pago;
 import org.springframework.samples.petclinic.model.Premiado;
 import org.springframework.samples.petclinic.model.WallOfFame;
+import org.springframework.samples.petclinic.repository.FeedbackRepository;
+import org.springframework.samples.petclinic.repository.PagoRepository;
 import org.springframework.samples.petclinic.repository.PremiadoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,11 +31,18 @@ public class PremiadoService {
 	
 	private PremiadoRepository premiadoRepository;
 	private WallOfFameService wallOfFameService;
+	private AlumnoService alumnoService;
+	private PagoRepository pagoRepository;
+	private FeedbackRepository feedbackRepository;
 	
 	@Autowired
-	public PremiadoService(PremiadoRepository premiadoRepository, WallOfFameService wallOfFameService) {
+	public PremiadoService(PremiadoRepository premiadoRepository, WallOfFameService wallOfFameService
+			, AlumnoService alumnoService, PagoRepository pagoRepository, FeedbackRepository feedbackRepository) {
 		this.premiadoRepository = premiadoRepository;
 		this.wallOfFameService = wallOfFameService;
+		this.alumnoService = alumnoService;
+		this.pagoRepository = pagoRepository;
+		this.feedbackRepository = feedbackRepository;
 	}
 
 	public List<Premiado> premiadosPorFecha(String fechaWall){
@@ -70,7 +81,7 @@ public class PremiadoService {
 			premiadoRepository.save(p);
 			
 		}
-		
+		 
 	}
 	 
 	@Transactional
@@ -85,7 +96,7 @@ public class PremiadoService {
 		}
 		
 		if(!descripcion.isEmpty()) {
-			log.info("Changing description: "+descripcion);
+			log.info("Cambiando descripcion: "+descripcion);
 			Optional<Premiado> p = premiadoRepository.findById(id);
 			if(p.isPresent()) {
 				Premiado premiado = p.get();
@@ -105,6 +116,8 @@ public class PremiadoService {
 			if(premiados.size() < 1) {
 				wallOfFameService.deleteWallOfFame(wall);
 			}
+		}else {
+			log.warn("El premiado con id ", id, " no existe");
 		}
 		
 	}
@@ -113,6 +126,28 @@ public class PremiadoService {
 		return premiadoRepository.numAparicionesEnFecha(fechaWall, nickUsuario);
 	}
 	
+	public void deleteAlumno(String idAlumno) {
+		
+		Alumno a = alumnoService.getAlumno(idAlumno);
+		
+		List<Pago> listPago = pagoRepository.findPaymentsByStudent(idAlumno);
+		for(Pago p: listPago) {
+			pagoRepository.delete(p);
+		}
+		
+		List<Premiado> listPremiado = premiadoRepository.aparacionesPorAlumno(idAlumno);
+		for(Premiado p: listPremiado) {
+			premiadoRepository.delete(p);
+		}
+		
+		List<Feedback> listFeedback = feedbackRepository.findFeedbacksByStudent(idAlumno);
+		for(Feedback f: listFeedback) {
+			feedbackRepository.delete(f);
+		}	
+		
+		alumnoService.deleteStudents(a);
+		
+	}
 	
 	
 	

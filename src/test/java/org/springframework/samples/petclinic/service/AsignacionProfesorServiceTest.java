@@ -1,12 +1,15 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,10 +20,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.petclinic.model.AsignacionProfesor;
+import org.springframework.samples.petclinic.model.AsignacionProfesorKey;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Profesor;
 import org.springframework.samples.petclinic.repository.AsignacionProfesorRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
@@ -58,12 +61,11 @@ public class AsignacionProfesorServiceTest {
 	}
 
 	@Test
-	@Transactional
 	void shouldSaveATeacherAsignation() {
 		AsignacionProfesor asig = new AsignacionProfesor();
 		Grupo g = new Grupo();
 		Profesor p = new Profesor();
-		asig.setFecha(LocalDate.now());
+		asig.setFecha(LocalDate.of(2019, 1, 2));
 		asig.setGrupo(g);
 		asig.setProfesor(p);
 		
@@ -75,5 +77,52 @@ public class AsignacionProfesorServiceTest {
 	void shouldGetNameOfAllFreeGroups() {
 		when(asignacionProfRepository.getFreeGroups()).thenReturn(gruposLibres);
 		assertThat(asignacionProfService.getFreeGroups()).isNotEmpty();
+	}
+	
+	@Test
+	void shoulDeleteAnAsignation() {
+		AsignacionProfesorKey id = new AsignacionProfesorKey();
+		id.setNickProfesor(NICK_PROFESOR);
+		id.setNombreGrupo("Tercero A");
+		AsignacionProfesor asig = new AsignacionProfesor();
+		Grupo g = new Grupo();
+		Profesor p = new Profesor();
+		asig.setId(id);
+		asig.setFecha(LocalDate.of(2019, 2, 2));
+		asig.setGrupo(g);
+		asig.setProfesor(p);
+		asignacionProfService.deleteAsignacion(id);
+		verify(asignacionProfRepository, times(1)).deleteById(id);
+	}
+	
+	@Test
+	void shouldReturnATeacherAsignation() {
+		AsignacionProfesorKey id = new AsignacionProfesorKey();
+		id.setNickProfesor(NICK_PROFESOR);
+		id.setNombreGrupo("Tercero A");
+		Grupo g = new Grupo();
+
+		g.setNombreGrupo("Tercero A");
+		Profesor p = new Profesor();
+		p.setNickUsuario(NICK_PROFESOR);
+	
+		AsignacionProfesor asig = new AsignacionProfesor();
+		asig.setId(id);
+		asig.setFecha(LocalDate.of(2019, 2, 2));
+		asig.setGrupo(g);
+		asig.setProfesor(p);
+		Optional<AsignacionProfesor> opt = Optional.of(asig);		
+		when(asignacionProfRepository.findById(id)).thenReturn(opt);
+		assertThat(asignacionProfService.findAsignacionProfesor(id)).isEqualTo(opt.get());
+
+	}
+	
+	@Test
+	void shoulReturnAsignationsNamesByGroup() {
+		List<String> asignaciones = new ArrayList<>();
+		Grupo g = new Grupo();
+		g.setNombreGrupo("B2 A");
+		when(asignacionProfRepository.getAsignacionesByGroup(g.getNombreGrupo())).thenReturn(asignaciones);
+		assertThat(asignacionProfService.findAsignacionesByGroup(g.getNombreGrupo())).isEqualTo(asignaciones);
 	}
 }

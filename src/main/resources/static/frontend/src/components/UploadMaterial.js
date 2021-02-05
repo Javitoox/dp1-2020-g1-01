@@ -5,6 +5,7 @@ import { Button } from 'primereact/button';
 import AlumnoComponent from './AlumnoComponent';
 import { PickList } from 'primereact/picklist';
 import MaterialComponent from './MaterialComponent';
+import { Dropdown } from 'primereact/dropdown';
 
 
 export class UploadMaterial extends Component{
@@ -13,10 +14,13 @@ export class UploadMaterial extends Component{
         super(props);
         this.state={
             file : null,
+            typeMaterial : "",
             source: [],
             target: [],
             material: null,
             fileError: null,
+            succes: null,
+            typeMaterialError: null
         }
         this.handleSubmit= this.handleSubmit.bind(this);
         this.alumnos = new AlumnoComponent(); 
@@ -24,8 +28,9 @@ export class UploadMaterial extends Component{
         this.onChange = this.onChange.bind(this);
         this.materiales = new MaterialComponent();
         this.respuesta= this.respuesta.bind(this);
+        this.typeMaterial = this.typeMaterial.bind(this);
+        this.error = this.error.bind(this);
     }
-
 
     file= this.file.bind(this);
 
@@ -52,28 +57,56 @@ export class UploadMaterial extends Component{
             fileError:null
         })
         const formData = new FormData();
+        
+        formData.append('tipoMaterial', this.state.typeMaterial);
         formData.append('pdf', this.state.file);
         await this.materiales.crearMaterial(this.props.urlBase,this.props.nickUsuario,formData).then(res => this.respuesta(res.status, res.data));
-        this.state.target.forEach(e => this.materiales.asignarAlumnoMaterial(this.props.urlBase,this.state.material.id,e));
     }
 
     respuesta(status, data){
-        console.log(status);
+        console.log(data)
+
         if(status === 203){
-            this.setState({ fileError: <div className="alert alert-danger" role="alert">Required field</div> })
+            data.forEach(e => this.error(e.field, e.defaultMessage))
         }else{
-            this.setState({material: data})
+            this.setState({
+                material: data,
+                fileError: null,
+                typeMaterialError: null,
+                file: null,
+                tipoMaterial: "",
+                succes: <div className="alert alert-success" role="alert">Successful upload</div>
+            })
+            this.state.target.forEach(e => this.materiales.asignarAlumnoMaterial(this.props.urlBase,this.state.material.id,e));
         }
     }
 
+    error(field,message){
+        if(field === "pdf"){
+            this.setState({ fileError: <div className="alert alert-danger" role="alert">Required field</div> })
+        }else if(field === "tipoMaterial"){
+            this.setState({ typeMaterialError: <div className="alert alert-danger" role="alert">{message}</div> })
+        }
+    }
+    
     itemTemplate(item) {
-        return (
-            <div className="product-item">
-                <div className="product-list-detail">
-                    <p className="p-mb-2" style={{fontsize:'100px'}}>{item.nombreCompletoUsuario}</p>
+        if(item.grupos != null){
+            return (
+                <div className="product-item">
+                    <div className="product-list-detail">
+                        <p className="p-mb-2" style={{fontsize:'100px'}}>{item.nombreCompletoUsuario +" ("+item.grupos.cursos.cursoDeIngles+")"}</p>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }else{
+            return (
+                <div className="product-item">
+                    <div className="product-list-detail">
+                        <p className="p-mb-2" style={{fontsize:'100px'}}>{item.nombreCompletoUsuario}</p>
+                    </div>
+                </div>
+            );
+        }
     }
 
     onChange(event) {
@@ -83,15 +116,31 @@ export class UploadMaterial extends Component{
         });
     }
 
+    typeMaterial(event){
+        this.setState({ typeMaterial: event.target.value });
+    }
 
     render(){
         return(
         <React.Fragment>    
             <div className="c" >
                 <form onSubmit={this.handleSubmit} style={{width:'700px'}}  >
+                {this.state.succes}
                 <div className="t">
                     <div><h5>Upload a new material</h5></div>
                 </div>
+
+                {this.state.typeMaterialError}
+                <div className="i">
+                    <div className="p-inputgroup">
+                        <span className="p-inputgroup-addon">
+                            <i className="pi pi-sort-down"></i>
+                        </span>
+                        <Dropdown value={this.state.typeMaterial} options={["Homework", "Exam"]} 
+                        onChange={this.typeMaterial} placeholder="Type" name="tipo"/>
+                    </div>
+                </div>
+
                 {this.state.fileError}
                 <div className="i c">
                     <Toast
@@ -105,7 +154,7 @@ export class UploadMaterial extends Component{
                         name="demo[]"
                         customUpload 
                         uploadHandler={this.file}
-                        accept="*"
+                        accept="application/pdf"
                         emptyTemplate={
                         <p className="p-m-0">Drag and drop file to here to upload.</p>
                     }

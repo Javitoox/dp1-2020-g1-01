@@ -15,7 +15,9 @@ import org.springframework.samples.petclinic.repository.MaterialRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class MaterialService {
 	
@@ -30,7 +32,7 @@ public class MaterialService {
 		this.profesorService = profesorService;
 		this.tipoMaterialService = tipoMaterialService;
 	}
-	
+	 
 	public List<Material> getMaterialPorProfesor(String nickProfesor){
 		return materialRepository.getMaterialByProfesor(nickProfesor);		
 	}
@@ -39,15 +41,15 @@ public class MaterialService {
 		return materialRepository.getMaterialByAlumno(nickUsuario);		
 	}
 	
-	public Material uploadMaterial(MultipartFile pdf, String nickProfesor) throws IOException {
+	public Material uploadMaterial(MultipartFile pdf, String nickProfesor, String tipoMaterial) throws IOException {
 		Material m = new Material();
 		Profesor profesor = profesorService.getProfesor(nickProfesor);
 		m.setNombreMaterial(pdf.getOriginalFilename());
 		m.setFechaSubida(LocalDate.now());
-		TipoMaterial tipo = tipoMaterialService.findById("Homework");
+		TipoMaterial tipo = tipoMaterialService.findById(tipoMaterial);
 		m.setTipoMaterial(tipo);
 		m.setProfesores(profesor);
-		
+		log.info("Subiendo material con nombre: ", m.getNombreMaterial());
 		Material material = materialRepository.save(m);
 		
 		Path directorioImagenes =Paths.get("src//main//resources//static//frontend//public/material");

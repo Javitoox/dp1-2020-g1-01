@@ -10,6 +10,8 @@ import { Redirect } from 'react-router-dom';
 import { ListBox } from 'primereact/listbox';
 import { selectStudent } from '../actions/index';
 import { selectAssignedStudent } from '../actions/index';
+import {selectStudent} from '../actions/index';
+import {selectAssignedStudent}  from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import "../css/payment.css"
@@ -35,34 +37,23 @@ class Pagos extends Component {
             groupSelectItems: "",
             listaGrupos: {
                 nombreGrupo: ""
+            },           
+            lista:{
             },
-            listaTemporal: {
-
+            listaConcepto:{
+                concepto:""
             },
-            lista: {
-
-            },
-            textBuscar: "",
-            textBuscar2: "",
+            opcion:"",
+            textBuscar:"",
+            textBuscar2:"",
             comprobation: true,
-            redirect: false
 
-
-            //nodes: null,
-            //selectedKey: null,
         }
         this.pagos = new PagoComponent();
         this.alumnos = new AlumnoComponent();
         this.filter = this.filter.bind(this);
         this.filterDNI = this.filterDNI.bind(this);
-        this.notificar = this.notificar.bind(this);
         this.botonPagos = this.botonPagos.bind(this);
-
-        //this.edicion = this.edicion.bind(this);
-        //this.assignGroup = this.assignGroup.bind(this)      
-        //this.botonAssign = this.botonAssign.bind(this);
-        //this.cursos = new CursoComponent();
-        //this.onNodeSelect = this.onNodeSelect.bind(this);
     }
 
     componentDidMount() {
@@ -78,22 +69,14 @@ class Pagos extends Component {
             this.setState({ pagoS: pago });
             if (pago === "") {
                 this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
-            } else {
+            } else {                
                 this.pagos.getAllStudentsPaid(pago).then(data => this.setState({ alumnos: data }));
                 this.pagos.getAllStudentsNotPaid(pago).then(data => this.setState({ alumnosNP: data }));
                 this.pagos.getAllStudentsPaid(pago).then(data => this.setState({ listaTemporal: data }));
                 this.pagos.getAllStudentsNotPaid(pago).then(data => this.setState({ listaTemporal2: data }));
-                // this.pagos.getAllStudentsPaid(pago).then(data => console.log(data));
             }
         }
-    }
-    notificar(rowData) {
-        return (
-            <React.Fragment>
-                <Button icon="pi pi-bell" className="p-button-rounded p-button-success p-mr-2" />
-            </React.Fragment>
-        );
-    }
+    }    
 
     filter(event) {
         var text = event.target.value
@@ -127,12 +110,13 @@ class Pagos extends Component {
             alumnos: newData2,
             text: text
         })
+        console.log("f"+this.state.alumnosNP)
     }
 
-    filterDNI(event) {
+    filterDNI(event){
         var text = event.target.value
-        const data = this.state.alumnosNP
-        const newData = data.filter(function (item) {
+        const data = this.state.listaTemporal2
+        const newData = data.filter(function(item){
             console.log(item);
             const itemData = item.dniUsuario.toUpperCase()
             console.log(itemData);
@@ -146,8 +130,8 @@ class Pagos extends Component {
             alumnosNP: newData,
             text2: text
         })
-        const data2 = this.state.alumnos
-        const newData2 = data2.filter(function (item) {
+        const data2 = this.state.listaTemporal
+        const newData2 = data2.filter(function(item){
             console.log(item);
             const itemData = item.dniUsuario.toUpperCase()
             console.log(itemData);
@@ -163,6 +147,19 @@ class Pagos extends Component {
         })
     }
 
+    allConceptsNames(){
+        var t=this.state.listaConcepto
+        var i=0
+        var conceptSelectItems = [
+        ];
+        while(i<t.length){        
+            conceptSelectItems.push(         
+                { label: String(t[i]) , value: String(t[i]) })        
+            i+=1
+            }
+        return conceptSelectItems
+    }
+
     botonPagos() {
         this.setState({
             redirect: "/createPayment",
@@ -170,67 +167,77 @@ class Pagos extends Component {
         });
     }
 
-
     render() {
         if (!this.state.comprobation) {
             return <Auth authority="teacher"></Auth>
-        } else {
+        }else{
             if (this.state.redirect) {
-                if (this.state.redirect === "/createPayment") {
+                if(this.state.redirect==="/createPayment"){
                     return <Redirect
-                        to={{
-                            pathname: "/createPayment"
-                        }}
-                    />
-                }
+                    to={{
+                    pathname: "/createPayment"
+                    }}
+                />}
             }
 
-
-            const pagoSelectItems = [
-                { label: 'CONCEPTS:', value: '' },
-                { label: 'First Mat', value: 'Pago matricula' },
-                { label: 'First Pay', value: 'Primer plazo' },
-                { label: 'Second Pay', value: 'Segundo plazo' }
-
-            ];
-            console.log(this.state)
-
-
-            return (
-                <React.Fragment>
-                    <div className="datatable-templating-demo">
-                        <div>
-                            <ListBox options={pagoSelectItems} onChange={(e) => this.showSelectGroup(e.value)} />
+            if(this.state.pagoS===""){
+                return (
+                    <React.Fragment>
+                    
+                        <div className="datatable-templating-demo">
+                        <div className="t2"><div className="t3"><h5>{` `}Concepts</h5></div></div>
+                            <div>
+                            <ListBox options={this.allConceptsNames()} onChange={(e) => this.showSelectGroup(e.value)} />
+                            </div>
+                            {` `}
+                            <div>&nbsp;</div>
                         </div>
-
-                        <div>&nbsp;</div>
-                        <InputText className="form-control" placeholder="Search by name" value={this.state.text} onChange={this.filter} />
-                        {` `}
-                        <InputText className="form-control" placeholder="Search by DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
-                        {` `}
                         <Button icon="pi pi-fw pi-users" label="Create payment" className="p-button-secondary" onClick={this.botonPagos} />
+                    </React.Fragment>
+                )
+            }else{
+                const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
+                const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
+                return (
+                    <React.Fragment>
+                        <div className="datatable-templating-demo">
+                            <div className="t2"><div className="t3"><h5>{` `}Concepts</h5></div></div>
+                                <div>
+                                <ListBox options={this.allConceptsNames()} onChange={(e) => this.showSelectGroup(e.value)} />
+                                </div>
+                                <div>&nbsp;</div>
+                                <Button icon="pi pi-fw pi-users" label="Create payment" className="p-button-secondary" onClick={this.botonPagos} />
+                                <div>&nbsp;</div>
+                                <InputText className="form-input" placeholder="Search by name" value={this.state.text} onChange={this.filter} />
+                                {` `}
+                                <InputText className="form-input" placeholder="Search by DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
+                            <div>&nbsp;</div>
+                            <DataTable header="Students who have paid:" value={this.state.alumnos} paginator
+                                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[5,10,20]}
+                                paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
+                                    
+                                <Column field="nombreCompletoUsuario" header="Full name"></Column>
+                                <Column field="dniUsuario" header="DNI"></Column>
+                                <Column field="correoElectronicoUsuario" header="Email"></Column>
+                            </DataTable>
+                            <div>&nbsp;</div>
+                            <DataTable header="Students who have not paid:" value={this.state.alumnosNP} paginator
+                                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[5,10,20]}
+                                paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
 
-
-                        <div>&nbsp;</div>
-
-                        <DataTable header="Students who have paid:" value={this.state.alumnos}>
-                            <Column field="nombreCompletoUsuario" header="Full name"></Column>
-                            <Column field="dniUsuario" header="DNI"></Column>
-                            <Column field="correoElectronicoUsuario" header="Email"></Column>
-                        </DataTable>
-                        <div>&nbsp;</div>
-                        <DataTable header="Students who have not paid:" value={this.state.alumnosNP}>
-                            <Column field="nombreCompletoUsuario" header="Full name"></Column>
-                            <Column field="dniUsuario" header="DNI"></Column>
-                            <Column field="correoElectronicoUsuario" header="Email"></Column>
-                            <Column header="Notify payment's lack" body={this.notificar}></Column>
-                        </DataTable>
-                    </div>
-                </React.Fragment>
-
-            )
+                                <Column field="nombreCompletoUsuario" header="Full name"></Column>
+                                <Column field="dniUsuario" header="DNI"></Column>
+                                <Column field="correoElectronicoUsuario" header="Email"></Column>
+                            </DataTable>
+                        </div>                        
+                    </React.Fragment>
+                    )
+                }
+        
+            }
         }
-    }
 }
 
 function matchDispatchToProps(dispatch) {

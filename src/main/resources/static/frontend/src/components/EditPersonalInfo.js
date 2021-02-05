@@ -42,7 +42,6 @@ export default class EditPersonalInfo extends Component {
         this.userDataComponent = new UserData();
     }
   async componentDidMount() {
-        console.log(this.props.nickUser);
         await this.userDataComponent.getAlumnoInfo(this.props.urlBase, this.props.nickUser).then(data => this.setState({
             nickUsuario: data.nickUsuario,
             contraseya: data.contraseya,
@@ -54,6 +53,8 @@ export default class EditPersonalInfo extends Component {
             direccionUsuario: data.direccionUsuario,
             fechaNacimiento: data.fechaNacimiento,
             fechaMatriculacion: data.fechaMatriculacion,
+            numTareasEntregadas: data.numTareasEntregadas,
+            fechaSolicitud: data.fechaSolicitud,
         })).catch(error => this.setState({comprobation: false}));
     }
     nickUsuario(event) {
@@ -121,7 +122,7 @@ export default class EditPersonalInfo extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        console.log("entra en el submit");
+
         this.setState({
             usernameError: null,
             passwordError: null,
@@ -145,7 +146,9 @@ export default class EditPersonalInfo extends Component {
             numTelefonoUsuario2: this.state.numTelefonoUsuario2,
             direccionUsuario: this.state.direccionUsuario,
             fechaNacimiento: this.state.fechaNacimiento,
-            fechaMatriculacion: this.state.fechaMatriculacion
+            fechaMatriculacion: this.state.fechaMatriculacion,
+            numTareasEntregadas: this.state.numTareasEntregadas,
+            fechaSolicitud: this.state.fechaSolicitud
         }
         if (!this.state.buttonTel1) {
             alumno.numTelefonoUsuario2 = null
@@ -158,7 +161,6 @@ export default class EditPersonalInfo extends Component {
     }
 
     respuesta(status, data) {
-        console.log(status);
         if (status === 203) {
             data.forEach(e => this.error(e.field, e.defaultMessage))
         } else {

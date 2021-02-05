@@ -50,5 +50,7 @@ export default class MaterialComponent extends Component{
 		sessionStorage.getItem("password")) } });
     }
 
-
+    obtenerMediaRate(urlBase, id){
+        return axios.get(urlBase+"/feedback/getRateAverage/"+id);
+    }
 }

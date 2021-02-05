@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.web;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,8 +12,11 @@ import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.samples.petclinic.service.GrupoService;
+import org.springframework.samples.petclinic.service.PremiadoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,11 +33,15 @@ import lombok.extern.slf4j.Slf4j;
 public class AlumnoController {
 
 	private AlumnoService alumnoServ;
+	private PremiadoService premiadoService;
+	private GrupoService grupoService;
 
 	@Autowired
-	public AlumnoController(AlumnoService alumnoServ) {
+	public AlumnoController(AlumnoService alumnoServ, GrupoService grupoService, PremiadoService premiadoService) {
 		this.alumnoServ = alumnoServ;
-	}
+		this.premiadoService = premiadoService;
+		this.grupoService = grupoService;
+	} 
 	
 	@PutMapping("/editStudent")
 	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result) {
@@ -60,6 +66,45 @@ public class AlumnoController {
 	public ResponseEntity<?> listAlumnos() {
 		List<Alumno> allStudents = alumnoServ.getAllAlumnos();
 		return ResponseEntity.ok(allStudents);
+	}
+
+	@GetMapping("/ableToDelete")
+	public ResponseEntity<?> listAlumnosToDelete(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+			List<String> allStudents = alumnoServ.getStudentsToDelete();
+			return ResponseEntity.ok(allStudents);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
+	}
+	
+	@GetMapping("/studentsWithNoGroups")
+	public ResponseEntity<?> listAlumnosWithNoGroups(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+			List<String> allStudents = alumnoServ.getStudentsWithNoGroups();
+			return ResponseEntity.ok(allStudents);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
+	}
+	
+	@GetMapping("/studentsWithNoTutors")
+	public ResponseEntity<?> listAlumnosWithNoTutors(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
+			List<String> allStudents = alumnoServ.getStudentsWithNoTutors();
+			return ResponseEntity.ok(allStudents);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
 	}
 
 	@GetMapping("/getByCourse/{course}")
@@ -88,15 +133,36 @@ public class AlumnoController {
 	}
 
 	@PutMapping("/assignStudent")
-	public ResponseEntity<?> assignStudent(@Valid @RequestBody Alumno alumno, BindingResult result) throws IOException {
-		if (result.hasErrors()) {
-			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-		} else {
-			log.info("Request to edit alumn's group: {} ", alumno.getGrupos());
-			this.alumnoServ.saveAlumno(alumno);
-			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
-
+	public ResponseEntity<?> assignStudent(@Valid @RequestBody Alumno alumno, BindingResult result){
+    		if (result.hasErrors()) {
+    			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+    		}
+    		else {
+    			if(alumno.getGrupos().getNombreGrupo() != null) {
+	    			Integer numAlumnosGrupo = grupoService.numAlumnos(alumno.getGrupos().getNombreGrupo());
+    			if(numAlumnosGrupo < 3 ) {
+	        			this.alumnoServ.saveAlumnAsign(alumno);
+		    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
+	    			}else {
+		    			return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED);
+	    			}
+    			}
+    				this.alumnoServ.saveAlumnAsign(alumno);
+	    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);    			
+    			}
+    }
+	
+	@DeleteMapping("/delete/{nickUsuario}")
+	public ResponseEntity<?> deleteStudent(@PathVariable("nickUsuario") String nickUsuario){
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
+			log.info("Solicitando borrar alumno: {}", nickUsuario);
+			if(alumnoServ.getStudentsToDelete().contains(nickUsuario.toString())) {
+				Alumno a = alumnoServ.getAlumno(nickUsuario);
+				alumnoServ.deleteStudents(a);
+				return new ResponseEntity<>("Alumno dado de baja correctamente", HttpStatus.OK);
+			}else {
+				return new ResponseEntity<>("No se puede borrar el alumno porque tiene pagos pendientes", HttpStatus.BAD_REQUEST);
+			}
 		}
-	}
-
+		
 }

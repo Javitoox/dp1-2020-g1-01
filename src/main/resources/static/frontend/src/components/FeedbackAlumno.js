@@ -10,7 +10,8 @@ export class FeedbackAlumno extends Component{
         this.state = {
             comment: null,
             rate: null,
-            id:null
+            id:null,
+            succes: null,
         }
         this.materiales= new MaterialComponent();
         this.obtenerFeedback= this.obtenerFeedback.bind(this);
@@ -42,25 +43,28 @@ export class FeedbackAlumno extends Component{
         formData.append('rate', this.state.rate) ;
         formData.append('comment', this.state.comment) ;
         formData.append('id', this.state.id);
-        this.materiales.updateFeedback(this.props.urlBase, formData);
+        this.materiales.updateFeedback(this.props.urlBase, formData).then(() => this.setState({
+            succes: <div className="alert alert-success" role="alert">The feedback has been send successfully</div>
+        }));
     }
 
     render(){
         return(
             <div className="c">
                 <form onSubmit={this.handleSubmit}>
+                {this.state.succes}
                 <div className="t">
                     <div><h5>Add rate and comment</h5></div>
                 </div>
                 <div className="i">
                     <div className="p-inputgroup">
-                        <InputText type= "text" placeholder={this.state.comment} onChange={this.comment} />
+                        <InputText type= "text" placeholder="Comment" value={this.state.comment} onChange={this.comment} />
                     </div>
                 </div>
 
                 <div className="i">
                     <div className="p-inputgroup">
-                        <Rating value={this.state.rate} onChange={(e) => this.setState({rate: e.value})} />
+                        <Rating value={this.state.rate} cancel={false} onChange={(e) => this.setState({rate: e.value})} />
                     </div>
                 </div>
 

@@ -12,33 +12,30 @@ import AuthenticationService from '../service/AuthenticationService';
 
 export default class AssignTeacher extends Component {
 
-
-
     constructor(props) {
         super(props);
         this.state = {
 
-            nickUsuario: this.props.nickUser,
-            nombreGrupo: "",
-            fecha: moment().format('YYYY-MM-DD'),
-            listaGrupos: {
-                nombreGrupo: ""
-            },
-            usernameError: null,
-            nombreGrupoError: null,
-            succes: null,
-            exist: null,
-            comprobation: true,
-        }
+        nickUsuario:this.props.nickUser,
+        nombreGrupo:"",
+        fecha:moment().format('YYYY-MM-DD'),
+        listaGrupos:{
+           nombreGrupo: ""
+        },
+        usernameError:null,
+        nombreGrupoError:null,
+        succes:null,
+        exist:null,
+        comprobation:true,
+    } 
 
-
-
-        this.handleNG = this.handleNG.bind(this);
-        this.save = this.save.bind(this);
-        this.alumnos = new AlumnoComponent();
-        this.grupos = new GrupoComponent();
-        this.asignaciones = new AssignmentComponent();
-        this.form = this.form.bind(this);
+    this.handleNG = this.handleNG.bind(this);
+    this.save = this.save.bind(this);
+    this.alumnos = new AlumnoComponent();
+    this.grupos = new GrupoComponent();
+    this.asignaciones = new AssignmentComponent();
+    this.form=this.form.bind(this);
+    this.mostrarTabla = this.mostrarTabla.bind(this);
 
 
     }
@@ -47,57 +44,46 @@ export default class AssignTeacher extends Component {
         this.setState({ nombreGrupo: event.target.value });
     }
 
-    allGroupNames() {
-
-        var t = this.state.listaGrupos
-        var i = 0
-        var groupSelectItems = [
-
-        ];
-        while (i < t.length) {
-            groupSelectItems.push(
-                { label: String(t[i]), value: String(t[i]) })
-            i += 1
+    allGroupNames(){
+        var t=this.state.listaGrupos
+        var i=0
+        var groupSelectItems = [];
+        while(i<t.length){        
+        groupSelectItems.push(         
+            { label: String(t[i]) , value: String(t[i]) })        
+        i+=1
         }
         return groupSelectItems
     }
-    form() {
+    
+    form(){
         var l = this.state.listaGrupos
         console.log(l)
-        if (String(l) === "") {
-
-            return <div className="t"><div><h5>There is no group to assign</h5></div></div>
-
-
-        } else {
-
-
+        if(String(l)===""){
+            return <div className="t"><div><h5>There are no groups to assign</h5></div></div>
+        }else{
             return <div>
                 <div className="t"><div><h5>Assign Teacher</h5></div></div>
-                <div className="i">
-                    {this.state.usernameError}
-                    <div className="p-inputgroup">
-                        <InputText field="profesor.nickUsuario" placeholder="Username" name="profesor.nickUsuario" type="text" value={this.props.nickUser} />
-                    </div>
-                </div>
+                                <div className="i">
+                                {this.state.usernameError}
+                                <div className="p-inputgroup">
+                                    <InputText field="profesor.nickUsuario" readOnly={true} placeholder="Username" name="profesor.nickUsuario" type="text" value={this.props.nickUser}/>
+                                 </div>
+                                 </div>
 
-                <div className="i">
-                    {this.state.nombreGrupoError}
-                    <div className="p-inputgroup">
-                        <Dropdown field="grupo.nombreGrupo" placeholder="Select a group" name="grupo.nombreGrupo" value={this.state.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
-                    </div>
-                </div>
+                                <div className="i">
+                                {this.state.nombreGrupoError}
+                                <div className="p-inputgroup">
+                                    <Dropdown field="grupo.nombreGrupo" placeholder="Select a group" name="grupo.nombreGrupo" value={this.state.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
+                                </div>
+                                </div>
 
-                <div className="b">
-                    <div className="i">
-                        <Button className="p-button-secondary" label="Guardar" icon="pi pi-fw pi-check" />
-
-                    </div>
-                </div>
-
-            </div>
-
-
+                                <div className="b">
+                                <div className="i">
+                                    <Button className="p-button-secondary" label="Guardar" icon="pi pi-fw pi-check"/>
+                                </div>
+                            </div>
+                            </div>
         }
     }
 
@@ -119,31 +105,39 @@ export default class AssignTeacher extends Component {
             grupo: {
                 nombreGrupo: this.state.nombreGrupo
             },
-            fecha: moment().format('YYYY-MM-DD')
-
+            fecha:moment().format('YYYY-MM-DD')
+           }
+        if(this.state.nombreGrupo===""){
+            axios.post("http://localhost:8081/asignaciones/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+            sessionStorage.getItem("password")) } }).then(res => {
+                this.respuesta(res.status, res.data);
+            })
+        }else{
+            axios.post("http://localhost:8081/asignaciones/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+            sessionStorage.getItem("password")) } }).then(res => {
+                this.respuesta(res.status, res.data);
+            })
+            this.mostrarTabla()
         }
 
-        axios.post("http://localhost:8081/asignaciones/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } }).then(res => {
-            this.respuesta(res.status, res.data);
-        })
-
-    }
+          
+    }  
 
 
     respuesta(status, data) {
         console.log(status);
         console.log(data);
-        if (status === 203) {
-            this.error(data.field, data.defaultMessage)
-        } else if (status === 201) {
+        if(status===203){
+           this.error(data.field, data.defaultMessage)
+        }else if(status===201){
             this.setState({
-
-                nombreGrupo: "",
+                nombreGrupo:"",
                 succes: <div className="alert alert-success" role="alert">Successful assignment</div>
             })
-        } else {
-            this.setState({ exist: <div className="alert alert-danger" role="alert">{data}</div> })
+            
+            this.mostrarTabla()
+        }else{
+            this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
         }
     }
     error(campo, mensaje) {
@@ -157,12 +151,13 @@ export default class AssignTeacher extends Component {
         }
     }
 
-
     componentDidMount() {
-        this.asignaciones.getListOfEmptyAssignmentGroup(this.props.urlBase).then(data => this.setState({ listaGrupos: data })).catch(error => this.setState({comprobation: false}));
+        this.mostrarTabla()
+        this.asignaciones.getListOfEmptyAssignmentGroup(this.props.urlBase).then(data => this.setState({ listaGrupos: data }));
     }
-
-
+    mostrarTabla(){
+        this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data })).catch(error => this.setState({comprobation: false}));
+    }   
     render() {
         if (!this.state.comprobation) {
             return <Auth authority="teacher"></Auth>
@@ -171,7 +166,7 @@ export default class AssignTeacher extends Component {
             return (
                 <div>
                     <div className="c">
-                        <div className="login request">
+                        <div className="login2 request2">
                             <form onSubmit={this.save}>
                                 {this.state.succes}
                                 {this.state.exist}

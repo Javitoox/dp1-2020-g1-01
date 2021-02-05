@@ -14,16 +14,26 @@ public interface AlumnoRepository extends CrudRepository<Alumno, String> {
 	@Query(value = "Select * from alumnos where (alumnos.nick_usuario = :nickUsuario)", nativeQuery = true)
 	public Alumno findByNick(@Param("nickUsuario") String nickUsuario);
 	
-	@Query("SELECT a FROM Alumno a JOIN a.grupos g WHERE g.nombreGrupo = :nombreGrupo")
+	@Query("SELECT a FROM Alumno a JOIN a.grupos g WHERE g.nombreGrupo = :nombreGrupo and a.fechaMatriculacion IS NOT null and a.fechaBaja IS null")
     public List<Alumno> findByGroup(@Param("nombreGrupo") String nombreGrupo);
 	
 	@Query("SELECT alumno FROM Alumno alumno WHERE (alumno.fechaMatriculacion IS not null and alumno.fechaBaja IS null)")
 	public List<Alumno>findStudents();
 
-    @Query("SELECT alumno,grupo FROM Alumno alumno JOIN alumno.grupos grupo WHERE grupo.cursos.cursoDeIngles = :cursoDeIngles")
+    @Query("SELECT alumno,grupo FROM Alumno alumno JOIN alumno.grupos grupo WHERE grupo.cursos.cursoDeIngles = :cursoDeIngles and alumno.fechaMatriculacion IS NOT null and alumno.fechaBaja IS null")
     public List<Alumno> findStudentsByCourse(@Param("cursoDeIngles") TipoCurso cursoDeIngles);
     
     @Query("SELECT alumno FROM Alumno alumno where (alumno.tutores.nickUsuario LIKE :nickTutor% and alumno.fechaMatriculacion IS NOT null and alumno.fechaBaja IS null)")
     public List<Alumno> findStudentsByTutor(@Param("nickTutor")String nickTutor);
     
+    @Query("SELECT a.nickUsuario FROM Alumno a WHERE a.fechaMatriculacion IS NOT null and a.fechaBaja IS null AND a.nickUsuario IN ( SELECT p.alumnos.nickUsuario FROM Pago p GROUP BY p.alumnos.nickUsuario "
+			+ "HAVING COUNT (p.concepto) = (SELECT COUNT(DISTINCT p.concepto ) FROM Pago p) )")
+	public List<String> findStudentsAbleToDelete();
+    
+    @Query("SELECT a.nickUsuario FROM Alumno a WHERE a.fechaMatriculacion IS NOT null and a.fechaBaja IS null AND a.nickUsuario NOT IN ( SELECT a.nickUsuario FROM Alumno a WHERE a.grupos.nombreGrupo <> '')")
+	public List<String> findSudentsWithNoGroups();
+    
+    //SELECT a.NICK_USUARIO   FROM ALUMNOS a WHERE a.NICK_USUARIO NOT IN (SELECT a.NICK_USUARIO FROM ALUMNOS WHERE a.TUTORES_NICK_USUARIO <> '')
+    @Query("SELECT a.nickUsuario FROM Alumno a WHERE a.fechaMatriculacion IS NOT null and a.fechaBaja IS null AND a.nickUsuario NOT IN ( SELECT a.nickUsuario FROM Alumno a WHERE a.tutores.nickUsuario <> '')")
+	public List<String> findSudentsWithNoTutors();
 }

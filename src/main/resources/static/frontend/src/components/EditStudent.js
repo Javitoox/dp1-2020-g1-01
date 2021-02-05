@@ -33,6 +33,8 @@ class EditStudent extends Component {
         address: this.props.student.direccionUsuario,
         birthdate: this.props.student.fechaNacimiento,
         fechaMatriculacion: this.props.student.fechaMatriculacion,
+        numTareasEntregadas: this.props.student.numTareasEntregadas,
+        fechaSolicitud: this.props.student.fechaSolicitud,
         button:false,
         buttonTel1:false,
         buttonTel2:false,
@@ -121,7 +123,7 @@ class EditStudent extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        console.log("entra en el submit");
+
         this.setState({
             usernameError:null,
             passwordError:null,
@@ -145,7 +147,9 @@ class EditStudent extends Component {
             numTelefonoUsuario2: this.state.telefono2,
             direccionUsuario: this.state.address,
             fechaNacimiento: this.state.birthdate,
-            fechaMatriculacion: this.state.fechaMatriculacion
+            fechaMatriculacion: this.state.fechaMatriculacion,
+            numTareasEntregadas: this.state.numTareasEntregadas,
+            fechaSolicitud: this.state.fechaSolicitud
         }
         if(!this.state.buttonTel1){
             alumno.numTelefonoUsuario2 = null
@@ -158,7 +162,6 @@ class EditStudent extends Component {
     }
     
     respuesta(status, data){
-        console.log(status);
         if(status===203 ){
             data.forEach(e => this.error(e.field, e.defaultMessage))
         }else{

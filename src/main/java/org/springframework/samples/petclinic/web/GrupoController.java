@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.TipoCurso;
-import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,12 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 public class GrupoController {
 	
 	private final GrupoService grupoService;
-	private final AlumnoService alumnoService;
+
 
 	@Autowired
-	public GrupoController(GrupoService grupoService, AlumnoService alumnoService) {
+	public GrupoController(GrupoService grupoService) {
 		this.grupoService = grupoService;
-		this.alumnoService = alumnoService;
 	}
 	
 	@GetMapping("/all")
@@ -63,11 +61,24 @@ public class GrupoController {
 		return ResponseEntity.ok(all);
 	}
 	
+	@GetMapping("/allAsignableGroups/{nickUsuario}")
+	public ResponseEntity<List<String>> listaNombreGruposAsginablesPorAlumno(@PathVariable("nickUsuario") String nickUsuario, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);		
+		if(session != null && session.getAttribute("type") == "profesor") {
+			log.info("Sesión iniciada como: " + session.getAttribute("type"));
+			List<String> all =  grupoService.getAssignableGroupsByStudent(nickUsuario);
+			return ResponseEntity.ok(all);
+		}else {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+		}
+	}
+	
 	@GetMapping("/allEmptyGroups")
 	public ResponseEntity<List<String>> listaNombreGruposVacios() {
 		List<String> all =  grupoService.getEmptyGroups();
 		return ResponseEntity.ok(all);
 	}
+	
 	
 	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody Grupo resource, BindingResult result){
@@ -85,13 +96,14 @@ public class GrupoController {
 	}
 	
 	@DeleteMapping("/delete/{nombreGrupo}")
-	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo) {
-		log.info("Solicitando borrar grupo: {}", nombreGrupo);
-		if (alumnoService.getStudentsPerGroup(nombreGrupo).isEmpty()) {
-			grupoService.deleteGroup(nombreGrupo);
-			return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>("No se puede borrar el grupo porque tiene alumnos", HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo){
+			log.info("Solicitando borrar grupo: {}", nombreGrupo);
+			if(grupoService.grupoVacio(nombreGrupo)) {
+				grupoService.deleteGroup(nombreGrupo);
+				return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
+			}else {
+				return new ResponseEntity<>("No se puede borrar el grupo porque tiene alumnos", HttpStatus.BAD_REQUEST);
+			}
 		}
 	}
 

@@ -11,6 +11,7 @@ import lombok.Getter;
 @Table(name="tipos_materiales")
 @Getter
 public class TipoMaterial {
+	
 	@Id
 	@Column(name="tipo")
 	private String tipo;

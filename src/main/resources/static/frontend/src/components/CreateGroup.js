@@ -6,9 +6,13 @@ import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
 import Auth from './Auth';
 import AuthenticationService from '../service/AuthenticationService';
+import { Dialog } from 'primereact/dialog';
+import Alumnos from './Alumnos';
+import {selectCreatedGroup}  from '../actions/index';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-
-export class CreateGroup extends Component {
+class CreateGroup extends Component {
     constructor(props) {
         super(props);
         this.state = { 
@@ -25,8 +29,8 @@ export class CreateGroup extends Component {
             cursoError:null,
             succes:null,
             exist:null,
-            comprobation: true
-
+            comprobation: true,
+            displayConfirmation: false
         }
         this.grupos = new GrupoComponent();
         this.save = this.save.bind(this);
@@ -35,12 +39,10 @@ export class CreateGroup extends Component {
     }
     save = event => {
         event.preventDefault();
-
         this.setState({
             nombreGrupoError:null,
             cursoError:null
         });
-
         const grupo = {
             nombreGrupo:this.state.grupoS.nombreGrupo,
             cursos:{
@@ -48,15 +50,14 @@ export class CreateGroup extends Component {
             } 
         }
         if(this.state.grupoS.cursos.cursoDeIngles===""){
-            window.alert("You must select a course")
+            this.setState({displayConfirmation: true})    
         }else{
             axios.post("http://localhost:8081/grupos/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
             sessionStorage.getItem("password")) } }).then(res => {
                 this.respuesta(res.status, res.data);
             })
+            this.props.selectCreatedGroup(grupo)
         }
-        
-        
     }
     handleCI(event) {
         this.setState({
@@ -77,15 +78,16 @@ export class CreateGroup extends Component {
         }
         }});
     }
-
     respuesta(status, data){
         console.log(status);
+        this.setState({
+            exist: "",
+            succes: ""})
         if(status===203){
             console.log(data)
             this.error(data.field, data.defaultMessage)
         }else if(status===201){
-            this.setState({               
-
+            this.setState({
                 grupoS:{
                     nombreGrupo:"",
                     cursos:{
@@ -95,7 +97,9 @@ export class CreateGroup extends Component {
                 succes: <div className="alert alert-success" role="alert">Successful creation</div>
             })
         }else if(status===226){
-            this.setState({exist: <div className="alert alert-danger" role="alert">The group already exists</div>})
+            
+            this.setState({
+                exist: <div className="alert alert-danger" role="alert">The group already exists</div>})
         }else if(status===204){
             this.setState({exist: <div className="alert alert-danger" role="alert">You must choose a course</div>})
         }else{
@@ -116,11 +120,17 @@ export class CreateGroup extends Component {
         this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data })).catch(error => this.setState({comprobation: false}));
     }
 
+    renderFooter(){
+        return (
+            <div>
+            </div>
+        );
+    }
+
     render() {
         if (!this.state.comprobation) {
             return <Auth authority="teacher"></Auth>
         }else{
-
         const courseSelectItems = [
             { label: 'A1', value: 'A1' },
             { label: 'A2', value: 'A2' },
@@ -130,20 +140,26 @@ export class CreateGroup extends Component {
             { label: 'C2', value: 'C2' },
             { label: 'Free learning', value: 'APRENDIZAJELIBRE' }
         ];
+        <React.Fragment>
+                <Alumnos grupo={'pepe'}></Alumnos>
 
-        console.log(this.state)
+        </React.Fragment>
 
         return (
-
-            
-            
-
                 <div>
                     <div className="c">
-                        <div className="login request">
+                        <div className="login2 request2">
                             <form onSubmit={this.save}>
                             {this.state.succes}
                             {this.state.exist}
+
+                        <Dialog header="Confirmation" visible={this.state.displayConfirmation} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation: false})}>
+                         <div className="confirmation-content">
+                             <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                               <span>You must select a course</span>
+                        </div>
+                        </Dialog>
+
                                 <div className="t"><div><h5>Create Group</h5></div></div>
 
                                     <div className="i">
@@ -156,14 +172,14 @@ export class CreateGroup extends Component {
                                     <div className="i">
                                     {this.state.nombreGrupoError}
                                     <div className="p-inputgroup">
-                                    <InputText placeholder="NG" field="nombreGrupo" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
+                                    <InputText field="nombreGrupo" value={this.state.grupoS.nombreGrupo} placeholder="Group's name" name="nombreGrupo" onChange={this.handleNG}/>
 
                                     </div>
                                     </div>
 
                                     <div className="b">
                                     <div className="i">
-                                    <Button className="p-button-secondary" label="OK" label="Guardar" icon="pi pi-fw pi-check"/>
+                                    <Button className="p-button-secondary" label="Save" icon="pi pi-fw pi-check"/>
 
                                     </div>
                                 </div>
@@ -171,7 +187,14 @@ export class CreateGroup extends Component {
                         </div>
                     </div>
                 </div>
-            );
+            )
         }
     }
 }
+function  matchDispatchToProps(dispatch) {
+
+    return bindActionCreators({
+        selectCreatedGroup: selectCreatedGroup}, dispatch)
+}
+
+export default connect(null , matchDispatchToProps)(CreateGroup) 

@@ -90,7 +90,6 @@ export class FormEvent extends Component {
             data.forEach(e => this.error(e.field, e.defaultMessage))
         } 
          else if (status === 201) {
-            console.log(data.group)
             this.setState({
                 title: "",
                 start: "",

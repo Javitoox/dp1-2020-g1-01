@@ -1,0 +1,14 @@
+
+.w3-black, .w3-hover-black:hover {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%,-50%);
+    color: rgb(0, 0, 0)!important;
+    background-color: rgb(255, 255, 255)!important;
+    padding: 80px;
+    font-size: 35px!important;
+    text-align:center;
+    opacity: 40%;
+}

@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 
 import ExtraccionSolicitudes from './ExtraccionSolicitudes';
-import Notificaciones from './Notificaciones';
-import Auth from './Auth';
-export default class NotificationProfesor extends Component {
+import HomeReal from './HomeReal';
+export default class HomePrevio extends Component {
   constructor() {
     super();
     this.state = {
       numeroSolicitudes: 0,
-      numeroEventos: 0,
       comprobation: true
     }
     this.solicitudesComponent = new ExtraccionSolicitudes();
@@ -20,17 +18,12 @@ export default class NotificationProfesor extends Component {
   }
 
   render() {  
-    if (!this.state.comprobation) {
-    return <Auth authority="teacher"></Auth>
-  } else {
-
-    console.log("hay en total : " + this.state.numeroSolicitudes)
     return (
       <div>
-        <Notificaciones solicitudes={this.state.numeroSolicitudes}></Notificaciones>
+        <HomeReal solicitudes={this.state.numeroSolicitudes} comprobation= {this.state.comprobation}></HomeReal>
       </div>
 
     )
   }
-}
+
 }

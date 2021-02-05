@@ -73,8 +73,6 @@ export const CalendarioAlumno = (props) => {
     }
 
     useEffect(() => {
-        console.log({auth})
-        console.log(props.nickUser)
         eventService.getUserEvents(props.urlBase, props.nickUser).then(data => setEvents(
             <div className="card">
                 <FullCalendar events={data.data} options={options} />
