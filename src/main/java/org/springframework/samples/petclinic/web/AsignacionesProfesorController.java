@@ -29,78 +29,63 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/asignaciones")
 public class AsignacionesProfesorController {
-	
+
 	private AsignacionProfesorService asignacionS;
 	private ProfesorService profesorS;
 
-	
 	@Autowired
 	public AsignacionesProfesorController(AsignacionProfesorService asignacionS, ProfesorService profesorS) {
 		this.asignacionS = asignacionS;
 		this.profesorS = profesorS;
 	}
-	
+
 	@GetMapping("/get/{user}")
 	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user) {
-		List<AsignacionProfesor> all =  asignacionS.getAllAsignacionesByUser(user);
+		List<AsignacionProfesor> all = asignacionS.getAllAsignacionesByUser(user);
 		return ResponseEntity.ok(all);
 	}
-	
-	@GetMapping("/{nombreGrupo}")
-	public ResponseEntity<Profesor> profesorByGroup(@PathVariable("nombreGrupo") String nombreGrupo, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if(session != null && session.getAttribute("type") == "profesor") {
-			log.info("Sesión iniciada como: " + session.getAttribute("type"));
-			List<String> all =  asignacionS.findAsignacionesByGroup(nombreGrupo);
-			Profesor p = profesorS.getProfesor(all.get(0));
-			return ResponseEntity.ok(p);
-		}else {
-			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
-			 }
-		}
-	
-	@GetMapping("/freeAssignments")
-    public ResponseEntity<List<String>> listaAsignaciones() {
-        List<String> all =  asignacionS.getFreeGroups();
-        return ResponseEntity.ok(all);
-    }
-	
-	
-	
-	@PostMapping("/new")
-	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result){
-		log.info("Solicitando asignar profesor: {}", resource);
-		if(result.hasErrors()) {
-			return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-		}else {
-			if(resource.getGrupo().getNombreGrupo()==""||resource.getGrupo().getNombreGrupo()==null) {
-				log.info("Incorrect name of group:"+ resource.getGrupo().getNombreGrupo());
 
-				return new ResponseEntity<>("Name of group incorrect", 
-						HttpStatus.OK);
-				
-			}else {
+	@GetMapping("/{nombreGrupo}")
+	public ResponseEntity<Profesor> profesorByGroup(@PathVariable("nombreGrupo") String nombreGrupo) {
+		List<String> all = asignacionS.findAsignacionesByGroup(nombreGrupo);
+		Profesor p = profesorS.getProfesor(all.get(0));
+		return ResponseEntity.ok(p);
+	}
+
+	@GetMapping("/freeAssignments")
+	public ResponseEntity<List<String>> listaAsignaciones() {
+		List<String> all = asignacionS.getFreeGroups();
+		return ResponseEntity.ok(all);
+	}
+
+	@PostMapping("/new")
+	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result) {
+		log.info("Solicitando asignar profesor: {}", resource);
+		if (result.hasErrors()) {
+			return new ResponseEntity<>(result.getFieldError(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+		} else {
+			if (resource.getGrupo().getNombreGrupo() == "" || resource.getGrupo().getNombreGrupo() == null) {
+				log.info("Incorrect name of group:" + resource.getGrupo().getNombreGrupo());
+
+				return new ResponseEntity<>("Name of group incorrect", HttpStatus.OK);
+
+			} else {
 				asignacionS.saveAsignacion(resource);
-				return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);						
+				return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);
 			}
 		}
 	}
+
 	@DeleteMapping("/delete/{nickProfesor}/{nombreGrupo}")
-	public ResponseEntity<?> deleteGroup(@PathVariable("nickProfesor") String resource,@PathVariable("nombreGrupo") String resource2, HttpServletRequest request){
-		HttpSession session = request.getSession(false);
+	public ResponseEntity<?> deleteGroup(@PathVariable("nickProfesor") String resource,
+			@PathVariable("nombreGrupo") String resource2) {
 		AsignacionProfesorKey a = new AsignacionProfesorKey();
 		a.setNickProfesor(resource);
 		a.setNombreGrupo(resource2);
-		log.info("Request:"+ resource);
-		if(session != null && session.getAttribute("type") == "profesor") {
-			log.info("Sesión iniciada como: " + session.getAttribute("type"));
-			log.info("Solicitando borrar asignacion: {}", resource);
-			asignacionS.deleteAsignacion(a);
-			return new ResponseEntity<>("Asignacion eliminada correctamente", HttpStatus.OK);
-					
-		}else {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
-			}
-		}
+		log.info("Request:" + resource);
+		log.info("Solicitando borrar asignacion: {}", resource);
+		asignacionS.deleteAsignacion(a);
+		return new ResponseEntity<>("Asignacion eliminada correctamente", HttpStatus.OK);
+	}
 
 }

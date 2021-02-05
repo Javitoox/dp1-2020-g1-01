@@ -28,60 +28,53 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/grupos")
 public class GrupoController {
-	
-	private final GrupoService grupoService;
 
+	private final GrupoService grupoService;
 
 	@Autowired
 	public GrupoController(GrupoService grupoService) {
 		this.grupoService = grupoService;
 	}
-	
+
 	@GetMapping("/all")
 	public ResponseEntity<Set<Grupo>> listaGrupos() {
-		Set<Grupo> all =  grupoService.getAllGrupos();
+		Set<Grupo> all = grupoService.getAllGrupos();
 		return ResponseEntity.ok(all);
 	}
-	
+
 	@GetMapping("/nombresGrupo/{curso}")
 	public ResponseEntity<List<String>> listaNombreGruposPorCurso(@PathVariable("curso") TipoCurso curso) {
-		List<String> gruposCurso = grupoService.getNameGruposByCourse(curso);	
+		List<String> gruposCurso = grupoService.getNameGruposByCourse(curso);
 		return ResponseEntity.ok(gruposCurso);
 	}
-	
+
 	@GetMapping("/nombreCurso/{grupo}")
 	public ResponseEntity<List<String>> listaNombreCursoPorGrupo(@PathVariable("grupo") String grupo) {
-		List<String> nombreCurso = grupoService.getCursoByGrupo(grupo);	
+		List<String> nombreCurso = grupoService.getCursoByGrupo(grupo);
 		return ResponseEntity.ok(nombreCurso);
 	}
-	
+
 	@GetMapping("/allGroupNames")
 	public ResponseEntity<List<String>> listaNombreGrupos() {
-		List<String> all =  grupoService.getGroupNames();
+		List<String> all = grupoService.getGroupNames();
 		return ResponseEntity.ok(all);
 	}
-	
+
 	@GetMapping("/allAsignableGroups/{nickUsuario}")
-	public ResponseEntity<List<String>> listaNombreGruposAsginablesPorAlumno(@PathVariable("nickUsuario") String nickUsuario, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);		
-		if(session != null && session.getAttribute("type") == "profesor") {
-			log.info("Sesión iniciada como: " + session.getAttribute("type"));
-			List<String> all =  grupoService.getAssignableGroupsByStudent(nickUsuario);
-			return ResponseEntity.ok(all);
-		}else {
-			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
-		}
+	public ResponseEntity<List<String>> listaNombreGruposAsginablesPorAlumno(
+			@PathVariable("nickUsuario") String nickUsuario) {
+		List<String> all = grupoService.getAssignableGroupsByStudent(nickUsuario);
+		return ResponseEntity.ok(all);
 	}
-	
+
 	@GetMapping("/allEmptyGroups")
 	public ResponseEntity<List<String>> listaNombreGruposVacios() {
-		List<String> all =  grupoService.getEmptyGroups();
+		List<String> all = grupoService.getEmptyGroups();
 		return ResponseEntity.ok(all);
 	}
-	
-	
+
 	@PostMapping("/new")
-	public ResponseEntity<?> create(@Valid @RequestBody Grupo resource, BindingResult result){
+	public ResponseEntity<?> create(@Valid @RequestBody Grupo resource, BindingResult result) {
 		log.info("Solicitando crear grupo: {}", resource);
 		if (result.hasErrors() || grupoService.exists(resource.getNombreGrupo())) {
 			if (grupoService.exists(resource.getNombreGrupo())) {
@@ -94,16 +87,15 @@ public class GrupoController {
 			return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);
 		}
 	}
-	
+
 	@DeleteMapping("/delete/{nombreGrupo}")
-	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo){
-			log.info("Solicitando borrar grupo: {}", nombreGrupo);
-			if(grupoService.grupoVacio(nombreGrupo)) {
-				grupoService.deleteGroup(nombreGrupo);
-				return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
-			}else {
-				return new ResponseEntity<>("No se puede borrar el grupo porque tiene alumnos", HttpStatus.BAD_REQUEST);
-			}
+	public ResponseEntity<?> deleteGroup(@PathVariable("nombreGrupo") String nombreGrupo) {
+		log.info("Solicitando borrar grupo: {}", nombreGrupo);
+		if (grupoService.grupoVacio(nombreGrupo)) {
+			grupoService.deleteGroup(nombreGrupo);
+			return new ResponseEntity<>("Grupo eliminado correctamente", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("No se puede borrar el grupo porque tiene alumnos", HttpStatus.BAD_REQUEST);
 		}
 	}
 

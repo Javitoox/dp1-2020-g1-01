@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.BodyMaterial;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.service.MaterialService;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
