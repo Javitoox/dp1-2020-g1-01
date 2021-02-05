@@ -179,13 +179,13 @@ public class AlumnoController {
     			if(alumno.getGrupos().getNombreGrupo() != null) {
 	    			Integer numAlumnosGrupo = grupoService.numAlumnos(alumno.getGrupos().getNombreGrupo());
     			if(numAlumnosGrupo < 3 ) {
-	        			this.alumnoServ.saveAlumno(alumno);
+	        			this.alumnoServ.saveAlumnAsign(alumno);
 		    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
 	    			}else {
-		    			return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED); //ERROR 208
+		    			return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED);
 	    			}
     			}
-    				this.alumnoServ.saveAlumno(alumno);
+    				this.alumnoServ.saveAlumnAsign(alumno);
 	    			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);    			
     			}
     		}

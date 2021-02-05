@@ -54,6 +54,11 @@ public class AlumnoService {
 		return alumnoRepository.save(alumno);		
 	}		
 	
+	@Transactional
+	public Alumno saveAlumnAsign(Alumno alumno) throws DataAccessException {
+		return alumnoRepository.save(alumno);		
+	}
+	
     public List<Alumno> getStudentsByCourse(TipoCurso cursoDeIngles){
         return alumnoRepository.findStudentsByCourse(cursoDeIngles);
     }
