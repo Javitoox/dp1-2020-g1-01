@@ -59,7 +59,7 @@ public class AsignacionesProfesorController {
 		HttpSession session = request.getSession(false);
 		if(session != null && session.getAttribute("type") == "profesor") {
 			log.info("Sesión iniciada como: " + session.getAttribute("type"));
-			List<String> all =  asignacionS.findAsignacionProfesor(nombreGrupo);
+			List<String> all =  asignacionS.findAsignacionesByGroup(nombreGrupo);
 			Profesor p = profesorS.getProfesor(all.get(0));
 			return ResponseEntity.ok(p);
 		}else {

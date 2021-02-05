@@ -2,11 +2,9 @@ package org.springframework.samples.petclinic.repository;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -146,11 +144,12 @@ public class AlumnoRepositoryTests {
 		List<String> allStudents = alumnoRepository.findSudentsWithNoGroups();
 		assertThat(allStudents.size()).isGreaterThan(0);
 	}
+	
+	@Test
+	void testReturnStudentNamesWithNoTutors() {
+		alumnoRepository.save(a);		
+		List<String> allNames = alumnoRepository.findSudentsWithNoTutors();
+		assertThat(allNames.size()).isGreaterThan(0);
+	}
 
 }
-
-
-
-
-
-

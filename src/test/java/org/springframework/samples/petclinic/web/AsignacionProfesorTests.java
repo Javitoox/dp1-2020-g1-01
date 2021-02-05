@@ -25,6 +25,7 @@ import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Profesor;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AsignacionProfesorService;
+import org.springframework.samples.petclinic.service.ProfesorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -43,6 +44,9 @@ public class AsignacionProfesorTests {
 	
 	@MockBean
 	private AsignacionProfesorService asignacionProfesorService;
+	
+	@MockBean
+	private ProfesorService profesorService;
 	
 	private AsignacionProfesor asignacionProfesor;
 	
