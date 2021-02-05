@@ -24,7 +24,9 @@ class MenubarResponsive extends Component {
             { label: 'Enrolment´s requests', icon: 'pi pi-fw pi-file', command: (event) => {
                 this.props.history.push("/requests");
             }},
-            { label: 'About us', icon: 'pi pi-fw pi-question' }
+            { label: 'About us', icon: 'pi pi-fw pi-question', command:(event)=>{
+                this.props.history.push("/aboutUs");
+            }},
         ],
         items2: [
             { label: 'Home', icon: 'pi pi-fw pi-home', command: (event) => {
@@ -44,7 +46,9 @@ class MenubarResponsive extends Component {
             { label: 'Wall of Fame', icon: 'pi pi-fw pi-star', command: (event) => {
                 this.props.history.push("/walloffame");
             }},
-            { label: 'About us', icon: 'pi pi-fw pi-question' },
+            { label: 'About us', icon: 'pi pi-fw pi-question', command:(event)=>{
+                this.props.history.push("/aboutUs");
+            }},
             { label: 'Notifications', icon: 'pi pi-fw pi-bell',command: (event) => {
                 this.props.history.push("/notificationsStudent") }  }
         ],
@@ -70,7 +74,9 @@ class MenubarResponsive extends Component {
             { label: 'Wall of Fame', icon: 'pi pi-fw pi-star', command: (event) => {
                 this.props.history.push("/walloffame"); 
             }},
-            { label: 'About us', icon: 'pi pi-fw pi-question' },
+            { label: 'About us', icon: 'pi pi-fw pi-question', command:(event)=>{
+                this.props.history.push("/aboutUs");
+            }},
         ],
         items4: [
             { label: 'Home', icon: 'pi pi-fw pi-home', command: (event) => {
@@ -79,7 +85,9 @@ class MenubarResponsive extends Component {
             { label: 'My students', icon: 'pi pi-fw pi-pencil', command:(event)=>{
                 this.props.history.push("/myStudents");
             }},
-            { label: 'About us', icon: 'pi pi-fw pi-question' }
+            { label: 'About us', icon: 'pi pi-fw pi-question', command:(event)=>{
+                this.props.history.push("/aboutUs");
+            }},
         ]
     };
 
