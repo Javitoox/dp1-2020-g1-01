@@ -3,8 +3,7 @@ import AlumnoComponent from './AlumnoComponent';
 import PagoComponent from './PagoComponent';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-
-
+import NotificacionesStudents from './NotificacionesStudents';
 import { ListBox } from 'primereact/listbox';
 import "../css/payment.css"
 
@@ -29,7 +28,9 @@ export class StudentPayments extends Component {
             groupSelectItems: "",
             listaGrupos:{
                 concepto: ""
-            }
+            },
+            impagos:0,
+            comprobation: false
         }
         this.pagos = new PagoComponent();
         this.alumnos = new AlumnoComponent();
@@ -58,18 +59,25 @@ export class StudentPayments extends Component {
     componentDidMount() {
         this.pagos.getNotPaidByStudent(this.props.nickUser).then(data => this.setState({ listaGrupos: data }));
         this.pagos.getPaymentsByStudent(this.props.nickUser).then(data => this.setState({ paid: data }));
+        this.pagos.getNotPaidByStudent(this.props.nickUser).then(data => this.setState({impagos:data.length})); 
+
     }
 
     render() {        
         return (
             <React.Fragment>
-                <div className="datatable-templating-demo">                 
+                <div>
+                    <NotificacionesStudents payment={this.state.impagos}></NotificacionesStudents>
+                </div>  
+                <div className="datatable-templating-demo">      
+                             
                     <DataTable header="Payments made:" value={this.state.paid}>
                         <Column field="concepto" header="Concept"></Column>
                         <Column field="tipo.tipo" header="Type"></Column>
                         <Column field="fecha" header="Date of payment"></Column>
                     </DataTable>
                     <div>&nbsp;</div>
+                    
                     {this.form()}
                 </div>
             </React.Fragment>

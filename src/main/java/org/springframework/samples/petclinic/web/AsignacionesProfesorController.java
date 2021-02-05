@@ -42,7 +42,7 @@ public class AsignacionesProfesorController {
 		this.profesorS = profesorS;
 	}
 	
-	@GetMapping("/{user}")
+	@GetMapping("/get/{user}")
 	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if(session != null && session.getAttribute("type") == "profesor") {

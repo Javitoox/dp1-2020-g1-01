@@ -39,7 +39,8 @@ public class AlumnoService {
 	
 	@Transactional	
 	public void deleteStudents(Alumno alumno) throws DataAccessException{
-		alumnoRepository.delete(alumno);
+		alumno.setFechaBaja(LocalDate.now());
+		alumno.setGrupos(null);
 	}
 	@Transactional	
 	public void deleteStudent(String id) throws DataAccessException {

@@ -70,6 +70,7 @@ class AssignStudent extends Component  {
                 this.setState({comprobation: true})
             }
             })
+        this.mostrarTabla()
         if(!this.props.list.includes(this.props.astudent.nickUsuario)){
             this.grupos.getAssignmentGroupsByStudent(this.state.nickUsuario).then(data => this.setState({ listaGrupos: data }));   
         }else if(this.props.list.includes(this.props.astudent.nickUsuario)){
@@ -109,6 +110,8 @@ class AssignStudent extends Component  {
                 fechaNacimiento: this.state.fechaNacimiento,
                 numTareasEntregadas:this.state.numTareasEntregadas,
                 fechaMatriculacion: this.state.fechaMatriculacion,
+                fechaSolicitud: this.props.astudent.fechaSolicitud,
+                fechaBaja: this.props.astudent.fechaBaja,
                 tutores:{
                     nickUsuario:this.props.astudent.tutores.nickUsuario
                 },
@@ -126,7 +129,7 @@ class AssignStudent extends Component  {
              axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
                 this.respuesta(res.status, res.data)
                 })
-                window.location.assign('/allStudents')
+                this.mostrarTabla()
             }
             
            
@@ -160,7 +163,7 @@ class AssignStudent extends Component  {
              axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
                 this.respuesta(res.status, res.data)
                 })
-                window.location.assign('/allStudents')
+                this.mostrarTabla()
             }            
         }       
         
@@ -213,7 +216,7 @@ class AssignStudent extends Component  {
                             <div className="t"><div><h5>Assign Student</h5></div></div>
                             <div className="i">
                                 <div className="p-inputgroup">
-                                    <InputText placeholder="Username" name="alumno.nickUsuario" type="text" value={this.props.astudent.nickUsuario} onChange={this.nickUsuario}  />
+                                    <InputText placeholder="Username" readOnly={true} name="alumno.nickUsuario" type="text" value={this.props.astudent.nickUsuario} onChange={this.nickUsuario}  />
                                  </div>
                                  </div>
 

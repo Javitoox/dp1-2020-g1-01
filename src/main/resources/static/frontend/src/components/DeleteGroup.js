@@ -37,6 +37,8 @@ export class DeleteGroup extends Component {
             }else{
                 axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, {withCredentials: true}).then(res => {
                     this.respuesta(res.status, res.data);        })
+                       
+
             }       
     }
 
@@ -96,6 +98,8 @@ export class DeleteGroup extends Component {
             this.setState({               
                 succes: <div className="alert alert-success" role="alert">Successful delete</div>
             })
+            
+            this.setState({displayConfirmation: true})
         }else{
             this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
         }

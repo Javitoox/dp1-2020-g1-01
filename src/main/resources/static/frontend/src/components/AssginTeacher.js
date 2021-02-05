@@ -34,6 +34,8 @@ export default class AssignTeacher extends Component  {
     this.grupos = new GrupoComponent();
     this.asignaciones = new AssignmentComponent();
     this.form=this.form.bind(this);
+    this.mostrarTabla = this.mostrarTabla.bind(this);
+
 
     }
     
@@ -52,6 +54,7 @@ export default class AssignTeacher extends Component  {
         }
         return groupSelectItems
     }
+    
     form(){
         var l = this.state.listaGrupos
         console.log(l)
@@ -63,7 +66,7 @@ export default class AssignTeacher extends Component  {
                                 <div className="i">
                                 {this.state.usernameError}
                                 <div className="p-inputgroup">
-                                    <InputText field="profesor.nickUsuario" placeholder="Username" name="profesor.nickUsuario" type="text" value={this.props.nickUser}/>
+                                    <InputText field="profesor.nickUsuario" readOnly={true} placeholder="Username" name="profesor.nickUsuario" type="text" value={this.props.nickUser}/>
                                  </div>
                                  </div>
 
@@ -111,7 +114,7 @@ export default class AssignTeacher extends Component  {
             axios.post("http://localhost:8081/asignaciones/new", grupo, {withCredentials: true}).then(res => {
                 this.respuesta(res.status, res.data);
             })
-            window.location.assign("/teacherGroups")     
+            this.mostrarTabla()
         }
 
           
@@ -127,6 +130,8 @@ export default class AssignTeacher extends Component  {
                 nombreGrupo:"",
                 succes: <div className="alert alert-success" role="alert">Successful assignment</div>
             })
+            
+            this.mostrarTabla()
         }else{
             this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
         }
@@ -148,9 +153,12 @@ export default class AssignTeacher extends Component  {
                 this.setState({comprobation: true})
                 }
             })
+        this.mostrarTabla()
         this.asignaciones.getListOfEmptyAssignmentGroup(this.props.urlBase).then(data => this.setState({ listaGrupos: data }));
     }
-        
+    mostrarTabla(){
+        this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data }));
+    }   
     render() {
         if (!this.state.comprobation) {
             return <Auth authority="teacher"></Auth>
