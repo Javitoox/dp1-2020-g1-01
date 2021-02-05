@@ -10,11 +10,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
 
+@Audited
 @Entity
 @Table(name="alumnos")
 @Getter
@@ -35,10 +39,11 @@ public class Alumno extends Usuario{
 	
     @ManyToOne(optional=true)
     private Tutor tutores;
-    
-    @ManyToOne(optional=true)
+
+	@ManyToOne(optional=true)
     private Grupo grupos;
-    
+
+	@NotAudited
     @OneToMany(cascade=CascadeType.ALL, mappedBy="alumno")
     @JsonIgnore
     private Collection<Inscripcion> inscripciones;
