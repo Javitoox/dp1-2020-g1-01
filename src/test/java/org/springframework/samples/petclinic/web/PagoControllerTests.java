@@ -22,6 +22,7 @@ import org.springframework.samples.petclinic.configuration.SecurityConfiguration
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Pago;
 import org.springframework.samples.petclinic.model.TipoPago;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.PagoService;
 import org.springframework.samples.petclinic.service.TipoPagoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -51,6 +52,8 @@ public class PagoControllerTests {
 	@Autowired
     private MockMvc mockMvc;
 	
+	@MockBean
+	private AlumnoService alumnoService;
 	
 	@BeforeEach
 	void setup() {

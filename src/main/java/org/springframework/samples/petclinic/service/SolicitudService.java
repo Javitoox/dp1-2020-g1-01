@@ -35,13 +35,13 @@ public class SolicitudService {
 	public void declineRequest(Alumno alumnoDenegado) throws DataAccessException{
 		if(alumnoDenegado.getTutores() != null) {
 			String nickTutor = alumnoDenegado.getTutores().getNickUsuario();
-			alumnoService.deleteStudents(alumnoDenegado);
+			alumnoService.deleteStudent(alumnoDenegado.getNickUsuario());
 			List<Alumno> alumnosPorTutor = alumnoService.getAllMyStudents(nickTutor);
 			if(alumnosPorTutor.size() < 1) {
 				tutorService.delete(nickTutor);
 			} 
 		}else {
-			alumnoService.deleteStudents(alumnoDenegado);
+			alumnoService.deleteStudent(alumnoDenegado.getNickUsuario());
 		} 
 	} 
 	
