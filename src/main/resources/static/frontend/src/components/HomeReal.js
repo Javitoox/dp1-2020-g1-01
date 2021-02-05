@@ -81,8 +81,6 @@ class HomeReal extends Component {
     }
 
     render() {
-        
-        console.log(this.props.solicitudes)
         return (
 
             <div className="background"> 

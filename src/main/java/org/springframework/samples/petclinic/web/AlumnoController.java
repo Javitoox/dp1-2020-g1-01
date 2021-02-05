@@ -43,7 +43,7 @@ public class AlumnoController {
 		this.alumnoServ = alumnoServ;
 		this.premiadoService = premiadoService;
 		this.grupoService = grupoService;
-	}
+	} 
 	
 	@PutMapping("/editStudent")
 	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, HttpServletRequest request,HttpServletResponse response) {
@@ -67,7 +67,6 @@ public class AlumnoController {
 		HttpSession session = request.getSession(false);
 		
 		if(session != null && (session.getAttribute("type") == "profesor" || session.getAttribute("type") == "alumno")) {
-			log.info("Sesion: "+session.getAttribute("type"));
 			Alumno alumno = alumnoServ.getAlumno(nick);
 		    return ResponseEntity.ok(alumno);
 		 }else {
@@ -80,7 +79,6 @@ public class AlumnoController {
 		HttpSession session = request.getSession(false);
 
 		if(session != null && session.getAttribute("type") == "profesor") {
-			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 			List<Alumno> allStudents = alumnoServ.getAllAlumnos();
 			return ResponseEntity.ok(allStudents);
 		}else {
@@ -133,7 +131,6 @@ public class AlumnoController {
 		
 		log.info("Obteniendo alumnos del curso: "+cursoDeIngles);
 		if(session != null && session.getAttribute("type") == "profesor") {	
-			log.info("Has iniciado sesion como: "+ session.getAttribute("type"));
 			List<Alumno> allStudentsByCourse = alumnoServ.getStudentsByCourse(cursoDeIngles);
 			return ResponseEntity.ok(allStudentsByCourse);
 		}else {
