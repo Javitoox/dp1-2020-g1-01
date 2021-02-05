@@ -199,7 +199,8 @@ class Pagos extends Component {
                     </React.Fragment>
                 )
             }else{
-
+                const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
+                const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
                 return (
                     <React.Fragment>
                         <div className="datatable-templating-demo">
@@ -214,13 +215,21 @@ class Pagos extends Component {
                                 {` `}
                                 <InputText className="form-input" placeholder="Search by DNI/NIF" value={this.state.text2} onChange={this.filterDNI} />
                             <div>&nbsp;</div>
-                            <DataTable header="Students who have paid:" value={this.state.alumnos}>
+                            <DataTable header="Students who have paid:" value={this.state.alumnos} paginator
+                                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[5,10,20]}
+                                paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
+                                    
                                 <Column field="nombreCompletoUsuario" header="Full name"></Column>
                                 <Column field="dniUsuario" header="DNI"></Column>
                                 <Column field="correoElectronicoUsuario" header="Email"></Column>
                             </DataTable>
                             <div>&nbsp;</div>
-                            <DataTable header="Students who have not paid:" value={this.state.alumnosNP}>
+                            <DataTable header="Students who have not paid:" value={this.state.alumnosNP} paginator
+                                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[5,10,20]}
+                                paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
+
                                 <Column field="nombreCompletoUsuario" header="Full name"></Column>
                                 <Column field="dniUsuario" header="DNI"></Column>
                                 <Column field="correoElectronicoUsuario" header="Email"></Column>
