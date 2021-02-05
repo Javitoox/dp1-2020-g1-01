@@ -53,6 +53,8 @@ export default class EditPersonalInfo extends Component {
             direccionUsuario: data.direccionUsuario,
             fechaNacimiento: data.fechaNacimiento,
             fechaMatriculacion: data.fechaMatriculacion,
+            numTareasEntregadas: data.numTareasEntregadas,
+            fechaSolicitud: data.fechaSolicitud,
         }))
      
        await axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
@@ -150,7 +152,9 @@ export default class EditPersonalInfo extends Component {
             numTelefonoUsuario2: this.state.numTelefonoUsuario2,
             direccionUsuario: this.state.direccionUsuario,
             fechaNacimiento: this.state.fechaNacimiento,
-            fechaMatriculacion: this.state.fechaMatriculacion
+            fechaMatriculacion: this.state.fechaMatriculacion,
+            numTareasEntregadas: this.state.numTareasEntregadas,
+            fechaSolicitud: this.state.fechaSolicitud
         }
         if (!this.state.buttonTel1) {
             alumno.numTelefonoUsuario2 = null
