@@ -36,9 +36,12 @@ class Login extends Component {
         await AuthenticationService.executeBasicAuthenticationService(this.state.username, this.state.password).then(res => {
             AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password, res.data)
             this.props.onChange(AuthenticationService.getAuth())
+            if(sessionStorage.getItem("auth")=== "profesor"){
+            this.props.history.push("/homeTeacher")
+            }else{
             this.props.history.push("/")
+            }
         }).catch((error) => {
-            console.log(error)
             this.setState({ error: <div className="alert alert-danger" role="alert">Username or password does not exist</div> })
             this.props.history.push("/login")
         })

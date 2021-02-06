@@ -23,7 +23,6 @@ export const selectUserLogin = (nickUsuario) => { //se debe poner como constante
     }
 };
 export const selectCreatedGroup = (nombreGrupo) => { //se debe poner como constante y el export para que funcione sin problemas
-    console.log("has seleccionado al " , nombreGrupo);
     return{
         type: "CREATED_GROUP_SELECTED",
         payload: nombreGrupo //el payload contiene la informacion del objeto que hemos pasado
@@ -31,7 +30,6 @@ export const selectCreatedGroup = (nombreGrupo) => { //se debe poner como consta
 };
 
 export const selectDeletedGroup = (nombreGrupo) => { //se debe poner como constante y el export para que funcione sin problemas
-    console.log("has seleccionado al " , nombreGrupo);
     return{
         type: "DELETED_GROUP_SELECTED",
         payload: nombreGrupo //el payload contiene la informacion del objeto que hemos pasado

@@ -241,7 +241,6 @@ export class Solicitudes extends Component {
                 this.respuesta(res.status, res.data)
             })
         } else {
-            console.log(alumno)
             axios.post(this.props.urlBase + "/requests/sending", {alumno}).then(res => {
                 this.respuesta(res.status, res.data)
             })
@@ -249,7 +248,6 @@ export class Solicitudes extends Component {
     }
 
     respuesta(status, data){
-        console.log(status);
         if(status===203){
             data.forEach(e => this.error(e.field, e.defaultMessage))
         }else if(status===201){

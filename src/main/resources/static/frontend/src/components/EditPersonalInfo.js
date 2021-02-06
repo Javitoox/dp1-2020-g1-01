@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
 import Inject from './Inject';
 import Auth from './Auth';
 import axios from 'axios';
@@ -220,16 +219,6 @@ export default class EditPersonalInfo extends Component {
                                         <i className="pi pi-user"></i>
                                     </span>
                                     <InputText placeholder="Username" name="nickUsuario" type="text" value={this.state.nickUsuario} readOnly />
-                                </div>
-                            </div>
-                            <div className="i">
-                                {this.state.passwordError}
-                                <div className="p-inputgroup">
-                                    <span className="p-inputgroup-addon">
-                                        <i className="pi pi-lock"></i>
-                                    </span>
-                                    <Password mediumRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,30}$" strongRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{14,30}$"
-                                        placeholder="Password" name="contraseya" value={this.state.contraseya} readOnly />
                                 </div>
                             </div>
                             <div className="i">

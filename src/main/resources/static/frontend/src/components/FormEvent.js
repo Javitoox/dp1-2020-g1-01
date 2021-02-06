@@ -172,7 +172,7 @@ export class FormEvent extends Component {
                                 <span className="p-inputgroup-addon">
                                     <i className="pi pi-sort-down"></i>
                                 </span>
-                                <Dropdown value={this.state.type} options={["internal", "external"]} 
+                                <Dropdown value={this.state.type} options={["Internal", "External"]} 
                                 onChange={this.type} placeholder="Type" name="tipo.tipo"/>
                             </div>
                         </div>

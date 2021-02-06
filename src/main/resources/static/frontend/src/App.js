@@ -25,6 +25,7 @@ import AuthenticationService from './service/AuthenticationService'
 import { AlumnosStudent } from './components/AlumnosStudent'
 import HomePrevioProfesor from './components/HomePrevioProfesor'
 import {AboutUs} from './components/AboutUs'
+import HomeUsuario from './components/HomeUsuario'
 
 
 class App extends Component {
@@ -120,8 +121,11 @@ class App extends Component {
 				<Route path="/aboutUs" render={() =>
 					<AboutUs urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
 				} />
-				<Route path="/" exact render={() =>
+				<Route path="/homeTeacher" exact render={() =>
 					<HomePrevioProfesor urlBase={this.state.urlBase} nickUser={this.calculateUserName()}/>
+				} />
+						<Route path="/" exact render={() =>
+					<HomeUsuario urlBase={this.state.urlBase}/>
 				} />
 			</Router>
 		)

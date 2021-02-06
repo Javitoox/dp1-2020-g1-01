@@ -13,6 +13,7 @@ import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,29 +34,53 @@ public class AlumnoController {
 
 	private AlumnoService alumnoServ;
 	private GrupoService grupoService;
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public AlumnoController(AlumnoService alumnoServ, GrupoService grupoService) {
+	public AlumnoController(AlumnoService alumnoServ, GrupoService grupoService, PasswordEncoder passwordEncoder) {
 		this.alumnoServ = alumnoServ;
 		this.grupoService = grupoService;
+		this.passwordEncoder = passwordEncoder;
 	}
 
-	@PutMapping("/editStudent")
-	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result) {
-		if (result.hasErrors()) {
-			log.info("Esto no funciona");
-			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-		} else {
-			log.info("Ha funcionado");
-			this.alumnoServ.saveAlumno(alumno);
-			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+	@PutMapping("/editStudent") // hacer validacion externa, controlar el nif único, password encoder en edit alumno no, authenticacion innecesario, edit profesora
+	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if(userDetails.getAuthorities().iterator().next().getAuthority() == "alumno") {
+			if(userDetails.getUsername().equals(alumno.getNickUsuario())){
+				if (result.hasErrors()) {
+					return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+				} else {
+					log.info("pass:" + alumno.getContraseya());
+					this.alumnoServ.saveAlumno(alumno);
+					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+				}}
+				else {
+					return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+				}
+			}else {	
+				if (result.hasErrors()) {
+					return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+					} else {
+					alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
+					this.alumnoServ.saveAlumno(alumno);
+					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+			}
+			
 		}
 	}
 
+	
+
 	@GetMapping("/getStudentInfo/{nickUsuario}")
-	public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick) {
+	public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if(userDetails.getUsername().equals(nick)) {
 		Alumno alumno = alumnoServ.getAlumno(nick);
 		return ResponseEntity.ok(alumno);
+		}else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 	@GetMapping("/all")
@@ -115,7 +140,7 @@ public class AlumnoController {
 		} else {
 			if (alumno.getGrupos().getNombreGrupo() != null) {
 				Integer numAlumnosGrupo = grupoService.numAlumnos(alumno.getGrupos().getNombreGrupo());
-				if (numAlumnosGrupo < 3) {
+				if (numAlumnosGrupo < 12) {
 					this.alumnoServ.saveAlumnAsign(alumno);
 					return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
 				} else {

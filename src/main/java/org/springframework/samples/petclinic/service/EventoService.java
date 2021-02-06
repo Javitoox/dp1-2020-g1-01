@@ -75,7 +75,7 @@ public class EventoService {
 			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo()+"/"+ 
 			(inscripciones.size()>0 ? inscripciones.get(0).getAlumno().getGrupos().getCursos().getCursoDeIngles().toString() : "");
 			for(Inscripcion i: inscripciones) {
-				if(i.getRegistrado()) result += "/"+i.getAlumno().getNickUsuario();
+				if(i.getRegistrado()) result += "/"+i.getAlumno().getNombreCompletoUsuario();
 			}
 		}
 		return result;

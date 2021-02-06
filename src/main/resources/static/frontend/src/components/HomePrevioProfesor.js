@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import Auth from './Auth';
 import ExtraccionSolicitudes from './ExtraccionSolicitudes';
 import HomeReal from './HomeReal';
 export default class HomePrevio extends Component {
@@ -18,12 +18,15 @@ export default class HomePrevio extends Component {
   }
 
   render() {  
+    if (!this.state.comprobation) {
+      return <Auth authority="profesor"></Auth>
+  } else {
     return (
       <div>
-        <HomeReal solicitudes={this.state.numeroSolicitudes} comprobation= {this.state.comprobation}></HomeReal>
+        <HomeReal solicitudes={this.state.numeroSolicitudes}></HomeReal>
       </div>
 
     )
   }
-
+  }
 }
