@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Solicitudes } from './components/Solicitudes'
 import './index.css'
 import Login from './components/Login'
@@ -22,7 +22,6 @@ import { CalendarioAlumno } from './components/CalendarioAlumno'
 import {MaterialTeacher} from './components/MaterialTeacher'
 import {MaterialStudent} from './components/MaterialStudent'
 import AuthenticationService from './service/AuthenticationService'
-import NotificationStudent from './components/NotificationStudent'
 import { AlumnosStudent } from './components/AlumnosStudent'
 import HomePrevioProfesor from './components/HomePrevioProfesor'
 import {AboutUs} from './components/AboutUs'
@@ -64,9 +63,7 @@ class App extends Component {
 				<Route path="/requests" render={() =>
 					<Solicitudes urlBase={this.state.urlBase}></Solicitudes>
 				} />
-				<Route path="/notificationsStudent" render={() =>
-					<NotificationStudent urlBase={this.state.urlBase} nickUser={this.calculateUserName()} ></NotificationStudent>
-				} />
+				
 				<Route path="/editPersonalInfo" render={() =>
 					<EditPersonalInfo urlBase={this.state.urlBase} nickUser={this.calculateUserName()} ></EditPersonalInfo>
 				} />

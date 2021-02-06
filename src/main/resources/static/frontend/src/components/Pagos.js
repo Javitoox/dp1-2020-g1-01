@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import AlumnoComponent from './AlumnoComponent';
 import PagoComponent from './PagoComponent';
+import Auth from './Auth';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import Auth from './Auth';
 import { Redirect } from 'react-router-dom';
 import { ListBox } from 'primereact/listbox';
 import { selectStudent } from '../actions/index';
@@ -56,8 +56,7 @@ class Pagos extends Component {
 
     componentDidMount() {
         this.alumnos.getAllStudents(this.props.urlBase).then(data => {
-            this.setState({ alumnos: data })
-            this.setState({ lista: data })
+            this.setState({ alumnos: data, lista: data})
         }).catch(error => this.setState({comprobation: false}));
         this.pagos.getAllPayments().then(data => this.setState({listaConcepto:data}))
     }
@@ -69,25 +68,22 @@ class Pagos extends Component {
             if (pago === "") {
                 this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
             } else {                
-                this.pagos.getAllStudentsPaid(pago).then(data => this.setState({ alumnos: data }));
-                this.pagos.getAllStudentsNotPaid(pago).then(data => this.setState({ alumnosNP: data }));
-                this.pagos.getAllStudentsPaid(pago).then(data => this.setState({ listaTemporal: data }));
-                this.pagos.getAllStudentsNotPaid(pago).then(data => this.setState({ listaTemporal2: data }));
+                this.pagos.getAllStudentsPaid(pago).then(data => {
+                    this.setState({ alumnos: data, listaTemporal: data });
+                })
+                this.pagos.getAllStudentsNotPaid(pago).then(data => {
+                    this.setState({ alumnosNP: data, listaTemporal2: data})})
             }
         }
     }    
-
+ 
     filter(event) {
         var text = event.target.value
         const data = this.state.listaTemporal2
         const newData = data.filter(function (item) {
-            console.log(item);
             const itemData = item.nombreCompletoUsuario.toUpperCase()
-            console.log(itemData);
             const textData = text.toUpperCase()
-            console.log(textData);
             var r = itemData.indexOf(textData) > -1
-            console.log(r)
             return r
         })
         this.setState({
@@ -96,33 +92,24 @@ class Pagos extends Component {
         })
         const data2 = this.state.listaTemporal
         const newData2 = data2.filter(function (item) {
-            console.log(item);
             const itemData = item.nombreCompletoUsuario.toUpperCase()
-            console.log(itemData);
             const textData = text.toUpperCase()
-            console.log(textData);
             var r = itemData.indexOf(textData) > -1
-            console.log(r)
             return r
         })
         this.setState({
             alumnos: newData2,
             text: text
         })
-        console.log("f"+this.state.alumnosNP)
     }
 
     filterDNI(event){
         var text = event.target.value
         const data = this.state.listaTemporal2
         const newData = data.filter(function(item){
-            console.log(item);
             const itemData = item.dniUsuario.toUpperCase()
-            console.log(itemData);
             const textData = text.toUpperCase()
-            console.log(textData);
             var r = itemData.indexOf(textData) > -1
-            console.log(r)
             return r
         })
         this.setState({
@@ -131,13 +118,9 @@ class Pagos extends Component {
         })
         const data2 = this.state.listaTemporal
         const newData2 = data2.filter(function(item){
-            console.log(item);
             const itemData = item.dniUsuario.toUpperCase()
-            console.log(itemData);
             const textData = text.toUpperCase()
-            console.log(textData);
             var r = itemData.indexOf(textData) > -1
-            console.log(r)
             return r
         })
         this.setState({
@@ -243,6 +226,6 @@ function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         selectStudent: selectStudent,
         selectAssignedStudent: selectAssignedStudent
-    }, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
+    }, dispatch) 
 }
-export default connect(null, matchDispatchToProps)(Pagos) //importante poner primero el null si no hay mapStateToProps en el componente chicxs
+export default connect(null, matchDispatchToProps)(Pagos)

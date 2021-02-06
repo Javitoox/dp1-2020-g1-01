@@ -75,4 +75,12 @@ public class SolicitudService {
 		return alumnoService.getAlumno(nickUsuario);
 	}
 	
+	public Alumno getAlumnoByIdOrNif(String nickUsuario, String nif) {
+		return alumnoService.getAlumnoByIdOrNif(nickUsuario, nif);
+	}
+	
+	public Tutor getTutorByIdOrNif(String nickUsuario, String nif) {
+		return tutorService.getTutorByIdOrNif(nickUsuario, nif);
+	}
+	
 }

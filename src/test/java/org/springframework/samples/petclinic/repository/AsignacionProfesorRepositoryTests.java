@@ -81,9 +81,4 @@ public class AsignacionProfesorRepositoryTests {
 		assertThat(allAsignations.size()).isGreaterThan(0);
 	}
 	
-	@Test
-	void shoulReturnAllFreeGroupsNames(){
-		List<String> freeGroups = asignacionRepository.getFreeGroups();
-		assertThat(freeGroups.size()).isGreaterThan(0);
-	}
 }

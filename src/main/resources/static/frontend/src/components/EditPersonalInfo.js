@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
 import Inject from './Inject';
 import Auth from './Auth';
 import axios from 'axios';

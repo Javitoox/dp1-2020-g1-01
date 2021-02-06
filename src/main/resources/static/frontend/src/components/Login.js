@@ -42,7 +42,6 @@ class Login extends Component {
             this.props.history.push("/")
             }
         }).catch((error) => {
-            console.log(error)
             this.setState({ error: <div className="alert alert-danger" role="alert">Username or password does not exist</div> })
             this.props.history.push("/login")
         })

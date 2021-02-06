@@ -147,7 +147,7 @@ class Alumnos extends Component {
     }
 
     edicion(data) {
-        this.props.selectStudent(data) //si os dice que selectStudent no es una funcion comprobad los nombres en matchDispatchToProps y que el import este hecho con el nombre ENTRE LLAVES
+        this.props.selectStudent(data) 
         this.setState({
             redirect: "/editStudent",
 
@@ -239,7 +239,7 @@ class Alumnos extends Component {
             return groupSelectItems
 
         } else {
-            var groupSelectItems = [
+            groupSelectItems = [
                 { label: 'All groups', value: 'allGroups' },
 
             ];
@@ -249,11 +249,7 @@ class Alumnos extends Component {
                 i += 1
             }
             return groupSelectItems
-
-
-
         }
-
 
     }
 
@@ -262,8 +258,6 @@ class Alumnos extends Component {
             <React.Fragment>
                 <Button icon="pi pi-external-link" className="p-button-rounded p-button-secondary p-mr-2" onClick={() => this.mostrarInfoStudent(rowData)} />
             </React.Fragment>
-
-
         );
     }
 
@@ -341,6 +335,7 @@ class Alumnos extends Component {
                 }
 
             }
+
             const courseSelectItems = [
                 { label: 'All courses', value: 'allCourses' },
                 { label: 'A1', value: 'A1' },

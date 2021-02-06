@@ -59,7 +59,7 @@ public class InscripcionService {
 		Boolean result = false;
 		Alumno a = alumnoRepository.findByNick(nick);
 		Evento evento = eventoRepository.findById(id).orElse(null);
-		if(a != null && evento != null && evento.getTipo().getTipo().equals("external")) {
+		if(a != null && evento != null && evento.getTipo().getTipo().equals("External")) {
 			Inscripcion i = getInscripcionByEventoAlumno(evento, a);
 			i.setRegistrado(join);
 			inscripcionRepository.save(i);

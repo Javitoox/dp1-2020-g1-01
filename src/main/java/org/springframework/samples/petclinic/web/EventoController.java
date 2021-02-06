@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.service.EventoService;
 import org.springframework.samples.petclinic.util.DateEventValidator;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
@@ -37,29 +39,34 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/events")
 public class EventoController {
-	
+
 	private final EventoService eventoService;
-	
+
 	@Autowired
 	public EventoController(EventoService eventoService) {
 		this.eventoService = eventoService;
 	}
-	
+
 	@InitBinder("evento")
 	public void initEventoBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new DateEventValidator());
 	}
-	
+
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllEvents(){
+	public ResponseEntity<?> getAllEvents() {
 		return ResponseEntity.ok(eventoService.getAll());
 	}
-	
+
 	@GetMapping("/getByCourse/{nick}")
-	public ResponseEntity<?> getUserEvents(@PathVariable("nick") String nick) {
-		return ResponseEntity.ok(eventoService.getAlumEvents(nick));
+	public ResponseEntity<?> getUserEvents(@PathVariable("nick") String nick, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if (userDetails.getUsername().equals(nick)) {
+			return ResponseEntity.ok(eventoService.getAlumEvents(nick));
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
-	
+
 	@PutMapping("/update/{id}/{start}/{end}")
 	public ResponseEntity<?> updateEvent(@PathVariable("id") Integer id, @PathVariable("start") String start,
 			@PathVariable("end") String end) {
@@ -71,38 +78,45 @@ public class EventoController {
 			return ResponseEntity.ok(evento);
 		}
 	}
-	
+
 	@GetMapping("/description/{id}")
-	public ResponseEntity<?> getDescription(@PathVariable("id") Integer id){
+	public ResponseEntity<?> getDescription(@PathVariable("id") Integer id) {
 		String description = eventoService.getDescription(id);
-		if(description == null) {
+		if (description == null) {
 			return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
-		}else {
-			log.info("Event's description with id "+id+": "+description);
+		} else {
+			log.info("Event's description with id " + id + ": " + description);
 			return ResponseEntity.ok(description);
 		}
 	}
-	
+
 	@GetMapping("/descriptionAlumno/{id}/{nickUser}")
-	public ResponseEntity<?> getDescriptionAlumno(@PathVariable("id") Integer id, @PathVariable("nickUser") String nickUser){
-		String description = eventoService.getDescriptionAlumno(id, nickUser);
-		if(description == null) {
-			return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
-		}else {
-			log.info("Event's description of student with id "+id+": "+description);
-			return ResponseEntity.ok(description);
+	public ResponseEntity<?> getDescriptionAlumno(@PathVariable("id") Integer id,
+			@PathVariable("nickUser") String nickUser, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if (userDetails.getUsername().equals(nickUser)) {
+			String description = eventoService.getDescriptionAlumno(id, nickUser);
+			if (description == null) {
+				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
+			} else {
+				log.info("Event's description of student with id " + id + ": " + description);
+				return ResponseEntity.ok(description);
+			}
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
-	
+
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteDescription(@PathVariable("id") Integer id){
+	public ResponseEntity<?> deleteDescription(@PathVariable("id") Integer id) {
 		eventoService.deleteDescription(id);
 		log.info("Delete event");
 		return ResponseEntity.ok(eventoService.getAll());
 	}
-	
+
 	@PostMapping("/create/{curso}")
-	public ResponseEntity<?> create(@Valid @RequestBody Evento evento, BindingResult result, @PathVariable("curso") String curso) {
+	public ResponseEntity<?> create(@Valid @RequestBody Evento evento, BindingResult result,
+			@PathVariable("curso") String curso) {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 		Set<ConstraintViolation<Evento>> violations = validator.validate(evento);

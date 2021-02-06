@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -18,7 +17,7 @@ import lombok.Setter;
 @Table(name="pagos")
 public class Pago extends BaseEntity{
 	
-	@ManyToOne(optional=true)
+	@ManyToOne(optional=false)
 	private TipoPago tipo;
 	
 	@Column(name="concepto")
