@@ -52,12 +52,6 @@ public class AsignacionesProfesorController {
 		return ResponseEntity.ok(p);
 	}
 
-	@GetMapping("/freeAssignments")
-	public ResponseEntity<List<String>> listaAsignaciones() {
-		List<String> all = asignacionS.getFreeGroups();
-		return ResponseEntity.ok(all);
-	}
-
 	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody AsignacionProfesor resource, BindingResult result) {
 		log.info("Solicitando asignar profesor: {}", resource);

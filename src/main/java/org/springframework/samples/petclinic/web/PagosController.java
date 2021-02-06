@@ -6,18 +6,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Pago;
-import org.springframework.samples.petclinic.model.TipoPago;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.PagoService;
 import org.springframework.samples.petclinic.service.TipoPagoService;
@@ -87,54 +82,41 @@ public class PagosController {
 		return ResponseEntity.ok(all);
 	}
 
-	@PostMapping("/new/{tipoPago}")
-	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, @PathVariable("tipoPago") String tipoPago,
-			BindingResult result) {
-		TipoPago t = tipoPagoService.getType(tipoPago);
-		resource.setTipo(t);
-
+	@PostMapping("/new")
+	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, BindingResult result) {
 		log.info("Solicitando crear pago: {}", resource);
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-		Set<ConstraintViolation<Pago>> violations = validator.validate(resource);
-
-		if (result.hasErrors() || violations.size() > 0) {
+		if (result.hasErrors()) {
 			List<FieldError> errors = new ArrayList<>();
-			if (violations.size() > 0) {
-				for (ConstraintViolation<Pago> v : violations) {
-					FieldError e = new FieldError("pago", v.getPropertyPath().toString(), v.getMessageTemplate());
-					errors.add(e);
-				}
-			}
-			if (result.hasErrors()) {
-				errors.addAll(result.getFieldErrors());
-			}
+			log.info("A ver si entra");
 			if (resource.getAlumnos().getNickUsuario().equals("null") || resource.getAlumnos().getNickUsuario() == "") {
 				FieldError e = new FieldError("pago", "nickUsuario", "You must write a nickname");
 				errors.add(e);
 			}
-			if (resource.getConcepto().equals("null") || resource.getConcepto() == "") {
+			if ((resource.getConcepto() == null) || resource.getConcepto() == "") {
 				FieldError e = new FieldError("pago", "concepto", "You must select a concept");
 				errors.add(e);
 			}
-			if (resource.getTipo().getTipo().equals("null") || resource.getTipo().getTipo() == "") {
+			if ((resource.getTipo().getTipo().equals("null")) || resource.getTipo().getTipo().equals("")) {
 				FieldError e = new FieldError("pago", "tipo", "You must select a type");
 				errors.add(e);
 			}
 			return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		} else {
 			Alumno alumno = alumnoService.getAlumno(resource.getAlumnos().getNickUsuario());
-			LocalDate fb = alumno.getFechaBaja();
-			if (fb == null) {
-				pagoService.savePayment(resource);
-				return new ResponseEntity<>("Pago creado correctamente", HttpStatus.CREATED);
-
-			} else {
+			if (alumno == null) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			} else {
+				LocalDate fb = alumno.getFechaBaja();
+				if (fb == null) {
+					pagoService.savePayment(resource);
+					return new ResponseEntity<>("Pago creado correctamente", HttpStatus.CREATED);
+				} else {
+					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				}
+
 			}
 
 		}
-
 	}
 
 }

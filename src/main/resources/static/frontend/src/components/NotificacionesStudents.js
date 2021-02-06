@@ -17,7 +17,7 @@ class NotificacioneStudents extends Component {
         if (this.props.payment !== 0) {
             store.addNotification({
                 title: "PAYMENTS",
-                message: "There are " + this.props.payment + " unpaid months, please check the payments view to see more info",
+                message: "You have " + this.props.payment + " pending payments",
                 type: "info",
                 insert: "top",
                 container: "top-right",

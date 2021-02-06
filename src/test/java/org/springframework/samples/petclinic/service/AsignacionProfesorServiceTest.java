@@ -73,11 +73,6 @@ public class AsignacionProfesorServiceTest {
 		verify(asignacionProfRepository).save(asig);
 	}
 	
-	@Test
-	void shouldGetNameOfAllFreeGroups() {
-		when(asignacionProfRepository.getFreeGroups()).thenReturn(gruposLibres);
-		assertThat(asignacionProfService.getFreeGroups()).isNotEmpty();
-	}
 	
 	@Test
 	void shoulDeleteAnAsignation() {
