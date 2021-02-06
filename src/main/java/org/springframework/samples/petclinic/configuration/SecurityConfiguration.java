@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.csrf().disable()  
-		.authorizeRequests()
+		.authorizeRequests() 
 		.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 		.antMatchers("/basicauth").authenticated()
@@ -59,6 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers("/events/getByCourse/{nick}", "/events/descriptionAlumno/{id}/{nickUser}").hasAuthority("alumno")
 		.antMatchers("/events/**").hasAuthority("profesor")
 		.antMatchers("/asignaciones/**").hasAuthority("profesor")
+		.antMatchers("/tutores/**").hasAuthority("tutor")
 		.anyRequest().permitAll()
 		.and()
 		.httpBasic();

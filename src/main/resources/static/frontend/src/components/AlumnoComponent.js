@@ -73,5 +73,10 @@ export default class AlumnoComponent extends Component{
 		return axios.delete(urlBase+"/alumnos/delete/"+nickUsuario, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
 		sessionStorage.getItem("password")) } })
 	}
+
+	getTeacherByGroup(urlBase, nombreGrupo){
+		return axios.get(urlBase+"/tutores/teacherByGroup/"+nombreGrupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } });
+	}
 }
 
