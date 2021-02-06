@@ -91,13 +91,6 @@ public class AlumnoControllerTests {
 		mockMvc.perform(get("/alumnos/getStudentInfo/manolo")).andExpect(status().isOk());
 	}
 	
-	/*
-	 * @WithMockUser(value = "spring")
-	 * 
-	 * @Test void testShowStudentInfoWhenNotLoggedAsProfessor() throws Exception {
-	 * mockMvc.perform(get("/alumnos/getStudentInfo/manolo")).andExpect(status().
-	 * isUnauthorized()); }
-	 */
 	
 	@WithMockUser(value = "spring")
 	@Test
@@ -105,14 +98,7 @@ public class AlumnoControllerTests {
 		given(this.alumnoService.getAllAlumnos()).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/alumnos/all")).andExpect(status().isOk());
 	}
-	
-	/*
-	 * @WithMockUser(value = "spring")
-	 * 
-	 * @Test void testNotShowListAllStudents() throws Exception {
-	 * mockMvc.perform(get("/alumnos/all").sessionAttr("type","alumno")).andExpect(
-	 * status().isUnauthorized()); }
-	 */
+
 	
 	@WithMockUser(value = "spring")
 	@Test
@@ -121,37 +107,20 @@ public class AlumnoControllerTests {
 		mockMvc.perform(get("/alumnos/getByCourse/B1")).andExpect(status().isOk());
 	}
 	
-	/*
-	 * @WithMockUser(value = "spring")
-	 * 
-	 * @Test void testNotShowListStudentsByCourse() throws Exception {
-	 * mockMvc.perform(get("/alumnos/getByCourse/B1")).andExpect(status().
-	 * isUnauthorized()); }
-	 */
-	@WithUserDetails(value = "marrambla2", userDetailsServiceBeanName = "loadUserByUsername")
+	@WithMockUser(value  = "marrambla2", roles="tutor")	
 	@Test
 	void testShowListStudentsByTutor() throws Exception {
 		given(this.alumnoService.getAllMyStudents(any(String.class))).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/alumnos/marrambla2/allMyStudents")).andExpect(status().isOk());
 	}
 	
-	/*
-	 * @WithMockUser(value = "spring")
-	 * 
-	 * @Test void testNotShowListStudentsByTutorNotLoggedAsTutor() throws Exception
-	 * {
-	 * mockMvc.perform(get("/alumnos/marrambla2/allMyStudents").sessionAttr("type",
-	 * "alumno").sessionAttr("nickUsuario",
-	 * "marrambla3")).andExpect(status().isUnauthorized()); }
-	 * 
-	 * @WithMockUser(value = "spring")
-	 * 
-	 * @Test void testNotShowListStudentsByTutorNotLoggedWithNameRequired() throws
-	 * Exception {
-	 * mockMvc.perform(get("/alumnos/marrambla3/allMyStudents").sessionAttr("type",
-	 * "tutor").sessionAttr("nickUsuario",
-	 * "marrambla2")).andExpect(status().isUnauthorized()); }
-	 */
+	@WithMockUser(value  = "pepito", roles="tutor")	
+	@Test
+	void testShowListStudentsByTutorNotEqualsThanLoguedUser() throws Exception {
+		given(this.alumnoService.getAllMyStudents(any(String.class))).willReturn(new ArrayList<>());
+		mockMvc.perform(get("/alumnos/marrambla2/allMyStudents")).andExpect(status().isUnauthorized());
+	}
+	
 	
 	@WithMockUser(value = "spring")
 	@Test

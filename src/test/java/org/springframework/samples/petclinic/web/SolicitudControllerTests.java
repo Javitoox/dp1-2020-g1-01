@@ -48,6 +48,7 @@ public class SolicitudControllerTests {
 	
 	@MockBean
 	private PasswordEncoder passwordEncoder;
+	
 	@BeforeEach
 	void setup() {
 		solicitud = new Solicitud();
@@ -267,28 +268,12 @@ public class SolicitudControllerTests {
 		mockMvc.perform(get("/requests/pending")).andExpect(status().isOk());
 	}
 	
-	/*
-	 * @WithMockUser(value = "spring")
-	 * 
-	 * @Test void testNotShowPendingRequest() throws Exception {
-	 * mockMvc.perform(get("/requests/pending").sessionAttr("type","alumno")).
-	 * andExpect(status().isUnauthorized()); }
-	 */
-	
 	@WithMockUser(value = "spring")
 	@Test
 	void testShouldDenyPendingRequest() throws Exception {
 		given(this.solicitudService.getAlumno(any(String.class))).willReturn(new Alumno());
 		mockMvc.perform(put("/requests/decline/marrambla").with(csrf())).andExpect(status().isOk());
 	}
-	
-	/*
-	 * @WithMockUser(value = "spring")
-	 * 
-	 * @Test void testShouldNotDenyPendingRequest() throws Exception {
-	 * mockMvc.perform(put("/requests/decline/marrambla").with(csrf()).sessionAttr(
-	 * "type","alumno")).andExpect(status().isUnauthorized()); }
-	 */
 	
 	@WithMockUser(value = "spring")
 	@Test
@@ -297,13 +282,4 @@ public class SolicitudControllerTests {
 		mockMvc.perform(put("/requests/accept/marrambla").with(csrf())).andExpect(status().isOk());
 	}
 	
-	/*
-	 * @WithMockUser(value = "spring")
-	 * 
-	 * @Test void testShouldNotAcceptPendingRequest() throws Exception {
-	 * given(this.solicitudService.getAlumno(any(String.class))).willReturn(new
-	 * Alumno());
-	 * mockMvc.perform(put("/requests/accept/marrambla").with(csrf()).sessionAttr(
-	 * "type","alumno")).andExpect(status().isUnauthorized()); }
-	 */
 }
