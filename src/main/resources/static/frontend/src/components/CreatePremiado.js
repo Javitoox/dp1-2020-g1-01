@@ -22,8 +22,7 @@ export class CreatePremiado extends Component{
             nickusuario : "",
             description: "",
             photo: null,
-            
-            
+            succes:null   
         }
         this.handleSubmit= this.handleSubmit.bind(this);  
         this.respuesta= this.respuesta.bind(this);  
@@ -71,7 +70,6 @@ export class CreatePremiado extends Component{
     }
 
     respuesta(status,data){
-        console.log(status)
         if(status===203){
             data.forEach(e => this.error(e.field, e.defaultMessage))
         }else if(status===201){
@@ -79,6 +77,7 @@ export class CreatePremiado extends Component{
              nickusuario : "",
              description: "",
              photo: null,
+             succes: <div className="alert alert-success" role="alert">Successful upload</div>
             })
         }else if(status===204){
             this.setState({nickNameError: <div className="alert alert-danger" role="alert">The username doesn't exists</div>})
@@ -101,6 +100,7 @@ export class CreatePremiado extends Component{
         return(
             <div className="c">
                 <form onSubmit={this.handleSubmit}>
+                {this.state.succes}
                 <div className="t">
                     <div><h5>Add a new awarded student</h5></div>
                 </div>

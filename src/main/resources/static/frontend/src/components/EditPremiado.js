@@ -18,8 +18,8 @@ export class EditPremiado extends Component{
             nickusuario : "",
             description: "",
             photo: null,
-            premiado:this.props.premiado
-            
+            premiado:this.props.premiado,
+            succes:null
         }
         this.handleSubmitEdit= this.handleSubmitEdit.bind(this);  
         this.premiados = new AlumnoComponent();
@@ -58,19 +58,20 @@ export class EditPremiado extends Component{
         formData.append('photo', this.state.photo) ;
         formData.append('description', this.state.description) ;
         formData.append('nickUsuario', this.state.premiado.alumnos.nickUsuario) ;
-        await this.premiados.editPremiado(this.props.urlBase, formData).then(() => this.setState({editForm: false}))
-        this.setState({
+        await this.premiados.editPremiado(this.props.urlBase, formData).then(() => this.setState({
+            editForm: false,
             nickusuario : "",
             description: "",
             photo: null,
-        })
-        window.location.assign("/walloffame")
+            succes: <div className="alert alert-success" role="alert">Successful edit</div>
+        }))
     }
 
     render(){
         return(
             <div className="c">
                 <form onSubmit={this.handleSubmitEdit}>
+                    {this.state.succes}
                     <div className="t">
                         <div><h5>You're editing: {this.state.premiado.alumnos.nombreCompletoUsuario} </h5></div>
                     </div>

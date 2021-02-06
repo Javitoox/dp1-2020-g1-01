@@ -35,7 +35,6 @@ public class Grupo {
 	@Valid
     private Curso cursos;
 	
-
 	@OneToMany(cascade=CascadeType.ALL, mappedBy = "grupos")
 	@JsonIgnore
 	private Collection<Alumno> alumnos;

@@ -70,8 +70,6 @@ public class AlumnoController {
 		}
 	}
 
-	
-
 	@GetMapping("/getStudentInfo/{nickUsuario}")
 	public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -126,9 +124,11 @@ public class AlumnoController {
 			Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		if (userDetails.getUsername().equals(nickTutor)) {
+			log.info("Obteniendo alumnos del tutor: " + nickTutor);
 			List<Alumno> studentsByTutor = alumnoServ.getAllMyStudents(nickTutor);
 			return ResponseEntity.ok(studentsByTutor);
 		} else {
+			log.warn("El nick pasado por parámetros no coincide con el nick logeado");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
