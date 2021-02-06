@@ -58,7 +58,6 @@ export default class AssignTeacher extends Component {
     
     form(){
         var l = this.state.listaGrupos
-        console.log(l)
         if(String(l)===""){
             return <div className="t"><div><h5>There are no groups to assign</h5></div></div>
         }else{
@@ -123,10 +122,7 @@ export default class AssignTeacher extends Component {
           
     }  
 
-
     respuesta(status, data) {
-        console.log(status);
-        console.log(data);
         if(status===203){
            this.error(data.field, data.defaultMessage)
         }else if(status===201){
@@ -141,19 +137,16 @@ export default class AssignTeacher extends Component {
         }
     }
     error(campo, mensaje) {
-        console.log(campo);
-        console.log(mensaje);
         if (campo === "profesor.nickUsuario") {
             this.setState({ usernameError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         } else if (campo === "grupo.nombreGrupo") {
-            console.log("aqui");
             this.setState({ nombreGrupoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }
     }
 
     componentDidMount() {
         this.mostrarTabla()
-        this.asignaciones.getListOfEmptyAssignmentGroup(this.props.urlBase).then(data => this.setState({ listaGrupos: data }));
+        this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
     }
     mostrarTabla(){
         this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data })).catch(error => this.setState({comprobation: false}));
@@ -162,7 +155,6 @@ export default class AssignTeacher extends Component {
         if (!this.state.comprobation) {
             return <Auth authority="teacher"></Auth>
         } else {
-            console.log(this.state.listaGrupos);
             return (
                 <div>
                     <div className="c">

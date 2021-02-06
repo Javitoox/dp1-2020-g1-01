@@ -99,26 +99,6 @@ public class AsignacionProfesorTests {
 		mockMvc.perform(get("/asignaciones/{user}", NICK_USUARIO).sessionAttr("type","null")).andExpect(status().isUnauthorized());
 	}
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testShowAllAssignationLists() throws Exception {
-		given(this.asignacionProfesorService.getFreeGroups()).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/asignaciones/freeAssignments").sessionAttr("type","profesor")).andExpect(status().isOk());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testDontShowAllAssignationListsIfLoggedAsAlumn() throws Exception {
-		given(this.asignacionProfesorService.getFreeGroups()).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/asignaciones/freeAssignments").sessionAttr("type","alumno")).andExpect(status().isUnauthorized());
-	}
-	
-	@WithMockUser(value = "spring")
-    @Test
-    void testDontShowAllAssignationListsIfNotLogged() throws Exception{
-		given(this.asignacionProfesorService.getFreeGroups()).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/asignaciones/freeAssignments").sessionAttr("type","null")).andExpect(status().isUnauthorized());
-	}
 	
 	@WithMockUser(value = "spring")
 	@Test
