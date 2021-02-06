@@ -43,7 +43,7 @@ public class AlumnoController {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	@PutMapping("/editStudent")
+	@PutMapping("/editStudent") // hacer validacion externa, controlar el nif único, password encoder en edit alumno no, authenticacion innecesario, edit profesora
 	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		if(userDetails.getAuthorities().iterator().next().getAuthority() == "alumno") {
@@ -51,7 +51,7 @@ public class AlumnoController {
 				if (result.hasErrors()) {
 					return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 				} else {
-					alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
+					log.info("pass:" + alumno.getContraseya());
 					this.alumnoServ.saveAlumno(alumno);
 					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 				}}
