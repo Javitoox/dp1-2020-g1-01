@@ -57,7 +57,7 @@ public class InscripcionService {
 	@Transactional
 	public Boolean joinOrDisjoin(Integer id, String nick, Boolean join) throws DataAccessException{
 		Boolean result = false;
-		Alumno a = alumnoRepository.findByNick(nick);
+		Alumno a = alumnoRepository.findById(nick).get();
 		Evento evento = eventoRepository.findById(id).orElse(null);
 		if(a != null && evento != null && evento.getTipo().getTipo().equals("external")) {
 			Inscripcion i = getInscripcionByEventoAlumno(evento, a);

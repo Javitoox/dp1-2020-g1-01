@@ -35,7 +35,7 @@ public class AlumnoService {
 		return alumnoRepository.findStudents();
 	}
 	public Alumno getAlumno(String nickUsuario) {
-		return alumnoRepository.findByNick(nickUsuario);
+		return alumnoRepository.findById(nickUsuario).get();
 	}
 	
 	@Transactional	
