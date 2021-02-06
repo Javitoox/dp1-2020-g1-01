@@ -30,27 +30,27 @@ INSERT INTO cursos(curso_de_ingles) values ('C1');
 INSERT INTO cursos(curso_de_ingles) values ('C2');
 INSERT INTO cursos(curso_de_ingles) values ('APRENDIZAJELIBRE');
 
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo1', 'B1');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo2', 'B1');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo3', 'B1');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo4', 'B2');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo5', 'B2');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo6', 'A1');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo7', 'A1');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo8', 'A2');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo9', 'A2');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo10', 'A2');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo11', 'C2');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo12', 'C2');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo13', 'C2');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo14', 'C1');
-INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('grupo15', 'C1');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group1', 'B1');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group2', 'B1');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group3', 'B1');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group4', 'B2');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group5', 'B2');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group6', 'A1');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group7', 'A1');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group8', 'A2');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group9', 'A2');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group10', 'A2');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group11', 'C2');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group12', 'C2');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group13', 'C2');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group14', 'C1');
+INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group15', 'C1');
 
 
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario,grupos_nombre_grupo,fecha_matriculacion) VALUES 
-    ('Javi','$2a$10$W0n5qgTKUkxNzMtDUBYGG.cP5LGg1ohMsnlr1GLjktpGND6VO./T2','55635286F','Javi Martínez','martinez@gmail.com','626222111','Calle Junio de agosto','2000-06-23',0,'2012-12-11','marrambla2','grupo1','2020-2-7');
+    ('Javi','$2a$10$W0n5qgTKUkxNzMtDUBYGG.cP5LGg1ohMsnlr1GLjktpGND6VO./T2','55635286F','Javi Martínez','martinez@gmail.com','626222111','Calle Junio de agosto','2000-06-23',0,'2012-12-11','marrambla2','group1','2020-2-7');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario,grupos_nombre_grupo,fecha_matriculacion) VALUES 
-    ('antoniope','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','55635286U','Antonio Pérez','jvii@gmail.com','622119555','Calle Junio de agosto','2000-06-23',0,'2012-12-11','marrambla2','grupo1','2020-2-7');
+    ('antoniope','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','55635286U','Antonio Pérez','jvii@gmail.com','622119555','Calle Junio de agosto','2000-06-23',0,'2012-12-11','marrambla2','group1','2020-2-7');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario) VALUES 
     ('patri25','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','55635286S','Patricia Gómez','jvii@gmail.com','622119555','Calle Junio de agosto','2000-06-23',0,'2012-12-11','eveyugyug');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_solicitud,tutores_nick_usuario) VALUES 
@@ -62,41 +62,41 @@ INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
 	('maria124','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','30502441B','Maria Garcia','maria124@gmail.com','622119555','Calle Yucatan','1998-10-03',0, null,'carmen129',null,'2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria125','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','40502441B','Maria Velazquez','alumno1@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen127','grupo2','2020-11-26');
+	('maria125','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','40502441B','Maria Velazquez','alumno1@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen127','group2','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria126','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','50502441B','Maria Rodríguez','alumno2@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen127','grupo2','2020-11-26');
+	('maria126','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','50502441B','Maria Rodríguez','alumno2@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen127','group2','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria127','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','60502441B','Maria Rodríguez','alumno3@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen127','grupo3','2020-11-26');
+	('maria127','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','60502441B','Maria Rodríguez','alumno3@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen127','group3','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria128','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','70502441B','Maria Rodríguez','alumno4@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen123','grupo4','2020-11-26');
+	('maria128','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','70502441B','Maria Rodríguez','alumno4@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen123','group4','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria129','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','80502441B','Maria Rodríguez','alumno5@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen124','grupo5','2020-11-26');
+	('maria129','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','80502441B','Maria Rodríguez','alumno5@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen124','group5','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria130','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','90502441B','Maria Rodríguez','alumno6@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen125','grupo6','2020-11-26');
+	('maria130','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','90502441B','Maria Rodríguez','alumno6@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen125','group6','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria131','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','22502441B','Maria Rodríguez','alumno7@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen126','grupo7','2020-11-26');
+	('maria131','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','22502441B','Maria Rodríguez','alumno7@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen126','group7','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-    ('maria132','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','23502441B','Maria Rodríguez','alumno8@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen125','grupo8','2020-11-26');
+    ('maria132','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','23502441B','Maria Rodríguez','alumno8@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen125','group8','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria133','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','24502441B','Maria Rodríguez','alumno9@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen126','grupo9','2020-11-26');
+	('maria133','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','24502441B','Maria Rodríguez','alumno9@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen126','group9','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria134','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','25502441B','Maria Rodríguez','alumno10@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen124','grupo10','2020-11-26');
+	('maria134','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','25502441B','Maria Rodríguez','alumno10@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen124','group10','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria135','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','26502441B','Maria Rodríguez','alumno11@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen123','grupo11','2020-11-26');
+	('maria135','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','26502441B','Maria Rodríguez','alumno11@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen123','group11','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria136','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','27502441B','Maria Rodríguez','alumno12@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen123','grupo12','2020-11-26');
+	('maria136','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','27502441B','Maria Rodríguez','alumno12@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen123','group12','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria137','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','28502441B','Maria Rodríguez','alumno13@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','eveyugyug','grupo13','2020-11-26');
+	('maria137','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','28502441B','Maria Rodríguez','alumno13@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','eveyugyug','group13','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria138','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','29502441B','Maria Rodríguez','alumno14@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','marrambla2','grupo14','2020-11-26');
+	('maria138','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','29502441B','Maria Rodríguez','alumno14@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','marrambla2','group14','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria139','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','33502441B','Maria Rodríguez','alumno15@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen126','grupo15','2020-11-26');
+	('maria139','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','33502441B','Maria Rodríguez','alumno15@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen126','group15','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria140','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','34502441B','Maria Rodríguez','alumno16@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen124','grupo4','2020-11-26');
+	('maria140','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','34502441B','Maria Rodríguez','alumno16@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen124','group4','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria141','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','35502441B','Maria Rodríguez','alumno17@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen124','grupo3','2020-11-26');
+	('maria141','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','35502441B','Maria Rodríguez','alumno17@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','carmen124','group3','2020-11-26');
 INSERT INTO alumnos(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,num_tareas_entregadas,fecha_matriculacion,tutores_nick_usuario,grupos_nombre_grupo,fecha_solicitud) VALUES 
-	('maria142','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','36502441B','Maria Rodríguez','alumno18@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','eveyugyug','grupo5','2020-11-26');
+	('maria142','$2a$10$SSzI6iLM2LfVEwjm02zXU.f/DggdZoEvvea4ZRzB8YrAd.q2FCesu','36502441B','Maria Rodríguez','alumno18@gmail.com','622119555','Calle Yucatan','1998-10-03',0,'2012-12-11','eveyugyug','group5','2020-11-26');
 
 
 INSERT INTO profesores(nick_usuario,contraseya,dni_usuario,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento) VALUES 
@@ -155,7 +155,7 @@ INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (11,'
 INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (12,'transferencia', 'Primer plazo','2017-12-04','maria128');
 
 
-INSERT INTO asignaciones_profesor VALUES ('MaribelJavi','grupo1', '2019-10-03');
+INSERT INTO asignaciones_profesor VALUES ('MaribelJavi','group1', '2019-10-03');
 
 INSERT INTO tipos_materiales VALUES ('Exam');
 INSERT INTO tipos_materiales VALUES ('Homework');
