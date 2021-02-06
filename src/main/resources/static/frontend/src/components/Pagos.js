@@ -9,8 +9,6 @@ import Auth from './Auth';
 import { Redirect } from 'react-router-dom';
 import { ListBox } from 'primereact/listbox';
 import { selectStudent } from '../actions/index';
-import { selectAssignedStudent } from '../actions/index';
-import {selectStudent} from '../actions/index';
 import {selectAssignedStudent}  from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -61,6 +59,7 @@ class Pagos extends Component {
             this.setState({ alumnos: data })
             this.setState({ lista: data })
         }).catch(error => this.setState({comprobation: false}));
+        this.pagos.getAllPayments().then(data => this.setState({listaConcepto:data}))
     }
 
     showSelectGroup(pago) {

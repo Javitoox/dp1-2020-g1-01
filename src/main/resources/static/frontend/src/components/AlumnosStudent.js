@@ -6,9 +6,6 @@ import { Button } from 'primereact/button';
 import GrupoComponent from './GrupoComponent';
 import { Dialog } from 'primereact/dialog';
 
-
-
-
 export class AlumnosStudent extends Component {
 
     constructor(props) {

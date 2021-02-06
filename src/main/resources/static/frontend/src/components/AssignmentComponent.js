@@ -6,7 +6,7 @@ export default class AssignmentComponent extends Component{
 		
 	
 	getListOfAssignment(baseUrl, user){
-		return axios.get(baseUrl + "/get/asignaciones/" + user, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		return axios.get(baseUrl + "/asignaciones/get/" + user, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
 		sessionStorage.getItem("password")) } }).then(res => res.data);
     }
     
@@ -16,7 +16,8 @@ export default class AssignmentComponent extends Component{
     }
 
     deleteAsignacion(baseUrl, nickUser,nombreGrupo){
-        return axios.delete(baseUrl + "/asignaciones/delete/"+nickUser+"/"+nombreGrupo, {withCredentials: true}).then(res => res.data);
+        return axios.delete(baseUrl + "/asignaciones/delete/"+nickUser+"/"+nombreGrupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res => res.data);
     }
 
 }

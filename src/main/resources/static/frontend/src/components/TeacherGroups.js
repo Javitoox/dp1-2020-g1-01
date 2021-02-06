@@ -39,11 +39,6 @@ export default class TeacherGroups extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-                }
-            })
             this.mostrarTabla()
             this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data }));
             this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
@@ -80,8 +75,6 @@ export default class TeacherGroups extends Component {
                     <Button icon="pi pi-trash" className="p-button-rounded p-button-secondary p-mr-2"  onClick={() => this.formUnassignTeacher(rowData)}/>
                 </React.Fragment>
             ); 
-            this.mostrarTabla()
-   
      }
 
     render() {

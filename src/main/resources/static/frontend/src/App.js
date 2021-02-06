@@ -66,7 +66,7 @@ class App extends Component {
 				<Route path="/notificationsStudent" render={() =>
 					<NotificationStudent urlBase={this.state.urlBase} nickUser={this.calculateUserName()} ></NotificationStudent>
 				} />
-				<Route path="/students/EditPersonalInfo" render={() =>
+				<Route path="/editPersonalInfo" render={() =>
 					<EditPersonalInfo urlBase={this.state.urlBase} nickUser={this.calculateUserName()} ></EditPersonalInfo>
 				} />
 				<Route path="/login" render={() =>

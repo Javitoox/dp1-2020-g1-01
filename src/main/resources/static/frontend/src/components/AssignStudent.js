@@ -117,7 +117,8 @@ class AssignStudent extends Component  {
             if(this.state.grupos.nombreGrupo===""){
                 this.setState({displayConfirmation: true})    
             }else{
-             axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
+             axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+             sessionStorage.getItem("password")) } }).then(res => {
                 this.respuesta(res.status, res.data)
                 })
                 this.mostrarTabla()

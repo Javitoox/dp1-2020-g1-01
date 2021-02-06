@@ -28,6 +28,7 @@ export default class GrupoComponent extends Component{
     }
 
     getAssignmentGroupsByStudent(nick){
-        return axios.get("http://localhost:8081/grupos/allAsignableGroups/"+nick, {withCredentials: true}).then(res => res.data);
+        return axios.get("http://localhost:8081/grupos/allAsignableGroups/"+nick, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res => res.data);
     }
 }
