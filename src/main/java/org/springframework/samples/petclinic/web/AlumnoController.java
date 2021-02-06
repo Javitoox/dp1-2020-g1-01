@@ -44,20 +44,43 @@ public class AlumnoController {
 	}
 
 	@PutMapping("/editStudent")
-	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result) {
-		if (result.hasErrors()) {
-			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-		} else {
-			alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
-			this.alumnoServ.saveAlumno(alumno);
-			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if(userDetails.getAuthorities().iterator().next().getAuthority() == "alumno") {
+			if(userDetails.getUsername().equals(alumno.getNickUsuario())){
+				if (result.hasErrors()) {
+					return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+				} else {
+					alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
+					this.alumnoServ.saveAlumno(alumno);
+					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+				}}
+				else {
+					return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+				}
+			}else {	
+				if (result.hasErrors()) {
+					return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+					} else {
+					alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
+					this.alumnoServ.saveAlumno(alumno);
+					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+			}
+			
 		}
 	}
 
+	
+
 	@GetMapping("/getStudentInfo/{nickUsuario}")
-	public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick) {
+	public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if(userDetails.getUsername().equals(nick)) {
 		Alumno alumno = alumnoServ.getAlumno(nick);
 		return ResponseEntity.ok(alumno);
+		}else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 	@GetMapping("/all")
