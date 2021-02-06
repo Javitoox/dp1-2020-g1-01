@@ -38,6 +38,10 @@ public class AlumnoService {
 		return alumnoRepository.findByNick(nickUsuario);
 	}
 	
+	public Alumno getAlumnoByIdOrNif(String nickUsuario, String nif) {
+		return alumnoRepository.findByNickAndNif(nickUsuario, nif);
+	}
+	
 	@Transactional	
 	public void deleteStudents(Alumno alumno) throws DataAccessException{
 		alumno.setFechaBaja(LocalDate.now());
@@ -88,7 +92,7 @@ public class AlumnoService {
 			Inscripcion i = new Inscripcion();
 			i.setId(idInscripcion);
 			i.setFecha(LocalDate.now());
-			if(type.equals("internal"))
+			if(type.equals("Internal"))
 				i.setRegistrado(true);
 			else
 				i.setRegistrado(false);

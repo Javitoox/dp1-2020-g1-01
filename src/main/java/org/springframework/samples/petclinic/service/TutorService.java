@@ -37,5 +37,9 @@ public class TutorService {
 	public void delete(String nickTutor) throws DataAccessException{
 		tutorRepository.deleteById(nickTutor);
 	}
+	
+	public Tutor getTutorByIdOrNif(String nickUsuario, String nif) {
+		return tutorRepository.findByNickAndNif(nickUsuario, nif);
+	}
 }
  

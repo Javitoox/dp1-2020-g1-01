@@ -28,8 +28,6 @@ public class Usuario{
 	private String nickUsuario;
 	
 	@Column(name="contraseya")
-//	@Pattern(regexp = "^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$", message = "\r\n" + 
-//			"The password must be at least 8 to 16 characters long, at least one digit, at least one lowercase and at least one uppercase")
 	@NotBlank(message = "Required field")
 	private String contraseya;
 	
@@ -50,12 +48,12 @@ public class Usuario{
 	private String correoElectronicoUsuario;
 	
 	@Column(name="num_telefono_usuario")
-	@Pattern(regexp = "(6|7)[ -]*([0-9][ -]*){8}", message = "Incorrect format of first phone number")
+	@Pattern(regexp = "(6|7|9)[ -]*([0-9][ -]*){8}", message = "Incorrect format of first phone number")
 	@NotBlank(message = "Required field")
 	private String numTelefonoUsuario;
 	
 	@Column(name="num_telefono_usuario2")
-	@Pattern(regexp = "(6|7)[ -]*([0-9][ -]*){8}", message = "Incorrect format of second phone number")
+	@Pattern(regexp = "(6|7|9)[ -]*([0-9][ -]*){8}", message = "Incorrect format of second phone number")
 	private String numTelefonoUsuario2;
 	
 	@Column(name="direccion_usuario")

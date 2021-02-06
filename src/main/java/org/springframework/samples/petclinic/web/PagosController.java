@@ -38,59 +38,58 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class PagosController {
-	
+
 	private final PagoService pagoService;
 	private final TipoPagoService tipoPagoService;
 	private final AlumnoService alumnoService;
 
-	
 	@Autowired
 	public PagosController(PagoService pagoService, TipoPagoService tipoPagoService, AlumnoService alumnoService) {
 		this.pagoService = pagoService;
 		this.tipoPagoService = tipoPagoService;
 		this.alumnoService = alumnoService;
 	}
-	
-	
+
 	@GetMapping
-	public ResponseEntity<List<String>> allPayments(){
-			Set<String> all = pagoService.getAllPayments();
-			List<String> allList = all.stream().collect(Collectors.toList());
-			return ResponseEntity.ok(allList);
+	public ResponseEntity<List<String>> allPayments() {
+		Set<String> all = pagoService.getAllPayments();
+		List<String> allList = all.stream().collect(Collectors.toList());
+		return ResponseEntity.ok(allList);
 	}
-	
+
 	@GetMapping("/{concepto}")
 	public ResponseEntity<List<Alumno>> listadoAlumnosPagos(@PathVariable("concepto") String concepto) {
-		List<Alumno> all =  pagoService.getStudentsByPayment(concepto);
+		List<Alumno> all = pagoService.getStudentsByPayment(concepto);
 		return ResponseEntity.ok(all);
 	}
-	
+
 	@GetMapping("/notPaid/{concepto}")
 	public ResponseEntity<List<Alumno>> listadoAlumnosNoPagos(@PathVariable("concepto") String concepto) {
-		List<Alumno> all =  pagoService.getStudentsNoPayment(concepto);
+		List<Alumno> all = pagoService.getStudentsNoPayment(concepto);
 		return ResponseEntity.ok(all);
 	}
-	
+
 	@GetMapping("/notPaidByStudent/{nickUsuario}")
 	public ResponseEntity<List<String>> listadoNoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario) {
-		List<String> all =  pagoService.getNoPaymentByStudent(nickUsuario);
+		List<String> all = pagoService.getNoPaymentByStudent(nickUsuario);
 		return ResponseEntity.ok(all);
 	}
-	
+
 	@GetMapping("/paidByStudent/{nickUsuario}")
 	public ResponseEntity<List<Pago>> listadoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario) {
-		List<Pago> all =  pagoService.getPaymentsByStudent(nickUsuario);
+		List<Pago> all = pagoService.getPaymentsByStudent(nickUsuario);
 		return ResponseEntity.ok(all);
 	}
-	
+
 	@GetMapping("/studentsNotPaid")
 	public ResponseEntity<List<String>> listadoNombreAlumnoNoPago() {
-		List<String> all =  pagoService.getNameStudentByNoPago();
+		List<String> all = pagoService.getNameStudentByNoPago();
 		return ResponseEntity.ok(all);
 	}
-	
+
 	@PostMapping("/new/{tipoPago}")
-	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, @PathVariable("tipoPago") String tipoPago ,BindingResult result){	
+	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, @PathVariable("tipoPago") String tipoPago,
+			BindingResult result) {
 		TipoPago t = tipoPagoService.getType(tipoPago);
 		resource.setTipo(t);
 
@@ -98,7 +97,7 @@ public class PagosController {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 		Set<ConstraintViolation<Pago>> violations = validator.validate(resource);
-		
+
 		if (result.hasErrors() || violations.size() > 0) {
 			List<FieldError> errors = new ArrayList<>();
 			if (violations.size() > 0) {
@@ -123,19 +122,19 @@ public class PagosController {
 				errors.add(e);
 			}
 			return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-		}else {
+		} else {
 			Alumno alumno = alumnoService.getAlumno(resource.getAlumnos().getNickUsuario());
 			LocalDate fb = alumno.getFechaBaja();
-			if(fb==null){					
-				pagoService.savePayment(resource);				
+			if (fb == null) {
+				pagoService.savePayment(resource);
 				return new ResponseEntity<>("Pago creado correctamente", HttpStatus.CREATED);
-				
-			}else {
-			 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+			} else {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
-							
+
 		}
-		
+
 	}
 
 }

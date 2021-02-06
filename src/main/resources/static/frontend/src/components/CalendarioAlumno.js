@@ -26,7 +26,7 @@ export const CalendarioAlumno = (props) => {
     }
 
     function registered(isRegistered, id, type){
-        if(type === "external") {
+        if(type === "External") {
             if(isRegistered === "true"){
                 return <Button label="Disjoin" className="p-button-danger" onClick={() => disjoin(id, props.nickUser)}></Button>
             }else{
