@@ -124,16 +124,16 @@ INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawal
 INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a very good job this week','maria130.jpg','maria130','2019-W12');
 INSERT INTO premiados(descripcion,foto,alumnos_nick_usuario,walloffames_fechawall) VALUES ('He has done a great job','Javi.jpg','Javi','2019-W20');
 
-INSERT INTO tipos_eventos(tipo) VALUES ('internal');
-INSERT INTO tipos_eventos(tipo) VALUES ('external');
+INSERT INTO tipos_eventos(tipo) VALUES ('Internal');
+INSERT INTO tipos_eventos(tipo) VALUES ('External');
 
 INSERT INTO tipos_pagos(tipo) VALUES ('bizum');
 INSERT INTO tipos_pagos(tipo) VALUES ('efectivo');
 INSERT INTO tipos_pagos(tipo) VALUES ('transferencia');
 
-INSERT INTO eventos(title,descripcion,start,tipo_tipo,color) VALUES ('The Champions','Amazing','2021-01-23','internal','red');
-INSERT INTO eventos(title,descripcion,start,end,tipo_tipo) VALUES ('HoolaHoop','Amzing play','2020-12-23','2020-12-25','external');
-INSERT INTO eventos(title,descripcion,start,tipo_tipo,color) VALUES ('Fall Guys','Amazing wow','2021-01-15','internal','purple');
+INSERT INTO eventos(title,descripcion,start,tipo_tipo,color) VALUES ('The Champions','Amazing','2021-01-23','Internal','red');
+INSERT INTO eventos(title,descripcion,start,end,tipo_tipo) VALUES ('HoolaHoop','Amzing play','2020-12-23','2020-12-25','External');
+INSERT INTO eventos(title,descripcion,start,tipo_tipo,color) VALUES ('Fall Guys','Amazing wow','2021-01-15','Internal','purple');
 
 
 INSERT INTO inscripciones(fecha,registrado,evento_id,alumno_nick_usuario) VALUES ('2021-01-15','false','1','Javi');

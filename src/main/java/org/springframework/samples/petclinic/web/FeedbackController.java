@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/feedback")
 public class FeedbackController {
-	
+
 	private FeedbackService feedbackService;
 
 	@Autowired
@@ -33,44 +33,45 @@ public class FeedbackController {
 		super();
 		this.feedbackService = feedbackService;
 	};
-	
+
 	@PutMapping("/{idMaterial}/añadirAlumno")
-	public ResponseEntity<?> añadirAlumnoAMaterial(@PathVariable("idMaterial") Integer idMaterial, @Valid @RequestBody Alumno alumno){
+	public ResponseEntity<?> añadirAlumnoAMaterial(@PathVariable("idMaterial") Integer idMaterial,
+			@Valid @RequestBody Alumno alumno) {
 		log.info("he entrado en añadirAlumno");
 
-		feedbackService.añadirAlumnoAMaterial(idMaterial,alumno);
-		return ResponseEntity.ok().build(); 
+		feedbackService.añadirAlumnoAMaterial(idMaterial, alumno);
+		return ResponseEntity.ok().build();
 	}
-	
+
 	@DeleteMapping("/deleteMaterial/{idMaterial}")
-	public ResponseEntity<?> deleteMaterial(@PathVariable("idMaterial") Integer idMaterial) throws IOException{
+	public ResponseEntity<?> deleteMaterial(@PathVariable("idMaterial") Integer idMaterial) throws IOException {
 		log.info("Material con id:" + idMaterial);
 		feedbackService.deleteMaterial(idMaterial);
 		return ResponseEntity.ok().build();
 	}
-	
+
 	@GetMapping("/obtenerFeedback/{idMaterial}")
-	public ResponseEntity<?> getFeedbackMaterial(@PathVariable("idMaterial")Integer idMaterial){
+	public ResponseEntity<?> getFeedbackMaterial(@PathVariable("idMaterial") Integer idMaterial) {
 		return ResponseEntity.ok(feedbackService.getFeedbackByMaterial(idMaterial));
 	}
-	
+
 	@PutMapping("/cambiarDone/{idFeedback}")
-	public ResponseEntity<?> cambiarDone(@PathVariable("idFeedback")Integer idFeedback){
+	public ResponseEntity<?> cambiarDone(@PathVariable("idFeedback") Integer idFeedback) {
 		feedbackService.cambiarEstadoDoneActividad(idFeedback);
 		return ResponseEntity.ok().build();
 	}
-	
+
 	@GetMapping("/{nickUser}/{idMaterial}")
-	public ResponseEntity<?>getFeedback(@PathVariable("nickUser")String nickUser,@PathVariable("idMaterial")Integer idMaterial){
-		return ResponseEntity.ok(feedbackService.getFeedbackByMaterialAndStudent(nickUser,idMaterial));
+	public ResponseEntity<?> getFeedback(@PathVariable("nickUser") String nickUser,
+			@PathVariable("idMaterial") Integer idMaterial) {
+		return ResponseEntity.ok(feedbackService.getFeedbackByMaterialAndStudent(nickUser, idMaterial));
 	}
-	
+
 	@PutMapping("/update")
-	public ResponseEntity<?> updateFeedback(@RequestParam(value="comment",required=false)String comment, @RequestParam(value="rate",required=false)Integer rate, @RequestParam("id")Integer id){
+	public ResponseEntity<?> updateFeedback(@RequestParam(value = "comment", required = false) String comment,
+			@RequestParam(value = "rate", required = false) Integer rate, @RequestParam("id") Integer id) {
 		feedbackService.updateFeedback(comment, rate, id);
 		return ResponseEntity.ok().build();
 	}
-	
-		
-	
+
 }

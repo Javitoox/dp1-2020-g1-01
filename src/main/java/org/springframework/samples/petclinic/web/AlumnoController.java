@@ -34,13 +34,13 @@ public class AlumnoController {
 
 	private AlumnoService alumnoServ;
 	private GrupoService grupoService;
-	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
-	public AlumnoController(AlumnoService alumnoServ, GrupoService grupoService) {
+	public AlumnoController(AlumnoService alumnoServ, GrupoService grupoService, PasswordEncoder passwordEncoder) {
 		this.alumnoServ = alumnoServ;
 		this.grupoService = grupoService;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@PutMapping("/editStudent")
@@ -140,7 +140,7 @@ public class AlumnoController {
 		} else {
 			if (alumno.getGrupos().getNombreGrupo() != null) {
 				Integer numAlumnosGrupo = grupoService.numAlumnos(alumno.getGrupos().getNombreGrupo());
-				if (numAlumnosGrupo < 3) {
+				if (numAlumnosGrupo < 12) {
 					this.alumnoServ.saveAlumnAsign(alumno);
 					return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
 				} else {

@@ -35,28 +35,28 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 public class PremiadoController {
-	
+
 	private PremiadoService premiadoService;
-	
+
 	private AlumnoService alumnoService;
-	
-	@Autowired 
+
+	@Autowired
 	public PremiadoController(PremiadoService premiadoService, AlumnoService alumnoService) {
 		this.premiadoService = premiadoService;
-		this.alumnoService = alumnoService; 
-	}  
-	 
+		this.alumnoService = alumnoService;
+	}
+
 	@GetMapping("/{fechaWall}")
-	public ResponseEntity<?> premiadosPorFecha(@PathVariable(name = "fechaWall") String fechaWall){
+	public ResponseEntity<?> premiadosPorFecha(@PathVariable(name = "fechaWall") String fechaWall) {
 		List<Premiado> premiados = premiadoService.premiadosPorFecha(fechaWall);
 		return ResponseEntity.ok(premiados);
 	}
- 
+
 	@GetMapping("/ultimaSemana")
 	public String obtenerUltimaSemana() {
 		return premiadoService.obtenerUltimaSemana();
 	}
-	
+
 	@PostMapping(value = "/anadirPremiado/{fechaWall}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> añadirPremiado(@PathVariable("fechaWall") String fechaWall,
 			@Valid @ModelAttribute BodyPremiado body, BindingResult result) throws DataAccessException, IOException {
@@ -82,7 +82,7 @@ public class PremiadoController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 	@PutMapping(value = "/editarPremiado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> editarPremiado(@RequestParam(value = "photo", required = false) MultipartFile file,
 			@RequestParam("id") Integer id, @RequestParam("description") String descripcion,
