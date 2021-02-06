@@ -229,7 +229,7 @@ class EditStudent extends Component {
                                         <i className="pi pi-lock"></i>
                                     </span>
                                     <Password mediumRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,30}$" strongRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{14,30}$" 
-                                    placeholder="Password" name="contraseya" value={this.state.password} onChange={this.password} />
+                                    placeholder="Password" name="contraseya"  onChange={this.password} />
                                 </div>
                             </div>
                             <div className="i">

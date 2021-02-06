@@ -223,16 +223,6 @@ export default class EditPersonalInfo extends Component {
                                 </div>
                             </div>
                             <div className="i">
-                                {this.state.passwordError}
-                                <div className="p-inputgroup">
-                                    <span className="p-inputgroup-addon">
-                                        <i className="pi pi-lock"></i>
-                                    </span>
-                                    <Password mediumRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,30}$" strongRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{14,30}$"
-                                        placeholder="Password" name="contraseya" value={this.state.contraseya} readOnly />
-                                </div>
-                            </div>
-                            <div className="i">
                                 {this.state.cardError}
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon">

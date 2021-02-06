@@ -144,7 +144,7 @@ public class AlumnoServiceTests {
 		assertThat(alumnos.size()).isEqualTo(0);
 	}
 	@Test
-	void shouldSaveStudent() {
+	void shouldSaveStudentAssign() {
 		Alumno a= new Alumno();
 		a.setNickUsuario("Gonsalo");
 		a.setContraseya("NahDeLocos99");
@@ -153,6 +153,27 @@ public class AlumnoServiceTests {
 		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
 		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
 		a.setNumTelefonoUsuario("622110555");
+		alumnoService.saveAlumnAsign(a);
+		
+		verify(alumnoRepository, times(1)).save(any());
+	}
+	@Test
+	void shouldSaveStudent() {
+		
+		Alumno a= new Alumno();
+		a.setNickUsuario("Gonsalo");
+		a.setContraseya("NahDeLocos99");
+		a.setDniUsuario("20502441B");
+		a.setCorreoElectronicoUsuario("nukescream@gmail.com");
+		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
+		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
+		a.setNumTelefonoUsuario("622110555");
+		Grupo g = new Grupo();
+		g.setNombreGrupo("GrupoA");
+		Curso curso = new Curso();
+		curso.setCursoDeIngles(TipoCurso.B2);
+		g.setCursos(curso);
+		a.setGrupos(g);
 		alumnoService.saveAlumno(a);
 		
 		verify(alumnoRepository, times(1)).save(any());
@@ -177,7 +198,7 @@ public class AlumnoServiceTests {
 		Grupo g = new Grupo();
 		a.setGrupos(g);
 		
-		alumnoService.saveAlumno(a);
+		alumnoService.saveAlumnAsign(a);
 		
 		verify(alumnoRepository, times(1)).save(any());
 	 }

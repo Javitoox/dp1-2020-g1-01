@@ -13,6 +13,7 @@ import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +34,9 @@ public class AlumnoController {
 
 	private AlumnoService alumnoServ;
 	private GrupoService grupoService;
-
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	public AlumnoController(AlumnoService alumnoServ, GrupoService grupoService) {
 		this.alumnoServ = alumnoServ;
@@ -43,10 +46,9 @@ public class AlumnoController {
 	@PutMapping("/editStudent")
 	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result) {
 		if (result.hasErrors()) {
-			log.info("Esto no funciona");
 			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		} else {
-			log.info("Ha funcionado");
+			alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
 			this.alumnoServ.saveAlumno(alumno);
 			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 		}
