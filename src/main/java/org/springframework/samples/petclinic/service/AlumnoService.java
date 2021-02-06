@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -35,7 +36,12 @@ public class AlumnoService {
 		return alumnoRepository.findStudents();
 	}
 	public Alumno getAlumno(String nickUsuario) {
-		return alumnoRepository.findByNick(nickUsuario);
+		Optional<Alumno> alumno = alumnoRepository.findById(nickUsuario);
+		if(alumno.isPresent()) {
+			return alumno.get();
+		}else {
+			return null;
+		}
 	}
 	
 	@Transactional	
