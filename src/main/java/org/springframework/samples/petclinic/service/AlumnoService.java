@@ -35,13 +35,8 @@ public class AlumnoService {
 	public List<Alumno> getAllAlumnos() {
 		return alumnoRepository.findStudents();
 	}
-	public Alumno getAlumno(String nickUsuario) {
-		Optional<Alumno> alumno = alumnoRepository.findById(nickUsuario);
-		if(alumno.isPresent()) {
-			return alumno.get();
-		}else {
-			return null;
-		}
+	public Alumno getAlumno(String nickUsuario) { 
+		return alumnoRepository.findById(nickUsuario).orElse(null);
 	}
 	
 	public Alumno getAlumnoByIdOrNif(String nickUsuario, String nif) {

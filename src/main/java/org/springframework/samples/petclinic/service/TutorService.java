@@ -40,7 +40,7 @@ public class TutorService {
  
 	public List<String> getTeacherByGroup(String nombreGrupo) {
 		return tutorRepository.getTeacherByGroup(nombreGrupo);
-	
+	}
 	public Tutor getTutorByIdOrNif(String nickUsuario, String nif) {
 		return tutorRepository.findByNickAndNif(nickUsuario, nif);
 	}

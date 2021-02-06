@@ -36,7 +36,7 @@ class HomeReal extends Component {
             })
             store.addNotification({
                 title: "COVID 19 INFORMATION",
-                message: "Due to the Covid-19 situation, you have the option to take online classes or to book custom presential tutorships. Get more info at https://www.mscbs.gob.es/",
+                message: "Due to the Covid-19 situation, you have the option to take online classes or to book custom presential tutorships.",
                 type: "danger",
                 insert: "top",
                 container: "top-right",
@@ -51,7 +51,7 @@ class HomeReal extends Component {
         else{
             store.addNotification({
                 title: "COVID 19 INFORMATION",
-                message: "Due to the Covid-19 situation, you have the option to take online classes or to book custom presential tutorships. Get more info at https://www.mscbs.gob.es/",
+                message: "Due to the Covid-19 situation, you have the option to take online classes or to book custom presential tutorships.",
                 type: "danger",
                 insert: "top",
                 container: "top-right",

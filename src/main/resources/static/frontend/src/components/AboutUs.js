@@ -16,7 +16,7 @@ export class AboutUs extends Component {
                     <center><p>
                         <b>Contact us</b><br></br>
                         Calle San Francisco, nº 15<br></br>
-                        <a href="mailto:maribelrb.5@gmail.com">Click here to send a message</a><br></br>
+                        <a href="mailto:maribelrb.5@gmail.com">teainalcala@gmail.com</a><br></br>
                         +34 690 350 543<br></br>
                         Isabel
                     </p></center>
