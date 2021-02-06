@@ -27,6 +27,7 @@ import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.SolicitudService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -47,6 +48,8 @@ public class SolicitudControllerTests {
 	private MockMvc mockMvc;
 	private  Solicitud solicitud;
 	private Solicitud solicitud2;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@BeforeEach
 	void setup() {
 		solicitud = new Solicitud();
@@ -161,7 +164,7 @@ public class SolicitudControllerTests {
 	
 	//Empezamos con el sendingAll
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "profesor")
 	@Test
 	void testSendingAllSucces() throws Exception{
 		given(solicitudService.getAlumno(solicitud2.getAlumno().getNickUsuario())).willReturn(null);

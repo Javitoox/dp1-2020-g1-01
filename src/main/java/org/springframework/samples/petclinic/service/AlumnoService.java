@@ -49,8 +49,10 @@ public class AlumnoService {
 	}
 	@Transactional
 	public Alumno saveAlumno(Alumno alumno) throws DataAccessException {
+		if(alumno.getGrupos()==null) {
 		Grupo grupo = alumnoRepository.findById(alumno.getNickUsuario()).get().getGrupos();
 		alumno.setGrupos(grupo);
+		}
 		return alumnoRepository.save(alumno);		
 	}		
 	
