@@ -48,7 +48,6 @@ export const CalendarioProfesor = (props) => {
     }
 
     function selectInfo(info, id) {
-        console.log(info);
         var parts = info.split("/")
         return (
             <Dialog header="Information" visible={true} style={{ width: '25vw' }} onHide={() => setInfo(null)}>
@@ -63,7 +62,6 @@ export const CalendarioProfesor = (props) => {
     }
 
     function act(data){
-        console.log(data)
         eventService.getEvents(props.urlBase).then(data => setEvents(
             <div className="card">
                 <FullCalendar events={data.data} options={options} />

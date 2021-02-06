@@ -131,12 +131,20 @@ INSERT INTO tipos_pagos(tipo) VALUES ('bizum');
 INSERT INTO tipos_pagos(tipo) VALUES ('efectivo');
 INSERT INTO tipos_pagos(tipo) VALUES ('transferencia');
 
-INSERT INTO eventos(title,descripcion,start,tipo_tipo,color) VALUES ('The Champions','Amazing','2021-01-23','Internal','red');
-INSERT INTO eventos(title,descripcion,start,end,tipo_tipo) VALUES ('HoolaHoop','Amzing play','2020-12-23','2020-12-25','External');
-INSERT INTO eventos(title,descripcion,start,tipo_tipo,color) VALUES ('Fall Guys','Amazing wow','2021-01-15','Internal','purple');
+INSERT INTO eventos(title,descripcion,start,tipo_tipo,color) VALUES ('The Champions','Amazing','2021-02-23','Internal','red');
+INSERT INTO eventos(title,descripcion,start,end,tipo_tipo) VALUES ('HoolaHoop','Amazing play','2021-02-23','2021-02-25','External');
+INSERT INTO eventos(title,descripcion,start,tipo_tipo,color) VALUES ('Fall Guys','Amazing wow','2021-02-15','Internal','purple');
+INSERT INTO eventos(title,descripcion,start,tipo_tipo,color) VALUES ('Champions','Amazing wow','2021-02-12','External','blue');
+INSERT INTO eventos(title,descripcion,start,end,tipo_tipo,color) VALUES ('Paris','Amazing place','2021-02-05','2021-02-15','External','green');
 
 
-INSERT INTO inscripciones(fecha,registrado,evento_id,alumno_nick_usuario) VALUES ('2021-01-15','false','1','Javi');
+INSERT INTO inscripciones(fecha,registrado,evento_id,alumno_nick_usuario) VALUES ('2021-01-15','true','1','Javi');
+INSERT INTO inscripciones(fecha,registrado,evento_id,alumno_nick_usuario) VALUES ('2021-01-15','true','1','maria123');
+INSERT INTO inscripciones(fecha,registrado,evento_id,alumno_nick_usuario) VALUES ('2021-01-15','true','1','maria124');
+INSERT INTO inscripciones(fecha,registrado,evento_id,alumno_nick_usuario) VALUES ('2021-01-15','true','1','maria125');
+INSERT INTO inscripciones(fecha,registrado,evento_id,alumno_nick_usuario) VALUES ('2021-01-15','true','1','maria126');
+INSERT INTO inscripciones(fecha,registrado,evento_id,alumno_nick_usuario) VALUES ('2021-01-15','false','5','Javi');
+INSERT INTO inscripciones(fecha,registrado,evento_id,alumno_nick_usuario) VALUES ('2021-01-15','true','4','Javi');
 
 INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (1,'bizum', 'Pago matricula','2019-10-03','Javi');
 INSERT INTO pagos(id,tipo_tipo,concepto,fecha,alumnos_nick_usuario) VALUES (2,'efectivo', 'Pago matricula','2018-10-03','antoniope');
