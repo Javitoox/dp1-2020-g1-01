@@ -4,7 +4,6 @@ import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {Button} from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import axios from 'axios';
 import Auth from './Auth';
 
 export  class SolicitudesProfesor extends Component {
@@ -14,7 +13,7 @@ export  class SolicitudesProfesor extends Component {
          this.state= {
           redirect:false,
           rowDataInfo:null,
-          comprobation: false
+          comprobation: true
          };
          
          this.solicitudesComponent = new ExtraccionSolicitudes();
@@ -27,13 +26,7 @@ export  class SolicitudesProfesor extends Component {
          this.mostrarInfoRequest = this.mostrarInfoRequest.bind(this);
       }
      
-    componentDidMount(){
-      axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
-      if(res.data==="profesor"){
-          this.setState({comprobation: true})
-      }
-      })
-      
+    componentDidMount(){      
       this.mostrarTabla();
     }
     
@@ -94,7 +87,7 @@ export  class SolicitudesProfesor extends Component {
 
 
     mostrarTabla(){
-      this.solicitudesComponent.getSolicitudes(this.props.urlBase).then(data => this.setState({solicitudes:data}));
+      this.solicitudesComponent.getSolicitudes(this.props.urlBase).then(data => this.setState({solicitudes:data})).catch(error => this.setState({comprobation: false}));
     }
 
     async delete(rowData){

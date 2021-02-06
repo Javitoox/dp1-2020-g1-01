@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validation;
@@ -35,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/events")
 public class EventoController {
@@ -53,135 +51,92 @@ public class EventoController {
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllEvents(HttpServletRequest request){
-		HttpSession session = request.getSession(false);
-		if(session != null && session.getAttribute("type") == "profesor") {
-			return ResponseEntity.ok(eventoService.getAll());
-		}else {
-			log.warn("Unauthorized");
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		}
+	public ResponseEntity<?> getAllEvents(){
+		return ResponseEntity.ok(eventoService.getAll());
 	}
 	
 	@GetMapping("/getByCourse/{nick}")
-	public ResponseEntity<?> getUserEvents(HttpServletRequest request, @PathVariable("nick") String nick) {
-		HttpSession session = request.getSession(false);
-		if (session != null && session.getAttribute("type") == "alumno") {
-			return ResponseEntity.ok(eventoService.getAlumEvents(nick));
-		} else {
-			log.warn("Unauthorized");
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		}
+	public ResponseEntity<?> getUserEvents(@PathVariable("nick") String nick) {
+		return ResponseEntity.ok(eventoService.getAlumEvents(nick));
 	}
 	
 	@PutMapping("/update/{id}/{start}/{end}")
 	public ResponseEntity<?> updateEvent(@PathVariable("id") Integer id, @PathVariable("start") String start,
-			@PathVariable("end") String end, HttpServletRequest request){
-		HttpSession session = request.getSession(false);
-		if(session != null && session.getAttribute("type") == "profesor") {
-			Evento evento = eventoService.updateDateEvent(id, start, end);
-			if(evento == null) {
-				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
-			}else {
-				log.info("Event update: "+evento);
-				return ResponseEntity.ok(evento);
-			}
-		}else {
-			log.warn("Unauthorized");
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			@PathVariable("end") String end) {
+		Evento evento = eventoService.updateDateEvent(id, start, end);
+		if (evento == null) {
+			return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
+		} else {
+			log.info("Event update: " + evento);
+			return ResponseEntity.ok(evento);
 		}
 	}
 	
 	@GetMapping("/description/{id}")
-	public ResponseEntity<?> getDescription(@PathVariable("id") Integer id, HttpServletRequest request){
-		HttpSession session = request.getSession(false);
-		if(session != null && session.getAttribute("type") == "profesor") {
-			String description = eventoService.getDescription(id);
-			if(description == null) {
-				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
-			}else {
-				log.info("Event's description with id "+id+": "+description);
-				return ResponseEntity.ok(description);
-			}
+	public ResponseEntity<?> getDescription(@PathVariable("id") Integer id){
+		String description = eventoService.getDescription(id);
+		if(description == null) {
+			return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
 		}else {
-			log.warn("Unauthorized");
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			log.info("Event's description with id "+id+": "+description);
+			return ResponseEntity.ok(description);
 		}
 	}
 	
 	@GetMapping("/descriptionAlumno/{id}/{nickUser}")
-	public ResponseEntity<?> getDescriptionAlumno(@PathVariable("id") Integer id, @PathVariable("nickUser") String nickUser, HttpServletRequest request){
-		HttpSession session = request.getSession(false);
-		if(session != null && session.getAttribute("type") == "alumno") {
-			String description = eventoService.getDescriptionAlumno(id, nickUser);
-			if(description == null) {
-				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
-			}else {
-				log.info("Event's description of student with id "+id+": "+description);
-				return ResponseEntity.ok(description);
-			}
+	public ResponseEntity<?> getDescriptionAlumno(@PathVariable("id") Integer id, @PathVariable("nickUser") String nickUser){
+		String description = eventoService.getDescriptionAlumno(id, nickUser);
+		if(description == null) {
+			return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
 		}else {
-			log.warn("Unauthorized");
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			log.info("Event's description of student with id "+id+": "+description);
+			return ResponseEntity.ok(description);
 		}
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteDescription(@PathVariable("id") Integer id, HttpServletRequest request){
-		HttpSession session = request.getSession(false);
-		if(session != null && session.getAttribute("type") == "profesor") {
-			eventoService.deleteDescription(id);
-			log.info("Delete event");
-			return ResponseEntity.ok(eventoService.getAll());
-		}else {
-			log.warn("Unauthorized");
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		}
+	public ResponseEntity<?> deleteDescription(@PathVariable("id") Integer id){
+		eventoService.deleteDescription(id);
+		log.info("Delete event");
+		return ResponseEntity.ok(eventoService.getAll());
 	}
 	
 	@PostMapping("/create/{curso}")
-	public ResponseEntity<?> create(@Valid @RequestBody Evento evento, BindingResult result, @PathVariable("curso") String curso, 
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session != null && session.getAttribute("type") == "profesor") {
-			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-			Validator validator = factory.getValidator();
-			Set<ConstraintViolation<Evento>> violations = validator.validate(evento);
-			if (result.hasErrors() || violations.size() > 0 || curso.equals("null") || curso == "") {
-				List<FieldError> errors = new ArrayList<>();
-				if (violations.size() > 0) {
-					for (ConstraintViolation<Evento> v : violations) {
-						FieldError e = new FieldError("evento", v.getPropertyPath().toString(), v.getMessageTemplate());
-						errors.add(e);
-					}
-				}
-				if (result.hasErrors()) {
-					errors.addAll(result.getFieldErrors());
-				}
-				if (curso.equals("null") || curso == "") {
-					FieldError e = new FieldError("evento", "curso", "You have to select a course");
+	public ResponseEntity<?> create(@Valid @RequestBody Evento evento, BindingResult result, @PathVariable("curso") String curso) {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<Evento>> violations = validator.validate(evento);
+		if (result.hasErrors() || violations.size() > 0 || curso.equals("null") || curso == "") {
+			List<FieldError> errors = new ArrayList<>();
+			if (violations.size() > 0) {
+				for (ConstraintViolation<Evento> v : violations) {
+					FieldError e = new FieldError("evento", v.getPropertyPath().toString(), v.getMessageTemplate());
 					errors.add(e);
 				}
-				return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-			} else {
-				Boolean existEvent = eventoService.existEvent(evento);
-				if (!existEvent) {
-					Boolean noError = eventoService.assignEvent(evento, evento.getTipo().getTipo(), curso);
-					if (noError) {
-						log.info("New event with title: " + evento.getTitle());
-						return new ResponseEntity<>("Successful creation", HttpStatus.CREATED);
-					} else {
-						log.error("Type or course not exist");
-						return new ResponseEntity<>("Type or course not exist", HttpStatus.OK);
-					}
-				} else {
-					log.warn("Event Exist");
-					return new ResponseEntity<>("The event already exists", HttpStatus.OK);
-				}
 			}
+			if (result.hasErrors()) {
+				errors.addAll(result.getFieldErrors());
+			}
+			if (curso.equals("null") || curso == "") {
+				FieldError e = new FieldError("evento", "curso", "You have to select a course");
+				errors.add(e);
+			}
+			return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		} else {
-			log.warn("Unauthorized");
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			Boolean existEvent = eventoService.existEvent(evento);
+			if (!existEvent) {
+				Boolean noError = eventoService.assignEvent(evento, evento.getTipo().getTipo(), curso);
+				if (noError) {
+					log.info("New event with title: " + evento.getTitle());
+					return new ResponseEntity<>("Successful creation", HttpStatus.CREATED);
+				} else {
+					log.error("Type or course not exist");
+					return new ResponseEntity<>("Type or course not exist", HttpStatus.OK);
+				}
+			} else {
+				log.warn("Event Exist");
+				return new ResponseEntity<>("The event already exists", HttpStatus.OK);
+			}
 		}
 	}
 

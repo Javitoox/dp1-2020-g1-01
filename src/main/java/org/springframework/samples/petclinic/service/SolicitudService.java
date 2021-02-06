@@ -63,7 +63,7 @@ public class SolicitudService {
 	@Transactional
 	public void saveRequest(Solicitud solicitud) throws DataAccessException{
 		if(solicitud.getTutor() != null) tutorService.saveTutor(solicitud.getTutor());
-		alumnoService.saveAlumno(solicitud.getAlumno());
+		alumnoService.saveAlumnAsign(solicitud.getAlumno());
 	}
 	
 	public Tutor getTutor(String nickUsuario) {

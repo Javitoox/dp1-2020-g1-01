@@ -8,8 +8,6 @@ import { AlumnosPorTutor } from './components/AlumnosPorTutor'
 import  Alumnos  from './components/Alumnos'
 import {Home} from './components/Home'
 import MenubarResponsive from './components/MenubarResponsive'
-import {getUserType} from './components/storage'
-import {getUserName} from './components/storage'
 import { WallOfFameStudents } from './components/WallOfFameStudents'
 import EditStudent from './components/EditStudent'
 import AssignStudent from './components/AssignStudent'
@@ -23,6 +21,7 @@ import { StudentPayments } from './components/StudentPayments'
 import { CalendarioAlumno } from './components/CalendarioAlumno'
 import {MaterialTeacher} from './components/MaterialTeacher'
 import {MaterialStudent} from './components/MaterialStudent'
+import AuthenticationService from './service/AuthenticationService'
 import NotificationStudent from './components/NotificationStudent'
 import { AlumnosStudent } from './components/AlumnosStudent'
 import HomePrevioProfesor from './components/HomePrevioProfesor'
@@ -41,19 +40,16 @@ class App extends Component {
 		eventos: 0,
 	}
 
-
-
 	changeType(type){
 		this.setState({userType: type})
 	}
 
 	componentDidMount(){
-		this.setState({userType: getUserType()})
-		
+		this.setState({userType: AuthenticationService.getAuth()})
 	}
 
 	calculateUserName() {
-		return getUserName()
+		return AuthenticationService.getLoggedInUserName()
 	}
 
 	render() {
@@ -70,7 +66,7 @@ class App extends Component {
 				<Route path="/notificationsStudent" render={() =>
 					<NotificationStudent urlBase={this.state.urlBase} nickUser={this.calculateUserName()} ></NotificationStudent>
 				} />
-				<Route path="/students/EditPersonalInfo" render={() =>
+				<Route path="/editPersonalInfo" render={() =>
 					<EditPersonalInfo urlBase={this.state.urlBase} nickUser={this.calculateUserName()} ></EditPersonalInfo>
 				} />
 				<Route path="/login" render={() =>

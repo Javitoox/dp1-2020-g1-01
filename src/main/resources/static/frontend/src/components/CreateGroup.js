@@ -5,14 +5,12 @@ import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
 import Auth from './Auth';
+import AuthenticationService from '../service/AuthenticationService';
 import { Dialog } from 'primereact/dialog';
 import Alumnos from './Alumnos';
 import {selectCreatedGroup}  from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-
-
 
 class CreateGroup extends Component {
     constructor(props) {
@@ -31,7 +29,7 @@ class CreateGroup extends Component {
             cursoError:null,
             succes:null,
             exist:null,
-            comprobation: false,
+            comprobation: true,
             displayConfirmation: false
         }
         this.grupos = new GrupoComponent();
@@ -54,7 +52,8 @@ class CreateGroup extends Component {
         if(this.state.grupoS.cursos.cursoDeIngles===""){
             this.setState({displayConfirmation: true})    
         }else{
-            axios.post("http://localhost:8081/grupos/new", grupo, {withCredentials: true}).then(res => {
+            axios.post("http://localhost:8081/grupos/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+            sessionStorage.getItem("password")) } }).then(res => {
                 this.respuesta(res.status, res.data);
             })
             this.props.selectCreatedGroup(grupo)
@@ -118,12 +117,7 @@ class CreateGroup extends Component {
         }
     }
     componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-                }
-            })
-        this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
+        this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data })).catch(error => this.setState({comprobation: false}));
     }
 
     renderFooter(){

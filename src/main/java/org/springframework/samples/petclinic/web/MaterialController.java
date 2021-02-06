@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/materiales")
 public class MaterialController {
@@ -34,7 +34,7 @@ public class MaterialController {
 	public MaterialController(MaterialService materialService) {
 		super();
 		this.materialService = materialService;
-	};
+	}
 	
 	@GetMapping("/getMaterialByProfesor/{nickProfesor}")
 	public ResponseEntity<?>getMaterialByProfesor(@PathVariable("nickProfesor")String nickProfesor){
@@ -56,8 +56,5 @@ public class MaterialController {
 			return ResponseEntity.ok(m);
 		}	
 	}
-	
-	
-	
 	
 }

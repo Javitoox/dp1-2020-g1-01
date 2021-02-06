@@ -28,8 +28,8 @@ public class Usuario{
 	private String nickUsuario;
 	
 	@Column(name="contraseya")
-	@Pattern(regexp = "^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$", message = "\r\n" + 
-			"The password must be at least 8 to 16 characters long, at least one digit, at least one lowercase and at least one uppercase")
+//	@Pattern(regexp = "^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$", message = "\r\n" + 
+//			"The password must be at least 8 to 16 characters long, at least one digit, at least one lowercase and at least one uppercase")
 	@NotBlank(message = "Required field")
 	private String contraseya;
 	

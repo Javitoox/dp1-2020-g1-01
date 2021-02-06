@@ -5,15 +5,13 @@ import { Column } from 'primereact/column';
 import Auth from './Auth';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import axios from 'axios';
-
 
 export class AlumnosPorTutor extends Component {
     constructor() {
         super()
         this.state = {
             rowDataInfo:null,
-            comprobation: false,
+            comprobation: true,
         }
 
         this.alumnosPorTutorComponent = new AlumnoComponent();
@@ -24,15 +22,9 @@ export class AlumnosPorTutor extends Component {
     }
 
     componentDidMount() {
-        axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
-        if(res.data==="tutor"){
-            this.setState({comprobation: true})
-        }
-        })
-
         this.alumnosPorTutorComponent.getAlumnosPorTutor(this.props.urlBase, this.props.nickUser).then(data =>
             this.setState({ alumnos: data })
-        );
+        ).catch(error => this.setState({comprobation: false}));
     }
 
     botonInfo(rowData){

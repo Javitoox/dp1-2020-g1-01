@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/feedback")
 public class FeedbackController {
@@ -34,7 +34,7 @@ public class FeedbackController {
 		this.feedbackService = feedbackService;
 	};
 	
-	@PutMapping("{idMaterial}/añadirAlumno")
+	@PutMapping("/{idMaterial}/añadirAlumno")
 	public ResponseEntity<?> añadirAlumnoAMaterial(@PathVariable("idMaterial") Integer idMaterial, @Valid @RequestBody Alumno alumno){
 		log.info("he entrado en añadirAlumno");
 
@@ -60,7 +60,7 @@ public class FeedbackController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("{nickUser}/{idMaterial}")
+	@GetMapping("/{nickUser}/{idMaterial}")
 	public ResponseEntity<?>getFeedback(@PathVariable("nickUser")String nickUser,@PathVariable("idMaterial")Integer idMaterial){
 		return ResponseEntity.ok(feedbackService.getFeedbackByMaterialAndStudent(nickUser,idMaterial));
 	}

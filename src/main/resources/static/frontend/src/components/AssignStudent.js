@@ -6,10 +6,8 @@ import AlumnoComponent from './AlumnoComponent';
 import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
+import AuthenticationService from '../service/AuthenticationService';
 import { Dialog } from 'primereact/dialog';
-
-
-
 
 class AssignStudent extends Component  {
    
@@ -48,7 +46,7 @@ class AssignStudent extends Component  {
               
         cursoS:"",
         succes:null,
-        comprobation: false  ,
+        comprobation: true  ,
         displayConfirmation: false
         
     }
@@ -65,20 +63,13 @@ class AssignStudent extends Component  {
     }  
     
     componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-            }
-            })
         this.mostrarTabla()
         if(!this.props.list.includes(this.props.astudent.nickUsuario)){
             this.grupos.getAssignmentGroupsByStudent(this.state.nickUsuario).then(data => this.setState({ listaGrupos: data }));   
         }else if(this.props.list.includes(this.props.astudent.nickUsuario)){
             this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));   
         }
-        
-
-}
+    }
     allGroupNames(){
         var t=this.state.listaGrupos
         var i=0
@@ -91,7 +82,7 @@ class AssignStudent extends Component  {
         return groupSelectItems
     }
     mostrarTabla(){
-        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data })).catch(error => this.setState({comprobation: false}));
     }
 
     assign  =  event => {
@@ -126,7 +117,8 @@ class AssignStudent extends Component  {
             if(this.state.grupos.nombreGrupo===""){
                 this.setState({displayConfirmation: true})    
             }else{
-             axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
+             axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+             sessionStorage.getItem("password")) } }).then(res => {
                 this.respuesta(res.status, res.data)
                 })
                 this.mostrarTabla()
@@ -160,7 +152,8 @@ class AssignStudent extends Component  {
                 window.alert("You must select a group")
     
             }else{
-             axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , {withCredentials: true}).then(res => {
+             axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+             sessionStorage.getItem("password")) } }).then(res => {
                 this.respuesta(res.status, res.data)
                 })
                 this.mostrarTabla()

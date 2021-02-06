@@ -35,35 +35,35 @@ public class UsuarioControllerTests {
 	@MockBean
 	private UsuarioService usuarioService;
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testLoginUser() throws Exception{
-		given(usuarioService.typeOfUser(NICK, PASSWORD)).willReturn("profesor");
-		
-		mockMvc.perform(get("/login").queryParam("username", NICK).queryParam("password", PASSWORD))
-		.andExpect(status().isOk())
-        .andExpect(jsonPath("$", is("profesor")));
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testLoginUsernameNotExist() throws Exception{
-		given(usuarioService.typeOfUser(NICK, PASSWORD)).willReturn("Username not exist");
-		
-		mockMvc.perform(get("/login").queryParam("username", NICK).queryParam("password", PASSWORD))
-		.andExpect(status().isOk())
-        .andExpect(jsonPath("$", is("Username not exist")));
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testLoginIncorrectPassword() throws Exception{
-		given(usuarioService.typeOfUser(NICK, PASSWORD)).willReturn("Incorrect password");
-		
-		mockMvc.perform(get("/login").queryParam("username", NICK).queryParam("password", PASSWORD))
-		.andExpect(status().isOk())
-        .andExpect(jsonPath("$", is("Incorrect password")));
-	}
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testLoginUser() throws Exception{
+//		given(usuarioService.typeOfUser(NICK, PASSWORD)).willReturn("profesor");
+//		
+//		mockMvc.perform(get("/login").queryParam("username", NICK).queryParam("password", PASSWORD))
+//		.andExpect(status().isOk())
+//        .andExpect(jsonPath("$", is("profesor")));
+//	}
+//	
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testLoginUsernameNotExist() throws Exception{
+//		given(usuarioService.typeOfUser(NICK, PASSWORD)).willReturn("Username not exist");
+//		
+//		mockMvc.perform(get("/login").queryParam("username", NICK).queryParam("password", PASSWORD))
+//		.andExpect(status().isOk())
+//        .andExpect(jsonPath("$", is("Username not exist")));
+//	}
+//	
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testLoginIncorrectPassword() throws Exception{
+//		given(usuarioService.typeOfUser(NICK, PASSWORD)).willReturn("Incorrect password");
+//		
+//		mockMvc.perform(get("/login").queryParam("username", NICK).queryParam("password", PASSWORD))
+//		.andExpect(status().isOk())
+//        .andExpect(jsonPath("$", is("Incorrect password")));
+//	}
 	
 	@WithMockUser(value = "spring")
 	@Test

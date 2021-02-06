@@ -5,13 +5,13 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import Auth from './Auth';
+import AuthenticationService from '../service/AuthenticationService';
 import { Dialog } from 'primereact/dialog';
 import {selectDeletedGroup}  from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-
-class DeleteGroup extends Component {
+export class DeleteGroup extends Component {
     constructor(props) {
         super(props);
         this.state = { 
@@ -21,10 +21,8 @@ class DeleteGroup extends Component {
             listaGrupos:{
                 nombreGrupo: ""
             },
-            comprobation: false,
+            comprobation: true,
             displayConfirmation: false
-
-
         }
         this.grupos = new GrupoComponent();
         this.delete = this.delete.bind(this);
@@ -38,11 +36,10 @@ class DeleteGroup extends Component {
                 this.setState({displayConfirmation: true})    
 
             }else{
-                axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, {withCredentials: true}).then(res => {
+                axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+                sessionStorage.getItem("password")) } }).then(res => {
                     this.respuesta(res.status, res.data);        })
                 this.props.selectDeletedGroup(this.state.grupoS.nombreGrupo)
-    
-
             }       
     }
 
@@ -110,12 +107,7 @@ class DeleteGroup extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-                }
-            })
-        this.grupos.getEmptyGroupNames().then(data => this.setState({ listaGrupos: data }));
+        this.grupos.getEmptyGroupNames().then(data => this.setState({ listaGrupos: data })).catch(error => this.setState({comprobation: true}));
     }
     renderFooter(){
         return (

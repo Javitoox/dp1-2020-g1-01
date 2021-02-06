@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 import { Button } from 'primereact/button';
 import AssignmentComponent from './AssignmentComponent';
-
 
 export class DeleteAssignmentTeacher extends Component  {
        
@@ -11,7 +9,7 @@ export class DeleteAssignmentTeacher extends Component  {
         this.state = {
            
             redirect: false,
-            comprobation: false,
+            comprobation: true,
         }
         this.asig= new AssignmentComponent();
         this.form= this.form.bind(this);
@@ -20,13 +18,7 @@ export class DeleteAssignmentTeacher extends Component  {
 
     }
     componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-            }
-            })  
             this.mostrarTabla()
-
     }
     form(){
         return <React.Fragment>
@@ -38,7 +30,7 @@ export class DeleteAssignmentTeacher extends Component  {
                 </React.Fragment>
     }
     mostrarTabla(){
-        this.asig.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data }));
+        this.asig.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data })).catch(error => this.setState({comprobation: false}));
     }
 
     delete(){

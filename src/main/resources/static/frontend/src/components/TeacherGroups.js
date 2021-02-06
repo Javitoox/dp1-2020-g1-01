@@ -7,7 +7,6 @@ import { Redirect } from 'react-router-dom';
 
 import GrupoComponent from './GrupoComponent';
 import AssignmentComponent from './AssignmentComponent';
-import axios from 'axios';
 import Auth from './Auth';
 import AssignTeacher from './AssginTeacher'
 import { Dialog } from 'primereact/dialog';
@@ -27,7 +26,7 @@ export default class TeacherGroups extends Component {
             },
             formularioAsignarProfesor:null,
             formularioDesasignarProfesor:null,
-            comprobation: false,
+            comprobation: true,
             asigT:""
         }
         this.alumnos = new AlumnoComponent();
@@ -40,18 +39,13 @@ export default class TeacherGroups extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-                }
-            })
             this.mostrarTabla()
             this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data }));
             this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));
     }
 
     mostrarTabla(){
-        this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data }));
+        this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data })).catch(error => this.setState({comprobation: false}));
     }   
 
     formAssignTeacher() {
@@ -81,8 +75,6 @@ export default class TeacherGroups extends Component {
                     <Button icon="pi pi-trash" className="p-button-rounded p-button-secondary p-mr-2"  onClick={() => this.formUnassignTeacher(rowData)}/>
                 </React.Fragment>
             ); 
-            this.mostrarTabla()
-   
      }
 
     render() {

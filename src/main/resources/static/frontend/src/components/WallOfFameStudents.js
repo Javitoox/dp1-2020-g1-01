@@ -8,7 +8,6 @@ import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.css";
 import "primeflex/primeflex.css";
 import "../css/wallOfFame.css";
-import axios from 'axios';
 import Auth from './Auth';
 import {CreatePremiado} from './CreatePremiado';
 import {EditPremiado} from './EditPremiado';
@@ -24,7 +23,7 @@ export class WallOfFameStudents extends Component{
             fecha:"",
             premiados:null,
             premiado: null,
-            comprobation: false,
+            comprobation: true,
             formularioCrear: null,
             formularioEditar: null,
             displayConfirmation: false,
@@ -45,12 +44,6 @@ export class WallOfFameStudents extends Component{
     }
 
     componentDidMount(){
-        axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
-        if(res.data==="profesor" || res.data==="alumno"){
-            this.setState({comprobation: true})
-        }
-        })
-
         this.obtenerUltimoWall();
     }
 
@@ -59,7 +52,7 @@ export class WallOfFameStudents extends Component{
     }
 
     async obtenerUltimoWall(){
-        await this.premiados.getTheLastWeek(this.props.urlBase).then(data => this.setState({ fecha: data }))
+        await this.premiados.getTheLastWeek(this.props.urlBase).then(data => this.setState({ fecha: data })).catch(error => this.setState({comprobation: false}));
         this.mostrarWallSeleccionado()
     }
 

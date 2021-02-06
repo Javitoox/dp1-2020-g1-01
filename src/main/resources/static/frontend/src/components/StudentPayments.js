@@ -60,7 +60,6 @@ export class StudentPayments extends Component {
         this.pagos.getNotPaidByStudent(this.props.nickUser).then(data => this.setState({ listaGrupos: data }));
         this.pagos.getPaymentsByStudent(this.props.nickUser).then(data => this.setState({ paid: data }));
         this.pagos.getNotPaidByStudent(this.props.nickUser).then(data => this.setState({impagos:data.length})); 
-
     }
 
     render() {        

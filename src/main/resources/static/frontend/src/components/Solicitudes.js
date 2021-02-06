@@ -241,6 +241,7 @@ export class Solicitudes extends Component {
                 this.respuesta(res.status, res.data)
             })
         } else {
+            console.log(alumno)
             axios.post(this.props.urlBase + "/requests/sending", {alumno}).then(res => {
                 this.respuesta(res.status, res.data)
             })

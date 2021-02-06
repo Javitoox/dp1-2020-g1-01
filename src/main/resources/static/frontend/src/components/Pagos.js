@@ -6,10 +6,9 @@ import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import Auth from './Auth';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { ListBox } from 'primereact/listbox';
-import {selectStudent} from '../actions/index';
+import { selectStudent } from '../actions/index';
 import {selectAssignedStudent}  from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -20,8 +19,8 @@ class Pagos extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            
-            pagoS:"",
+
+            pagoS: "",
             redirect: false,
             nickUsuario: "",
             contraseya: "",
@@ -30,11 +29,11 @@ class Pagos extends Component {
             correoElectronicoUsuario: "",
             numTelefonoUsuario: "",
             direccionUsuario: "",
-            fechaNacimiento:"",
-            numTareasEntregadas :"",
+            fechaNacimiento: "",
+            numTareasEntregadas: "",
             fechaMatriculacion: "",
             groupSelectItems: "",
-            listaGrupos:{
+            listaGrupos: {
                 nombreGrupo: ""
             },           
             lista:{
@@ -45,7 +44,7 @@ class Pagos extends Component {
             opcion:"",
             textBuscar:"",
             textBuscar2:"",
-            comprobation: false,
+            comprobation: true,
 
         }
         this.pagos = new PagoComponent();
@@ -55,19 +54,16 @@ class Pagos extends Component {
         this.botonPagos = this.botonPagos.bind(this);
     }
 
-    componentDidMount(){
-
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-                }
-            })        
-        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
-        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ lista: data }));
+    componentDidMount() {
+        this.alumnos.getAllStudents(this.props.urlBase).then(data => {
+            this.setState({ alumnos: data })
+            this.setState({ lista: data })
+        }).catch(error => this.setState({comprobation: false}));
         this.pagos.getAllPayments().then(data => this.setState({listaConcepto:data}))
     }
-    
-    showSelectGroup(pago) {     
+
+    showSelectGroup(pago) {
+        console.log(pago);
         if (pago !== null) {
             this.setState({ pagoS: pago });
             if (pago === "") {
@@ -81,33 +77,33 @@ class Pagos extends Component {
         }
     }    
 
-    filter(event){
+    filter(event) {
         var text = event.target.value
         const data = this.state.listaTemporal2
-        const newData = data.filter(function(item){
+        const newData = data.filter(function (item) {
             console.log(item);
             const itemData = item.nombreCompletoUsuario.toUpperCase()
             console.log(itemData);
             const textData = text.toUpperCase()
             console.log(textData);
-            var r= itemData.indexOf(textData) > -1
+            var r = itemData.indexOf(textData) > -1
             console.log(r)
-            return  r
+            return r
         })
         this.setState({
             alumnosNP: newData,
             text: text
         })
         const data2 = this.state.listaTemporal
-        const newData2 = data2.filter(function(item){
+        const newData2 = data2.filter(function (item) {
             console.log(item);
             const itemData = item.nombreCompletoUsuario.toUpperCase()
             console.log(itemData);
             const textData = text.toUpperCase()
             console.log(textData);
-            var r= itemData.indexOf(textData) > -1
+            var r = itemData.indexOf(textData) > -1
             console.log(r)
-            return  r
+            return r
         })
         this.setState({
             alumnos: newData2,
@@ -125,9 +121,9 @@ class Pagos extends Component {
             console.log(itemData);
             const textData = text.toUpperCase()
             console.log(textData);
-            var r= itemData.indexOf(textData) > -1
+            var r = itemData.indexOf(textData) > -1
             console.log(r)
-            return  r
+            return r
         })
         this.setState({
             alumnosNP: newData,
@@ -140,9 +136,9 @@ class Pagos extends Component {
             console.log(itemData);
             const textData = text.toUpperCase()
             console.log(textData);
-            var r= itemData.indexOf(textData) > -1
+            var r = itemData.indexOf(textData) > -1
             console.log(r)
-            return  r
+            return r
         })
         this.setState({
             alumnos: newData2,
@@ -164,10 +160,10 @@ class Pagos extends Component {
     }
 
     botonPagos() {
-        this.setState({ 
+        this.setState({
             redirect: "/createPayment",
-        
-    });
+
+        });
     }
 
     render() {
@@ -243,8 +239,10 @@ class Pagos extends Component {
         }
 }
 
-function  matchDispatchToProps(dispatch) {
-    return bindActionCreators({selectStudent : selectStudent,
-        selectAssignedStudent: selectAssignedStudent}, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
+function matchDispatchToProps(dispatch) {
+    return bindActionCreators({
+        selectStudent: selectStudent,
+        selectAssignedStudent: selectAssignedStudent
+    }, dispatch) //se mapea el action llamado selectStudent y se transforma en funcion con este metodo, sirve para pasarle la info que queramos al action, este se la pasa al reducer y de alli al store 
 }
-export default connect(null , matchDispatchToProps)(Pagos) //importante poner primero el null si no hay mapStateToProps en el componente chicxs
+export default connect(null, matchDispatchToProps)(Pagos) //importante poner primero el null si no hay mapStateToProps en el componente chicxs

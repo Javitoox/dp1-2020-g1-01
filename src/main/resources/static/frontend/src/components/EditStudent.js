@@ -6,6 +6,7 @@ import axios from 'axios';
 import {Password} from 'primereact/password';
 import Inject from './Inject';
 import Auth from './Auth';
+import AuthenticationService from '../service/AuthenticationService';
 class EditStudent extends Component {
 
     username = this.username.bind(this);
@@ -50,7 +51,8 @@ class EditStudent extends Component {
         comprobation: false,
     }
     componentDidMount(){
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
+        axios.get("http://localhost:8081/basicauth", { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res => {
             if(res.data==="profesor"){
                 this.setState({comprobation: true})
             }
@@ -152,7 +154,8 @@ class EditStudent extends Component {
         if(!this.state.buttonTel1){
             alumno.numTelefonoUsuario2 = null
         } 
-            axios.put(this.props.urlBase + "/alumnos/editStudent", alumno , {withCredentials: true}).then(res => {
+            axios.put(this.props.urlBase + "/alumnos/editStudent", alumno, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+            sessionStorage.getItem("password")) } }).then(res => {
             this.respuesta(res.status, res.data)
             })
         

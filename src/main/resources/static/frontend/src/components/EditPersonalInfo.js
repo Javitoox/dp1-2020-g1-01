@@ -6,6 +6,7 @@ import Inject from './Inject';
 import Auth from './Auth';
 import axios from 'axios';
 import UserData from './UserData'
+import AuthenticationService from '../service/AuthenticationService';
 export default class EditPersonalInfo extends Component {
 
     nickUsuario = this.nickUsuario.bind(this);
@@ -36,7 +37,7 @@ export default class EditPersonalInfo extends Component {
             addressError: null,
             birthdateError: null,
             succes: null,
-            comprobation: false,
+            comprobation: true,
         }
         this.userDataComponent = new UserData();
     }
@@ -54,13 +55,7 @@ export default class EditPersonalInfo extends Component {
             fechaMatriculacion: data.fechaMatriculacion,
             numTareasEntregadas: data.numTareasEntregadas,
             fechaSolicitud: data.fechaSolicitud,
-        }))
-     
-       await axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
-            if(res.data==="alumno"){
-                this.setState({comprobation: true})
-            }
-            })
+        })).catch(error => this.setState({comprobation: false}));
     }
     nickUsuario(event) {
         this.setState({ nickUsuario: event.target.value });
@@ -158,7 +153,8 @@ export default class EditPersonalInfo extends Component {
         if (!this.state.buttonTel1) {
             alumno.numTelefonoUsuario2 = null
         }
-        axios.put(this.props.urlBase + "/alumnos/editStudent", alumno, { withCredentials: true }).then(res => {
+        axios.put(this.props.urlBase + "/alumnos/editStudent", alumno, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res => {
             this.respuesta(res.status, res.data)
         })
 

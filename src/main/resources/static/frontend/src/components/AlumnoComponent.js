@@ -1,61 +1,77 @@
 import axios from 'axios';
 import {Component} from 'react';
+import AuthenticationService from '../service/AuthenticationService';
 
 export default class AlumnoComponent extends Component{
 		
 	getAllStudents(baseUrl){
-		return axios.get(baseUrl + "/alumnos/all", {withCredentials: true}).then(res => res.data);
+		return axios.get(baseUrl + "/alumnos/all", { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res => res.data);
 	}
 
 	getStudentsByCourse(baseUrl, course){
-		return axios.get(baseUrl + "/alumnos/getByCourse/"+course,{withCredentials: true}).then(res => res.data);
+		return axios.get(baseUrl + "/alumnos/getByCourse/"+course, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res => res.data);
 	}
         
 	getStudentsByNameOfGroup(baseUrl, group){
-		return axios.get(baseUrl + "/alumnos/"+group, {withCredentials: true}).then(res => res.data);
+		return axios.get(baseUrl + "/alumnos/"+group, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res => res.data);
 	}
 
 	getWallOfFameForStudents(baseUrl, fecha){
-		return axios.get(baseUrl+"/premiados/"+fecha, {withCredentials: true}).then(res=>res.data);
+		return axios.get(baseUrl+"/premiados/"+fecha, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res=>res.data);
 	}
 
 	getTheLastWeek(baseUrl){
-		return axios.get(baseUrl+"/premiados/ultimaSemana", {withCredentials: true}).then(res=>res.data);
+		return axios.get(baseUrl+"/premiados/ultimaSemana", { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res=>res.data);
 	}
 
 	assign(persona) {
-        return axios.put("http://localhost:8081/alumnos/assignStudent", persona, {withCredentials: true}).then(res => res.data);
+        return axios.put("http://localhost:8081/alumnos/assignStudent", persona, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res => res.data);
     }
 
 	postNewPremiado(baseUrl, fecha ,formData){
-        return axios.post(baseUrl+"/premiados/anadirPremiado/"+fecha ,formData,{withCredentials: true});
+        return axios.post(baseUrl+"/premiados/anadirPremiado/"+fecha ,formData, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } });
 	}
 	
 	editPremiado(baseUrl, formData){
-		return axios.put(baseUrl+"/premiados/editarPremiado", formData,{withCredentials: true});
+		return axios.put(baseUrl+"/premiados/editarPremiado", formData, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } });
 	}
 	
 	deletePremiado(baseUrl, id){
-		return axios.delete(baseUrl+"/premiados/borrarPremiado/"+id,{withCredentials: true});
+		return axios.delete(baseUrl+"/premiados/borrarPremiado/"+id, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } });
 	}
 
 	getAlumnosPorTutor(urlBase, nickUsuario){
-        return axios.get(urlBase+"/alumnos/"+nickUsuario+"/allMyStudents", {withCredentials: true}).then(res=>res.data);
-	}
+        return axios.get(urlBase+"/alumnos/"+nickUsuario+"/allMyStudents", { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res=>res.data);
+    }
+
 	getAlumnosEliminiables(urlBase){
-        return axios.get(urlBase+"/alumnos/ableToDelete", {withCredentials: true}).then(res=>res.data);
+        return axios.get(urlBase+"/alumnos/ableToDelete", { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res=>res.data);
 	}
 
 	getAlumnosSinGrupo(urlBase){
-        return axios.get(urlBase+"/alumnos/studentsWithNoGroups", {withCredentials: true}).then(res=>res.data);
+        return axios.get(urlBase+"/alumnos/studentsWithNoGroups", { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res=>res.data);
 	}
 
 	getAlumnosSinTutores(urlBase){
-        return axios.get(urlBase+"/alumnos/studentsWithNoTutors", {withCredentials: true}).then(res=>res.data);
+        return axios.get(urlBase+"/alumnos/studentsWithNoTutors", { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } }).then(res=>res.data);
 	}
 	
 	deleteAlumno(urlBase, nickUsuario){
-		return axios.delete(urlBase+"/alumnos/delete/"+nickUsuario, {withCredentials: true})
+		return axios.delete(urlBase+"/alumnos/delete/"+nickUsuario, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+		sessionStorage.getItem("password")) } })
 	}
 }
 

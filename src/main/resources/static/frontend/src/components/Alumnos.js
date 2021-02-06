@@ -11,12 +11,10 @@ import {selectAssignedStudent}  from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Dialog } from 'primereact/dialog';
-import axios from 'axios';
 import Auth from './Auth';
 import CreateGroup from './CreateGroup';
 import DeleteGroup from './DeleteGroup'
 import AssignStudent from './AssignStudent';
-
 
 
 
@@ -40,7 +38,7 @@ class Alumnos extends Component {
             fechaMatriculacion: "",
             groupSelectItems: "",
             rowDataInfo:null,
-            comprobation: false,
+            comprobation: true,
             formularioCrearGrupo: null,
             formularioDeleteGrupo: null,
             formularioAssginStudent:null,
@@ -87,11 +85,6 @@ class Alumnos extends Component {
     }
 
     componentDidMount() {
-        axios.get(this.props.urlBase + "/auth", {withCredentials: true}).then(res => {
-        if(res.data==="profesor"){
-            this.setState({comprobation: true})
-        }
-        })
         this.mostrarTabla();
         this.allGroupNames();
         setTimeout(console.log("P"), 1)
@@ -207,7 +200,7 @@ class Alumnos extends Component {
     }   
     
     mostrarTabla(){
-        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data }));
+        this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ alumnos: data })).catch(error => this.setState({comprobation: false}));
     }
 
     botonDelete(rowData) {

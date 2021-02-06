@@ -8,8 +8,9 @@ import AssignmentComponent from './AssignmentComponent';
 import axios from 'axios';
 import moment from 'moment';
 import Auth from './Auth';
+import AuthenticationService from '../service/AuthenticationService';
 
-export default class AssignTeacher extends Component  {    
+export default class AssignTeacher extends Component {
 
     constructor(props) {
         super(props);
@@ -25,7 +26,7 @@ export default class AssignTeacher extends Component  {
         nombreGrupoError:null,
         succes:null,
         exist:null,
-        comprobation:false,
+        comprobation:true,
     } 
 
     this.handleNG = this.handleNG.bind(this);
@@ -38,10 +39,10 @@ export default class AssignTeacher extends Component  {
 
 
     }
-    
+
     handleNG(event) {
         this.setState({ nombreGrupo: event.target.value });
-    }  
+    }
 
     allGroupNames(){
         var t=this.state.listaGrupos
@@ -89,29 +90,31 @@ export default class AssignTeacher extends Component  {
     save = event => {
         event.preventDefault();
         this.setState({
-            usernameError:null,
-            nombreGrupoError:null
+            usernameError: null,
+            nombreGrupoError: null
         });
         const grupo = {
-            id:{
-                nickProfesor:this.props.nickUser,
+            id: {
+                nickProfesor: this.props.nickUser,
                 nombreGrupo: this.state.nombreGrupo
 
             },
-            profesor:{
-                nickUsuario:this.props.nickUser
+            profesor: {
+                nickUsuario: this.props.nickUser
             },
-            grupo:{
+            grupo: {
                 nombreGrupo: this.state.nombreGrupo
             },
             fecha:moment().format('YYYY-MM-DD')
            }
         if(this.state.nombreGrupo===""){
-            axios.post("http://localhost:8081/asignaciones/new", grupo, {withCredentials: true}).then(res => {
+            axios.post("http://localhost:8081/asignaciones/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+            sessionStorage.getItem("password")) } }).then(res => {
                 this.respuesta(res.status, res.data);
             })
         }else{
-            axios.post("http://localhost:8081/asignaciones/new", grupo, {withCredentials: true}).then(res => {
+            axios.post("http://localhost:8081/asignaciones/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+            sessionStorage.getItem("password")) } }).then(res => {
                 this.respuesta(res.status, res.data);
             })
             this.mostrarTabla()
@@ -120,7 +123,8 @@ export default class AssignTeacher extends Component  {
           
     }  
 
-    respuesta(status, data){
+
+    respuesta(status, data) {
         console.log(status);
         console.log(data);
         if(status===203){
@@ -136,33 +140,28 @@ export default class AssignTeacher extends Component  {
             this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
         }
     }
-    error(campo, mensaje){
+    error(campo, mensaje) {
         console.log(campo);
         console.log(mensaje);
-        if(campo === "profesor.nickUsuario"){
+        if (campo === "profesor.nickUsuario") {
             this.setState({ usernameError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
-        }else if(campo === "grupo.nombreGrupo"){
+        } else if (campo === "grupo.nombreGrupo") {
             console.log("aqui");
             this.setState({ nombreGrupoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8081/auth", {withCredentials: true}).then(res => {
-            if(res.data==="profesor"){
-                this.setState({comprobation: true})
-                }
-            })
         this.mostrarTabla()
         this.asignaciones.getListOfEmptyAssignmentGroup(this.props.urlBase).then(data => this.setState({ listaGrupos: data }));
     }
     mostrarTabla(){
-        this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data }));
+        this.asignaciones.getListOfAssignment(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumnos: data })).catch(error => this.setState({comprobation: false}));
     }   
     render() {
         if (!this.state.comprobation) {
             return <Auth authority="teacher"></Auth>
-        }else{
+        } else {
             console.log(this.state.listaGrupos);
             return (
                 <div>
