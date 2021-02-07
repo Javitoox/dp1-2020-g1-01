@@ -6,10 +6,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.samples.petclinic.model.Alumno;
@@ -17,7 +15,6 @@ import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.model.Inscripcion;
 
 @DataJpaTest
-@TestInstance(Lifecycle.PER_CLASS)
 public class InscripcionRepositoryTests {
 	
 	private static Evento e;
@@ -34,7 +31,7 @@ public class InscripcionRepositoryTests {
 	@Autowired
 	protected AlumnoRepository alumnoRepository;
 	
-	@BeforeAll
+	@BeforeEach
 	void data() {
 		Inscripcion i = new Inscripcion();
 		i.setFecha(LocalDate.of(2021, 1, 7));
@@ -46,20 +43,20 @@ public class InscripcionRepositoryTests {
 		e = new Evento();
 		e.setTipo(tipoEventoRepository.findById("Internal").orElse(null));
 		e.setTitle("Tea League");
-		e.setStart(LocalDate.parse("2020-12-18"));
+		e.setStart(LocalDate.parse("2021-03-18"));
 		e.setDescripcion("Amazing league");
 		eventoRepository.save(e);
 		
 		Alumno a = new Alumno();
-		a.setNickUsuario("marrambla");
+		a.setNickUsuario("Javitoox77");
 		a.setFechaMatriculacion(LocalDate.parse("2020-12-18"));
 		a.setDniUsuario("99876566W");
 		a.setFechaNacimiento(LocalDate.of(2000, 06, 22));
-		a.setNombreCompletoUsuario("Maria Dolores Garcia");
+		a.setNombreCompletoUsuario("Javi Martínez Fernández");
 		a.setDireccionUsuario("Triana de Sevilla");
-		a.setCorreoElectronicoUsuario("mariadeldolor@gmail.com");
+		a.setCorreoElectronicoUsuario("javiii7@gmail.com");
 		a.setContraseya("Pollito009");
-		a.setNumTelefonoUsuario("698898989");
+		a.setNumTelefonoUsuario("909090909");
 		alumnoRepository.save(a);
 		
 		i.setAlumno(a);

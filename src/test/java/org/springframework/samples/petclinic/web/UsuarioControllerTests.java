@@ -65,36 +65,36 @@ public class UsuarioControllerTests {
 //        .andExpect(jsonPath("$", is("Incorrect password")));
 //	}
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testAuthenticationWithAttributeType() throws Exception{
-		mockMvc.perform(get("/auth").sessionAttr("type", "alumno"))
-		.andExpect(status().isOk())
-        .andExpect(jsonPath("$", is("alumno")));
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testAuthenticationSessionNull() throws Exception{
-		mockMvc.perform(get("/auth"))
-		.andExpect(status().isOk())
-        .andExpect(jsonPath("$", is("usuario")));
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testAuthenticationAttributeNull() throws Exception{
-		mockMvc.perform(get("/auth").sessionAttr("other", "other"))
-		.andExpect(status().isOk())
-        .andExpect(jsonPath("$", is("usuario")));
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testLogout() throws Exception{
-		mockMvc.perform(delete("/logout").with(csrf()))
-		.andExpect(status().isOk())
-		.andExpect(jsonPath("$", is("Succesfull logout")));
-	}
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testAuthenticationWithAttributeType() throws Exception{
+//		mockMvc.perform(get("/auth").sessionAttr("type", "alumno"))
+//		.andExpect(status().isOk())
+//        .andExpect(jsonPath("$", is("alumno")));
+//	}
+//	
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testAuthenticationSessionNull() throws Exception{
+//		mockMvc.perform(get("/auth"))
+//		.andExpect(status().isOk())
+//        .andExpect(jsonPath("$", is("usuario")));
+//	}
+//	
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testAuthenticationAttributeNull() throws Exception{
+//		mockMvc.perform(get("/auth").sessionAttr("other", "other"))
+//		.andExpect(status().isOk())
+//        .andExpect(jsonPath("$", is("usuario")));
+//	}
+//	
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testLogout() throws Exception{
+//		mockMvc.perform(delete("/logout").with(csrf()))
+//		.andExpect(status().isOk())
+//		.andExpect(jsonPath("$", is("Succesfull logout")));
+//	}
 
 }
