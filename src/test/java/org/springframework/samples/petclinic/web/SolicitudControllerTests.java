@@ -29,6 +29,7 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.validation.BindingResult;
 
 
 @WebMvcTest(controllers=SolicitudController.class,
@@ -40,30 +41,36 @@ public class SolicitudControllerTests {
 	private SolicitudService solicitudService;
 	@MockBean
 	private AlumnoService alumnoService;
-
+    @MockBean
+    private BindingResult bindingResult;
 	@Autowired
 	private MockMvc mockMvc;
 	private  Solicitud solicitud;
 	private Solicitud solicitud2;
-	
+    private Solicitud solicitud3;
+	private Alumno alumno;
+	private Alumno alumno2;
+	private Tutor tutor;
+
 	@MockBean
 	private PasswordEncoder passwordEncoder;
-	
+
 	@BeforeEach
 	void setup() {
 		solicitud = new Solicitud();
 		solicitud2 = new Solicitud();
+		solicitud3 = new Solicitud();
 		Alumno alumno = new Alumno();
 		Alumno alumno2 = new Alumno();
 		Tutor tutor = new Tutor();
-		alumno.setNickUsuario("JaviMartinez7");
+		alumno.setNickUsuario("GonzaloAA");
 		alumno.setContraseya("JaviKuka787");
-		alumno.setDniUsuario("45676787Y");
+		alumno.setDniUsuario("20502443J");
 		alumno.setNombreCompletoUsuario("Javi Martinez");
 		alumno.setCorreoElectronicoUsuario("javikua7@gmail.com");
 		alumno.setNumTelefonoUsuario("677676676");
 		alumno.setDireccionUsuario("Calle Pepe");
-		alumno.setFechaNacimiento(LocalDate.of(2000, 10, 03));
+		alumno.setFechaNacimiento(LocalDate.of(1998, 10, 03));
 		alumno2.setNickUsuario("JaviMartinez7");
 		alumno2.setContraseya("JaviKuka787");
 		alumno2.setDniUsuario("45676787Y");
@@ -72,41 +79,44 @@ public class SolicitudControllerTests {
 		alumno2.setNumTelefonoUsuario("677676676");
 		alumno2.setDireccionUsuario("Calle Pepe");
 		alumno2.setFechaNacimiento(LocalDate.of(2012, 10, 03));
-		tutor.setNickUsuario("Gonzalo");
-		tutor.setContraseya("JaviKuka787");
-		tutor.setDniUsuario("45676787G");
+		tutor.setNickUsuario("TutorGonz");
+		tutor.setContraseya("JaviKuka77");
+		tutor.setDniUsuario("24502542N");
 		tutor.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
 		tutor.setCorreoElectronicoUsuario("gonzalo@gmail.com");
 		tutor.setNumTelefonoUsuario("677673676");
 		tutor.setDireccionUsuario("Calle Pepe");
-		tutor.setFechaNacimiento(LocalDate.of(1990, 10, 03));
+		tutor.setFechaNacimiento(LocalDate.of(1990, 10, 02));
 		solicitud.setAlumno(alumno);
 		solicitud2.setTutor(tutor);
 		solicitud2.setAlumno(alumno);
-		
+		solicitud3.setAlumno(alumno2);
+
 	}
-	
+
 	//Probando el sending
-	
+    // FALTA VALIDADOR EXTERNO Y LO DEL NIF
+
 //	@WithMockUser(value = "spring")
 //	@Test
 //	void testSendingNewAlumExtValidator() throws Exception{
 //		given(solicitudService.getAlumno(solicitud.getAlumno().getNickUsuario())).willReturn(null);
+//		alumno.setFechaNacimiento(LocalDate.of(2015,10,03));
 //		mockMvc.perform(post("/requests/sending")
 //				.with(csrf())
 //				.contentType(MediaType.APPLICATION_JSON)
 //				.content(solicitud.toJson()))
 //        .andExpect(status().isNonAuthoritativeInformation());
-//	} 
-//	
+//	}
+////
 	@WithMockUser(value = "spring")
 	@Test
 	void testSendingNewAlumSucces() throws Exception{
-		given(solicitudService.getAlumno(solicitud.getAlumno().getNickUsuario())).willReturn(null);
+	    given(solicitudService.getAlumno(solicitud.getAlumno().getNickUsuario())).willReturn(null);
 		mockMvc.perform(post("/requests/sending")
-				.with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(solicitud.toJson()))
+				.content(solicitud.toJson())
+                .with(csrf()))
         .andExpect(status().isCreated());
 	}
 	@WithMockUser(value = "spring")
@@ -119,28 +129,28 @@ public class SolicitudControllerTests {
 				.content(solicitud.toJson()))
         .andExpect(status().isCreated());
 	}
-	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testSendingNewAlumError() throws Exception{
-//		Solicitud a = new Solicitud();
-//		Alumno doble = new Alumno();
-//		doble.setNickUsuario("");
-//		doble.setContraseya("");
-//		doble.setDniUsuario("45676787das3Y");
-//		doble.setNombreCompletoUsuario("Javi Martinez");
-//		doble.setCorreoElectronicoUsuario("javikua7@gmail.com");
-//		doble.setNumTelefonoUsuario("977676676");
-//		doble.setDireccionUsuario("Calle Pepe");
-//		doble.setFechaNacimiento(LocalDate.of(2000, 10, 03));
-//		a.setAlumno(doble);
-//		mockMvc.perform(post("/requests/sending")
-//				.with(csrf())
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(a.toJson()))
-//        .andExpect(status().isNonAuthoritativeInformation());
-//	}
-//	
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testSendingNewAlumError() throws Exception{
+		Solicitud a = new Solicitud();
+		Alumno doble = new Alumno();
+		doble.setNickUsuario("");
+		doble.setContraseya("");
+		doble.setDniUsuario("45676787das3Y");
+		doble.setNombreCompletoUsuario("Javi Martinez");
+		doble.setCorreoElectronicoUsuario("javikua7@gmail.com");
+		doble.setNumTelefonoUsuario("977676676");
+		doble.setDireccionUsuario("Calle Pepe");
+		doble.setFechaNacimiento(LocalDate.of(2000, 10, 03));
+		a.setAlumno(doble);
+		mockMvc.perform(post("/requests/sending")
+				.with(csrf())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(a.toJson()))
+        .andExpect(status().isNonAuthoritativeInformation());
+	}
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testSendingNewAlumUpdatedWrongPass() throws Exception{
@@ -153,17 +163,17 @@ public class SolicitudControllerTests {
 		doble.setNumTelefonoUsuario("677676676");
 		doble.setDireccionUsuario("Calle Pepe");
 		doble.setFechaNacimiento(LocalDate.of(2000, 10, 03));
-		given(solicitudService.getAlumno(solicitud.getAlumno().getNickUsuario())).willReturn(doble);
+		given(solicitudService.getAlumno(solicitud3.getAlumno().getNickUsuario())).willReturn(doble);
 		mockMvc.perform(post("/requests/sending")
 				.with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(solicitud.toJson()))
-        .andExpect(status().isOk());
+				.content(solicitud3.toJson()))
+        .andExpect(status().isNonAuthoritativeInformation());
 	}
-	
+
 	//Empezamos con el sendingAll
-	
-	@WithMockUser(value = "profesor")
+
+	@WithMockUser(value = "spring")
 	@Test
 	void testSendingAllSucces() throws Exception{
 		given(solicitudService.getAlumno(solicitud2.getAlumno().getNickUsuario())).willReturn(null);
@@ -174,7 +184,7 @@ public class SolicitudControllerTests {
 				.content(solicitud2.toJson2()))
         .andExpect(status().isCreated());
 	}
-	
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testSendingAllUpdatedStudent() throws Exception{
@@ -208,7 +218,7 @@ public class SolicitudControllerTests {
 				.content(solicitud2.toJson2()))
         .andExpect(status().isCreated());
 	}
-	
+
 	//Estos dos no entran por algun motivo que desconozco
 	@WithMockUser(value = "spring")
 	@Test
@@ -258,28 +268,28 @@ public class SolicitudControllerTests {
 				.content(solicitud.toJson()))
         .andExpect(status().isOk());
 	}
-	
-	
-	
+
+
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowPendingRequest() throws Exception {
 		given(this.solicitudService.getAllSolicitudes()).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/requests/pending")).andExpect(status().isOk());
 	}
-	
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testShouldDenyPendingRequest() throws Exception {
 		given(this.solicitudService.getAlumno(any(String.class))).willReturn(new Alumno());
 		mockMvc.perform(put("/requests/decline/marrambla").with(csrf())).andExpect(status().isOk());
 	}
-	
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testShouldAcceptPendingRequest() throws Exception {
 		given(this.solicitudService.getAlumno(any(String.class))).willReturn(new Alumno());
 		mockMvc.perform(put("/requests/accept/marrambla").with(csrf())).andExpect(status().isOk());
 	}
-	
+
 }

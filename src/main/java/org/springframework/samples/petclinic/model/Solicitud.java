@@ -24,8 +24,8 @@ public class Solicitud {
 		Gson json = new Gson();
 		alumno.setFechaNacimiento(null);
 		String jsonString = json.toJson(this);
-		String result = jsonString.substring(0, jsonString.length() - 1) + ",\"fechaNacimiento\":\""
-				+ copiaFechaNacimiento.toString() + "\"}";
+		String result = jsonString.substring(0, jsonString.length() - 2) + ",\"fechaNacimiento\":\""
+				+ copiaFechaNacimiento.toString() + "\"}" + "}";
 		alumno.setFechaNacimiento(copiaFechaNacimiento);
 		return result;
 	}
@@ -37,10 +37,17 @@ public class Solicitud {
 		alumno.setFechaNacimiento(null);
 		tutor.setFechaNacimiento(null);
 		String jsonString = json.toJson(this);
-		String result = jsonString.substring(0, jsonString.length() - 1) + ",\"alumno.fechNacimiento\":\""
-				+ copiaFechaNacimientoAlumno.toString() + "\",\"tutor.fechaNacimiento\":\""
-				+ copiaFechaNacimientoTutor.toString() + "\"}";
-		alumno.setFechaNacimiento(copiaFechaNacimientoAlumno);
+		System.out.println("El json original es : " + jsonString);
+		String result = "{" + "\"alumno\"" + ":" + "{" + "\"nickUsuario\"" + ":" + "\"" + alumno.getNickUsuario().toString() + "\"" + "," + "\"contraseya\"" + ":" + "\"" + alumno.getContraseya().toString() + "\"" +
+            "," + "\"dniUsuario\""+ ":"  + "\"" + alumno.getDniUsuario().toString() + "\"" + "," + "\"nombreCompletoUsuario\""+ ":"  + "\"" + alumno.getNombreCompletoUsuario().toString() + "\"" + "," +
+            "\"correoElectronicoUsuario\"" + ":" + "\"" + alumno.getCorreoElectronicoUsuario().toString() + "\"" + "," + "\"numTelefonoUsuario\"" + ":" + "\"" + alumno.getNumTelefonoUsuario().toString() + "\"" + ","
+            + "\"direccionUsuario\"" + ":" + "\"" + alumno.getDireccionUsuario().toString() + "\"" + "," + "\"fechaNacimiento\"" + ":" + "\"" + copiaFechaNacimientoAlumno.toString() + "\"" + "}" + "," + "\"tutor\"" +
+            ":" + "{" + "\"nickUsuario\"" + ":" + "\"" + tutor.getNickUsuario().toString() + "\"" + "," + "\"contraseya\"" + ":" + "\"" + tutor.getContraseya().toString() + "\"" +
+           "," + "\"dniUsuario\""+ ":"  + "\"" + tutor.getDniUsuario().toString() + "\"" + "," + "\"nombreCompletoUsuario\""+ ":"  + "\"" + tutor.getNombreCompletoUsuario().toString() + "\"" + "," +
+            "\"correoElectronicoUsuario\"" + ":" + "\"" + tutor.getCorreoElectronicoUsuario().toString() + "\"" + "," + "\"numTelefonoUsuario\"" + ":" + "\"" + tutor.getNumTelefonoUsuario().toString() + "\"" + ","
+            + "\"direccionUsuario\"" + ":" + "\"" + tutor.getDireccionUsuario().toString() + "\"" + "," + "\"fechaNacimiento\"" + ":" + "\"" + copiaFechaNacimientoAlumno.toString() + "\"" + "}" + "}";
+        alumno.setFechaNacimiento(copiaFechaNacimientoAlumno);
+		System.out.println("El json modificado es : " + result );
 		return result;
 	}
 }
