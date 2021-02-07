@@ -32,7 +32,7 @@ public class EventoRepositoryTests {
 		e.setStart(LocalDate.of(2021, 2, 1));
 		e.setEnd(LocalDate.of(2021, 2, 3));
 		e.setDescripcion("Amazing league");
-		e.setTipo(tipoEventoRepository.findById("internal").orElse(null));
+		e.setTipo(tipoEventoRepository.findById("Internal").orElse(null));
 	}
 	
 	@Test
