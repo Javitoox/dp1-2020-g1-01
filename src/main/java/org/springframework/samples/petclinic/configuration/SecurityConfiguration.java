@@ -47,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers("/pagos/notPaidByStudent/{nickUsuario}").hasAnyAuthority("profesor", "alumno")
 		.antMatchers("/pagos/paidByStudent/{nickUsuario}").hasAuthority("alumno")
 		.antMatchers("/pagos/**").hasAuthority("profesor")
-		.antMatchers("/alumnos/editStudent", "/alumnos/getStudentInfo/{nickUsuario}", "/alumnos/{nombreGrupo}").hasAnyAuthority("profesor", "alumno")
+		.antMatchers("/alumnos/editStudent", "/alumnos/getStudentInfo/{nickUsuario}", "/alumnos/{nombreGrupo}", "/alumnos/editPersonalInfo").hasAnyAuthority("profesor", "alumno")
 		.antMatchers("/alumnos/{nickTutor}/allMyStudents").hasAuthority("tutor")
 		.antMatchers("/alumnos/**").hasAuthority("profesor")
 		.antMatchers("/materiales/getMaterialByAlumno/{nickAlumno}").hasAnyAuthority("alumno", "profesor")
