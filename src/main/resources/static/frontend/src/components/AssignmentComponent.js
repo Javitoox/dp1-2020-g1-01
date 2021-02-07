@@ -23,4 +23,13 @@ export default class AssignmentComponent extends Component {
     }).then(res => res.data);
   }
 
+  getTeacherByGroup(baseUrl, user) {
+    return axios.get(baseUrl + "/asignaciones/" + user, {
+      headers: {
+        authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"),
+          sessionStorage.getItem("password"))
+      }
+    }).then(res => res.data);
+  }
+
 }

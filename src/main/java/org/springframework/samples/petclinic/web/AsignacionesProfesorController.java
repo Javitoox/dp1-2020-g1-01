@@ -46,10 +46,9 @@ public class AsignacionesProfesorController {
 	}
 
 	@GetMapping("/{nombreGrupo}")
-	public ResponseEntity<Profesor> profesorByGroup(@PathVariable("nombreGrupo") String nombreGrupo) {
+	public ResponseEntity<List<String>> profesorByGroup(@PathVariable("nombreGrupo") String nombreGrupo) {
 		List<String> all = asignacionS.findAsignacionesByGroup(nombreGrupo);
-		Profesor p = profesorS.getProfesor(all.get(0));
-		return ResponseEntity.ok(p);
+		return ResponseEntity.ok(all);
 	}
 
 	@PostMapping("/new")
