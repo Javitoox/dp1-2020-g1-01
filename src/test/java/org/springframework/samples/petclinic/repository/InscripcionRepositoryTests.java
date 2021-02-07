@@ -44,7 +44,7 @@ public class InscripcionRepositoryTests {
 		inscripciones.add(i);
 		
 		e = new Evento();
-		e.setTipo(tipoEventoRepository.findById("internal").orElse(null));
+		e.setTipo(tipoEventoRepository.findById("Internal").orElse(null));
 		e.setTitle("Tea League");
 		e.setStart(LocalDate.parse("2020-12-18"));
 		e.setDescripcion("Amazing league");

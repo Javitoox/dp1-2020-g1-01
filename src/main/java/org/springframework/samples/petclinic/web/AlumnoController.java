@@ -70,8 +70,6 @@ public class AlumnoController {
 		}
 	}
 
-	
-
 	@GetMapping("/getStudentInfo/{nickUsuario}")
 	public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();

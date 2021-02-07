@@ -104,13 +104,6 @@ public class EventoControllerTests {
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testShowAllEventsNotAuth() throws Exception {
-		mockMvc.perform(get("/events/all").sessionAttr("type","usuario"))
-		.andExpect(status().isUnauthorized());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
 	void testEventsByCourse() throws Exception {
 		List<Evento> eventos = new ArrayList<>();
 		eventos.add(evento);
