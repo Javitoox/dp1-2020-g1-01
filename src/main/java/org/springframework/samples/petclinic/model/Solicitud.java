@@ -25,7 +25,7 @@ public class Solicitud {
 		alumno.setFechaNacimiento(null);
 		String jsonString = json.toJson(this);
 		String result = jsonString.substring(0, jsonString.length() - 1) + ",\"fechaNacimiento\":\""
-				+ copiaFechaNacimiento.toString() + "\"}" + "\"}";
+				+ copiaFechaNacimiento.toString() + "\"}";
 		alumno.setFechaNacimiento(copiaFechaNacimiento);
 		return result;
 	}
