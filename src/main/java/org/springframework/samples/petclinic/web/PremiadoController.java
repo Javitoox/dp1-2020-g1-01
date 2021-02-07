@@ -53,8 +53,8 @@ public class PremiadoController {
 	}
 
 	@GetMapping("/ultimaSemana")
-	public String obtenerUltimaSemana() {
-		return premiadoService.obtenerUltimaSemana();
+	public ResponseEntity<?> obtenerUltimaSemana() {
+		return ResponseEntity.ok(premiadoService.obtenerUltimaSemana());
 	}
 
 	@PostMapping(value = "/anadirPremiado/{fechaWall}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

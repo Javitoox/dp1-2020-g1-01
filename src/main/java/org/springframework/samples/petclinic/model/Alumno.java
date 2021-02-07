@@ -47,5 +47,6 @@ public class Alumno extends Usuario{
     @OneToMany(cascade=CascadeType.ALL, mappedBy="alumno")
     @JsonIgnore
     private Collection<Inscripcion> inscripciones;
+
  
 }

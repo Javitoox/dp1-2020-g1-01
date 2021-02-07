@@ -150,6 +150,16 @@ public class PremiadoControllerTests {
 		  .andExpect(status().isCreated());
 	  
 	  } 
+	
+	@WithMockUser(value = "spring")
+	@Test 
+	void testShouldGetLastWeek() throws Exception {		     
+		  mockMvc.perform(get("/premiados/ultimaSemana")
+				  .with(csrf()))
+		  .andDo(print())
+		  .andExpect(status().isOk());
+	  
+	  } 
 
 	
 }

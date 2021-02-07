@@ -106,14 +106,14 @@ public class AlumnoControllerTests {
 		mockMvc.perform(get("/alumnos/getByCourse/B1")).andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value  = "marrambla2", roles="tutor")	
+	@WithMockUser(username = "marrambla2", authorities ={"tutor"})	
 	@Test
 	void testShowListStudentsByTutor() throws Exception {
 		given(this.alumnoService.getAllMyStudents(any(String.class))).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/alumnos/marrambla2/allMyStudents")).andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value  = "pepito", roles="tutor")	
+	@WithMockUser(username = "pepito", authorities ={"tutor"})	
 	@Test
 	void testShowListStudentsByTutorNotEqualsThanLoguedUser() throws Exception {
 		given(this.alumnoService.getAllMyStudents(any(String.class))).willReturn(new ArrayList<>());

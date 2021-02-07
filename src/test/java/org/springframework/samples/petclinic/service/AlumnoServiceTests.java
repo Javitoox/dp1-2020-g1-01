@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -113,9 +113,9 @@ public class AlumnoServiceTests {
 		a.setDniUsuario("20502441B");
 		a.setCorreoElectronicoUsuario("nukescream@gmail.com");
 		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
-		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
+		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia"); 
 		a.setNumTelefonoUsuario("622110555");
-		when(alumnoRepository.findByNick(any(String.class))).thenReturn((Alumno) a);
+		when(alumnoRepository.findById(any(String.class))).thenReturn(Optional.of(a));
 		Alumno alumno = alumnoService.getAlumno(a.getNickUsuario());
 		assertThat(alumno).isNotNull();
 	} 
@@ -129,7 +129,7 @@ public class AlumnoServiceTests {
 		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
 		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
 		a.setNumTelefonoUsuario("622110555");
-		when(alumnoRepository.findByNick(any(String.class))).thenReturn((Alumno) a);
+		when(alumnoRepository.findById(any(String.class))).thenReturn(Optional.of(a));
 		Alumno alumno = null;
 		try {
 			alumno = alumnoService.getAlumno(a.getNickUsuario());
