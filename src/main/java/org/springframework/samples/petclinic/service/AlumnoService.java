@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -14,17 +13,20 @@ import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Inscripcion;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
+import org.springframework.samples.petclinic.repository.GrupoRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AlumnoService {
 	
 	private AlumnoRepository alumnoRepository;
+	private GrupoRepository grupoRepository;
 	private InscripcionService inscripcionService;
 	
 	@Autowired
-	public AlumnoService(AlumnoRepository alumnoRepository, InscripcionService inscripcionService) {
+	public AlumnoService(AlumnoRepository alumnoRepository,GrupoRepository grupoRepository, InscripcionService inscripcionService) {
 		this.alumnoRepository = alumnoRepository;
+		this.grupoRepository = grupoRepository;
 		this.inscripcionService = inscripcionService;
 	}
 	
@@ -37,6 +39,10 @@ public class AlumnoService {
 	}
 	public Alumno getAlumno(String nickUsuario) { 
 		return alumnoRepository.findById(nickUsuario).orElse(null);
+	}
+	
+	public Alumno getAlumnoAssign(String nickUsuario) { 
+		return alumnoRepository.findById(nickUsuario).get();
 	}
 	
 	public Alumno getAlumnoByIdOrNif(String nickUsuario, String nif) {
@@ -60,12 +66,19 @@ public class AlumnoService {
 		alumno.setGrupos(grupo);
 		}
 		return alumnoRepository.save(alumno);		
-	}		
+	}
 	
 	@Transactional
-	public Alumno saveAlumnAsign(Alumno alumno) throws DataAccessException {
-		return alumnoRepository.save(alumno);		
-	}
+    public Alumno saveAlumn(Alumno alumno) throws DataAccessException {
+        return alumnoRepository.save(alumno);
+    }
+	
+	@Transactional
+    public Alumno saveAlumnAsign(Alumno alumno, String nombreGrupo) throws DataAccessException {
+        Grupo g = grupoRepository.findById(nombreGrupo).get();
+        alumno.setGrupos(g);
+        return alumnoRepository.save(alumno);
+    }
 	
     public List<Alumno> getStudentsByCourse(TipoCurso cursoDeIngles){
         return alumnoRepository.findStudentsByCourse(cursoDeIngles);
@@ -73,10 +86,6 @@ public class AlumnoService {
     
     public List<String> getStudentsWithNoGroups(){
         return alumnoRepository.findSudentsWithNoGroups();
-    }
-    
-    public List<String> getStudentsWithNoTutors(){
-        return alumnoRepository.findSudentsWithNoTutors();
     }
    
     public List<Alumno>getAllMyStudents(String nickTutor){
