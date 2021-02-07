@@ -5,7 +5,6 @@ import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
 import Auth from './Auth';
-import AuthenticationService from '../service/AuthenticationService';
 import { Dialog } from 'primereact/dialog';
 import Alumnos from './Alumnos';
 import {selectCreatedGroup}  from '../actions/index';
@@ -52,8 +51,7 @@ class CreateGroup extends Component {
         if(this.state.grupoS.cursos.cursoDeIngles===""){
             this.setState({displayConfirmation: true})    
         }else{
-            axios.post("http://localhost:8081/grupos/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-            sessionStorage.getItem("password")) } }).then(res => {
+            axios.post("http://localhost:8081/grupos/new", grupo).then(res => {
                 this.respuesta(res.status, res.data);
             })
             this.props.selectCreatedGroup(grupo)

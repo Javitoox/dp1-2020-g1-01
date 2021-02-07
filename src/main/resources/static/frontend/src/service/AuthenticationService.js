@@ -24,14 +24,12 @@ class AuthenticationService {
     }
 
     registerSuccessfulLogin(username, password, auth) {
-        //let basicAuthHeader = 'Basic ' +  window.btoa(username + ":" + password)
-        //console.log('registerSuccessfulLogin')
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username)
         sessionStorage.setItem("auth", auth)
         sessionStorage.setItem("password", password)
-        /* const token = this.createBasicAuthToken(username, password)
+        const token = this.createBasicAuthToken(username, password)
         sessionStorage.setItem("token", token)
-        this.setupAxiosInterceptors(this.createBasicAuthToken(username, password)) */
+        this.setupAxiosInterceptors()
     }
 
     registerSuccessfulLoginForJwt(username, token) {
@@ -64,13 +62,11 @@ class AuthenticationService {
         return auth
     }
 
-    setupAxiosInterceptors(token) {
+    setupAxiosInterceptors() {
         axios.interceptors.request.use(
             (config) => {
-                console.log("auth: "+this.isUserLoggedIn())
                 if (this.isUserLoggedIn()) {
-                    config.headers.authorization = token
-                    console.log(token)
+                    config.headers.authorization = sessionStorage.getItem("token")
                 }
                 return config
             }
