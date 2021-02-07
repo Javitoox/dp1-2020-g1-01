@@ -155,7 +155,7 @@ export class AlumnosStudent extends Component {
       }
 
       tutor(){
-          if(this.state.alumno.tutores.nombreCompletoUsuario!==null){
+          if(this.state.alumno.tutores!==null){
             return  <div>
             <h5>Full name:</h5> {this.state.alumno.tutores.nombreCompletoUsuario}
             <h5>Bitrhdate:</h5> {this.state.alumno.tutores.fechaNacimiento}
