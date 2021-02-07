@@ -40,7 +40,7 @@ public class FeedbackRepositoryTests {
 	
 	@BeforeEach
 	void data() {
-		m = new Material();
+		m = new Material(); 
 		m.setFechaSubida(LocalDate.of(2000, 01, 12));
 		m.setNombreMaterial("Workbook");
 		m.setTipoMaterial(tipoMaterialRepository.findById("Homework").get());
@@ -61,7 +61,7 @@ public class FeedbackRepositoryTests {
 		
 		a = new Alumno();
 		a.setNickUsuario("marrambla");
-		a.setFechaMatriculacion(LocalDate.now());
+		a.setFechaMatriculacion(LocalDate.of(2021, 2, 12)); 
 		a.setDniUsuario("99876566T");
 		a.setFechaNacimiento(LocalDate.of(2000, 06, 22));
 		a.setNombreCompletoUsuario("Maria Dolores Garcia");

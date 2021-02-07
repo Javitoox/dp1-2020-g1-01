@@ -66,7 +66,7 @@ public class EventoControllerTests {
 		inscripcion.setRegistrado(true);
 		
 		evento = new Evento();
-		TipoEvento tipo = new TipoEvento();
+		TipoEvento tipo = new TipoEvento(); 
 		evento.setTitle("El evento de prueba");
 		evento.setDescripcion("Que descripcion mas bonita");
 		evento.setTipo(tipo);

@@ -53,8 +53,8 @@ public class PremiadoController {
 	}
 
 	@GetMapping("/ultimaSemana")
-	public String obtenerUltimaSemana() {
-		return premiadoService.obtenerUltimaSemana();
+	public ResponseEntity<?> obtenerUltimaSemana() {
+		return ResponseEntity.ok(premiadoService.obtenerUltimaSemana());
 	}
 
 	@PostMapping(value = "/anadirPremiado/{fechaWall}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -66,7 +66,7 @@ public class PremiadoController {
 		String nickUsuario = body.getNickUsuario();
 		String description = body.getDescription();
 		MultipartFile file = body.getPhoto();
-
+ 
 		Alumno alumno = alumnoService.getAlumno(nickUsuario);
 		if (alumno != null) {
 			Integer numApariciones = premiadoService.numAparicionesEnFecha(fechaWall, nickUsuario);
