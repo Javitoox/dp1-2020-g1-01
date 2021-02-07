@@ -87,7 +87,6 @@ class Alumnos extends Component {
     componentDidMount() {
         this.mostrarTabla();
         this.allGroupNames();
-        setTimeout(console.log("P"), 1)
         this.alumnos.getAlumnosEliminiables(this.props.urlBase).then(data => this.setState({ listaEliminables: data }));
         this.alumnos.getAlumnosSinGrupo(this.props.urlBase).then(data => this.setState({ listaSinGrupos: data }));
         this.alumnos.getAlumnosSinTutores(this.props.urlBase).then(data => this.setState({ listaSinTutor: data }));

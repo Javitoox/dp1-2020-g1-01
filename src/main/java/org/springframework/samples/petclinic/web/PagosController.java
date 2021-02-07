@@ -35,13 +35,11 @@ import lombok.extern.slf4j.Slf4j;
 public class PagosController {
 
 	private final PagoService pagoService;
-	private final TipoPagoService tipoPagoService;
 	private final AlumnoService alumnoService;
 
 	@Autowired
-	public PagosController(PagoService pagoService, TipoPagoService tipoPagoService, AlumnoService alumnoService) {
+	public PagosController(PagoService pagoService, AlumnoService alumnoService) {
 		this.pagoService = pagoService;
-		this.tipoPagoService = tipoPagoService;
 		this.alumnoService = alumnoService;
 	}
 
@@ -85,18 +83,23 @@ public class PagosController {
 	@PostMapping("/new")
 	public ResponseEntity<?> create(@Valid @RequestBody Pago resource, BindingResult result) {
 		log.info("Solicitando crear pago: {}", resource);
-		if (result.hasErrors()) {
+		if (result.hasErrors() || resource.getAlumnos().getNickUsuario() == null
+				|| resource.getAlumnos().getNickUsuario() == "" || resource.getConcepto() == null
+				|| resource.getConcepto() == "" || resource.getTipo().getTipo() == null
+				|| resource.getTipo().getTipo().equals("")) {
 			List<FieldError> errors = new ArrayList<>();
-			log.info("A ver si entra");
-			if (resource.getAlumnos().getNickUsuario().equals("null") || resource.getAlumnos().getNickUsuario() == "") {
+			if(result.hasErrors()) {
+				errors.addAll(result.getFieldErrors());
+			}
+			if (resource.getAlumnos().getNickUsuario() == null || resource.getAlumnos().getNickUsuario() == "") {
 				FieldError e = new FieldError("pago", "nickUsuario", "You must write a nickname");
 				errors.add(e);
 			}
-			if ((resource.getConcepto() == null) || resource.getConcepto() == "") {
+			if (resource.getConcepto() == null || resource.getConcepto() == "") {
 				FieldError e = new FieldError("pago", "concepto", "You must select a concept");
 				errors.add(e);
 			}
-			if ((resource.getTipo().getTipo().equals("null")) || resource.getTipo().getTipo().equals("")) {
+			if (resource.getTipo().getTipo() == null || resource.getTipo().getTipo().equals("")) {
 				FieldError e = new FieldError("pago", "tipo", "You must select a type");
 				errors.add(e);
 			}

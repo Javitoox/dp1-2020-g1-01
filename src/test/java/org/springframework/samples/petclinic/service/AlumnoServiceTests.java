@@ -237,7 +237,7 @@ public class AlumnoServiceTests {
 		a.setNumTelefonoUsuario("622110555");
 		alumnoService.deleteStudents(a);
 		
-		verify(alumnoRepository, times(1)).delete(any());
+		verify(alumnoRepository, times(1)).save(any());
 	}
 	
 	@Test

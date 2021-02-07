@@ -120,28 +120,46 @@ public class AlumnoRepositoryTests {
 	void testReturnStudentsNamesAbleToDelete() {
 		alumnoRepository.save(a);		
 		Pago p = new Pago();
-		p.setId(1);
-		p.setConcepto("Pago matricula");
+		p.setConcepto("Excursion");
 		p.setFecha(LocalDate.of(2020, 11, 11));
-		p.setTipo(tipoPagoRepository.findById("bizum").orElse(null));
+		p.setTipo(tipoPagoRepository.findById("Bizum").orElse(null));
 		p.setAlumnos(a);
 		Pago p2 = new Pago();
-		p2.setId(2);
-		p2.setConcepto("Primer plazo");
+		p2.setConcepto("Enrolment");
 		p2.setFecha(LocalDate.of(2020, 11, 11));
-		p2.setTipo(tipoPagoRepository.findById("bizum").orElse(null));
+		p2.setTipo(tipoPagoRepository.findById("Cash").orElse(null));
 		p2.setAlumnos(a);
-		
+		Pago p3 = new Pago();
+		p3.setConcepto("First Installment");
+		p3.setFecha(LocalDate.of(2020, 11, 11));
+		p3.setTipo(tipoPagoRepository.findById("Transfer").orElse(null));
+		p3.setAlumnos(a);
+		alumnoRepository.save(a);		
 		pagoRepository.save(p);
 		pagoRepository.save(p2);
+		pagoRepository.save(p3);
+
 
 		List<String> allNames = alumnoRepository.findStudentsAbleToDelete();
+		assertThat(allNames.size()).isEqualTo(1);
 		assertThat(allNames.size()).isGreaterThan(0);
 	}
 	
 	@Test
 	void testReturnStudentsNamesWithNoGroups() {
+		Alumno a1 = new Alumno();
+		a1.setNickUsuario("maroto");
+		a1.setFechaMatriculacion(LocalDate.of(2020, 02, 10));
+		a1.setDniUsuario("99876566W");
+		a1.setFechaNacimiento(LocalDate.of(1999, 06, 22));
+		a1.setNombreCompletoUsuario("Manuel Maroto");
+		a1.setDireccionUsuario("Pino Montano");
+		a1.setCorreoElectronicoUsuario("mmaroto@gmail.com");
+		a1.setContraseya("TuMarotoP98");
+		a1.setNumTelefonoUsuario("679581645");
+		alumnoRepository.save(a1);
 		List<String> allStudents = alumnoRepository.findSudentsWithNoGroups();
+		assertThat(allStudents.size()).isEqualTo(1);
 		assertThat(allStudents.size()).isGreaterThan(0);
 	}
 	
