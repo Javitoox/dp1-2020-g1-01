@@ -55,7 +55,7 @@ public class InscripcionController {
 				return new ResponseEntity<>("Inscription not found or disjoin not allowed", HttpStatus.NOT_FOUND);
 			}
 		}else {
-			return new ResponseEntity<>("Inscription not found or disjoin not allowed", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 

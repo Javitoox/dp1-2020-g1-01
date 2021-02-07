@@ -1,23 +1,36 @@
 package org.springframework.samples.petclinic.web;
 
+import java.io.Console;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
+import org.springframework.samples.petclinic.util.AlumnoValidator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,42 +56,85 @@ public class AlumnoController {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	@PutMapping("/editStudent") // hacer validacion externa, controlar el nif único, password encoder en edit alumno no, authenticacion innecesario, edit profesora
-	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result, Authentication authentication) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		if(userDetails.getAuthorities().iterator().next().getAuthority() == "alumno") {
-			if(userDetails.getUsername().equals(alumno.getNickUsuario())){
-				if (result.hasErrors()) {
-					return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-				} else {
-					log.info("pass:" + alumno.getContraseya());
-					this.alumnoServ.saveAlumno(alumno);
-					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
-				}}
-				else {
-					return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+	@InitBinder("alumno")
+	public void initEventoBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new AlumnoValidator());
+	}
+
+	@PutMapping("/editStudent") 
+	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result,
+			Authentication authentication) {
+		log.info(alumno.getContraseya());
+		try {
+			alumnoServ.getAlumnoByIdOrNif(alumno.getNickUsuario(), alumno.getDniUsuario());
+		} catch (Exception e) {
+			log.info("Duplicated users");
+			return new ResponseEntity<>("The student already exists and his credentials are incorrect",
+					HttpStatus.OK);
+		}
+		boolean comprobation=true;
+		if(alumno.getContraseya()==null || alumno.getContraseya()=="") {
+			Alumno a = alumnoServ.getAlumnoByIdOrNif(alumno.getNickUsuario(), "");
+			alumno.setContraseya(a.getContraseya());
+			comprobation=false;
+		}
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<Alumno>> violations = validator.validate(alumno);
+
+		if (result.hasErrors() || violations.size() > 0) {
+			List<FieldError> errors = new ArrayList<>();
+			if (violations.size() > 0) {
+				for (ConstraintViolation<Alumno> v : violations) {
+					FieldError e = new FieldError("contraseya", v.getPropertyPath().toString(), v.getMessageTemplate());
+					errors.add(e);
 				}
-			}else {	
-				if (result.hasErrors()) {
-					return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-					} else {
-					alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
-					this.alumnoServ.saveAlumno(alumno);
-					return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 			}
-			
+			if (result.hasErrors()) {
+				errors.addAll(result.getFieldErrors());
+			}
+	
+			return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+		} else {
+			log.info("Entra aqui con contraseña : " + alumno.getContraseya());
+			if(comprobation==true){
+			alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
+			}
+			alumnoServ.saveAlumno(alumno);
+			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 		}
 	}
 
-	
+	@PutMapping("/editPersonalInfo")
+	public ResponseEntity<?> processUpdateStudentPersonal(@RequestBody Alumno student, BindingResult result) {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<Alumno>> violations = validator.validate(student);
+		if (violations.size() > 0) {
+			List<FieldError> errors = new ArrayList<>();
+			if (violations.size() > 0) {
+				for (ConstraintViolation<Alumno> v : violations) {
+					FieldError e = new FieldError("solicitud", v.getPropertyPath().toString(), v.getMessageTemplate());
+					errors.add(e);
+				}
+			}
+			return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+		} else {
+		this.alumnoServ.saveAlumno(student);
+		return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+		}
+		}
+
+	//}
 
 	@GetMapping("/getStudentInfo/{nickUsuario}")
-	public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick, Authentication authentication) {
+	public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick,
+			Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		if(userDetails.getUsername().equals(nick)) {
-		Alumno alumno = alumnoServ.getAlumno(nick);
-		return ResponseEntity.ok(alumno);
-		}else {
+		if (userDetails.getUsername().equals(nick)) {
+			Alumno alumno = alumnoServ.getAlumno(nick);
+			return ResponseEntity.ok(alumno);
+		} else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
@@ -126,9 +182,11 @@ public class AlumnoController {
 			Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		if (userDetails.getUsername().equals(nickTutor)) {
+			log.info("Obteniendo alumnos del tutor: " + nickTutor);
 			List<Alumno> studentsByTutor = alumnoServ.getAllMyStudents(nickTutor);
 			return ResponseEntity.ok(studentsByTutor);
 		} else {
+			log.warn("El nick pasado por parámetros no coincide con el nick logeado");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}

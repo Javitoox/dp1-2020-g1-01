@@ -362,7 +362,6 @@ class Alumnos extends Component {
                 </Dialog>
         });
         this.allGroupNames();
-
     }
 
     async formDeleteGrupo() {

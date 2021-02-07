@@ -6,7 +6,6 @@ import AlumnoComponent from './AlumnoComponent';
 import GrupoComponent from './GrupoComponent';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
-import AuthenticationService from '../service/AuthenticationService';
 import { Dialog } from 'primereact/dialog';
 
 class AssignStudent extends Component  {
@@ -330,8 +329,7 @@ class AssignStudent extends Component  {
                 window.alert("You must select a group")
     
             }else{
-             axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-             sessionStorage.getItem("password")) } }).then(res => {
+             axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno ).then(res => {
                 this.respuesta(res.status, res.data)
                 })
             }            

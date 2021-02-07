@@ -8,7 +8,6 @@ import AssignmentComponent from './AssignmentComponent';
 import axios from 'axios';
 import moment from 'moment';
 import Auth from './Auth';
-import AuthenticationService from '../service/AuthenticationService';
 
 export default class AssignTeacher extends Component {
 
@@ -107,13 +106,11 @@ export default class AssignTeacher extends Component {
             fecha:moment().format('YYYY-MM-DD')
            }
         if(this.state.nombreGrupo===""){
-            axios.post("http://localhost:8081/asignaciones/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-            sessionStorage.getItem("password")) } }).then(res => {
+            axios.post("http://localhost:8081/asignaciones/new", grupo).then(res => {
                 this.respuesta(res.status, res.data);
             })
         }else{
-            axios.post("http://localhost:8081/asignaciones/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-            sessionStorage.getItem("password")) } }).then(res => {
+            axios.post("http://localhost:8081/asignaciones/new", grupo).then(res => {
                 this.respuesta(res.status, res.data);
             })
             this.mostrarTabla()

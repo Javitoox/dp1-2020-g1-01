@@ -71,44 +71,16 @@ public class PremiadoControllerTests {
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testShowListPremiadosPorFechaLoggedAsProfesor() throws Exception {
+	void testShowListPremiadosPorFechaLogged() throws Exception {
 		given(this.premiadoService.premiadosPorFecha(any(String.class))).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/premiados/2020-W50").sessionAttr("type","profesor")).andExpect(status().isOk());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testShowListPremiadosPorFechaLoggedAsStudent() throws Exception {
-		given(this.premiadoService.premiadosPorFecha(any(String.class))).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/premiados/2020-W50").sessionAttr("type","alumno")).andExpect(status().isOk());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testShowListPremiadosPorFechaLoggedAsTutor() throws Exception {
-		given(this.premiadoService.premiadosPorFecha(any(String.class))).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/premiados/2020-W50").sessionAttr("type","tutor")).andExpect(status().isOk());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testNotShowListPremiadosPorFechaNotLogged() throws Exception {
-		given(this.premiadoService.premiadosPorFecha(any(String.class))).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/premiados/2020-W50")).andExpect(status().isUnauthorized());
+		mockMvc.perform(get("/premiados/2020-W50")).andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testShouldDeletePremiado() throws Exception {
-		mockMvc.perform(delete("/premiados/borrarPremiado/1").with(csrf()).sessionAttr("type","profesor")).andExpect(status().isOk());
+		mockMvc.perform(delete("/premiados/borrarPremiado/1").with(csrf())).andExpect(status().isOk());
 	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testShoulNotdDeletePremiado() throws Exception {
-		mockMvc.perform(delete("/premiados/borrarPremiado/1").with(csrf()).sessionAttr("type","alumno")).andExpect(status().isUnauthorized());
-	}
-	
 	
 	@WithMockUser(value = "spring")
 	@Test 
@@ -120,8 +92,7 @@ public class PremiadoControllerTests {
 				  .param("description", BODY.getDescription())
 				  .param("nickUsuario", BODY.getNickUsuario())
 				  .with(csrf())
-				  .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-				  .sessionAttr("type","profesor")).andDo(print())
+				  .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
 		  .andExpect(status().isCreated());
 	  
 	  }
@@ -136,8 +107,7 @@ public class PremiadoControllerTests {
 				  .param("description", BODY.getDescription())
 				  .param("nickUsuario", BODY.getNickUsuario())
 				  .with(csrf())
-				  .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-				  .sessionAttr("type","profesor")).andDo(print())
+				  .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
 		  .andExpect(status().isAlreadyReported());
 	  
 	  } 
@@ -151,25 +121,11 @@ public class PremiadoControllerTests {
 				  .param("description", BODY.getDescription())
 				  .param("nickUsuario", BODY.getNickUsuario())
 				  .with(csrf())
-				  .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-				  .sessionAttr("type","profesor")).andDo(print())
+				  .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
 		  .andExpect(status().isNoContent());
 	  
 	  }
 	
-	@WithMockUser(value = "spring")
-	@Test 
-	void testShouldNotCreatePremiadoBecauseProfesorIsNotLogged() throws Exception {	 
-		  mockMvc.perform(multipart("/premiados/anadirPremiado/2020-W50")
-				  .file("photo", BODY.getPhoto().getBytes())
-				  .param("description", BODY.getDescription())
-				  .param("nickUsuario", BODY.getNickUsuario())
-				  .with(csrf())
-				  .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)).andDo(print())
-		  .andExpect(status().isUnauthorized());
-	  
-	  } 
-
 	@WithMockUser(value = "spring")
 	@Test 
 	void testShouldNotCreatePremiadoBecauseTheRequestHasErrors() throws Exception {		     
@@ -189,36 +145,11 @@ public class PremiadoControllerTests {
 				  .param("id", "2")
 				  .param("nickUsuario", "marrambla2")
 				  .with(csrf())
-				  .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)				  
-				  .sessionAttr("type","profesor")).andDo(print())
+				  .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
 		  .andDo(print())
 		  .andExpect(status().isCreated());
 	  
 	  } 
-	
-	@WithMockUser(value = "spring")
-	@Test 
-	void testShouldNotEditPremiadoBecauseNotLoggedAsProfesor() throws Exception {		     
-		  mockMvc.perform(put("/premiados/editarPremiado")
-				  .param("description", BODY.getDescription())
-				  .param("id", "2")
-				  .param("nickUsuario", "marrambla2")
-				  .with(csrf())
-				  .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)				  
-				  .sessionAttr("type","alumno")).andDo(print())
-		  .andDo(print())
-		  .andExpect(status().isUnauthorized());
-	  
-	  } 
-	
-	
-	 
-	
-	
-	
-	
-	
-	
-	
+
 	
 }

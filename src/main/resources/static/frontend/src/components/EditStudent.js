@@ -6,7 +6,6 @@ import axios from 'axios';
 import {Password} from 'primereact/password';
 import Inject from './Inject';
 import Auth from './Auth';
-import AuthenticationService from '../service/AuthenticationService';
 class EditStudent extends Component {
 
     username = this.username.bind(this);
@@ -24,7 +23,7 @@ class EditStudent extends Component {
     
     state = {
         username: this.props.student.nickUsuario,
-        password: this.props.student.contraseya,
+        password: "",
         card: this.props.student.dniUsuario,
         name: this.props.student.nombreCompletoUsuario,
         email: this.props.student.correoElectronicoUsuario,
@@ -48,11 +47,11 @@ class EditStudent extends Component {
         addressError:null,
         birthdateError:null,
         succes:null,
+        exist:null,
         comprobation: false,
     }
     componentDidMount(){
-        axios.get("http://localhost:8081/basicauth", { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } }).then(res => {
+        axios.get("http://localhost:8081/basicauth").then(res => {
             if(res.data==="profesor"){
                 this.setState({comprobation: true})
             }
@@ -134,7 +133,9 @@ class EditStudent extends Component {
             telefono2Error:null,
             addressError:null,
             birthdateError:null,
-            succes:null
+            succes:null,
+            exist:null
+
         })
 
         const alumno = {
@@ -154,8 +155,7 @@ class EditStudent extends Component {
         if(!this.state.buttonTel1){
             alumno.numTelefonoUsuario2 = null
         } 
-            axios.put(this.props.urlBase + "/alumnos/editStudent", alumno, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-            sessionStorage.getItem("password")) } }).then(res => {
+            axios.put(this.props.urlBase + "/alumnos/editStudent", alumno).then(res => {
             this.respuesta(res.status, res.data)
             })
         
@@ -164,7 +164,7 @@ class EditStudent extends Component {
     respuesta(status, data){
         if(status===203 ){
             data.forEach(e => this.error(e.field, e.defaultMessage))
-        }else{
+        }else if(status===201){
             this.setState({
                 username: this.state.username,
                 password: this.state.password,
@@ -177,6 +177,8 @@ class EditStudent extends Component {
                 birthdate: this.state.birthdate,
                 succes: <div className="alert alert-success" role="alert">Modified Succesfully</div>
             })
+        }else{
+         this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
         }
     }
 
@@ -212,6 +214,7 @@ class EditStudent extends Component {
                     <div className="login request">
                     <form onSubmit={this.handleSubmit}>
                             {this.state.succes}
+                              {this.state.exist}
                             <div className="t"><div><h5>Modify</h5></div></div>
                             <div className="i">
                             {this.state.usernameError}
@@ -229,7 +232,7 @@ class EditStudent extends Component {
                                         <i className="pi pi-lock"></i>
                                     </span>
                                     <Password mediumRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,30}$" strongRegex="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{14,30}$" 
-                                    placeholder="Password" name="contraseya"  onChange={this.password} />
+                                    placeholder="Password" name="contraseya" value={this.state.password}  onChange={this.password} />
                                 </div>
                             </div>
                             <div className="i">

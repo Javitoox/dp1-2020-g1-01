@@ -28,53 +28,53 @@ public class InscripcionControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(username = "JaviMarFer", authorities = {"alumno"})
 	@Test
 	void testJoinInEvent() throws Exception {
 		given(inscripcionService.joinOrDisjoin(1, "JaviMarFer", true)).willReturn(true);
 		
-		mockMvc.perform(put("/inscriptions/join/{id}/{nick}", "1", "JaviMarFer").with(csrf()).sessionAttr("type","alumno"))
+		mockMvc.perform(put("/inscriptions/join/{id}/{nick}", "1", "JaviMarFer").with(csrf()))
 		.andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(username = "JaviMarFer", authorities = {"alumno"})
 	@Test
 	void testJoinInEventIncorret() throws Exception {
 		given(inscripcionService.joinOrDisjoin(1, "JaviMarFer", true)).willReturn(false);
 		
-		mockMvc.perform(put("/inscriptions/join/{id}/{nick}", "1", "JaviMarFer").with(csrf()).sessionAttr("type","alumno"))
+		mockMvc.perform(put("/inscriptions/join/{id}/{nick}", "1", "JaviMarFer").with(csrf()))
 		.andExpect(status().isNotFound());
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(username = "Javi", authorities = {"alumno"})
 	@Test
 	void testJoinInEventUnauthorized() throws Exception {
-		mockMvc.perform(put("/inscriptions/join/{id}/{nick}", "1", "JaviMarFer").with(csrf()).sessionAttr("type","tutor"))
+		mockMvc.perform(put("/inscriptions/join/{id}/{nick}", "1", "JaviMarFer").with(csrf()))
 		.andExpect(status().isUnauthorized());
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(username = "JaviMarFer", authorities = {"alumno"})
 	@Test
 	void testDisjoinInEvent() throws Exception {
 		given(inscripcionService.joinOrDisjoin(1, "JaviMarFer", false)).willReturn(true);
 		
-		mockMvc.perform(put("/inscriptions/disjoin/{id}/{nick}", "1", "JaviMarFer").with(csrf()).sessionAttr("type","alumno"))
+		mockMvc.perform(put("/inscriptions/disjoin/{id}/{nick}", "1", "JaviMarFer").with(csrf()))
 		.andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(username = "JaviMarFer", authorities = {"alumno"})
 	@Test
 	void testDisjoinInEventIncorret() throws Exception {
 		given(inscripcionService.joinOrDisjoin(1, "JaviMarFer", false)).willReturn(false);
 		
-		mockMvc.perform(put("/inscriptions/disjoin/{id}/{nick}", "1", "JaviMarFer").with(csrf()).sessionAttr("type","alumno"))
+		mockMvc.perform(put("/inscriptions/disjoin/{id}/{nick}", "1", "JaviMarFer").with(csrf()))
 		.andExpect(status().isNotFound());
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(username = "Javi", authorities = {"alumno"})
 	@Test
 	void testDisjoinInEventUnauthorized() throws Exception {
-		mockMvc.perform(put("/inscriptions/disjoin/{id}/{nick}", "1", "JaviMarFer").with(csrf()).sessionAttr("type","tutor"))
+		mockMvc.perform(put("/inscriptions/disjoin/{id}/{nick}", "1", "JaviMarFer").with(csrf()))
 		.andExpect(status().isUnauthorized());
 	}
 
