@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class MaterialService {
-	
+
 	private MaterialRepository materialRepository;
 	private ProfesorService profesorService;
 	private TipoMaterialService tipoMaterialService;
@@ -32,15 +32,15 @@ public class MaterialService {
 		this.profesorService = profesorService;
 		this.tipoMaterialService = tipoMaterialService;
 	}
-	 
+
 	public List<Material> getMaterialPorProfesor(String nickProfesor){
-		return materialRepository.getMaterialByProfesor(nickProfesor);		
+		return materialRepository.getMaterialByProfesor(nickProfesor);
 	}
 
 	public List<Material> getMaterialPorAlumno(String nickUsuario){
-		return materialRepository.getMaterialByAlumno(nickUsuario);		
+		return materialRepository.getMaterialByAlumno(nickUsuario);
 	}
-	
+
 	public Material uploadMaterial(MultipartFile pdf, String nickProfesor, String tipoMaterial) throws IOException {
 		Material m = new Material();
 		Profesor profesor = profesorService.getProfesor(nickProfesor);
@@ -51,17 +51,17 @@ public class MaterialService {
 		m.setProfesores(profesor);
 		log.info("Subiendo material con nombre: ", m.getNombreMaterial());
 		Material material = materialRepository.save(m);
-		
+
 		Path directorioImagenes =Paths.get("src//main//resources//static//frontend//public/material");
 		String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
-		  	 
-	    byte[] bytes = pdf.getBytes(); 
+
+	    byte[] bytes = pdf.getBytes();
 	    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + material.getId() + ".pdf");
 	    Files.write(rutaCompleta, bytes);
-		return material; 
-		  
+		return material;
+
 	}
-	
+
 	public Material findMaterialById(Integer id) {
 		return materialRepository.findById(id).get();
 	}
@@ -70,5 +70,5 @@ public class MaterialService {
 		materialRepository.delete(m);
 	}
 
-	
+
 }

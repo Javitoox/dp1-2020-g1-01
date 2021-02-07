@@ -62,10 +62,10 @@ public class MaterialController {
 		}
 	}
 
-	@PostMapping(value = "/añadirMaterial/{nickProfesor}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value = "/anadirMaterial/{nickProfesor}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> añadirMaterial(@PathVariable("nickProfesor") String nickProfesor,
 			@Valid @ModelAttribute BodyMaterial body, BindingResult result, Authentication authentication)
-			throws IOException {
+			throws IOException { 
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		if (userDetails.getUsername().equals(nickProfesor)) {
 			if (result.hasErrors()) {

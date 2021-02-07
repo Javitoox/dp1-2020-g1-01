@@ -54,7 +54,7 @@ public class PremiadoControllerTests {
 	@MockBean
 	private BindingResult bindingResult;
 	
-	private static BodyPremiado BODY;
+	private static BodyPremiado BODY; 
 	
 	@BeforeEach
 	void data() throws IOException {
@@ -108,7 +108,7 @@ public class PremiadoControllerTests {
 				  .param("nickUsuario", BODY.getNickUsuario())
 				  .with(csrf())
 				  .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
-		  .andExpect(status().isAlreadyReported());
+		  .andExpect(status().isAlreadyReported()); 
 	  
 	  } 
 	
@@ -148,6 +148,16 @@ public class PremiadoControllerTests {
 				  .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
 		  .andDo(print())
 		  .andExpect(status().isCreated());
+	  
+	  } 
+	
+	@WithMockUser(value = "spring")
+	@Test 
+	void testShouldGetLastWeek() throws Exception {		     
+		  mockMvc.perform(get("/premiados/ultimaSemana")
+				  .with(csrf()))
+		  .andDo(print())
+		  .andExpect(status().isOk());
 	  
 	  } 
 

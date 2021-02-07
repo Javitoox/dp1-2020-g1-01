@@ -30,7 +30,7 @@ public class AlumnoService {
 		this.inscripcionService = inscripcionService;
 	}
 	
-	public List<Alumno> getStudentsPerGroup(String nombreGrupo) {
+	public List<Alumno> getStudentsPerGroup(String nombreGrupo) { 
         return alumnoRepository.findByGroup(nombreGrupo);
     }
 
@@ -53,7 +53,7 @@ public class AlumnoService {
 	public void deleteStudents(Alumno alumno) throws DataAccessException{
 		alumno.setFechaBaja(LocalDate.now());
 		alumno.setGrupos(null);
-		alumno.setNumTareasEntregadas(0);
+		alumno.setNumTareasEntregadas(0);  
 	}
 	@Transactional	
 	public void deleteStudent(String id) throws DataAccessException {
