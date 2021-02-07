@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -34,8 +35,8 @@ public class AlumnoService {
 	public List<Alumno> getAllAlumnos() {
 		return alumnoRepository.findStudents();
 	}
-	public Alumno getAlumno(String nickUsuario) {
-		return alumnoRepository.findByNick(nickUsuario);
+	public Alumno getAlumno(String nickUsuario) { 
+		return alumnoRepository.findById(nickUsuario).orElse(null);
 	}
 	
 	public Alumno getAlumnoByIdOrNif(String nickUsuario, String nif) {
@@ -46,6 +47,7 @@ public class AlumnoService {
 	public void deleteStudents(Alumno alumno) throws DataAccessException{
 		alumno.setFechaBaja(LocalDate.now());
 		alumno.setGrupos(null);
+		alumno.setNumTareasEntregadas(0);
 	}
 	@Transactional	
 	public void deleteStudent(String id) throws DataAccessException {

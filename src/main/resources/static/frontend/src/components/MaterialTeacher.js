@@ -7,8 +7,9 @@ import { Dialog } from 'primereact/dialog';
 import {UploadMaterial} from './UploadMaterial'
 import MaterialComponent from './MaterialComponent';
 import {Feedback} from './Feedback';
+import Auth from './Auth';
 
- export  class MaterialTeacher extends Component{
+export  class MaterialTeacher extends Component{
 
     constructor(props){
         super(props);
@@ -20,6 +21,7 @@ import {Feedback} from './Feedback';
             formularioUpload: null,
             displayConfirmation: false,
             visualizarFeedback: null,
+            comprobation: true
         }
 
         this.mostrarMaterial= this.mostrarMaterial.bind(this);
@@ -41,7 +43,7 @@ import {Feedback} from './Feedback';
     }
 
     async obtenerMaterial() {
-        await this.materiales.obtenerMaterialTeacher(this.state.urlBase,this.state.nickUsuario).then(res => this.setState({materiales: res.data}))
+        await this.materiales.obtenerMaterialTeacher(this.state.urlBase,this.state.nickUsuario).then(res => this.setState({materiales: res.data})).catch(error => this.setState({comprobation: false}));
     }
 
     mostrarBotonUpload(){
@@ -149,23 +151,26 @@ import {Feedback} from './Feedback';
     }
 
     render(){
+        if (!this.state.comprobation) {
+            return <Auth authority="teacher"></Auth>
+        } else {
+            return (
+                <React.Fragment>
+                    {this.mostrarBotonUpload()}
+                    {this.mostrarMaterial()}
+                    {this.state.visualizarPDF}
+                    {this.state.formularioUpload}
+                    {this.state.visualizarFeedback}
 
-        return (
-            <React.Fragment>
-                {this.mostrarBotonUpload()}
-                {this.mostrarMaterial()}
-                {this.state.visualizarPDF}
-                {this.state.formularioUpload}
-                {this.state.visualizarFeedback}
+                    <Dialog header="Confirmation" visible={this.state.displayConfirmation} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation: false})}>
+                    <div className="confirmation-content">
+                        <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                        <span>Are you sure you want to delete the selected material?</span>
+                    </div>
+                    </Dialog> 
 
-                <Dialog header="Confirmation" visible={this.state.displayConfirmation} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation: false})}>
-                <div className="confirmation-content">
-                    <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-                    <span>Are you sure you want to delete the selected material?</span>
-                </div>
-                </Dialog> 
-
-            </React.Fragment>
-        );
+                </React.Fragment>
+            );
+        }    
     }
 }

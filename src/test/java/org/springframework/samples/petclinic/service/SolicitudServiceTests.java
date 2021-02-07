@@ -168,7 +168,7 @@ public class SolicitudServiceTests {
 	@Test
 	void shouldDenyPendingRequestWithoutTutor() {
 		solicitudService.declineRequest(ALUMNO_WITHOUT_TUTOR);
-		verify(alumnoService, times(1)).deleteStudents(any(Alumno.class));
+		verify(alumnoService, times(1)).deleteStudent(any(String.class));
 		verify(tutorService, times(0)).delete(any(String.class));
 	}
 	 
@@ -182,7 +182,7 @@ public class SolicitudServiceTests {
 		
 		solicitudService.declineRequest(ALUMNO_WITH_TUTOR);
 		
-		verify(alumnoService, times(1)).deleteStudents(any(Alumno.class));
+		verify(alumnoService, times(1)).deleteStudent(any(String.class));
 		verify(tutorService, times(1)).delete(any(String.class));
 	}
 	
@@ -196,7 +196,7 @@ public class SolicitudServiceTests {
 		
 		solicitudService.declineRequest(ALUMNO_WITH_TUTOR);
 		
-		verify(alumnoService, times(1)).deleteStudents(any(Alumno.class));
+		verify(alumnoService, times(1)).deleteStudent(any(String.class));
 		verify(tutorService, times(0)).delete(any(String.class));
 	}
 

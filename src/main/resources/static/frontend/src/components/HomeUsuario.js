@@ -16,7 +16,7 @@ class HomeUsuario extends Component {
     componentDidMount(){
         store.addNotification({
             title: "COVID 19 INFORMATION",
-            message: "Due to the Covid-19 situation, you have the option to take online classes or to book custom presential tutorships. Get more info at https://www.mscbs.gob.es/",
+            message: "Due to the Covid-19 situation, you have the option to take online classes or to book custom presential tutorships.",
             type: "danger",
             insert: "top",
             container: "top-right",

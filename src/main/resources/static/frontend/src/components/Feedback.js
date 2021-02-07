@@ -4,7 +4,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { ToggleButton } from 'primereact/togglebutton';
 import { Rating } from 'primereact/rating';
-
+import Auth from './Auth';
 
 export class Feedback extends Component{
 
@@ -12,6 +12,7 @@ export class Feedback extends Component{
         super(props);
         this.state = {
             feedback: null,
+            comprobation: true
         }
         this.materiales = new MaterialComponent();
         this.obtenerFeedback= this.obtenerFeedback.bind(this);
@@ -25,7 +26,7 @@ export class Feedback extends Component{
     }
 
     async obtenerFeedback(){
-        await this.materiales.obtenerFeedbackMaterial(this.props.urlBase, this.props.id).then(res => this.setState({feedback: res.data}));
+        await this.materiales.obtenerFeedbackMaterial(this.props.urlBase, this.props.id).then(res => this.setState({feedback: res.data})).catch(error => this.setState({comprobation: false}));
     }
 
     botonDone(rowData){
@@ -53,17 +54,20 @@ export class Feedback extends Component{
     }
 
     render(){
-        console.log(this.state.feedback);
-        return(
-            <React.Fragment>
-                <DataTable value={this.state.feedback}>
-                    <Column header="Student" field="alumnos.nombreCompletoUsuario"></Column>
-                    <Column header="Comment" field="comentario"></Column>
-                    <Column header="Rate (1-5)" body={this.valoracion}></Column>
-                    <Column header="Done" body={this.botonDone}></Column>
-                    <Column header="Date of delivery" field="diaEntrega"></Column>
-                </DataTable>
-            </React.Fragment>
-        );
+        if (!this.state.comprobation) {
+            return <Auth authority="teacher"></Auth>
+        } else {
+            return(
+                <React.Fragment>
+                    <DataTable value={this.state.feedback}>
+                        <Column header="Student" field="alumnos.nombreCompletoUsuario"></Column>
+                        <Column header="Comment" field="comentario"></Column>
+                        <Column header="Rate (1-5)" body={this.valoracion}></Column>
+                        <Column header="Done" body={this.botonDone}></Column>
+                        <Column header="Date of delivery" field="diaEntrega"></Column>
+                    </DataTable>
+                </React.Fragment>
+            );
+        }
     }
 }

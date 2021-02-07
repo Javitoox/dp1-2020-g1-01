@@ -42,12 +42,10 @@ export  class SolicitudesProfesor extends Component {
     }
 
     mostrarInfoStudent(rowData){
-      console.log(rowData)
       this.setState({rowDataInfo: rowData})
     }
 
     mostrarInfoRequest(){
-      console.log("Estoy entrando " + this.state.rowDataInfo);
       if(this.state.rowDataInfo != null){
         return(
           <Dialog header="Request' information"  visible={true} style={{ width: '30vw' }}  onHide={() => this.setState({rowDataInfo: null})}>
@@ -62,7 +60,6 @@ export  class SolicitudesProfesor extends Component {
 
             {this.mostrarDatosTutor(this.state.rowDataInfo)}
           </Dialog>
-          
         );
       }
     }

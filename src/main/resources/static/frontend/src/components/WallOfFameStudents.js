@@ -41,6 +41,7 @@ export class WallOfFameStudents extends Component{
         this.FormCreatePremiado = this.FormCreatePremiado.bind(this);
         this.FormEditPremiado = this.FormEditPremiado.bind(this);
         this.fecha = this.fecha.bind(this);
+        this.onHideFormEdit= this.onHideFormEdit.bind(this);
     }
 
     componentDidMount(){
@@ -151,12 +152,16 @@ export class WallOfFameStudents extends Component{
     FormEditPremiado(){
         this.setState({
             formularioEditar: 
-            <Dialog visible={true} style={{ width: '40vw' }} onHide={() => this.setState({formularioEditar: null})}>
+            <Dialog visible={true} style={{ width: '40vw' }} onHide={() => this.onHideFormEdit()}>
                 <EditPremiado urlBase={this.props.urlBase} premiado={this.state.premiado}></EditPremiado>
             </Dialog>
         })
     }
 
+    onHideFormEdit(){
+        this.setState({formularioEditar: null});
+        this.mostrarWallSeleccionado();
+    }
     async handleDelete(){
         await this.premiados.deletePremiado(this.props.urlBase, this.state.premiado.id)
         this.setState({displayConfirmation: false})
@@ -173,7 +178,6 @@ export class WallOfFameStudents extends Component{
     }
 
     render(){
-        console.log(this.state)
         if (!this.state.comprobation) {
             return <Auth authority="teacher neither as student"></Auth>
         } else {

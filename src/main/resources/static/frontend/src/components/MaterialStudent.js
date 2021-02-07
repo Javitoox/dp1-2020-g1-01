@@ -6,8 +6,9 @@ import Pdf from './all-pages';
 import { Dialog } from 'primereact/dialog';
 import MaterialComponent from './MaterialComponent';
 import {FeedbackAlumno} from './FeedbackAlumno';
+import Auth from './Auth';
 
- export  class MaterialStudent extends Component{
+export  class MaterialStudent extends Component{
 
     constructor(props){
         super(props);
@@ -16,7 +17,8 @@ import {FeedbackAlumno} from './FeedbackAlumno';
             urlBase: this.props.urlBase, 
             materiales: null,
             visualizarPDF: null,
-            mostrarFormFeedback: null
+            mostrarFormFeedback: null,
+            comprobation: true
         }
         this.mostrarMaterial= this.mostrarMaterial.bind(this);
         this.obtenerMaterial= this.obtenerMaterial.bind(this);
@@ -32,8 +34,7 @@ import {FeedbackAlumno} from './FeedbackAlumno';
     }
 
     async obtenerMaterial() {
-        await this.materiales.obtenerMaterialStudent(this.state.urlBase,this.state.nickUsuario).then(res => this.setState({materiales: res.data}))
-        console.log(this.state.materiales);
+        await this.materiales.obtenerMaterialStudent(this.state.urlBase,this.state.nickUsuario).then(res => this.setState({materiales: res.data})).catch(error => this.setState({comprobation: false}));
     }
 
     mostrarMaterial(){
@@ -93,12 +94,16 @@ import {FeedbackAlumno} from './FeedbackAlumno';
     }
 
     render(){
-        return (
-            <React.Fragment>
-                {this.mostrarMaterial()}
-                {this.state.visualizarPDF}
-                {this.state.mostrarFormFeedback}
-            </React.Fragment>
-        );
+        if (!this.state.comprobation) {
+            return <Auth authority="student"></Auth>
+        } else {
+            return (
+                <React.Fragment>
+                    {this.mostrarMaterial()}
+                    {this.state.visualizarPDF}
+                    {this.state.mostrarFormFeedback}
+                </React.Fragment>
+            );
+        }
     }
 }
