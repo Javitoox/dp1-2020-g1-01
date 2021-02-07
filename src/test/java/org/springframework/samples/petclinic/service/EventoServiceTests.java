@@ -80,6 +80,7 @@ public class EventoServiceTests {
 		grupo.setCursos(curso);
 		a.setGrupos(grupo);
 		a.setNickUsuario("JaviMarFer");
+		a.setNombreCompletoUsuario("Javi Martínez");
 		a.setInscripciones(inscripciones);
 		
 		i.setAlumno(a);
@@ -172,7 +173,7 @@ public class EventoServiceTests {
 		assertThat(description).isNotEmpty();
 		assertThat(description).isNotNull();
 		assertThat(partes.length).isGreaterThan(2);
-		assertThat(partes[partes.length-1]).isEqualTo("JaviMarFer");
+		assertThat(partes[partes.length-1]).isEqualTo("Javi Martínez");
 	}
 	
 	@Test

@@ -108,7 +108,7 @@ public class InscripcionServiceTests {
 	
 	@Test
 	void shouldJoin() {
-		e.setTipo(tipoEventoRepository.findById("external").orElse(null));
+		e.setTipo(tipoEventoRepository.findById("External").orElse(null));
 		Optional<Evento> op = Optional.of(e);
 		when(alumnoRepository.findByNick(a.getNickUsuario())).thenReturn(a);
 		when(eventoRepository.findById(1)).thenReturn(op);
@@ -121,7 +121,7 @@ public class InscripcionServiceTests {
 	
 	@Test
 	void shouldNotJoin() {
-		e.setTipo(tipoEventoRepository.findById("internal").orElse(null));
+		e.setTipo(tipoEventoRepository.findById("Internal").orElse(null));
 		Optional<Evento> op = Optional.of(e);
 		when(alumnoRepository.findByNick(a.getNickUsuario())).thenReturn(a);
 		when(eventoRepository.findById(1)).thenReturn(op);

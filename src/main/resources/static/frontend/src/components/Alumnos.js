@@ -87,6 +87,7 @@ class Alumnos extends Component {
     componentDidMount() {
         this.mostrarTabla();
         this.allGroupNames();
+        setTimeout(1)
         this.alumnos.getAlumnosEliminiables(this.props.urlBase).then(data => this.setState({ listaEliminables: data }));
         this.alumnos.getAlumnosSinGrupo(this.props.urlBase).then(data => this.setState({ listaSinGrupos: data }));
         this.alumnos.getAlumnosSinTutores(this.props.urlBase).then(data => this.setState({ listaSinTutor: data }));
@@ -114,7 +115,6 @@ class Alumnos extends Component {
                 </Dialog>
         });
         this.allGroupNames();
-
     }
 
     async formDeleteGrupo() {
@@ -250,6 +250,7 @@ class Alumnos extends Component {
             }
             return groupSelectItems
         }
+
     }
 
     botonInfo(rowData) {

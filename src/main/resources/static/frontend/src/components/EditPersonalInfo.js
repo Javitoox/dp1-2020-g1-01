@@ -152,7 +152,7 @@ export default class EditPersonalInfo extends Component {
         if (!this.state.buttonTel1) {
             alumno.numTelefonoUsuario2 = null
         }
-        axios.put(this.props.urlBase + "/alumnos/editStudent", alumno, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+        axios.put(this.props.urlBase + "/alumnos/editPersonalInfo", alumno, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
 		sessionStorage.getItem("password")) } }).then(res => {
             this.respuesta(res.status, res.data)
         })
@@ -211,6 +211,7 @@ export default class EditPersonalInfo extends Component {
                     <div className="login request">
                         <form onSubmit={this.handleSubmit}>
                             {this.state.succes}
+                            {this.state.passwordError}
                             <div className="t"><div><h5>Modify</h5></div></div>
                             <div className="i">
                                 {this.state.usernameError}

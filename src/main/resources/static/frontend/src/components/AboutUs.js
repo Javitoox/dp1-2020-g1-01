@@ -14,9 +14,9 @@ export class AboutUs extends Component {
                     <p>Visitors are always welcome to our school. If there’s anything you’d like to know about our methods, please get in touch.
 ​                    <br></br>Todo el mundo siempre es bienvenido a nuestra escuela. Si hay algo que te gustaría saber sobre nuestros métodos, ponte en contacto.</p>
                     <center><p>
-                        <h2>Contact us</h2>
-                        Calle San Francisco, nº 15 <br></br>
-                        teainalcala@gmail.com<br></br>
+                        <b>Contact us</b><br></br>
+                        Calle San Francisco, nº 15<br></br>
+                        <a href="mailto:maribelrb.5@gmail.com">teainalcala@gmail.com</a><br></br>
                         +34 690 350 543<br></br>
                         Isabel
                     </p></center>

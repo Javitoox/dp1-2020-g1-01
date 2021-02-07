@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.csrf().disable()  
-		.authorizeRequests()
+		.authorizeRequests() 
 		.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 		.antMatchers("/basicauth").authenticated()
@@ -47,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers("/pagos/notPaidByStudent/{nickUsuario}").hasAnyAuthority("profesor", "alumno")
 		.antMatchers("/pagos/paidByStudent/{nickUsuario}").hasAuthority("alumno")
 		.antMatchers("/pagos/**").hasAuthority("profesor")
-		.antMatchers("/alumnos/editStudent", "/alumnos/getStudentInfo/{nickUsuario}", "/alumnos/{nombreGrupo}").hasAnyAuthority("profesor", "alumno")
+		.antMatchers("/alumnos/editStudent", "/alumnos/getStudentInfo/{nickUsuario}", "/alumnos/{nombreGrupo}", "/alumnos/editPersonalInfo").hasAnyAuthority("profesor", "alumno")
 		.antMatchers("/alumnos/{nickTutor}/allMyStudents").hasAuthority("tutor")
 		.antMatchers("/alumnos/**").hasAuthority("profesor")
 		.antMatchers("/materiales/getMaterialByAlumno/{nickAlumno}").hasAnyAuthority("alumno", "profesor")
@@ -59,12 +59,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers("/events/getByCourse/{nick}", "/events/descriptionAlumno/{id}/{nickUser}").hasAuthority("alumno")
 		.antMatchers("/events/**").hasAuthority("profesor")
 		.antMatchers("/asignaciones/**").hasAuthority("profesor")
+		.antMatchers("/tutores/**").hasAuthority("tutor")
 		.anyRequest().permitAll()
 		.and()
 		.httpBasic();
         http.headers().frameOptions().sameOrigin();
 	}
-
+  
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());

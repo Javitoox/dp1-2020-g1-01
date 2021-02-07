@@ -17,4 +17,7 @@ public interface TutorRepository extends CrudRepository<Tutor, String>{
 	
 	public List<Tutor>findAll();
 
+	@Query("SELECT p.correoElectronicoUsuario FROM Profesor p JOIN p.asignaciones a WHERE a.grupo.nombreGrupo =:nombreGrupo")
+	public List<String> getTeacherByGroup(@Param("nombreGrupo") String nombreGrupo);
+
 }

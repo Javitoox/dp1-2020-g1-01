@@ -64,8 +64,6 @@ export class UploadMaterial extends Component{
     }
 
     respuesta(status, data){
-        console.log(data)
-
         if(status === 203){
             data.forEach(e => this.error(e.field, e.defaultMessage))
         }else{
