@@ -23,6 +23,9 @@ public class GrupoService {
 		this.alumnoService = alumnoService;
 	}
 	
+	public Grupo getGrupo(String nombreGrupo) {
+		return grupoRepository.findById(nombreGrupo).get();
+	}
 	public boolean exists(String id) {
 		return grupoRepository.existsById(id);
 	}

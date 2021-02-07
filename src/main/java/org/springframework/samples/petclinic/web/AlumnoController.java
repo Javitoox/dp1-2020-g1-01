@@ -1,10 +1,8 @@
 package org.springframework.samples.petclinic.web;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
@@ -61,7 +58,7 @@ public class AlumnoController {
 		dataBinder.setValidator(new AlumnoValidator());
 	}
 
-	@PutMapping("/editStudent") 
+	@PutMapping("/editStudent")
 	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result,
 			Authentication authentication) {
 		log.info(alumno.getContraseya());
@@ -69,14 +66,13 @@ public class AlumnoController {
 			alumnoServ.getAlumnoByIdOrNif(alumno.getNickUsuario(), alumno.getDniUsuario());
 		} catch (Exception e) {
 			log.info("Duplicated users");
-			return new ResponseEntity<>("The student already exists and his credentials are incorrect",
-					HttpStatus.OK);
+			return new ResponseEntity<>("The student already exists and his credentials are incorrect", HttpStatus.OK);
 		}
-		boolean comprobation=true;
-		if(alumno.getContraseya()==null || alumno.getContraseya()=="") {
+		boolean comprobation = true;
+		if (alumno.getContraseya() == null || alumno.getContraseya() == "") {
 			Alumno a = alumnoServ.getAlumnoByIdOrNif(alumno.getNickUsuario(), "");
 			alumno.setContraseya(a.getContraseya());
-			comprobation=false;
+			comprobation = false;
 		}
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
@@ -93,12 +89,12 @@ public class AlumnoController {
 			if (result.hasErrors()) {
 				errors.addAll(result.getFieldErrors());
 			}
-	
+
 			return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		} else {
 			log.info("Entra aqui con contraseña : " + alumno.getContraseya());
-			if(comprobation==true){
-			alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
+			if (comprobation == true) {
+				alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
 			}
 			alumnoServ.saveAlumno(alumno);
 			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
@@ -120,12 +116,12 @@ public class AlumnoController {
 			}
 			return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		} else {
-		this.alumnoServ.saveAlumno(student);
-		return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+			this.alumnoServ.saveAlumno(student);
+			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 		}
-		}
+	}
 
-	//}
+	
 
 	@GetMapping("/getStudentInfo/{nickUsuario}")
 	public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick,
@@ -157,11 +153,6 @@ public class AlumnoController {
 		return ResponseEntity.ok(allStudents);
 	}
 
-	@GetMapping("/studentsWithNoTutors")
-	public ResponseEntity<?> listAlumnosWithNoTutors() {
-		List<String> allStudents = alumnoServ.getStudentsWithNoTutors();
-		return ResponseEntity.ok(allStudents);
-	}
 
 	@GetMapping("/getByCourse/{course}")
 	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") TipoCurso cursoDeIngles) {
@@ -190,30 +181,26 @@ public class AlumnoController {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
-
-	@PutMapping("/assignStudent")
-	public ResponseEntity<?> assignStudent(@Valid @RequestBody Alumno alumno, BindingResult result) {
-		if (result.hasErrors()) {
-			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-		} else {
-			if (alumno.getGrupos().getNombreGrupo() != null) {
-				Integer numAlumnosGrupo = grupoService.numAlumnos(alumno.getGrupos().getNombreGrupo());
-				if (numAlumnosGrupo < 12) {
-					this.alumnoServ.saveAlumnAsign(alumno);
-					return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
-				} else {
-					return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED);
-				}
+	
+	@PutMapping("/assignStudent/{nickUsuario}/{nombreGrupo}")
+	public ResponseEntity<?> updateGroup(@PathVariable("nickUsuario") String nickUsuario, @PathVariable("nombreGrupo") String nombreGrupo) {
+		log.info("Editando el grupo del alumno: ", nickUsuario);
+			Alumno a = alumnoServ.getAlumno(nickUsuario);
+			Integer numAlumnosGrupo = grupoService.numAlumnos(nombreGrupo);
+			if (numAlumnosGrupo < 12) {
+				this.alumnoServ.saveAlumnAsign(a, nombreGrupo);
+				return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
+			} else {
+				return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED);
 			}
-			this.alumnoServ.saveAlumnAsign(alumno);
-			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
+
 		}
-	}
+	
 
 	@DeleteMapping("/delete/{nickUsuario}")
 	public ResponseEntity<?> deleteStudent(@PathVariable("nickUsuario") String nickUsuario) {
 		log.info("Solicitando borrar alumno: {}", nickUsuario);
-		if (alumnoServ.getStudentsToDelete().contains(nickUsuario.toString())) {
+		if (alumnoServ.getStudentsToDelete().contains(nickUsuario)) {
 			Alumno a = alumnoServ.getAlumno(nickUsuario);
 			alumnoServ.deleteStudents(a);
 			return new ResponseEntity<>("Alumno dado de baja correctamente", HttpStatus.OK);

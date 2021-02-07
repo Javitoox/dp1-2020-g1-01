@@ -68,7 +68,7 @@ public class PagoControllerTests {
 		alumno.setDireccionUsuario("Calle Pepe");
 		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
 		alumno.setFechaSolicitud(LocalDate.now());
-		TipoPago tipoPago = tipoPagoService.getType("bizum");
+		TipoPago tipoPago = tipoPagoService.getType("Bizum");
 		p.setTipo(tipoPago);
 		p.setConcepto(CONCEPTO);
 		p.setFecha(LocalDate.now());
@@ -82,117 +82,69 @@ public class PagoControllerTests {
 	@Test
 	void testShowPaymentsSet() throws Exception {
 		given(this.pagoService.getAllPayments()).willReturn(new HashSet<>());
-		mockMvc.perform(get("/pagos").sessionAttr("type","profesor")).andExpect(status().isOk());
+		mockMvc.perform(get("/pagos")).andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testDontShowAssignationListByTeacherIfLoggedAsAlumn() throws Exception {
-		given(this.pagoService.getAllPayments()).willReturn(new HashSet<>());
-		mockMvc.perform(get("/pagos").sessionAttr("type","alumno")).andExpect(status().isUnauthorized());
-	}
-	
-	@WithMockUser(value = "spring")
-    @Test
-    void testDontShowAListGroupIfNotLogged() throws Exception{
-		given(this.pagoService.getAllPayments()).willReturn(new HashSet<>());
-		mockMvc.perform(get("/pagos").sessionAttr("type","null")).andExpect(status().isUnauthorized());
-	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testStudentListByConcept() throws Exception {
 		given(this.pagoService.getStudentsByPayment(CONCEPTO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/{concepto}", CONCEPTO).sessionAttr("type","profesor")).andExpect(status().isOk());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testStudentListByConceptIfLoggedAsAlumn() throws Exception {
-		given(this.pagoService.getStudentsByPayment(CONCEPTO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/{concepto}", CONCEPTO).sessionAttr("type","alumno")).andExpect(status().isUnauthorized());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testStudentListByConceptIfNotLogged() throws Exception {
-		given(this.pagoService.getStudentsByPayment(CONCEPTO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/{concepto}", CONCEPTO).sessionAttr("type","null")).andExpect(status().isUnauthorized());
+		mockMvc.perform(get("/pagos/{concepto}", CONCEPTO)).andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testStudentNotPaidListByConcept() throws Exception {
 		given(this.pagoService.getStudentsNoPayment(CONCEPTO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/notPaid/{concepto}", CONCEPTO).sessionAttr("type","profesor")).andExpect(status().isOk());
+		mockMvc.perform(get("/pagos/notPaid/{concepto}", CONCEPTO)).andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testStudentNotPaidListByConceptIfLoggedAsAlumn() throws Exception {
-		given(this.pagoService.getStudentsNoPayment(CONCEPTO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/notPaid/{concepto}", CONCEPTO).sessionAttr("type","alumno")).andExpect(status().isUnauthorized());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testStudentNotPaidListByConceptIfNotLogged() throws Exception {
-		given(this.pagoService.getStudentsNoPayment(CONCEPTO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/notPaid/{concepto}", CONCEPTO).sessionAttr("type","null")).andExpect(status().isUnauthorized());
-	}
-	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "Evelyn", authorities = {"alumno"})
 	@Test
 	void testNotPaidListByStudent() throws Exception {
 		given(this.pagoService.getNoPaymentByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","profesor")).andExpect(status().isOk());
+		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", NICK_USUARIO)).andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "Evelyn", authorities = {"alumno"})
 	@Test
-	void testNotPaidListByStudentIfLoggedAsAlumn() throws Exception {
+	void testNotPaidListByStudentIsUnauthorized() throws Exception {
 		given(this.pagoService.getNoPaymentByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","alumno")).andExpect(status().isOk());
+		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", "Paco")).andExpect(status().isUnauthorized());
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testNotPaidListByStudentIfNotLogged() throws Exception {
+	void testNotPaidListByProfesor() throws Exception {
 		given(this.pagoService.getNoPaymentByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","null")).andExpect(status().isUnauthorized());
+		mockMvc.perform(get("/pagos/notPaidProfesor/{nickUsuario}", NICK_USUARIO)).andExpect(status().isOk());
 	}
 	
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "Evelyn", authorities = {"alumno"})
 	@Test
-	void testPaymentsListByStudentIfLoggedAsAlumn() throws Exception {
+	void testPaymentsListByStudent() throws Exception {
 		given(this.pagoService.getPaymentsByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/paidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","alumno")).andExpect(status().isOk());
+		mockMvc.perform(get("/pagos/paidByStudent/{nickUsuario}", NICK_USUARIO)).andExpect(status().isOk());
 	}
-	
-	@WithMockUser(value = "spring")
+
+	@WithMockUser(value = "Evelyn", authorities = {"alumno"})
 	@Test
-	void testPaymentsListByStudentIfNotLogged() throws Exception {
+	void testPaymentsListByStudentIsUnathorized() throws Exception {
 		given(this.pagoService.getPaymentsByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/paidByStudent/{nickUsuario}", NICK_USUARIO).sessionAttr("type","null")).andExpect(status().isUnauthorized());
+		mockMvc.perform(get("/pagos/paidByStudent/{nickUsuario}", "Paco")).andExpect(status().isUnauthorized());
 	}
-	
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testStudentsHaveNotPaidListIfLoggedAsAlumn() throws Exception {
 		given(this.pagoService.getNameStudentByNoPago()).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/studentsNotPaid").sessionAttr("type","profesor")).andExpect(status().isOk());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testStudentsHaveNotPaidListIfNotLogged() throws Exception {
-		given(this.pagoService.getNameStudentByNoPago()).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/studentsNotPaid").sessionAttr("type","null")).andExpect(status().isUnauthorized());
+		mockMvc.perform(get("/pagos/studentsNotPaid")).andExpect(status().isOk());
 	}
 	
 	
+	/*HAY QUE CORREGIR ESTO*/
 	@WithMockUser(value = "spring")
 	@Test
 	void testSendingNewPaymentSucces() throws Exception{
@@ -205,6 +157,11 @@ public class PagoControllerTests {
 			    .content(jsonString)
 			    .with(csrf()).sessionAttr("type", "profesor"))
 		.andExpect(status().isOk());
+	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testCreatePayment() throws Exception{
+		
 	}
 	/*
 	 * @WithMockUser(value = "spring")

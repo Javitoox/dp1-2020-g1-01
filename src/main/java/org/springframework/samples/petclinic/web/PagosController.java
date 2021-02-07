@@ -15,7 +15,8 @@ import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Pago;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.PagoService;
-import org.springframework.samples.petclinic.service.TipoPagoService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -63,15 +64,36 @@ public class PagosController {
 	}
 
 	@GetMapping("/notPaidByStudent/{nickUsuario}")
-	public ResponseEntity<List<String>> listadoNoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario) {
-		List<String> all = pagoService.getNoPaymentByStudent(nickUsuario);
-		return ResponseEntity.ok(all);
+	public ResponseEntity<List<String>> listadoNoPagosPorAlumnoByStudent(@PathVariable("nickUsuario") String nickUsuario,
+			Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if (userDetails.getUsername().equals(nickUsuario)) {
+			List<String> all = pagoService.getNoPaymentByStudent(nickUsuario);
+			return ResponseEntity.ok(all);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+		}
+	}
+	
+	@GetMapping("/notPaidProfesor/{nickUsuario}") /*HAY QUE LINKEAR ESTE MÉTODO CON EL FRONTEND PARA LA VISTA DEL PROFESOR*/
+	public ResponseEntity<List<String>> listadoNoPagosPorAlumnoByProfesor(@PathVariable("nickUsuario") String nickUsuario) {
+			List<String> all = pagoService.getNoPaymentByStudent(nickUsuario);
+			return ResponseEntity.ok(all);
 	}
 
 	@GetMapping("/paidByStudent/{nickUsuario}")
-	public ResponseEntity<List<Pago>> listadoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario) {
-		List<Pago> all = pagoService.getPaymentsByStudent(nickUsuario);
-		return ResponseEntity.ok(all);
+	public ResponseEntity<List<Pago>> listadoPagosPorAlumno(@PathVariable("nickUsuario") String nickUsuario,
+			Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if (userDetails.getUsername().equals(nickUsuario)) {
+			List<Pago> all = pagoService.getPaymentsByStudent(nickUsuario);
+			return ResponseEntity.ok(all);
+		} else {
+			log.warn("Acceso prohibido");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
 	}
 
 	@GetMapping("/studentsNotPaid")
@@ -88,7 +110,7 @@ public class PagosController {
 				|| resource.getConcepto() == "" || resource.getTipo().getTipo() == null
 				|| resource.getTipo().getTipo().equals("")) {
 			List<FieldError> errors = new ArrayList<>();
-			if(result.hasErrors()) {
+			if (result.hasErrors()) {
 				errors.addAll(result.getFieldErrors());
 			}
 			if (resource.getAlumnos().getNickUsuario() == null || resource.getAlumnos().getNickUsuario() == "") {
