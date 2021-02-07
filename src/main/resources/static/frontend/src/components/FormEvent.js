@@ -3,7 +3,6 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import { Dropdown } from 'primereact/dropdown';
-import AuthenticationService from '../service/AuthenticationService';
 
 export class FormEvent extends Component {
 
@@ -78,8 +77,7 @@ export class FormEvent extends Component {
             }
         }
 
-        axios.post(this.props.urlBase + "/events/create/" + this.state.curso , evento, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } }).then(res => {
+        axios.post(this.props.urlBase + "/events/create/" + this.state.curso , evento).then(res => {
             this.respuesta(res.status, res.data)
         })
 
