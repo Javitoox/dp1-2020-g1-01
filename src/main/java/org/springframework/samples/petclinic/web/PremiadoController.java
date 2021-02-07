@@ -66,7 +66,7 @@ public class PremiadoController {
 		String nickUsuario = body.getNickUsuario();
 		String description = body.getDescription();
 		MultipartFile file = body.getPhoto();
-
+ 
 		Alumno alumno = alumnoService.getAlumno(nickUsuario);
 		if (alumno != null) {
 			Integer numApariciones = premiadoService.numAparicionesEnFecha(fechaWall, nickUsuario);

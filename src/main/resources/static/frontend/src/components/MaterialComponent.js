@@ -6,12 +6,12 @@ export default class MaterialComponent extends Component{
 
 
     crearMaterial(urlBase, nickUsuario,formData ){
-        return axios.post(urlBase+"/materiales/añadirMaterial/"+nickUsuario, formData, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+        return axios.post(urlBase+"/materiales/anadirMaterial/"+nickUsuario, formData, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
 		sessionStorage.getItem("password")) } });
     }
 
     asignarAlumnoMaterial(urlBase,id,alumno){
-        return axios.put(urlBase+"/feedback/"+id+"/añadirAlumno/",alumno, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
+        return axios.put(urlBase+"/feedback/"+id+"/anadirAlumno/",alumno, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
 		sessionStorage.getItem("password")) } });
     }
 

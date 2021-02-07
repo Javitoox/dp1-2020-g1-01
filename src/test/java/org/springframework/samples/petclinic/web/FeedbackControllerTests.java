@@ -37,43 +37,24 @@ public class FeedbackControllerTests {
 	@MockBean
 	FeedbackService feedbackService;
 	
-	private static Alumno alumno;
-	
-//	public static String asJsonString(final Object obj) {
-//	    try {
-//	        final ObjectMapper mapper = new ObjectMapper();
-//	        final String jsonContent = mapper.writeValueAsString(obj);
-//	        System.out.println(jsonContent);
-//	        return jsonContent;
-//	    } catch (Exception e) {
-//	        throw new RuntimeException(e);
-//	    }
-//	} 
-//	
-//	@BeforeEach
-//	void data() {
-//		alumno = new Alumno();
-//		alumno.setNickUsuario("JaviMartinez7");
-//		alumno.setContraseya("JaviKuka787");
-//		alumno.setDniUsuario("45676787Y");
-//		alumno.setNombreCompletoUsuario("Javi Martinez");
-//		alumno.setCorreoElectronicoUsuario("javikua7@gmail.com");
-//		alumno.setNumTelefonoUsuario("677676676");
-//		alumno.setDireccionUsuario("Calle Pepe");
-//		//alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
-//		//alumno.setFechaSolicitud(LocalDate.of(2020, 11, 2));
-//	}
-//	@WithMockUser(value = "spring")
-//	@Test 
-//	void testShouldStudentToMaterial() throws Exception {
-//		Gson json = new Gson();
-//		String a = json.toJson(alumno);
-//		System.out.println(a); 
-//		mockMvc.perform(put("/feedback/{idMaterial}/añadirAlumno",1)
-//				.with(csrf())).andDo(print())
-//		.andExpect(status().isOk());
-//	  	
-//	}
+	@WithMockUser(value = "spring")
+	@Test 
+	void testShouldStudentToMaterial() throws Exception {
+		Alumno alumno = new Alumno();
+		alumno.setNickUsuario("JaviMartinez7");
+		alumno.setContraseya("JaviKuka787");
+		alumno.setDniUsuario("45676787Y");
+		alumno.setNombreCompletoUsuario("Javi Martinez");
+		alumno.setCorreoElectronicoUsuario("javikua7@gmail.com");
+		alumno.setNumTelefonoUsuario("677676676");
+		alumno.setDireccionUsuario("Calle Pepe");
+		Gson json = new Gson();
+		mockMvc.perform(put("/feedback/2/anadirAlumno")
+				.content(json.toJson(alumno)).contentType(MediaType.APPLICATION_JSON)
+				.with(csrf())).andDo(print()) 
+		.andExpect(status().isOk());
+	  	
+	}
 	
 	@WithMockUser(value = "spring")
 	@Test 
@@ -107,7 +88,7 @@ public class FeedbackControllerTests {
 				.param("comment", "nice")
 				.param("rate", "5")
 				.param("id", "3")
-				.with(csrf())).andDo(print())
+				.with(csrf())).andDo(print()) 
 		.andExpect(status().isOk());	
 	}
 	

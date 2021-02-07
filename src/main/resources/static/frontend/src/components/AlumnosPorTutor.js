@@ -19,6 +19,7 @@ export class AlumnosPorTutor extends Component {
         this.botonInfo = this.botonInfo.bind(this);
         this.mostrarInfoStudent= this.mostrarInfoStudent.bind(this);
         this.mostrarInfo= this.mostrarInfo.bind(this);
+        this.formatEmails= this.formatEmails.bind(this);
     }
 
     componentDidMount() {
@@ -36,11 +37,22 @@ export class AlumnosPorTutor extends Component {
     }
 
     mostrarInfoStudent(rowData){
-        this.alumnosPorTutorComponent.getTeacherByGroup(this.props.urlBase,rowData.grupos.nombreGrupo).then(res => 
-        this.setState({
-            profesores: res.data,
-            rowDataInfo: rowData
-        }))      
+        this.alumnosPorTutorComponent.getTeacherByGroup(this.props.urlBase,rowData.grupos.nombreGrupo).then(res => this.formatEmails(res.data, rowData))      
+    }
+
+    formatEmails(data, rowData) {
+        var texto="";
+        for(var i=0; i<data.length; i++){
+            if(i<data.length-1){
+                texto+= data[i]+", ";
+            }else{
+                texto+= data[i];
+            }
+
+        }
+            this.setState({
+            profesores: texto,
+            rowDataInfo: rowData})
     }
 
     mostrarInfo(){
