@@ -13,12 +13,7 @@ export default class AssignmentComponent extends Component {
   }
 
   getTeacherByGroup(baseUrl, user) {
-    return axios.get(baseUrl + "/asignaciones/" + user, {
-      headers: {
-        authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"),
-          sessionStorage.getItem("password"))
-      }
-    }).then(res => res.data);
+    return axios.get(baseUrl + "/asignaciones/getNick/" + user).then(res => res.data);
   }
 
 }

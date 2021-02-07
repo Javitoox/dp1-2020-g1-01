@@ -144,12 +144,5 @@ public class AlumnoRepositoryTests {
 		List<String> allStudents = alumnoRepository.findSudentsWithNoGroups();
 		assertThat(allStudents.size()).isGreaterThan(0);
 	}
-	
-	@Test
-	void testReturnStudentNamesWithNoTutors() {
-		alumnoRepository.save(a);		
-		List<String> allNames = alumnoRepository.findSudentsWithNoTutors();
-		assertThat(allNames.size()).isGreaterThan(0);
-	}
 
 }

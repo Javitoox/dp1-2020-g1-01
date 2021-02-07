@@ -45,7 +45,7 @@ public class AsignacionesProfesorController {
 		return ResponseEntity.ok(all);
 	}
 
-	@GetMapping("/{nombreGrupo}")
+	@GetMapping("/getNick/{nombreGrupo}")
 	public ResponseEntity<List<String>> profesorByGroup(@PathVariable("nombreGrupo") String nombreGrupo) {
 		List<String> all = asignacionS.findAsignacionesByGroup(nombreGrupo);
 		return ResponseEntity.ok(all);
@@ -76,7 +76,7 @@ public class AsignacionesProfesorController {
 		a.setNickProfesor(resource);
 		a.setNombreGrupo(resource2);
 		log.info("Request:" + resource);
-		log.info("Solicitando borrar asignacion: {}", resource);
+		log.info("Solicitando borrar asignacion: {}", resource2);
 		asignacionS.deleteAsignacion(a);
 		return new ResponseEntity<>("Asignacion eliminada correctamente", HttpStatus.OK);
 	}

@@ -153,7 +153,7 @@ public class AlumnoServiceTests {
 		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
 		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
 		a.setNumTelefonoUsuario("622110555");
-		alumnoService.saveAlumnAsign(a);
+		alumnoService.saveAlumnAsign(a, "GRUPO1");
 		
 		verify(alumnoRepository, times(1)).save(any());
 	}
@@ -191,18 +191,7 @@ public class AlumnoServiceTests {
 		when(alumnoRepository.findByGroup(name)).thenReturn(alumnosEmpty);
 		assertThat(alumnoService.getStudentsPerGroup(name)).isEmpty();
 	}
-	
-	@Test
-	void shouldUpdateAGroupAlumn() {
-		Alumno a = new Alumno();
-		Grupo g = new Grupo();
-		a.setGrupos(g);
 		
-		alumnoService.saveAlumnAsign(a);
-		
-		verify(alumnoRepository, times(1)).save(any());
-	 }
-	
 	@Test
 	void shouldAsignInscripcionesAlumnos() {
 		Evento e = new Evento();
@@ -271,15 +260,6 @@ public class AlumnoServiceTests {
 		when(alumnoRepository.findStudentsAbleToDelete()).thenReturn(students);
 		assertThat(alumnoService.getStudentsToDelete().size()).isEqualTo(2);
 		assertThat(alumnoService.getStudentsToDelete()).isNotEmpty();
-	}
-	
-	@Test
-	void shouldReturnAllStudentNamesWithNoTutors() {
-		List<String> studentsWithNoTutors = new ArrayList<>();
-		studentsWithNoTutors.add("Fernando"); studentsWithNoTutors.add("Gonzalo");
-		when(alumnoRepository.findSudentsWithNoTutors()).thenReturn(studentsWithNoTutors);
-		assertThat(alumnoService.getStudentsWithNoTutors().size()).isEqualTo(2);
-		assertThat(alumnoService.getStudentsWithNoTutors()).isNotEmpty();
 	}
 	
 }

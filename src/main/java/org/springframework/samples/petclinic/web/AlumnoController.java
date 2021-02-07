@@ -157,12 +157,6 @@ public class AlumnoController {
 		return ResponseEntity.ok(allStudents);
 	}
 
-	@GetMapping("/studentsWithNoTutors")
-	public ResponseEntity<?> listAlumnosWithNoTutors() {
-		List<String> allStudents = alumnoServ.getStudentsWithNoTutors();
-		return ResponseEntity.ok(allStudents);
-	}
-
 	@GetMapping("/getByCourse/{course}")
 	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") TipoCurso cursoDeIngles) {
 		log.info("Obteniendo alumnos del curso: " + cursoDeIngles);
@@ -191,24 +185,19 @@ public class AlumnoController {
 		}
 	}
 
-	@PutMapping("/assignStudent")
-	public ResponseEntity<?> assignStudent(@Valid @RequestBody Alumno alumno, BindingResult result) {
-		if (result.hasErrors()) {
-			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-		} else {
-			if (alumno.getGrupos().getNombreGrupo() != null) {
-				Integer numAlumnosGrupo = grupoService.numAlumnos(alumno.getGrupos().getNombreGrupo());
-				if (numAlumnosGrupo < 12) {
-					this.alumnoServ.saveAlumnAsign(alumno);
-					return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
-				} else {
-					return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED);
-				}
-			}
-			this.alumnoServ.saveAlumnAsign(alumno);
-			return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
-		}
-	}
+	@PutMapping("/assignStudent/{nickUsuario}/{nombreGrupo}")
+    public ResponseEntity<?> updateGroup(@PathVariable("nickUsuario") String nickUsuario, @PathVariable("nombreGrupo") String nombreGrupo) {
+        log.info("Editando el grupo del alumno: "+ nickUsuario);
+            Alumno a = alumnoServ.getAlumnoAssign(nickUsuario);
+            Integer numAlumnosGrupo = grupoService.numAlumnos(nombreGrupo);
+            if (numAlumnosGrupo < 12) {
+                this.alumnoServ.saveAlumnAsign(a, nombreGrupo);
+                return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED);
+            }
+
+        }
 
 	@DeleteMapping("/delete/{nickUsuario}")
 	public ResponseEntity<?> deleteStudent(@PathVariable("nickUsuario") String nickUsuario) {

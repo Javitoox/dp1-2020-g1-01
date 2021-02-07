@@ -14,42 +14,17 @@ class AssignStudent extends Component  {
     super(props);
         this.state = {   
         nickUsuario:this.props.astudent.nickUsuario,
-        contraseya: this.props.astudent.contraseya,
-        dniUsuario: this.props.astudent.dniUsuario,
-        nombreCompletoUsuario: this.props.astudent.nombreCompletoUsuario,
-        correoElectronicoUsuario: this.props.astudent.correoElectronicoUsuario,
-        numTelefonoUsuario: this.props.astudent.numTelefonoUsuario,
-        numTelefonoUsuario2: this.props.astudent.numTelefonoUsuario2,
-        direccionUsuario: this.props.astudent.direccionUsuario,
-        fechaNacimiento: this.props.astudent.fechaNacimiento,
-        numTareasEntregadas: this.props.astudent.numTareasEntregadas,
-        fechaMatriculacion: this.props.astudent.fechaMatriculacion,
-        fechaSolicitud: this.props.astudent.fechaSolicitud,
-        fechaBaja: this.props.astudent.fechaBaja,
         grupos: {
-            nombreGrupo: '',
+            nombreGrupo: "",
             cursos: {
             cursoDeIngles: ""
         }
         },
-        tutores:{
-            nickUsuario:''
-        },
-
         listaGrupos:{
            nombreGrupo: ""
-        } ,
-        lisT:{
-
         },
         listaSinGrupos:{
                
-        },  
-        gruposs: {
-            nombreGrupo: '',
-            cursos: {
-            cursoDeIngles: ""
-        }
         },            
         cursoS:"",
         succes:null,
@@ -85,22 +60,9 @@ class AssignStudent extends Component  {
     this.handleNG = this.handleNG.bind(this); 
 
 }
-    nickUsuario(event) {
-        this.setState({ nickUsuario: event.target.value });
-    }
-
-    handleNG(event) {
-        this.grupos.getCourseNamesByGroup(event.target.value).then(data => this.setState({ cursoS: data }));
-        this.setState({ grupos: {
-            nombreGrupo: event.target.value,
-            
-        }});
-    }  
-    
-     
+         
     componentDidMount() {
         this.alumnos.getAlumnosSinGrupo(this.props.urlBase).then(data =>  this.setState({ listaSinGrupos: data }) ).catch(error => this.setState({ comprobation: false }));
-        this.grupos.getAllGroups().then(data =>  this.setState({ gruposs: data }) )
         if(!this.props.cgselected.includes(this.props.astudent.nickUsuario)){
             this.grupos.getAssignmentGroupsByStudent(this.state.nickUsuario).then(data => this.setState({ listaGrupos: data })); 
         }else{
@@ -114,12 +76,23 @@ class AssignStudent extends Component  {
         this.grupos.getGroupNamesByCourse('C1').then(data =>this.setState({ C1: data }));
         this.grupos.getGroupNamesByCourse('C2').then(data =>this.setState({ C2: data }));
         this.grupos.getGroupNamesByCourse('APRENDIZAJELIBRE').then(data =>this.setState({ APRENDIZAJELIBRE: data }));
-
-
         
     }
-        
+    handleNG(event) {
+        var c= String(event.target.value).split("(")
+        var cc= c[0]
+        if(cc!==""){
+            this.grupos.getCourseNamesByGroup(cc).then(data => this.setState({ cursoS: data }));
+            this.setState({ grupos: {
+            nombreGrupo: event.target.value,            
+        }});
 
+        }
+        
+    }  
+    nickUsuario(event) {
+        this.setState({ nickUsuario: event.target.value });
+    }
 
     allGroupNames(){
         var t=this.state.listaGrupos
@@ -163,17 +136,6 @@ class AssignStudent extends Component  {
     allGroupNames2(){
         this.alumnos.getAlumnosSinGrupo(this.props.urlBase).then(data =>  this.setState({ listaSinGrupos: data }) );
         var t=this.state.listaSinGrupos
-        var i=0
-        var groupSelectItems = [];
-        while(i<t.length){        
-        groupSelectItems.push(         
-           String(t[i]))        
-        i+=1
-        }
-        return groupSelectItems
-    }
-    allGroupNames3(){
-        var t=this.state.lisT
         var i=0
         var groupSelectItems = [];
         while(i<t.length){        
@@ -260,101 +222,38 @@ class AssignStudent extends Component  {
         }
         return groupSelectItems
     }
-
+    error(campo, mensaje){
+        console.log(campo)
+        console.log(mensaje)
+        if(campo === "grupo.cursoDeIngles"){
+            this.setState({ cursoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
+        }
+    }
     assign  =  event => {
         event.preventDefault();
-        var a = String(this.state.grupos.nombreGrupo)
-        var aa=a.split("(")
-        var t=aa[0]
-        if(!this.allGroupNames3().includes(this.props.astudent.nickUsuario)){
-            const alumno ={
-                nickUsuario: this.state.nickUsuario,
-                contraseya: this.state.contraseya,
-                dniUsuario: this.state.dniUsuario,
-                nombreCompletoUsuario: this.state.nombreCompletoUsuario,
-                correoElectronicoUsuario: this.state.correoElectronicoUsuario,
-                numTelefonoUsuario: this.state.numTelefonoUsuario,
-                numTelefonoUsuario2: this.state.numTelefonoUsuario2,
-                direccionUsuario: this.state.direccionUsuario,
-                fechaNacimiento: this.state.fechaNacimiento,
-                numTareasEntregadas:this.state.numTareasEntregadas,
-                fechaMatriculacion: this.state.fechaMatriculacion,
-                fechaSolicitud: this.props.astudent.fechaSolicitud,
-                fechaBaja: this.props.astudent.fechaBaja,
-                tutores:{
-                    nickUsuario:this.props.astudent.tutores.nickUsuario
-                },
-                grupos: {
-                    nombreGrupo: t,
-                    cursos: {
-                        cursoDeIngles: this.state.cursoS[0]
-                }
-                }
-                
-            }
-            if(this.state.grupos.nombreGrupo===""){
-                this.setState({displayConfirmation: true})    
-            }else{
-             axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno , { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-             sessionStorage.getItem("password")) } }).then(res => {
-                this.respuesta(res.status, res.data)
-                })
-            }
+        var c= String(this.state.grupos.nombreGrupo).split("(")
+        var cc= c[0]
             
-           
-        }else if(this.allGroupNames3().includes(this.props.astudent.nickUsuario)){
-
-            const alumno ={
-                nickUsuario: this.state.nickUsuario,
-                contraseya: this.state.contraseya,
-                dniUsuario: this.state.dniUsuario,
-                nombreCompletoUsuario: this.state.nombreCompletoUsuario,
-                correoElectronicoUsuario: this.state.correoElectronicoUsuario,
-                numTelefonoUsuario: this.state.numTelefonoUsuario,
-                numTelefonoUsuario2: this.state.numTelefonoUsuario2,
-                direccionUsuario: this.state.direccionUsuario,
-                fechaNacimiento: this.state.fechaNacimiento,
-                numTareasEntregadas:this.state.numTareasEntregadas,
-                fechaMatriculacion: this.state.fechaMatriculacion,
-                grupos: {
-                    nombreGrupo: t,
-                    cursos: {
-                        cursoDeIngles: this.state.cursoS[0]
-                }
-                }
-                
-            }
-
-            if(this.state.grupos.nombreGrupo===""){
-                window.alert("You must select a group")
+            if(cc===""){
+                this.setState({displayConfirmation: true})    
     
             }else{
-             axios.put(this.props.urlBase + "/alumnos/assignStudent", alumno ).then(res => {
+             axios.put(this.props.urlBase + "/alumnos/assignStudent/"+this.props.astudent.nickUsuario+"/"+cc).then(res => {
                 this.respuesta(res.status, res.data)
                 })
-            }            
-        }       
+            }    
         
       }
 
-    async respuesta(status, data){
+    respuesta(status, data){
         if(status===203 ){
             data.forEach(e => this.error(e.field, e.defaultMessage))
         }else if(status === 208){
             this.setState({
                 succes: <div className="alert alert-danger" role="alert">There are already 12 alumns in this group</div>
             })
-        }else{
+        }else if(status===201){
             this.setState({
-                username: this.state.username,
-                password: this.state.password,
-                card: this.state.card,
-                name: this.state.name,
-                email: this.state.email,
-                telefono: this.state.telefono,
-                telefono2: this.state.telefono2,
-                address: this.state.address,
-                birthdate: this.state.birthdate,
                 succes: <div className="alert alert-success" role="alert">Modified Succesfully</div>
             })
         }
@@ -370,6 +269,7 @@ class AssignStudent extends Component  {
    
     
     render() {
+        console.log(this.props.astudent)
         return (
             <div>
                 <div className="c">
@@ -391,7 +291,7 @@ class AssignStudent extends Component  {
 
                                  <div className="i">
                                 <div className="p-inputgroup">
-                                    <Dropdown placeholder="Select a group" name="grupo.nombreGrupo" value={this.state.grupos.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
+                                    <Dropdown placeholder="Select a group" name="grupo.nombreGrupo"  field="grupo.nombreGrupo" value={this.state.grupos.nombreGrupo} options={this.allGroupNames()} onChange={this.handleNG} />
                                 </div>
                                 </div>
 

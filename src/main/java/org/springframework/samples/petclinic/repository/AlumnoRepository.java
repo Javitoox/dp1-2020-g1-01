@@ -35,8 +35,4 @@ public interface AlumnoRepository extends CrudRepository<Alumno, String> {
     
     @Query("SELECT a.nickUsuario FROM Alumno a WHERE a.fechaMatriculacion IS NOT null and a.fechaBaja IS null AND a.nickUsuario NOT IN ( SELECT a.nickUsuario FROM Alumno a WHERE a.grupos.nombreGrupo <> '')")
 	public List<String> findSudentsWithNoGroups();
-    
-    //SELECT a.NICK_USUARIO   FROM ALUMNOS a WHERE a.NICK_USUARIO NOT IN (SELECT a.NICK_USUARIO FROM ALUMNOS WHERE a.TUTORES_NICK_USUARIO <> '')
-    @Query("SELECT a.nickUsuario FROM Alumno a WHERE a.fechaMatriculacion IS NOT null and a.fechaBaja IS null AND a.nickUsuario NOT IN ( SELECT a.nickUsuario FROM Alumno a WHERE a.tutores.nickUsuario <> '')")
-	public List<String> findSudentsWithNoTutors();
 }

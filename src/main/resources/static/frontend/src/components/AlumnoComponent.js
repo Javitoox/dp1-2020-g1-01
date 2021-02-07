@@ -50,13 +50,9 @@ export default class AlumnoComponent extends Component{
 	getAlumnosSinGrupo(urlBase){
         return axios.get(urlBase+"/alumnos/studentsWithNoGroups").then(res=>res.data);
 	}
-
-	getAlumnosSinTutores(urlBase){
-        return axios.get(urlBase+"/alumnos/studentsWithNoTutors").then(res=>res.data);
-	}
+	
 	getAlumnoInfo(urlBase, nick){
-        return axios.get(urlBase+"/alumnos/getStudentInfo/"+nick, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } }).then(res=>res.data);
+        return axios.get(urlBase+"/alumnos/getStudentInfo/"+nick).then(res=>res.data);
 	}
 	
 	deleteAlumno(urlBase, nickUsuario){

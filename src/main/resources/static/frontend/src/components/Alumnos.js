@@ -19,7 +19,6 @@ import CreateGroup from './CreateGroup';
 import DeleteGroup from './DeleteGroup'
 import AssignStudent from './AssignStudent';
 import axios from 'axios';
-import AuthenticationService from '../service/AuthenticationService';
 
 
 
@@ -117,8 +116,7 @@ class Alumnos extends Component {
     componentDidMount() {
         this.mostrarTabla();
         this.alumnos.getAlumnosEliminiables(this.props.urlBase).then(data => this.setState({ listaEliminables: data }));
-        this.alumnos.getAlumnosSinGrupo(this.props.urlBase).then(data => this.setState({ listaSinGrupos: data }));
-        this.alumnos.getAlumnosSinTutores(this.props.urlBase).then(data => this.setState({ listaSinTutor: data }));
+        this.alumnos.getAlumnosSinGrupo(this.props.urlBase).then(data => this.props.selectCreatedGroup(data));
         this.grupos.getEmptyGroupNames().then(data => this.setState({ listaGruposE: data }));
 
     }
@@ -161,8 +159,7 @@ class Alumnos extends Component {
         if(this.state.grupoS.cursos.cursoDeIngles===""){
             this.setState({displayConfirmation: true})    
         }else{
-            axios.post("http://localhost:8081/grupos/new", grupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-            sessionStorage.getItem("password")) } }).then(res => {
+            axios.post("http://localhost:8081/grupos/new", grupo).then(res => {
                 this.respuesta2(res.status, res.data, grupo);
             })
            
@@ -176,8 +173,7 @@ class Alumnos extends Component {
                 this.setState({displayConfirmation: true})    
 
             }else{
-                axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-                sessionStorage.getItem("password")) } }).then(res => {
+                axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo).then(res => {
                     this.respuesta3(res.status, res.data, this.state.grupoS.nombreGrupo);        })
     
 
@@ -259,6 +255,7 @@ class Alumnos extends Component {
     }
 
     async respuesta2(status, data,grupo){
+        console.log(status)
         this.setState({
             exist2: "",
             succes2: ""});
@@ -307,7 +304,7 @@ class Alumnos extends Component {
         }
     }
 
-    async respuesta3(status, data){
+    async respuesta3(status, data,grupo){
         this.setState({
             exist: "",
             succes: ""})
@@ -362,6 +359,7 @@ class Alumnos extends Component {
                 </Dialog>
         });
         this.allGroupNames();
+
     }
 
     async formDeleteGrupo() {
@@ -377,6 +375,7 @@ class Alumnos extends Component {
 
     formAssignStudent(data) {
         this.props.selectAssignedStudent(data)
+        this.props.selectCreatedGroup(this.state.listaSinGrupos)
         this.setState({
             formularioAssginStudent:
                 <Dialog visible={true} style={{ width: '40vw' }} onHide={() => this.setState({ formularioAssginStudent: null })}>
@@ -411,7 +410,7 @@ class Alumnos extends Component {
     }
 
     assignGroup(data) {
-        this.props.selectCreatedGroup(this.state.listaSinGrupos)
+    
         this.props.selectAssignedStudent(data)
             this.setState({ 
                 redirect: "/assignStudent",
@@ -557,7 +556,13 @@ class Alumnos extends Component {
 
     assignOption(data) {
         this.setState({ 
-            opcion: data
+            opcion: data,
+            succes:"",
+            succes2:"",
+            exist:"",
+            exist2:"",
+            nombreGrupoError:"",
+            cursoError:""
             
     });
     }
@@ -592,6 +597,7 @@ class Alumnos extends Component {
                   }
                   
               }
+              console.log(this.state)
 
             const courseSelectItems = [
                 { label: 'All courses', value: 'allCourses' },
