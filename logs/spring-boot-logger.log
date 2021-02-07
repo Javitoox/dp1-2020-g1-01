@@ -1,0 +1,21 @@
+2021-02-07 17:08:53,508 INFO org.springframework.boot.StartupInfoLogger [main] Starting AlumnoControllerTests on MacBook-Air-de-Gonzalo.local with PID 13285 (started by nukeagony in /Users/nukeagony/Desktop/Universidad/TERCERO/DP1/dp1-2020-g1-01)
+2021-02-07 17:08:53,525 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-02-07 17:08:57,395 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [main] Initializing ExecutorService 'applicationTaskExecutor'
+2021-02-07 17:08:59,550 INFO org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration [main] 
+
+Using generated security password: 6f4149d9-8d8d-4f08-a68a-e6bfd316c58e
+
+2021-02-07 17:08:59,785 INFO org.springframework.security.web.DefaultSecurityFilterChain [main] Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@18faa963, org.springframework.security.web.context.SecurityContextPersistenceFilter@2f10e405, org.springframework.security.web.header.HeaderWriterFilter@1f15cb5a, org.springframework.security.web.csrf.CsrfFilter@77c037db, org.springframework.security.web.authentication.logout.LogoutFilter@51b98f26, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@51d0a9cd, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@7d8fd4ea, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@56a2f49d, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@707b37ec, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@510efcb7, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@20f5d7f9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7aadf751, org.springframework.security.web.session.SessionManagementFilter@6ee7da38, org.springframework.security.web.access.ExceptionTranslationFilter@552d2df6, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2ed0e7c9]
+2021-02-07 17:08:59,892 INFO org.springframework.mock.web.MockServletContext [main] Initializing Spring TestDispatcherServlet ''
+2021-02-07 17:08:59,892 INFO org.springframework.web.servlet.FrameworkServlet [main] Initializing Servlet ''
+2021-02-07 17:08:59,915 INFO org.springframework.web.servlet.FrameworkServlet [main] Completed initialization in 23 ms
+2021-02-07 17:09:00,010 INFO org.springframework.boot.StartupInfoLogger [main] Started AlumnoControllerTests in 8.129 seconds (JVM running for 12.415)
+2021-02-07 17:09:00,410 INFO org.springframework.samples.petclinic.web.AlumnoController [main] JaviKuka787
+2021-02-07 17:09:00,572 INFO org.springframework.samples.petclinic.web.AlumnoController [main] Entra aqui con contraseña : JaviKuka787
+2021-02-07 17:09:00,653 INFO org.springframework.samples.petclinic.web.AlumnoController [main] Obteniendo alumnos del tutor: marrambla2
+2021-02-07 17:09:00,708 INFO org.springframework.samples.petclinic.web.AlumnoController [main] Obteniendo alumnos del curso: GrupoA
+2021-02-07 17:09:00,924 INFO org.springframework.samples.petclinic.web.AlumnoController [main] Obteniendo alumnos del curso: GrupoA
+2021-02-07 17:09:00,951 INFO org.springframework.samples.petclinic.web.AlumnoController [main] JaviKuka787
+2021-02-07 17:09:01,171 WARN org.springframework.samples.petclinic.web.AlumnoController [main] El nick pasado por parámetros no coincide con el nick logeado
+2021-02-07 17:09:01,195 INFO org.springframework.samples.petclinic.web.AlumnoController [main] Obteniendo alumnos del curso: B1
+2021-02-07 17:09:01,308 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [SpringContextShutdownHook] Shutting down ExecutorService 'applicationTaskExecutor'
