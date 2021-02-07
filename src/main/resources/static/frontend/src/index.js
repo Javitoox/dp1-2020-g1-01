@@ -6,9 +6,12 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import allReducers from './reducers/index';
+import AuthenticationService from './service/AuthenticationService';
 
 
 const store = createStore(allReducers);
+
+AuthenticationService.setupAxiosInterceptors();
 
 ReactDOM.render(
   <Provider store={store}>
