@@ -1,53 +1,44 @@
 import axios from 'axios';
 import {Component} from 'react';
-import AuthenticationService from '../service/AuthenticationService';
+
 
 export default class MaterialComponent extends Component{
 
 
     crearMaterial(urlBase, nickUsuario,formData ){
-        return axios.post(urlBase+"/materiales/anadirMaterial/"+nickUsuario, formData, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } });
+        return axios.post(urlBase+"/materiales/anadirMaterial/"+nickUsuario, formData);
     }
 
     asignarAlumnoMaterial(urlBase,id,alumno){
-        return axios.put(urlBase+"/feedback/"+id+"/anadirAlumno/",alumno, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } });
+        return axios.put(urlBase+"/feedback/"+id+"/anadirAlumno/",alumno);
     }
 
     obtenerMaterialTeacher(urlBase,nickUsuario){
-        return axios.get(urlBase+"/materiales/getMaterialByProfesor/"+nickUsuario, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } });
+        return axios.get(urlBase+"/materiales/getMaterialByProfesor/"+nickUsuario);
     }
 
     deleteMaterial(urlBase, id){
-        return axios.delete(urlBase+"/feedback/deleteMaterial/"+id, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } });
+        return axios.delete(urlBase+"/feedback/deleteMaterial/"+id);
     }
 
     obtenerMaterialStudent(urlBase, nickUsuario){
-        return axios.get(urlBase+"/materiales/getMaterialByAlumno/"+nickUsuario, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } });
+        return axios.get(urlBase+"/materiales/getMaterialByAlumno/"+nickUsuario);
     }
 
     obtenerFeedbackMaterial(urlBase, idMaterial){
-        return axios.get(urlBase+"/feedback/obtenerFeedback/"+idMaterial, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } });
+        return axios.get(urlBase+"/feedback/obtenerFeedback/"+idMaterial);
     }
 
     modificarDone(urlBase, id){
-        return axios.put(urlBase+"/feedback/cambiarDone/"+id, {}, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } });
+        return axios.put(urlBase+"/feedback/cambiarDone/"+id);
     }
 
     getFeedback(urlBase,nickUser,id){
-        return axios.get(urlBase+"/feedback/"+nickUser+"/"+id, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } });
+        return axios.get(urlBase+"/feedback/"+nickUser+"/"+id);
     }
 
     updateFeedback(urlBase,formData){
-        return axios.put(urlBase+"/feedback/update", formData, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } });
+        return axios.put(urlBase+"/feedback/update", formData);
     }
 
     obtenerMediaRate(urlBase, id){

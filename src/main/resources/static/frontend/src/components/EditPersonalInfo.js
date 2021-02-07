@@ -5,7 +5,6 @@ import Inject from './Inject';
 import Auth from './Auth';
 import axios from 'axios';
 import UserData from './UserData'
-import AuthenticationService from '../service/AuthenticationService';
 export default class EditPersonalInfo extends Component {
 
     nickUsuario = this.nickUsuario.bind(this);
@@ -152,8 +151,7 @@ export default class EditPersonalInfo extends Component {
         if (!this.state.buttonTel1) {
             alumno.numTelefonoUsuario2 = null
         }
-        axios.put(this.props.urlBase + "/alumnos/editPersonalInfo", alumno, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-		sessionStorage.getItem("password")) } }).then(res => {
+        axios.put(this.props.urlBase + "/alumnos/editPersonalInfo", alumno).then(res => {
             this.respuesta(res.status, res.data)
         })
 
