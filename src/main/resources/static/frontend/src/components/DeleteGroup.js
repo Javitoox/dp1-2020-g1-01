@@ -5,7 +5,6 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import Auth from './Auth';
-import AuthenticationService from '../service/AuthenticationService';
 import { Dialog } from 'primereact/dialog';
 import {selectDeletedGroup}  from '../actions/index';
 import { bindActionCreators } from 'redux';
@@ -36,8 +35,7 @@ export class DeleteGroup extends Component {
                 this.setState({displayConfirmation: true})    
 
             }else{
-                axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo, { headers: { authorization: AuthenticationService.createBasicAuthToken(sessionStorage.getItem("authenticatedUser"), 
-                sessionStorage.getItem("password")) } }).then(res => {
+                axios.delete("http://localhost:8081/grupos/delete/"+this.state.grupoS.nombreGrupo).then(res => {
                     this.respuesta(res.status, res.data);        })
                 this.props.selectDeletedGroup(this.state.grupoS.nombreGrupo)
             }       
