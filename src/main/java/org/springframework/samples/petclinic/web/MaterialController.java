@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.BodyMaterial;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.service.MaterialService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/materiales")
 public class MaterialController {
-	
+
 	private MaterialService materialService;
 
 	@Autowired
@@ -35,26 +37,49 @@ public class MaterialController {
 		super();
 		this.materialService = materialService;
 	}
-	
+
 	@GetMapping("/getMaterialByProfesor/{nickProfesor}")
-	public ResponseEntity<?>getMaterialByProfesor(@PathVariable("nickProfesor")String nickProfesor){
-		return ResponseEntity.ok(materialService.getMaterialPorProfesor(nickProfesor));
+	public ResponseEntity<?> getMaterialByProfesor(@PathVariable("nickProfesor") String nickProfesor,
+			Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if (userDetails.getUsername().equals(nickProfesor)) {
+			return ResponseEntity.ok(materialService.getMaterialPorProfesor(nickProfesor));
+		} else {
+			log.warn("El nick pasado por parámetros no coincide con el nick logeado");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
-	
+
 	@GetMapping("/getMaterialByAlumno/{nickAlumno}")
-	public ResponseEntity<?>getMaterialByAlumno(@PathVariable("nickAlumno")String nickAlumno){
-		return ResponseEntity.ok(materialService.getMaterialPorAlumno(nickAlumno));
+	public ResponseEntity<?> getMaterialByAlumno(@PathVariable("nickAlumno") String nickAlumno,
+			Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if (userDetails.getUsername().equals(nickAlumno)) {
+			return ResponseEntity.ok(materialService.getMaterialPorAlumno(nickAlumno));
+		} else {
+			log.warn("El nick pasado por parámetros no coincide con el nick logeado");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
-	
-	@PostMapping(value="/añadirMaterial/{nickProfesor}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?>añadirMaterial(@PathVariable("nickProfesor") String nickProfesor, @Valid @ModelAttribute BodyMaterial body, BindingResult result) throws IOException{
-		if(result.hasErrors()) {
-			return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-		}else {
-			log.info("Añadiendo PDF con nombre: " + body.getPdf().getOriginalFilename());
-			Material m = materialService.uploadMaterial(body.getPdf(), nickProfesor, body.getTipoMaterial());
-			return ResponseEntity.ok(m);
-		}	
+
+	@PostMapping(value = "/añadirMaterial/{nickProfesor}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> añadirMaterial(@PathVariable("nickProfesor") String nickProfesor,
+			@Valid @ModelAttribute BodyMaterial body, BindingResult result, Authentication authentication)
+			throws IOException {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if (userDetails.getUsername().equals(nickProfesor)) {
+			if (result.hasErrors()) {
+				log.error("Datos incompletos o incorrectos");
+				return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+			} else {
+				log.info("Añadiendo PDF con nombre: " + body.getPdf().getOriginalFilename());
+				Material m = materialService.uploadMaterial(body.getPdf(), nickProfesor, body.getTipoMaterial());
+				return ResponseEntity.ok(m);
+			}
+		} else {
+			log.warn("El nick pasado por parámetros no coincide con el nick logeado");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
-	
+
 }

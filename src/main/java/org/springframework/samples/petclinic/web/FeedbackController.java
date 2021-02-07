@@ -5,9 +5,12 @@ import java.io.IOException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.service.FeedbackService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,15 +40,14 @@ public class FeedbackController {
 	@PutMapping("/{idMaterial}/añadirAlumno")
 	public ResponseEntity<?> añadirAlumnoAMaterial(@PathVariable("idMaterial") Integer idMaterial,
 			@Valid @RequestBody Alumno alumno) {
-		log.info("he entrado en añadirAlumno");
-
+		log.info("Asignando alumno a material...");
 		feedbackService.añadirAlumnoAMaterial(idMaterial, alumno);
 		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping("/deleteMaterial/{idMaterial}")
 	public ResponseEntity<?> deleteMaterial(@PathVariable("idMaterial") Integer idMaterial) throws IOException {
-		log.info("Material con id:" + idMaterial);
+		log.info("Borrando material con id:" + idMaterial);
 		feedbackService.deleteMaterial(idMaterial);
 		return ResponseEntity.ok().build();
 	}
@@ -62,9 +64,15 @@ public class FeedbackController {
 	}
 
 	@GetMapping("/{nickUser}/{idMaterial}")
-	public ResponseEntity<?> getFeedback(@PathVariable("nickUser") String nickUser,
-			@PathVariable("idMaterial") Integer idMaterial) {
-		return ResponseEntity.ok(feedbackService.getFeedbackByMaterialAndStudent(nickUser, idMaterial));
+	public ResponseEntity<?> getFeedbackStudent(@PathVariable("nickUser") String nickUser,
+			@PathVariable("idMaterial") Integer idMaterial, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if (userDetails.getUsername().equals(nickUser)) {
+			return ResponseEntity.ok(feedbackService.getFeedbackByMaterialAndStudent(nickUser, idMaterial));
+		} else {
+			log.warn("El nick pasado por parámetros no coincide con el nick logeado");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 	@PutMapping("/update")

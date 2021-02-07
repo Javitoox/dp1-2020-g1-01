@@ -57,6 +57,7 @@ public class SolicitudService {
 			}
 			 tutorService.saveTutor(student.getTutores());
 		}
+		student.setNumTareasEntregadas(0);
 		alumnoService.saveAlumno(student);
 	}
 	
