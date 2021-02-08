@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @WebMvcTest(controllers = AsignacionesProfesorController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
-public class AsignacionProfesorTests {
+public class AsignacionProfesorControllerTests {
 
 	private final static String NICK_USUARIO = "Evelyn";
 
@@ -61,7 +61,6 @@ public class AsignacionProfesorTests {
 		AsignacionProfesorKey asignacionProfesorKey = new AsignacionProfesorKey();
 		asignacionProfesorKey.setNickProfesor(NICK_USUARIO);
 		asignacionProfesorKey.setNombreGrupo("grupo7");
-		curso.setCursoDeIngles("B2");
 		grupo.setNombreGrupo("grupo7");
 		grupo.setCursos(curso);
 		Profesor profesor = new Profesor();

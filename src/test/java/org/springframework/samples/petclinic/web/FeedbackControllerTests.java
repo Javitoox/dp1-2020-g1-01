@@ -1,14 +1,14 @@
 package org.springframework.samples.petclinic.web;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,12 +18,12 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Feedback;
 import org.springframework.samples.petclinic.service.FeedbackService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 @WebMvcTest(controllers=FeedbackController.class,
@@ -33,12 +33,12 @@ public class FeedbackControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	FeedbackService feedbackService;
-	
+
 	@WithMockUser(value = "spring")
-	@Test 
+	@Test
 	void testShouldStudentToMaterial() throws Exception {
 		Alumno alumno = new Alumno();
 		alumno.setNickUsuario("JaviMartinez7");
@@ -51,64 +51,92 @@ public class FeedbackControllerTests {
 		Gson json = new Gson();
 		mockMvc.perform(put("/feedback/2/anadirAlumno")
 				.content(json.toJson(alumno)).contentType(MediaType.APPLICATION_JSON)
-				.with(csrf())).andDo(print()) 
+				.with(csrf())).andDo(print())
 		.andExpect(status().isOk());
-	  	
+
 	}
-	
+
 	@WithMockUser(value = "spring")
-	@Test 
+	@Test
 	void testShouldGetFeedback() throws Exception {
 		mockMvc.perform(get("/feedback/obtenerFeedback/2")
 				.with(csrf())).andDo(print())
-		.andExpect(status().isOk());	
+		.andExpect(status().isOk());
 	}
-	 
+
 	@WithMockUser(value = "spring")
-	@Test 
+	@Test
 	void testShouldDeleteFeedback() throws Exception {
 		mockMvc.perform(delete("/feedback/deleteMaterial/2")
 				.with(csrf())).andDo(print())
-		.andExpect(status().isOk());	
+		.andExpect(status().isOk());
 	}
-	
+
 	@WithMockUser(value = "spring")
-	@Test 
+	@Test
 	void testShouldChangeDone() throws Exception {
 		mockMvc.perform(put("/feedback/cambiarDone/2")
 				.with(csrf())).andDo(print())
-		.andExpect(status().isOk());	
+		.andExpect(status().isOk());
 	}
-	
 
 	@WithMockUser(value = "spring")
-	@Test 
+	@Test
 	void testShouldUpdateFeedback() throws Exception {
 		mockMvc.perform(put("/feedback/update")
 				.param("comment", "nice")
 				.param("rate", "5")
 				.param("id", "3")
-				.with(csrf())).andDo(print()) 
-		.andExpect(status().isOk());	
+				.with(csrf())).andDo(print())
+		.andExpect(status().isOk());
 	}
-	
+
 	@WithMockUser(username = "maribel", authorities = "alumno")
-	@Test 
+	@Test
 	void testShouldGetFeedbackStudent() throws Exception {
+        Feedback f = new Feedback();
+        f.setValoracion(2);
+        f.setComentario("the best way to learn");
+        f.setId(2);
+	    given(feedbackService.getFeedbackByMaterialAndStudent(any(String.class), any(Integer.class))).willReturn(f);
 		mockMvc.perform(get("/feedback/maribel/2")
 				.with(csrf())).andDo(print())
-		.andExpect(status().isOk());	
+		.andExpect(status().isOk());
 	}
-	
+
 	@WithMockUser(username = "antonio", authorities = "alumno")
-	@Test 
+	@Test
 	void testShouldNotGetFeedbackStudent() throws Exception {
 		mockMvc.perform(get("/feedback/maribel/2")
 				.with(csrf())).andDo(print())
-		.andExpect(status().isUnauthorized());	
+		.andExpect(status().isUnauthorized());
 	}
-	
-	
-	
-	
+
+    @WithMockUser(username = "maribel", authorities = "alumno")
+    @Test
+    void testShouldGetFeedbackStudentWithoutComment() throws Exception {
+        Feedback f = new Feedback();
+        f.setValoracion(2);
+        f.setId(2);
+        given(feedbackService.getFeedbackByMaterialAndStudent(any(String.class), any(Integer.class))).willReturn(f);
+        mockMvc.perform(get("/feedback/maribel/2")
+            .with(csrf())).andDo(print())
+            .andExpect(status().isOk());
+    }
+
+    @WithMockUser(username = "maribel", authorities = "alumno")
+    @Test
+    void testShouldGetFeedbackStudentWithoutRate() throws Exception {
+        Feedback f = new Feedback();
+        f.setComentario("the best way to learn");
+        f.setId(2);
+        given(feedbackService.getFeedbackByMaterialAndStudent(any(String.class), any(Integer.class))).willReturn(f);
+        mockMvc.perform(get("/feedback/maribel/2")
+            .with(csrf())).andDo(print())
+            .andExpect(status().isOk());
+    }
+
+
+
+
 }

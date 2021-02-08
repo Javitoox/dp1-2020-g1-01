@@ -94,7 +94,6 @@ public class GrupoServiceTests {
 	void shoudCreateGroup(){
 		Grupo gg = new Grupo();
 		Curso c = new Curso();
-		c.setCursoDeIngles(CURSO);
 		gg.setNombreGrupo(NOMBRE_GRUPO);
 		gg.setCursos(c);
 

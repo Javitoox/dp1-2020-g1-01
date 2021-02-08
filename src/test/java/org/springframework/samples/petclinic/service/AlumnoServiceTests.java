@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -26,6 +27,8 @@ import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
 
+import javax.validation.constraints.Null;
+
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class AlumnoServiceTests {
@@ -46,7 +49,7 @@ public class AlumnoServiceTests {
 	private AlumnoRepository alumnoRepository;
 	@Mock
 	private GrupoRepository grupoRepository;
-	
+
 	@Mock
 	private InscripcionService inscripcionService;
 
@@ -60,7 +63,6 @@ public class AlumnoServiceTests {
 		notEmptyGroup = new Grupo();
 		notEmptyGroup.setNombreGrupo("Grupo B");
 		Curso c = new Curso();
-		c.setCursoDeIngles("B1");
 		notEmptyGroup.setCursos(c);
 		Alumno a = new Alumno();
 		a.setGrupos(notEmptyGroup);
@@ -121,6 +123,7 @@ public class AlumnoServiceTests {
 		Alumno alumno = alumnoService.getAlumno(a.getNickUsuario());
 		assertThat(alumno).isNotNull();
 	}
+
 	@Test
 	void shouldShowStudentByNickIsNull() {
 		Alumno a= new Alumno();
@@ -131,14 +134,11 @@ public class AlumnoServiceTests {
 		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
 		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
 		a.setNumTelefonoUsuario("622110555");
-		when(alumnoRepository.findById(any(String.class))).thenReturn(Optional.of(a));
-		Alumno alumno = null;
-		try {
-			alumno = alumnoService.getAlumno(a.getNickUsuario());
-		}catch(Exception e) {
-			assertThat(alumno).isNull();
-		}
+		when(alumnoRepository.findById(any(String.class))).thenReturn(Optional.empty());
+
+		assertThat(alumnoService.getAlumno(a.getNickUsuario())).isEqualTo(null);
 	}
+
 	@Test
 	void shouldShowStudentsByTutorIsNull() {
 		when(alumnoRepository.findStudentsByTutor(any(String.class))).thenReturn(alumnosEmpty);
@@ -157,7 +157,7 @@ public class AlumnoServiceTests {
 //		a.setNumTelefonoUsuario("622110555");
 //		Grupo g = new Grupo();
 //		when(grupoRepository.findById("Grupo2")).thenReturn(Optional.of(g));
-//		
+//
 //		verify(grupoRepository, times(1)).save(any());
 //	}
 	@Test
@@ -174,7 +174,6 @@ public class AlumnoServiceTests {
 		Grupo g = new Grupo();
 		g.setNombreGrupo("GrupoA");
 		Curso curso = new Curso();
-		curso.setCursoDeIngles("B2");
 		g.setCursos(curso);
 		a.setGrupos(g);
 		alumnoService.saveAlumno(a);
@@ -228,7 +227,7 @@ public class AlumnoServiceTests {
 		a.setNombreCompletoUsuario("Felipe Gonzalez Garcia");
 		a.setNumTelefonoUsuario("622110555");
 		alumnoService.deleteStudents(a);
-		
+
 		verify(alumnoRepository, times(1)).save(any());
 	}
 

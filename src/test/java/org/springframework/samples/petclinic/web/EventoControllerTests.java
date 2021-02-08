@@ -74,7 +74,6 @@ public class EventoControllerTests {
 		evento.setEnd(LocalDate.of(2021, 01, 22));
 
 		Curso curso = new Curso();
-		curso.setCursoDeIngles("A1");
 		alumno = new Alumno();
  		Grupo grupo = new Grupo();
 		grupo.setCursos(curso);
@@ -88,7 +87,7 @@ public class EventoControllerTests {
 		alumno.setNumTelefonoUsuario("677676676");
 		alumno.setDireccionUsuario("Calle Pepe");
 		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
-		alumno.setFechaSolicitud(LocalDate.now());
+		alumno.setFechaSolicitud(LocalDate.of(2021, 01, 22));
 	}
 
 	@WithMockUser(value = "spring")

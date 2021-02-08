@@ -54,8 +54,6 @@ public class GrupoControllerTests {
 	void setup() {
 		listaGrupos = new HashSet<>();
 		c = new Curso();
-		c.setCursoDeIngles(CURSO);
-
 		g = new Grupo();
 		g.setCursos(c);
 		g.setNombreGrupo(GROUP_NAME);
@@ -143,7 +141,6 @@ public class GrupoControllerTests {
 	@Test
 	void testCreatingExistentGroupIfRequestHasErrors() throws Exception {
 		Curso c = new Curso();
-		c.setCursoDeIngles(CURSO);
 		Grupo g = new Grupo();
 		g.setCursos(c); /*
 						 * Para que nos salte el error no introducimos el id del grupo, en este caso el
