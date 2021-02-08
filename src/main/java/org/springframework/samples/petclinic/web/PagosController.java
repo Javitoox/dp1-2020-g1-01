@@ -35,13 +35,11 @@ import lombok.extern.slf4j.Slf4j;
 public class PagosController {
 
 	private final PagoService pagoService;
-	private final TipoPagoService tipoPagoService;
 	private final AlumnoService alumnoService;
 
 	@Autowired
-	public PagosController(PagoService pagoService, TipoPagoService tipoPagoService, AlumnoService alumnoService) {
+	public PagosController(PagoService pagoService, AlumnoService alumnoService) {
 		this.pagoService = pagoService;
-		this.tipoPagoService = tipoPagoService;
 		this.alumnoService = alumnoService;
 	}
 

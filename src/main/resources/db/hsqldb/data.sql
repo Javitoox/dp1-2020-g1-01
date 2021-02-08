@@ -22,13 +22,13 @@ INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_c
 INSERT INTO TUTORES(nick_usuario,contraseya,dni_usuario,fecha_solicitud,nombre_completo_usuario,correo_electronico_usuario,num_telefono_usuario,direccion_usuario,fecha_nacimiento,fecha_matriculacion)values
 	('carmen131','$2a$10$CGFs.jfDkmY6NlPTLUNpZ.OfYEaPp.GU6ntNlnm8sXh5Nkw5DS.yO','88645678R','2018-04-07','Carmen Yugsi','carm9@gmail.com','667825431','mi casa','2000-04-07', null);
 
-INSERT INTO cursos(curso_de_ingles) values ('A1');
-INSERT INTO cursos(curso_de_ingles) values ('A2');
-INSERT INTO cursos(curso_de_ingles) values ('B1');
-INSERT INTO cursos(curso_de_ingles) values ('B2');
-INSERT INTO cursos(curso_de_ingles) values ('C1');
-INSERT INTO cursos(curso_de_ingles) values ('C2');
-INSERT INTO cursos(curso_de_ingles) values ('APRENDIZAJELIBRE');
+INSERT INTO cursos values ('A1');
+INSERT INTO cursos values ('A2');
+INSERT INTO cursos values ('B1');
+INSERT INTO cursos values ('B2');
+INSERT INTO cursos values ('C1');
+INSERT INTO cursos values ('C2');
+INSERT INTO cursos values ('APRENDIZAJELIBRE');
 
 INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group1', 'B1');
 INSERT INTO grupos(nombre_grupo, cursos_curso_de_ingles) values ('group2', 'B1');

@@ -11,51 +11,50 @@ import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Inscripcion;
-import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AlumnoService {
-	
+
 	private AlumnoRepository alumnoRepository;
 	private GrupoRepository grupoRepository;
 	private InscripcionService inscripcionService;
-	
+
 	@Autowired
 	public AlumnoService(AlumnoRepository alumnoRepository,GrupoRepository grupoRepository, InscripcionService inscripcionService) {
 		this.alumnoRepository = alumnoRepository;
 		this.grupoRepository = grupoRepository;
 		this.inscripcionService = inscripcionService;
 	}
-	
-	public List<Alumno> getStudentsPerGroup(String nombreGrupo) { 
+
+	public List<Alumno> getStudentsPerGroup(String nombreGrupo) {
         return alumnoRepository.findByGroup(nombreGrupo);
     }
 
 	public List<Alumno> getAllAlumnos() {
 		return alumnoRepository.findStudents();
 	}
-	public Alumno getAlumno(String nickUsuario) { 
+	public Alumno getAlumno(String nickUsuario) {
 		return alumnoRepository.findById(nickUsuario).orElse(null);
 	}
-	
-	public Alumno getAlumnoAssign(String nickUsuario) { 
+
+	public Alumno getAlumnoAssign(String nickUsuario) {
 		return alumnoRepository.findById(nickUsuario).get();
 	}
-	
+
 	public Alumno getAlumnoByIdOrNif(String nickUsuario, String nif) {
 		return alumnoRepository.findByNickAndNif(nickUsuario, nif);
 	}
-	
-	@Transactional	
+
+	@Transactional
 	public void deleteStudents(Alumno alumno) throws DataAccessException{
 		alumno.setFechaBaja(LocalDate.now());
 		alumno.setGrupos(null);
-		alumno.setNumTareasEntregadas(0);  
+		alumno.setNumTareasEntregadas(0);
 	}
-	@Transactional	
+	@Transactional
 	public void deleteStudent(String id) throws DataAccessException {
 		alumnoRepository.deleteById(id);
 	}
@@ -65,38 +64,38 @@ public class AlumnoService {
 		Grupo grupo = alumnoRepository.findById(alumno.getNickUsuario()).get().getGrupos();
 		alumno.setGrupos(grupo);
 		}
-		return alumnoRepository.save(alumno);		
+		return alumnoRepository.save(alumno);
 	}
-	
+
 	@Transactional
     public Alumno saveAlumn(Alumno alumno) throws DataAccessException {
         return alumnoRepository.save(alumno);
     }
-	
+
 	@Transactional
     public Alumno saveAlumnAsign(Alumno alumno, String nombreGrupo) throws DataAccessException {
         Grupo g = grupoRepository.findById(nombreGrupo).get();
         alumno.setGrupos(g);
         return alumnoRepository.save(alumno);
     }
-	
-    public List<Alumno> getStudentsByCourse(TipoCurso cursoDeIngles){
+
+    public List<Alumno> getStudentsByCourse(String cursoDeIngles){
         return alumnoRepository.findStudentsByCourse(cursoDeIngles);
     }
-    
+
     public List<String> getStudentsWithNoGroups(){
         return alumnoRepository.findSudentsWithNoGroups();
     }
-   
+
     public List<Alumno>getAllMyStudents(String nickTutor){
     	return alumnoRepository.findStudentsByTutor(nickTutor);
     }
-    
+
     public List<String> getStudentsToDelete(){
     	return alumnoRepository.findStudentsAbleToDelete();
     }
-     
-    public void asignInscripcionesAlumnos(Evento evento, TipoCurso tipoCurso, String type) {
+
+    public void asignInscripcionesAlumnos(Evento evento, String tipoCurso, String type) {
     	List<Alumno> alumnosCurso = getStudentsByCourse(tipoCurso);
 		Integer idInscripcion = inscripcionService.lastId()+1;
 		for(Alumno a: alumnosCurso) {
@@ -113,6 +112,6 @@ public class AlumnoService {
 			idInscripcion++;
 		}
     }
-    
+
 }
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserRevisionListener implements RevisionListener {
 
+
 	@Override
 	public void newRevision(Object revisionEntity) {
 		UserRevEntity revision = (UserRevEntity) revisionEntity;
@@ -20,12 +21,12 @@ public class UserRevisionListener implements RevisionListener {
 			username = ((UserDetails) principal).getUsername();
 		else if (principal != null)
 			username = principal.toString();
-		revision.setUsername(username); 
-		
+		revision.setUsername(username);
+
 	}
-		
+
 }
-	
-	
+
+
 
 

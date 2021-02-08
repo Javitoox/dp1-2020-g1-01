@@ -20,77 +20,76 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
-import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class GrupoServiceTests {
-	
-	private static Set<Grupo> notEmptyGroups;	
-	private static Set<Grupo> emptyGroups;	
+
+	private static Set<Grupo> notEmptyGroups;
+	private static Set<Grupo> emptyGroups;
 
 
-	private static List<String> nombresGruposPorCurso;	
-	private static List<String> nombresGruposVacios;	
+	private static List<String> nombresGruposPorCurso;
+	private static List<String> nombresGruposVacios;
 	private static final String NOMBRE_GRUPO = "Grupo A";
-	private static final TipoCurso CURSO= TipoCurso.B1;
+	private static final String CURSO= "B1";
 	private static Grupo g;
-	
+
 	@Mock
 	private GrupoRepository grupoRepository;
-	
+
 	@Mock
 	private AlumnoService alumnoService;
 	private GrupoService grupoService;
 
-	
+
 	@BeforeAll
 	void data() {
 		g = new Grupo();
 		g.setNombreGrupo(NOMBRE_GRUPO);
 		nombresGruposVacios = new ArrayList<>();
 		nombresGruposVacios.add(NOMBRE_GRUPO);
-		
+
 		emptyGroups = new HashSet<>();
-		
+
 		notEmptyGroups = new HashSet<>();
 		notEmptyGroups.add(g);
-		
+
 		nombresGruposPorCurso = new ArrayList<>();
 		nombresGruposPorCurso.add(g.getNombreGrupo());
 	}
-	
+
 	@BeforeEach
 	void setup() {
 		grupoService = new GrupoService(grupoRepository, alumnoService);
 	}
-	
+
 	@Test
 	void shouldShowAGroupListIsEmpty() {
 		when(grupoRepository.findAll()).thenReturn(emptyGroups);
 		assertThat(grupoService.getAllGrupos()).isEmpty();
 	}
-	
+
 	@Test
 	void shouldShowAGroupListIsNotEmpty() {
 		when(grupoRepository.findAll()).thenReturn(notEmptyGroups);
 		assertThat(grupoService.getAllGrupos()).isNotEmpty();
 	}
-	
+
 	@Test
 	void shouldReturnAllEmptyGroups() {
 		when(grupoRepository.findAllEmptyGroups()).thenReturn(nombresGruposVacios);
 		assertThat(grupoService.getEmptyGroups()).isNotEmpty();
 	}
-	 
-	@Test 
+
+	@Test
 	void shouldShowListNamesGroupsByCourseIsNotEmpty() {
 		when(grupoRepository.findNameByCurso(CURSO)).thenReturn(nombresGruposPorCurso);
 		assertThat(grupoService.getNameGruposByCourse(CURSO)).isNotEmpty();
 	}
-	
-	
+
+
 	@Test
 	void shoudCreateGroup(){
 		Grupo gg = new Grupo();
@@ -98,23 +97,23 @@ public class GrupoServiceTests {
 		c.setCursoDeIngles(CURSO);
 		gg.setNombreGrupo(NOMBRE_GRUPO);
 		gg.setCursos(c);
-		
+
 		grupoService.saveGroup(gg);
-		
+
 		verify(grupoRepository).save(gg);
 	}
-	
+
 	@Test
 	void shouldDeleteGroup() {
 		Grupo gg = new Grupo();
 		String name = "Grupo A";
 		gg.setNombreGrupo(name);
 		grupoService.deleteGroup(name);
-		
+
 		verify(grupoRepository).deleteById(name);
 
 	}
-	
+
 	@Test
 	void shouldReturnTrueIfAGroupExists() {
 		when(grupoRepository.existsById(NOMBRE_GRUPO)).thenReturn(true);
@@ -126,7 +125,7 @@ public class GrupoServiceTests {
 		when(grupoRepository.existsById(NOMBRE_GRUPO)).thenReturn(false);
 		assertThat(grupoService.exists(NOMBRE_GRUPO)).isFalse();
 	}
-	 
+
 	@Test
 	void shoulReturnTheCourseNameOfAGroup() {
 		List<String> coursesByGroup = new ArrayList<String>();
@@ -136,7 +135,7 @@ public class GrupoServiceTests {
 		when(grupoRepository.findNameByGrupo(NOMBRE_GRUPO)).thenReturn(coursesByGroup);
 		assertThat(grupoService.getCursoByGrupo(NOMBRE_GRUPO).size()).isGreaterThan(0);
 	}
-	
+
 	@Test
 	void shouldReturnAllGroupNames() {
 		List<String> allNames = new ArrayList<String>();
@@ -148,7 +147,7 @@ public class GrupoServiceTests {
 		assertThat(grupoService.getGroupNames().size()).isEqualTo(2);
 
 	}
-	
+
 	@Test
 	void shouldReturnTheTotalAlumnsOfAGroup() {
 		List<Alumno> numAlumnos = new ArrayList<>();
@@ -156,9 +155,9 @@ public class GrupoServiceTests {
 		Alumno a1 = new Alumno();
 		numAlumnos.add(a); numAlumnos.add(a1);
 		when(grupoRepository.numAlumnosGrupo(NOMBRE_GRUPO)).thenReturn(numAlumnos);
-		assertThat(grupoService.numAlumnos(NOMBRE_GRUPO)).isEqualTo(2);		
+		assertThat(grupoService.numAlumnos(NOMBRE_GRUPO)).isEqualTo(2);
 	}
-	
+
 	@Test
 	void shoulReturnTrueIfAGroupIsNotEmpty() {
 		List<Alumno> alumnos = new ArrayList<>();
@@ -168,14 +167,14 @@ public class GrupoServiceTests {
 		when(alumnoService.getStudentsPerGroup(NOMBRE_GRUPO)).thenReturn(alumnos);
 		assertThat(grupoService.grupoVacio(NOMBRE_GRUPO)).isFalse();
 	}
-	
+
 	@Test
 	void shoulReturnTrueIfAGroupIsEmpty() {
 		List<Alumno> alumnos = new ArrayList<>();
 		when(alumnoService.getStudentsPerGroup(NOMBRE_GRUPO)).thenReturn(alumnos);
 		assertThat(grupoService.grupoVacio(NOMBRE_GRUPO)).isTrue();
 	}
-	
+
 	@Test
 	void shoulReturnFreeGroupsToAsignToAStudent() {
 		List<String> ls = new ArrayList<>();

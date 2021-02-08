@@ -23,7 +23,6 @@ import org.springframework.samples.petclinic.model.AsignacionProfesorKey;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Profesor;
-import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AsignacionProfesorService;
 import org.springframework.samples.petclinic.service.ProfesorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -39,21 +38,21 @@ import lombok.extern.slf4j.Slf4j;
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
 public class AsignacionProfesorTests {
-	
+
 	private final static String NICK_USUARIO = "Evelyn";
-	
+
 	@MockBean
 	private AsignacionProfesorService asignacionProfesorService;
-	
+
 	@MockBean
 	private ProfesorService profesorService;
-	
+
 	private AsignacionProfesor asignacionProfesor;
-	
+
 	@Autowired
     private MockMvc mockMvc;
-	
-	
+
+
 	@BeforeEach
 	void setup() {
 		asignacionProfesor = new AsignacionProfesor();
@@ -62,7 +61,7 @@ public class AsignacionProfesorTests {
 		AsignacionProfesorKey asignacionProfesorKey = new AsignacionProfesorKey();
 		asignacionProfesorKey.setNickProfesor(NICK_USUARIO);
 		asignacionProfesorKey.setNombreGrupo("grupo7");
-		curso.setCursoDeIngles(TipoCurso.B2);
+		curso.setCursoDeIngles("B2");
 		grupo.setNombreGrupo("grupo7");
 		grupo.setCursos(curso);
 		Profesor profesor = new Profesor();
@@ -85,36 +84,36 @@ public class AsignacionProfesorTests {
 		given(this.asignacionProfesorService.getAllAsignacionesByUser(NICK_USUARIO)).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/asignaciones/{user}", NICK_USUARIO).sessionAttr("type","profesor")).andExpect(status().isOk());
 	}
-	
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testDontShowAssignationListByTeacherIfLoggedAsAlumn() throws Exception {
 		given(this.asignacionProfesorService.getAllAsignacionesByUser(NICK_USUARIO)).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/asignaciones/{user}", NICK_USUARIO).sessionAttr("type","alumno")).andExpect(status().isUnauthorized());
 	}
-	
+
 	@WithMockUser(value = "spring")
     @Test
     void testDontShowAListGroupIfNotLogged() throws Exception{
 		mockMvc.perform(get("/asignaciones/{user}", NICK_USUARIO).sessionAttr("type","null")).andExpect(status().isUnauthorized());
 	}
-	
-	
+
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testSendingNewAssignmentucces() throws Exception{
 		Gson gson = new Gson();
 		String jsonString = gson.toJson(asignacionProfesor);
 		log.info("Informa: "+jsonString);
-		
+
 		mockMvc.perform(post("/asignaciones/new")
 				.contentType(MediaType.APPLICATION_JSON)
 			    .content(jsonString)
 			    .with(csrf()))
 		.andExpect(status().isOk());
 	}
-	
-	
-	
+
+
+
 	/*Quedan los del post*/
 }
