@@ -6,10 +6,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.model.Inscripcion;
@@ -32,7 +35,8 @@ public class InscripcionRepositoryTests {
 	protected AlumnoRepository alumnoRepository;
 	
 	@BeforeEach
-	void data() {
+	@Transactional
+	void data() throws DataAccessException{
 		Inscripcion i = new Inscripcion();
 		i.setFecha(LocalDate.of(2021, 1, 7));
 		i.setRegistrado(true);

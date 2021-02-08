@@ -87,7 +87,7 @@ public class EventoControllerTests {
 		alumno.setNumTelefonoUsuario("677676676");
 		alumno.setDireccionUsuario("Calle Pepe");
 		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
-		alumno.setFechaSolicitud(LocalDate.now());
+		alumno.setFechaSolicitud(LocalDate.of(2021, 01, 22));
 	}
 
 	@WithMockUser(value = "spring")
