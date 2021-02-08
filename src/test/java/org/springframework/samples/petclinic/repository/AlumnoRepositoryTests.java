@@ -2,14 +2,19 @@ package org.springframework.samples.petclinic.repository;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
@@ -53,6 +58,31 @@ public class AlumnoRepositoryTests {
 		a.setContraseya("Pollito009");
 		a.setNumTelefonoUsuario("698898989");
 	}
+	
+	@Test
+	@Transactional
+	void testFindByNickAndNif() throws DataAccessException{
+		alumnoRepository.save(a);
+		
+		Alumno  alumno = alumnoRepository.findByNickAndNif("javialonso", "77777777U");
+		
+        assertThat(alumno.getNickUsuario()).isEqualTo("javialonso");
+	}
+	
+	@Test
+	@Transactional
+	void testFindByNickAndNifDuplicated() throws DataAccessException{
+		alumnoRepository.save(a);
+		a.setNickUsuario("JaviMartinez");
+		a.setDniUsuario("76567674T");
+		alumnoRepository.save(a);
+		
+		Exception exception = assertThrows(IncorrectResultSizeDataAccessException.class, () -> {alumnoRepository.findByNickAndNif("JaviMartinez", "99876566W");});
+		
+        assertThat(exception.getMessage())
+        .isEqualTo("query did not return a unique result: 2; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 2");
+	}
+	
 	@Test
 	void testReturnStudentsByGroup() {
 		Curso c = new Curso();
