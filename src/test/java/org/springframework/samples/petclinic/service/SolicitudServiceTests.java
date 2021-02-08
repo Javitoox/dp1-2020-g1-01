@@ -10,8 +10,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -51,26 +49,24 @@ public class SolicitudServiceTests {
  
 		   
 	@Test
-	@Transactional
 	void shouldSaveRequestComplete() {
 		Solicitud solicitud = new Solicitud();
 		Alumno alumno = new Alumno();
 		alumno.setNickUsuario("JaviKuka7");
-		alumno.setFechaSolicitud(LocalDate.now());
+		alumno.setFechaSolicitud(LocalDate.of(2000, 2, 3));
 		solicitud.setAlumno(alumno);
 		Tutor tutor = new Tutor();
 		tutor.setNickUsuario("Roberto99");
-		tutor.setFechaSolicitud(LocalDate.now());
+		tutor.setFechaSolicitud(LocalDate.of(1980, 2, 3));
 		solicitud.setTutor(tutor);
 		
 		solicitudService.saveRequest(solicitud);
 		
-		verify(alumnoService, times(1)).saveAlumno(any());
+		verify(alumnoService, times(1)).saveAlumn(any());
 		verify(tutorService, times(1)).saveTutor(any());
 	}
 
 	@Test
-	@Transactional
 	void shouldSaveRequestOnlyAlum() {
 		Solicitud solicitud = new Solicitud();
 		Alumno alumno = new Alumno();
@@ -78,7 +74,7 @@ public class SolicitudServiceTests {
 		alumno.setFechaSolicitud(LocalDate.now());
 		solicitud.setAlumno(alumno);		
 		solicitudService.saveRequest(solicitud);		
-		verify(alumnoService, times(1)).saveAlumno(any());
+		verify(alumnoService, times(1)).saveAlumn(any());
 		verify(tutorService, times(0)).saveTutor(any());
 	}
 	

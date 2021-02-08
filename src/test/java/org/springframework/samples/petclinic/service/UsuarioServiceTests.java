@@ -1,5 +1,12 @@
 package org.springframework.samples.petclinic.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+
+import org.javatuples.Pair;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,17 +19,11 @@ import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Profesor;
 import org.springframework.samples.petclinic.model.Tutor;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-
-import java.time.LocalDate;
-
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class UsuarioServiceTests {
 	
 	private static final String NOT_EXISTENT_USERNAME = "TESTCASE";
-	private static final String NOT_EXISTENT_PASSWORD = "TESTCase88";
 	
 	private static final String EXISTENT_USERNAME = "TESTCASEEXIST";
 	private static final String EXISTENT_PASSWORD = "TESTCase88EXIST";
@@ -56,6 +57,45 @@ public class UsuarioServiceTests {
 	void setup() {
 		usuarioService = new UsuarioService(alumnoService, profesorService, tutorService);
 	}
+	
+	@Test
+	void testTypeShouldBeAuthAlumno() {
+		when(alumnoService.getAlumno(EXISTENT_USERNAME)).thenReturn(a);
+		
+		Pair<String, String> type = usuarioService.getUser(EXISTENT_USERNAME);
+		
+		assertThat(type.getValue0()).isEqualTo("alumno");
+		assertThat(type.getValue1()).isEqualTo(EXISTENT_PASSWORD);
+	}
+	
+	@Test
+	void testTypeShouldBeAuthProfesor() {
+		when(profesorService.getProfesor(EXISTENT_USERNAME)).thenReturn(p);
+		
+		Pair<String, String> type = usuarioService.getUser(EXISTENT_USERNAME);
+		
+		assertThat(type.getValue0()).isEqualTo("profesor");
+		assertThat(type.getValue1()).isEqualTo(EXISTENT_PASSWORD);
+	}
+	
+	@Test
+	void testTypeShouldBeAuthTutor() {
+		when(tutorService.getTutor(EXISTENT_USERNAME)).thenReturn(t);
+		
+		Pair<String, String> type = usuarioService.getUser(EXISTENT_USERNAME);
+		
+		assertThat(type.getValue0()).isEqualTo("tutor");
+		assertThat(type.getValue1()).isEqualTo(EXISTENT_PASSWORD);
+	}
+	
+	@Test
+	void testTypeShouldBeAnyAuth() {
+		Pair<String, String> type = usuarioService.getUser(NOT_EXISTENT_USERNAME);
+		
+		assertNull(type); // type no es compatible con assertThat
+	}
+	
+	// Usuario service antiguo
 	
 //	@Test
 //	void testTypeShouldBeUsernameNotExist() {
