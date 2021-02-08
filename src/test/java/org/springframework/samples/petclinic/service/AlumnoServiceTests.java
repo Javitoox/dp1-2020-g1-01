@@ -20,10 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Curso;
-import org.springframework.samples.petclinic.model.Evento;
-import org.springframework.samples.petclinic.model.Grupo;
+import org.springframework.samples.petclinic.model.*;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
 
@@ -164,7 +161,6 @@ public class AlumnoServiceTests {
 	
 	@Test
 	void shouldSaveStudent() {
-
 		Alumno a= new Alumno();
 		a.setNickUsuario("Gonsalo");
 		a.setContraseya("NahDeLocos99");
@@ -173,16 +169,39 @@ public class AlumnoServiceTests {
 		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
 		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
 		a.setNumTelefonoUsuario("622110555");
+		Tutor tutor = new Tutor();
+        tutor.setNickUsuario("TutorGonz");
+        tutor.setContraseya("JaviKuka77");
+        tutor.setDniUsuario("24502542N");
+        tutor.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
+        tutor.setCorreoElectronicoUsuario("gonzalo@gmail.com");
+        tutor.setNumTelefonoUsuario("677673676");
+        tutor.setDireccionUsuario("Calle Pepe");
+        tutor.setFechaNacimiento(LocalDate.of(1990, 10, 02));
 		Grupo g = new Grupo();
 		g.setNombreGrupo("GrupoA");
 		Curso curso = new Curso();
 		g.setCursos(curso);
 		a.setGrupos(g);
+		a.setTutores(tutor);
 		alumnoService.saveAlumno(a);
 
 		verify(alumnoRepository, times(1)).save(any());
 	}
 	@Test
+    void shouldSetGrupoAndTutor(){
+        Alumno a= new Alumno();
+        a.setNickUsuario("Gonsalo");
+        a.setContraseya("NahDeLocos99");
+        a.setDniUsuario("20502441B");
+        a.setCorreoElectronicoUsuario("nukescream@gmail.com");
+        a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
+        a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
+        a.setNumTelefonoUsuario("622110555");
+         when(alumnoRepository.findByNickAndNif(a.getNickUsuario(), a.getDniUsuario())).thenReturn(a);
+         assertThat(alumnoService.saveAlumno(a)).isNull();
+    }
+    @Test
 	void shouldShowAStudentListByGroupIsNotEmpty() {
 		String name = notEmptyGroup.getNombreGrupo();
 		when(alumnoRepository.findByGroup(name)).thenReturn(alumnosNotEmpty);
@@ -206,6 +225,19 @@ public class AlumnoServiceTests {
 
 		verify(inscripcionService, times(1)).saveInscripcion(any());
 	 }
+	 @Test
+     void shouldSaveAlumn(){
+         Alumno a= new Alumno();
+         a.setNickUsuario("Gonsalo");
+         a.setContraseya("NahDeLocos99");
+         a.setDniUsuario("20502441B");
+         a.setCorreoElectronicoUsuario("nukescream@gmail.com");
+         a.setFechaNacimiento(LocalDate.of(2000, 10, 03));
+         a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
+         a.setNumTelefonoUsuario("622110555");
+         alumnoService.saveAlumn(a);
+         verify(alumnoRepository, times(1)).save(any());
+     }
 
 	@Test
 	void shouldAsignInscripcionesAlumnosNotAsignInscripciones() {
