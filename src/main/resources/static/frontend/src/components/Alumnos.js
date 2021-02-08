@@ -755,7 +755,7 @@ class Alumnos extends Component {
                         <Dialog header="Confirmation" visible={this.state.displayConfirmation} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation: false})}>
                          <div className="confirmation-content">
                              <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-                               <span>You muest select a group</span>
+                               <span>You must select a group</span>
                          </div>
                          </Dialog>
                             <div>

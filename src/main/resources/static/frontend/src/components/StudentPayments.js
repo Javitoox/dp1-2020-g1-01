@@ -49,7 +49,7 @@ export class StudentPayments extends Component {
         return pagosPendientes
     }
     form() {
-        if (this.allPendingPayments().length > 1) {
+        if (this.allPendingPayments().length > 0) {
             return <ListBox options={this.allPendingPayments()} />
         } else {
             return <div className="tt"><div><h5>There are no payments to make</h5></div></div>
