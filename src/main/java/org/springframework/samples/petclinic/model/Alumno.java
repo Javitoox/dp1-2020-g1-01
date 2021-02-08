@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
@@ -37,6 +38,9 @@ public class Alumno extends Usuario{
 	
 	@Column(name="fecha_baja")
 	private LocalDate fechaBaja;
+	
+	@Version
+	private Integer version;
 	
     @ManyToOne(optional=true)
     private Tutor tutores;

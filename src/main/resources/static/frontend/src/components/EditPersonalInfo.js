@@ -5,7 +5,9 @@ import Inject from './Inject';
 import Auth from './Auth';
 import axios from 'axios';
 import UserData from './UserData'
-export default class EditPersonalInfo extends Component {
+import { withRouter } from "react-router-dom"
+
+class EditPersonalInfo extends Component {
 
     nickUsuario = this.nickUsuario.bind(this);
     contraseya = this.contraseya.bind(this);
@@ -35,6 +37,7 @@ export default class EditPersonalInfo extends Component {
             addressError: null,
             birthdateError: null,
             succes: null,
+            versionError: null,
             comprobation: true,
         }
         this.userDataComponent = new UserData();
@@ -53,6 +56,7 @@ export default class EditPersonalInfo extends Component {
             fechaMatriculacion: data.fechaMatriculacion,
             numTareasEntregadas: data.numTareasEntregadas,
             fechaSolicitud: data.fechaSolicitud,
+            version: data.version
         })).catch(error => this.setState({comprobation: false}));
     }
     nickUsuario(event) {
@@ -131,7 +135,8 @@ export default class EditPersonalInfo extends Component {
             telefono2Error: null,
             addressError: null,
             birthdateError: null,
-            succes: null
+            succes: null,
+            versionError: null
         })
 
         const alumno = {
@@ -146,7 +151,8 @@ export default class EditPersonalInfo extends Component {
             fechaNacimiento: this.state.fechaNacimiento,
             fechaMatriculacion: this.state.fechaMatriculacion,
             numTareasEntregadas: this.state.numTareasEntregadas,
-            fechaSolicitud: this.state.fechaSolicitud
+            fechaSolicitud: this.state.fechaSolicitud,
+            version: this.state.version
         }
         if (!this.state.buttonTel1) {
             alumno.numTelefonoUsuario2 = null
@@ -160,7 +166,7 @@ export default class EditPersonalInfo extends Component {
     respuesta(status, data) {
         if (status === 203) {
             data.forEach(e => this.error(e.field, e.defaultMessage))
-        } else {
+        } else if(status === 201){
             this.setState({
                 nickUsuario: this.state.nickUsuario,
                 contraseya: this.state.contraseya,
@@ -170,10 +176,11 @@ export default class EditPersonalInfo extends Component {
                 numTelefonoUsuario: this.state.numTelefonoUsuario,
                 numTelefonoUsuario2: this.state.numTelefonoUsuario2,
                 direccionUsuario: this.state.direccionUsuario,
-                fechaNacimiento: this.state.fechaNacimiento,
-                succes: <div className="alert alert-success" role="alert">Successful shipment</div>
+                fechaNacimiento: this.state.fechaNacimiento
             })
-
+            this.props.history.push("/")
+        }else{
+            this.setState({versionError: <div className="alert alert-danger" role="alert">{data}</div>})
         }
     }
 
@@ -209,6 +216,7 @@ export default class EditPersonalInfo extends Component {
                     <div className="login request">
                         <form onSubmit={this.handleSubmit}>
                             {this.state.succes}
+                            {this.state.versionError}
                             {this.state.passwordError}
                             <div className="t"><div><h5>Modify</h5></div></div>
                             <div className="i">
@@ -291,3 +299,5 @@ export default class EditPersonalInfo extends Component {
     }
 }
 }
+
+export default withRouter(EditPersonalInfo);

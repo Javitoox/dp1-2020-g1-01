@@ -107,13 +107,18 @@ public class SolicitudController {
 			if (alumno == null) {
 				solicitud.getAlumno().setContraseya(passwordEncoder.encode(solicitud.getAlumno().getContraseya()));
 				solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
+				solicitud.getAlumno().setVersion(0);
 				solicitudServ.saveRequest(solicitud);
 				log.info("New student´s request with username: " + solicitud.getAlumno().getNickUsuario());
 				return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
-			} else if (alumno != null
-					&& passwordEncoder.matches(solicitud.getAlumno().getContraseya(), alumno.getContraseya())
+			}else if(alumno.getFechaMatriculacion() != null) {
+				return new ResponseEntity<>("The student already belongs to the academy",
+						HttpStatus.OK);
+			}
+			else if (passwordEncoder.matches(solicitud.getAlumno().getContraseya(), alumno.getContraseya())
 					&& alumno.getNickUsuario().equals(solicitud.getAlumno().getNickUsuario())) {
 				solicitud.getAlumno().setContraseya(passwordEncoder.encode(solicitud.getAlumno().getContraseya()));
+				solicitud.getAlumno().setVersion(0);
 				solicitudServ.saveRequest(solicitud);
 				log.info("Update student´s request with username: " + solicitud.getAlumno().getNickUsuario());
 				return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
@@ -160,16 +165,21 @@ public class SolicitudController {
 				solicitud.getAlumno().setTutores(solicitud.getTutor());
 				solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
 				solicitud.getTutor().setFechaSolicitud(LocalDate.now());
+				solicitud.getAlumno().setVersion(0);
 				solicitudServ.saveRequest(solicitud);
 				log.info("New student´s request with username: " + solicitud.getAlumno().getNickUsuario());
 				log.info("New tutor´s request with username: " + solicitud.getTutor().getNickUsuario());
 				return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
-			} else if (alumno != null
+			} else if(alumno != null && alumno.getFechaMatriculacion() != null) {
+				return new ResponseEntity<>("The student already belongs to the academy",
+						HttpStatus.OK);
+			}else if (alumno != null
 					&& passwordEncoder.matches(solicitud.getAlumno().getContraseya(), alumno.getContraseya())
 					&& alumno.getNickUsuario().equals(solicitud.getAlumno().getNickUsuario()) && tutor == null) {
 				solicitud.getAlumno().setContraseya(passwordEncoder.encode(solicitud.getAlumno().getContraseya()));
 				solicitud.getAlumno().setTutores(solicitud.getTutor());
 				solicitud.getTutor().setFechaSolicitud(LocalDate.now());
+				solicitud.getAlumno().setVersion(0);
 				solicitudServ.saveRequest(solicitud);
 				log.info("Update student´s request with username: " + solicitud.getAlumno().getNickUsuario());
 				log.info("New tutor´s request with username: " + solicitud.getTutor().getNickUsuario());
@@ -180,6 +190,7 @@ public class SolicitudController {
 				solicitud.getTutor().setContraseya(passwordEncoder.encode(solicitud.getTutor().getContraseya()));
 				solicitud.getAlumno().setTutores(solicitud.getTutor());
 				solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
+				solicitud.getAlumno().setVersion(0);
 				solicitudServ.saveRequest(solicitud);
 				log.info("New student´s request with username: " + solicitud.getAlumno().getNickUsuario());
 				log.info("Update tutor´s request with username: " + solicitud.getTutor().getNickUsuario());
@@ -192,6 +203,7 @@ public class SolicitudController {
 				solicitud.getAlumno().setContraseya(passwordEncoder.encode(solicitud.getAlumno().getContraseya()));
 				solicitud.getTutor().setContraseya(passwordEncoder.encode(solicitud.getTutor().getContraseya()));
 				solicitud.getAlumno().setTutores(solicitud.getTutor());
+				solicitud.getAlumno().setVersion(0);
 				solicitudServ.saveRequest(solicitud);
 				log.info("Update student´s request with username: " + solicitud.getAlumno().getNickUsuario());
 				log.info("Update tutor´s request with username: " + solicitud.getTutor().getNickUsuario());

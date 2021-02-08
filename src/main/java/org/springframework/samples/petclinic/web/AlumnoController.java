@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.samples.petclinic.util.AlumnoValidator;
@@ -62,15 +61,15 @@ public class AlumnoController {
 	public ResponseEntity<?> processUpdateAlumnoForm(@Valid @RequestBody Alumno alumno, BindingResult result,
 			Authentication authentication) {
 		log.info(alumno.getContraseya());
+		Alumno a = null;
 		try {
-			alumnoServ.getAlumnoByIdOrNif(alumno.getNickUsuario(), alumno.getDniUsuario());
+			a = alumnoServ.getAlumnoByIdOrNif(alumno.getNickUsuario(), alumno.getDniUsuario());
 		} catch (Exception e) {
 			log.info("Duplicated users");
 			return new ResponseEntity<>("The student already exists and his credentials are incorrect", HttpStatus.OK);
 		}
 		boolean comprobation = true;
 		if (alumno.getContraseya() == null || alumno.getContraseya() == "") {
-			Alumno a = alumnoServ.getAlumnoByIdOrNif(alumno.getNickUsuario(), "");
 			alumno.setContraseya(a.getContraseya());
 			comprobation = false;
 		}
@@ -96,8 +95,12 @@ public class AlumnoController {
 			if (comprobation == true) {
 				alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
 			}
-			alumnoServ.saveAlumno(alumno);
-			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+			if(a.getVersion().equals(alumno.getVersion())) {
+				alumnoServ.saveAlumno(alumno);
+				return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+			}else {
+				return new ResponseEntity<>("Concurrent modification of student! Try again!", HttpStatus.OK);
+			}
 		}
 	}
 
@@ -116,8 +119,13 @@ public class AlumnoController {
 			}
 			return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		} else {
-			this.alumnoServ.saveAlumno(student);
-			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+			Alumno a = alumnoServ.getAlumnoByIdOrNif(student.getNickUsuario(), "");
+			if(a.getVersion().equals(student.getVersion())) {
+				alumnoServ.saveAlumno(student);
+				return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+			}else {
+				return new ResponseEntity<>("Concurrent modification of student! Try again!", HttpStatus.OK);
+			}
 		}
 	}
 
