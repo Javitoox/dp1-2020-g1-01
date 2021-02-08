@@ -25,6 +25,7 @@ import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.SolicitudService;
+import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -43,6 +44,8 @@ public class SolicitudControllerTests {
 	private AlumnoService alumnoService;
     @MockBean
     private BindingResult bindingResult;
+    @MockBean
+    private TutorService tutorService;
 	@Autowired
 	private MockMvc mockMvc;
 	private  Solicitud solicitud;
@@ -94,24 +97,9 @@ public class SolicitudControllerTests {
 
 	}
 
-	//Probando el sending
-    // FALTA VALIDADOR EXTERNO Y LO DEL NIF
-
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testSendingNewAlumExtValidator() throws Exception{
-//		given(solicitudService.getAlumno(solicitud.getAlumno().getNickUsuario())).willReturn(null);
-//		alumno.setFechaNacimiento(LocalDate.of(2015,10,03));
-//		mockMvc.perform(post("/requests/sending")
-//				.with(csrf())
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(solicitud.toJson()))
-//        .andExpect(status().isNonAuthoritativeInformation());
-//	}
-////
 	@WithMockUser(value = "spring")
 	@Test
-	void testSendingNewAlumSucces() throws Exception{
+	void testSendingNewAlumSucces() throws Exception{ //Este test crea un alumno y lo envia bien
 	    given(solicitudService.getAlumno(solicitud.getAlumno().getNickUsuario())).willReturn(null);
 		mockMvc.perform(post("/requests/sending")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -171,7 +159,7 @@ public class SolicitudControllerTests {
         .andExpect(status().isNonAuthoritativeInformation());
 	}
 
-	//Empezamos con el sendingAll
+	//SENDING ALL SENDING ALL SENDING ALL SENDING ALL SENDING ALL SENDING ALL SENDING ALL
 
 	@WithMockUser(value = "spring")
 	@Test
@@ -185,17 +173,41 @@ public class SolicitudControllerTests {
         .andExpect(status().isCreated());
 	}
 
-	@WithMockUser(value = "spring")
-	@Test
-	void testSendingAllUpdatedStudent() throws Exception{
-		given(solicitudService.getAlumno(solicitud2.getAlumno().getNickUsuario())).willReturn(solicitud2.getAlumno());
-		given(solicitudService.getTutor(solicitud2.getTutor().getNickUsuario())).willReturn(null);
-		mockMvc.perform(post("/requests/sendingAll")
-				.with(csrf())
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(solicitud2.toJson2()))
-        .andExpect(status().isCreated());
-	}
+    @WithMockUser(value = "spring")
+    @Test
+    void testSendingUpdateStudentCreateTutorUnauthorized() throws Exception{
+	    Solicitud solicitud = new Solicitud();
+	    Alumno a = new Alumno();
+        a.setNickUsuario("GonzaloAA");
+        a.setContraseya("JaviKuka787");
+        a.setDniUsuario("20502443J");
+        a.setNombreCompletoUsuario("Javi Martinez");
+        a.setCorreoElectronicoUsuario("javikua7@gmail.com");
+        a.setNumTelefonoUsuario("677676676");
+        a.setDireccionUsuario("Calle Pepe");
+        a.setFechaNacimiento(LocalDate.of(1998, 10, 03));
+        given(solicitudService.getAlumnoByIdOrNif(solicitud2.getAlumno().getNickUsuario(), solicitud2.getAlumno().getDniUsuario())).willReturn(a);
+        given(solicitudService.getTutorByIdOrNif(solicitud2.getTutor().getNickUsuario(), solicitud2.getTutor().getDniUsuario())).willReturn(null);
+        mockMvc.perform(post("/requests/sendingAll")
+            .with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(solicitud2.toJson2()))
+            .andExpect(status().isOk());
+    }
+
+    @WithMockUser(value = "spring")
+    @Test
+    void testSendingWithErrors() throws Exception{
+        given(solicitudService.getAlumno(solicitud2.getAlumno().getNickUsuario())).willReturn(solicitud2.getAlumno());
+        solicitud2.getAlumno().setNumTelefonoUsuario("219837219837982374932");
+        given(solicitudService.getTutor(solicitud2.getTutor().getNickUsuario())).willReturn(null);
+        mockMvc.perform(post("/requests/sendingAll")
+            .with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(solicitud2.toJson2()))
+            .andExpect(status().isNonAuthoritativeInformation());
+    }
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testSendingAllUpdatedTutorCreatedStudent() throws Exception{
@@ -219,7 +231,6 @@ public class SolicitudControllerTests {
         .andExpect(status().isCreated());
 	}
 
-	//Estos dos no entran por algun motivo que desconozco
 	@WithMockUser(value = "spring")
 	@Test
 	void testSendingNewAlumTutorUpdatedWrongPass() throws Exception{
