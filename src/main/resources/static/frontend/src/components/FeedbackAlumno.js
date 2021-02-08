@@ -10,7 +10,7 @@ export class FeedbackAlumno extends Component{
         super(props);
         this.state = {
             comment: "",
-            rate: null,
+            rate: 0,
             id:null,
             succes: null,
             comprobation: true
@@ -18,8 +18,9 @@ export class FeedbackAlumno extends Component{
         this.materiales= new MaterialComponent();
         this.obtenerFeedback= this.obtenerFeedback.bind(this);
         this.handleSubmit= this.handleSubmit.bind(this);
+        this.comment = this.comment.bind(this);
+        this.rate = this.rate.bind(this);
     }
-    comment = this.comment.bind(this);
 
 
     componentDidMount() {
@@ -39,12 +40,20 @@ export class FeedbackAlumno extends Component{
         this.setState({comment: event.target.value});
     }
 
+    rate(event){
+        this.setState({rate: event.target.value});
+    }
+
     handleSubmit(event){
         event.preventDefault();
         const formData = new FormData();
         formData.append('rate', this.state.rate) ;
         formData.append('comment', this.state.comment) ;
         formData.append('id', this.state.id);
+        console.log(this.state.rate);
+        console.log(this.state.comment);
+        console.log(this.state.id);
+
         this.materiales.updateFeedback(this.props.urlBase, formData).then(() => this.setState({
             succes: <div className="alert alert-success" role="alert">The feedback has been send successfully</div>
         }));
@@ -68,7 +77,7 @@ export class FeedbackAlumno extends Component{
                     </div>
                     <div className="i " >
                         <div className="p-inputgroup c">
-                            <Rating value={this.state.rate} cancel={false} onChange={(e) => this.setState({rate: e.value})} />
+                            <Rating value={this.state.rate} cancel={false} onChange={this.rate} />
                         </div>
                     </div>
                     

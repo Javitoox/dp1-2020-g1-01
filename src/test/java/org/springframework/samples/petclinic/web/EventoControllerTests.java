@@ -74,7 +74,6 @@ public class EventoControllerTests {
 		evento.setEnd(LocalDate.of(2021, 01, 22));
 
 		Curso curso = new Curso();
-		curso.setCursoDeIngles("A1");
 		alumno = new Alumno();
  		Grupo grupo = new Grupo();
 		grupo.setCursos(curso);

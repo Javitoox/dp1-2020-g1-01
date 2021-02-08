@@ -85,12 +85,10 @@ public class AlumnoRepositoryTests {
 	
 	@Test
 	void testReturnStudentsByGroup() {
-		Curso c = new Curso();
-		c.setCursoDeIngles("A1");
-		Curso curso = cursoRepository.save(c);
+		Curso c = cursoRepository.findById("A1").get();
 		Grupo g  = new Grupo();
 		g.setNombreGrupo("Grupo de evelyn");
-		g.setCursos(curso);
+		g.setCursos(c);
 		grupoRepository.save(g);
 		a.setGrupos(g);
 		alumnoRepository.save(a);
@@ -108,13 +106,10 @@ public class AlumnoRepositoryTests {
 
 	@Test
 	void testReturnStudentsByCourse() {
-		Curso c = new Curso();
-		c.setCursoDeIngles("A1");
-		Curso curso = cursoRepository.save(c);
-
+		Curso c = cursoRepository.findById("A1").get();
 		Grupo g  = new Grupo();
 		g.setNombreGrupo("mi grupo fav");
-		g.setCursos(curso);
+		g.setCursos(c);
 		Grupo grupo = grupoRepository.save(g);
 
 		a.setGrupos(grupo);
@@ -163,7 +158,7 @@ public class AlumnoRepositoryTests {
 		p3.setFecha(LocalDate.of(2020, 11, 11));
 		p3.setTipo(tipoPagoRepository.findById("Transfer").orElse(null));
 		p3.setAlumnos(a);
-		alumnoRepository.save(a);		
+		alumnoRepository.save(a);
 		pagoRepository.save(p);
 		pagoRepository.save(p2);
 		pagoRepository.save(p3);
