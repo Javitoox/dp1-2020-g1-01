@@ -119,8 +119,8 @@ public class AlumnoService {
 			idInscripcion++;
 		}
 	}
-    }
+   
 
 }
 
-}
+

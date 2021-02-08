@@ -255,7 +255,6 @@ class Alumnos extends Component {
     }
 
     async respuesta2(status, data,grupo){
-        console.log(status)
         this.setState({
             exist2: "",
             succes2: ""});
@@ -597,7 +596,6 @@ class Alumnos extends Component {
                   }
                   
               }
-              console.log(this.state)
 
             const courseSelectItems = [
                 { label: 'All courses', value: 'allCourses' },
