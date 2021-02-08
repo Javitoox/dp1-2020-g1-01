@@ -40,10 +40,6 @@ public class AlumnoService {
 		return alumnoRepository.findById(nickUsuario).orElse(null);
 	}
 
-	public Alumno getAlumnoAssign(String nickUsuario) {
-		return alumnoRepository.findById(nickUsuario).get();
-	}
-
 	public Alumno getAlumnoByIdOrNif(String nickUsuario, String nif) {
 		return alumnoRepository.findByNickAndNif(nickUsuario, nif);
 	}
@@ -65,15 +61,15 @@ public class AlumnoService {
 	@Transactional
 	public Alumno saveAlumno(Alumno alumno) throws DataAccessException {
 		if (alumno.getGrupos() == null) {
-			Grupo grupo = alumnoRepository.findById(alumno.getNickUsuario()).get().getGrupos();
-			alumno.setGrupos(grupo);
-		}
-		if(alumno.getTutores()==null) {
+            Alumno a = alumnoRepository.findByNickAndNif(alumno.getNickUsuario(), alumno.getDniUsuario());
+            alumno.setGrupos(a.getGrupos());
+        }
+			if(alumno.getTutores()==null) {
             Alumno a = alumnoRepository.findByNickAndNif(alumno.getNickUsuario(), alumno.getDniUsuario());
             alumno.setTutores(a.getTutores());
         }
-		    return alumnoRepository.save(alumno);
-	}
+		   return  alumnoRepository.save(alumno);
+	 }
 
 	@Transactional
     public Alumno saveAlumn(Alumno alumno) throws DataAccessException {
@@ -81,10 +77,10 @@ public class AlumnoService {
     }
 
 	@Transactional
-    public Alumno saveAlumnAsign(Alumno alumno, String nombreGrupo) throws DataAccessException {
+    public void saveAlumnAsign(Alumno alumno, String nombreGrupo) throws DataAccessException {
         Grupo g = grupoRepository.findById(nombreGrupo).get();
         alumno.setGrupos(g);
-        return alumnoRepository.save(alumno);
+        alumnoRepository.save(alumno);
     }
 
     public List<Alumno> getStudentsByCourse(String cursoDeIngles){

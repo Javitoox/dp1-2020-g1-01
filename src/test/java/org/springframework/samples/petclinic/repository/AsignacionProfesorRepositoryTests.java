@@ -68,7 +68,11 @@ public class AsignacionProfesorRepositoryTests {
 		
 		
 	}
-	
+	@Test
+	void shoulReturnAsignationsEmpty() {
+		List<AsignacionProfesor> asigns =  asignacionRepository.getAsignacionesByProfesor("Manolo");
+		assertThat(asigns).isEmpty();
+	}
 	@Test
 	void shouldReturnAllAsignations() {
 		List<AsignacionProfesor> asigns = asignacionRepository.getAsignacionesByProfesor(NICK_PROFESOR);
@@ -79,6 +83,11 @@ public class AsignacionProfesorRepositoryTests {
 	void shouldReturnAllAsignationsNamesByGroup() {
 		List<String> allAsignations = asignacionRepository.getAsignacionesByGroup("Grupo1");
 		assertThat(allAsignations.size()).isGreaterThan(0);
+	}
+	@Test
+	void shouldReturnAllAsignationsNamesByGroupIsEmpty() {
+		List<String> allAsignations = asignacionRepository.getAsignacionesByGroup("Grupo 22");
+		assertThat(allAsignations).isEmpty();
 	}
 	
 }
