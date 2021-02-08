@@ -250,8 +250,6 @@ export class RealizarPago extends Component {
         this.pagos.getNotPaidByStudent(this.props.nickUser).then(data => this.setState({ listaConcepto: data })).catch(error => this.setState({ comprobation: false }));;
         this.pagos.getNameStudentByNoPago().then(data => this.setState({ listaNombres: data }))
         this.alumnos.getAllStudents(this.props.urlBase).then(data => this.setState({ listaNombres2: data }))
-
-
     }
 
     allConceptNames() {

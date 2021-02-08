@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.AsignacionProfesor;
 import org.springframework.samples.petclinic.model.AsignacionProfesorKey;
-import org.springframework.samples.petclinic.model.Profesor;
 import org.springframework.samples.petclinic.service.AsignacionProfesorService;
-import org.springframework.samples.petclinic.service.ProfesorService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,18 +31,23 @@ import lombok.extern.slf4j.Slf4j;
 public class AsignacionesProfesorController {
 
 	private AsignacionProfesorService asignacionS;
-	private ProfesorService profesorS;
 
 	@Autowired
-	public AsignacionesProfesorController(AsignacionProfesorService asignacionS, ProfesorService profesorS) {
+	public AsignacionesProfesorController(AsignacionProfesorService asignacionS) {
 		this.asignacionS = asignacionS;
-		this.profesorS = profesorS;
 	}
 
 	@GetMapping("/get/{user}")
-	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user) {
-		List<AsignacionProfesor> all = asignacionS.getAllAsignacionesByUser(user);
-		return ResponseEntity.ok(all);
+	public ResponseEntity<List<AsignacionProfesor>> listaAsignaciones(@PathVariable("user") String user,
+			Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if (userDetails.getUsername().equals(user)) {
+			List<AsignacionProfesor> all = asignacionS.getAllAsignacionesByUser(user);
+			return ResponseEntity.ok(all);
+		} else {
+			log.warn("El usuario no coincide con el usuario logueado");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 	@GetMapping("/getNick/{nombreGrupo}")
@@ -60,25 +65,31 @@ public class AsignacionesProfesorController {
 			if (resource.getGrupo().getNombreGrupo() == "" || resource.getGrupo().getNombreGrupo() == null) {
 				log.info("Incorrect name of group:" + resource.getGrupo().getNombreGrupo());
 
-				return new ResponseEntity<>("Name of group incorrect", HttpStatus.OK);
+				return new ResponseEntity<>("Name of group incorrect", HttpStatus.IM_USED);
 
 			} else {
 				asignacionS.saveAsignacion(resource);
-				return new ResponseEntity<>("Grupo creado correctamente", HttpStatus.CREATED);
+				return new ResponseEntity<>("Asignacion realizada correctamente", HttpStatus.CREATED);
 			}
 		}
 	}
 
 	@DeleteMapping("/delete/{nickProfesor}/{nombreGrupo}")
-	public ResponseEntity<?> deleteGroup(@PathVariable("nickProfesor") String resource,
-			@PathVariable("nombreGrupo") String resource2) {
-		AsignacionProfesorKey a = new AsignacionProfesorKey();
-		a.setNickProfesor(resource);
-		a.setNombreGrupo(resource2);
-		log.info("Request:" + resource);
-		log.info("Solicitando borrar asignacion: {}", resource2);
-		asignacionS.deleteAsignacion(a);
-		return new ResponseEntity<>("Asignacion eliminada correctamente", HttpStatus.OK);
+	public ResponseEntity<?> deleteGroup(@PathVariable("nickProfesor") String nickProfesor,
+			@PathVariable("nombreGrupo") String nombreGrupo, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if (userDetails.getUsername().equals(nickProfesor)) {
+			AsignacionProfesorKey a = new AsignacionProfesorKey();
+			a.setNickProfesor(nickProfesor);
+			a.setNombreGrupo(nombreGrupo);
+			log.info("Solicitante:" + nickProfesor);
+			log.info("Solicitando borrar asignacion del grupo: {}", nombreGrupo);
+			asignacionS.deleteAsignacion(a);
+			return new ResponseEntity<>("Asignacion eliminada correctamente", HttpStatus.OK);
+		} else {
+			log.warn("No se puede borrar una asignacion de un grupo que no perteneces al usuario logueado");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 }

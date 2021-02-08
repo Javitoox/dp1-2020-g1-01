@@ -60,9 +60,9 @@ class Pagos extends Component {
         }).catch(error => this.setState({comprobation: false}));
         this.pagos.getAllPayments().then(data => this.setState({listaConcepto:data}))
     }
-
+    
+    
     showSelectGroup(pago) {
-        console.log(pago);
         if (pago !== null) {
             this.setState({ pagoS: pago });
             if (pago === "") {
