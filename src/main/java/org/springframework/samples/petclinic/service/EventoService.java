@@ -72,7 +72,7 @@ public class EventoService {
 		if(evento != null) {
 			List<Inscripcion> inscripciones = inscripcionService.inscripcionesEvento(id);
 			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo()+"/"+
-			(inscripciones.size()>0 ? inscripciones.get(0).getAlumno().getGrupos().getCursos().getCursoDeIngles().toString() : "");
+			(inscripciones.size()>0 ? inscripciones.get(0).getAlumno().getGrupos().getCursos().getCursoDeIngles() : "");
 			for(Inscripcion i: inscripciones) {
 				if(i.getRegistrado()) result += "/"+i.getAlumno().getNombreCompletoUsuario();
 			}

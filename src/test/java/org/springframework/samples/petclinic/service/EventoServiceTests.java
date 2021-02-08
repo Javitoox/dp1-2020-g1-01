@@ -75,7 +75,6 @@ public class EventoServiceTests {
 		a = new Alumno();
 		Grupo grupo = new Grupo();
 		Curso curso = new Curso();
-		curso.setCursoDeIngles("B1");
 		grupo.setCursos(curso);
 		a.setGrupos(grupo);
 		a.setNickUsuario("JaviMarFer");

@@ -23,6 +23,9 @@ public class GrupoRepositoryTests {
 	@Autowired
 	protected GrupoRepository grupoRepository;
 
+    @Autowired
+    protected CursoRepository cursoRepository;
+
 	@Autowired
 	protected AsignacionProfesorRepository asignacionPrRepository;
 
@@ -30,8 +33,7 @@ public class GrupoRepositoryTests {
 	void setup() {
 		grupo = new Grupo();
 		grupo.setNombreGrupo("Grupo 1");
-		Curso c = new Curso();
-		c.setCursoDeIngles(CURSO);
+		Curso c = cursoRepository.findById(CURSO).get();
 		grupo.setCursos(c);
 
 		Grupo g = new Grupo();

@@ -48,7 +48,7 @@ public class AlumnoControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	private Alumno alumno;
 	private Grupo grupo;
 
@@ -58,7 +58,6 @@ public class AlumnoControllerTests {
 	@BeforeAll
 	void setup() {
 		Curso curso = new Curso();
-		curso.setCursoDeIngles("A1");
 		grupo = new Grupo();
 		grupo.setCursos(curso);
 		grupo.setNombreGrupo("Grupo C4");
@@ -73,8 +72,8 @@ public class AlumnoControllerTests {
 		alumno.setDireccionUsuario("Calle Papa");
 		alumno.setFechaNacimiento(LocalDate.parse("1999-08-13"));
 	}
-	
-	
+
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testShouldEditStudent() throws Exception {
@@ -241,7 +240,7 @@ public class AlumnoControllerTests {
 		mockMvc.perform(put("/alumnos/assignStudent/{nickUsuario}/{nombreGrupo}", alumno.getNickUsuario(), "Grupo2")
 				.with(csrf())).andExpect(status().isAlreadyReported());
 	}
-	
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testDeleteStudentError() throws Exception{
@@ -258,7 +257,7 @@ public class AlumnoControllerTests {
 		mockMvc.perform(delete("/alumnos/delete/{nickUsuario}", alumno.getNickUsuario()).with(csrf()))
 		.andExpect(status().isOk());
 	}
-	
+
 
 }
 
