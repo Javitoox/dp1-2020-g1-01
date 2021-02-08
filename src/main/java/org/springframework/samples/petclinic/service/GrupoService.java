@@ -21,7 +21,10 @@ public class GrupoService {
 		this.grupoRepository = grupoRepository;
 		this.alumnoService = alumnoService;
 	}
-
+	
+	public Grupo getGrupo(String nombreGrupo) {
+		return grupoRepository.findById(nombreGrupo).get();
+	}
 	public boolean exists(String id) {
 		return grupoRepository.existsById(id);
 	}
@@ -71,11 +74,7 @@ public class GrupoService {
 	public Boolean grupoVacio(String nombreGrupo){
 		return alumnoService.getStudentsPerGroup(nombreGrupo).isEmpty();
 	}
-
-	public Grupo getGrupo(String id) {
-		return grupoRepository.findById(id).get();
-	}
-
+	
 	public Integer numAlumnos(String nombreGrupo) {
 		return grupoRepository.numAlumnosGrupo(nombreGrupo).size();
 	}

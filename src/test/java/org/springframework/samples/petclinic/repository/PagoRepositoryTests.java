@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Pago;
+import org.springframework.samples.petclinic.model.TipoPago;
 
 
 @DataJpaTest
@@ -24,12 +25,17 @@ public class PagoRepositoryTests {
 	protected PagoRepository pagoRepository;
 	@Autowired
 	protected AlumnoRepository alumnoRepository;
+	
+	@Autowired
+	protected TipoPagoRepository tipoPagoRepository;
+	
 	@BeforeEach
 	void setup() {
 		pago = new Pago();
 		pago.setId(1);
 		pago.setConcepto(CONCEPTO);
-		
+		pago.setFecha(LocalDate.of(2017, 11, 11));
+		pago.setTipo(tipoPagoRepository.findById("Bizum").orElse(null));
 		Alumno a = new Alumno();
 		a.setNickUsuario("Bebelyn");
 		a.setNombreCompletoUsuario("Evelyn Yugsi");
@@ -40,7 +46,6 @@ public class PagoRepositoryTests {
 		a.setDireccionUsuario("Macarena");
 		a.setContraseya("EvelynP091");
 		a.setFechaMatriculacion(LocalDate.of(2020, 01, 11));
-		alumnoRepository.save(a);
 		
 		Alumno a1 = new Alumno();
 		a1.setNickUsuario("Javiel");
@@ -56,6 +61,8 @@ public class PagoRepositoryTests {
 
 		
 		pago.setAlumnos(a);
+		alumnoRepository.save(a);
+
 		pagoRepository.save(pago);
 	}
 	

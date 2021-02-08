@@ -1,10 +1,8 @@
 package org.springframework.samples.petclinic.web;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
@@ -68,14 +66,13 @@ public class AlumnoController {
 			alumnoServ.getAlumnoByIdOrNif(alumno.getNickUsuario(), alumno.getDniUsuario());
 		} catch (Exception e) {
 			log.info("Duplicated users");
-			return new ResponseEntity<>("The student already exists and his credentials are incorrect",
-					HttpStatus.OK);
+			return new ResponseEntity<>("The student already exists and his credentials are incorrect", HttpStatus.OK);
 		}
-		boolean comprobation=true;
-		if(alumno.getContraseya()==null || alumno.getContraseya()=="") {
+		boolean comprobation = true;
+		if (alumno.getContraseya() == null || alumno.getContraseya() == "") {
 			Alumno a = alumnoServ.getAlumnoByIdOrNif(alumno.getNickUsuario(), "");
 			alumno.setContraseya(a.getContraseya());
-			comprobation=false;
+			comprobation = false;
 		}
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
@@ -96,8 +93,8 @@ public class AlumnoController {
 			return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		} else {
 			log.info("Entra aqui con contraseña : " + alumno.getContraseya());
-			if(comprobation==true){
-			alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
+			if (comprobation == true) {
+				alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
 			}
 			alumnoServ.saveAlumno(alumno);
 			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
@@ -119,12 +116,12 @@ public class AlumnoController {
 			}
 			return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		} else {
-		this.alumnoServ.saveAlumno(student);
-		return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
+			this.alumnoServ.saveAlumno(student);
+			return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
 		}
-		}
+	}
 
-	//}
+	
 
 	@GetMapping("/getStudentInfo/{nickUsuario}")
 	public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick,
@@ -201,7 +198,7 @@ public class AlumnoController {
 	@DeleteMapping("/delete/{nickUsuario}")
 	public ResponseEntity<?> deleteStudent(@PathVariable("nickUsuario") String nickUsuario) {
 		log.info("Solicitando borrar alumno: {}", nickUsuario);
-		if (alumnoServ.getStudentsToDelete().contains(nickUsuario.toString())) {
+		if (alumnoServ.getStudentsToDelete().contains(nickUsuario)) {
 			Alumno a = alumnoServ.getAlumno(nickUsuario);
 			alumnoServ.deleteStudents(a);
 			return new ResponseEntity<>("Alumno dado de baja correctamente", HttpStatus.OK);

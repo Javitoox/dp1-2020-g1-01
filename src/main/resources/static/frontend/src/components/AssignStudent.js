@@ -223,8 +223,6 @@ class AssignStudent extends Component  {
         return groupSelectItems
     }
     error(campo, mensaje){
-        console.log(campo)
-        console.log(mensaje)
         if(campo === "grupo.cursoDeIngles"){
             this.setState({ cursoError: <div className="alert alert-danger" role="alert">{mensaje}</div> })
         }
@@ -269,9 +267,8 @@ class AssignStudent extends Component  {
    
     
     render() {
-        console.log(this.props.astudent)
         return (
-            <div>
+            <div> 
                 <div className="c">
                     <div className="login request">
                         <form onSubmit={this.assign}  >

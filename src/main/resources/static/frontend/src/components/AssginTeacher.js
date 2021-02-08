@@ -1,8 +1,4 @@
 import React, { Component } from 'react'
-import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
-import { Dropdown } from 'primereact/dropdown';
-import axios from 'axios';
 import moment from 'moment';
 
 import AlumnoComponent from './AlumnoComponent';

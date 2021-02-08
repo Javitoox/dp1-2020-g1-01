@@ -21,12 +21,14 @@ public class AlumnoService {
 	private AlumnoRepository alumnoRepository;
 	private GrupoRepository grupoRepository;
 	private InscripcionService inscripcionService;
+	
 
 	@Autowired
 	public AlumnoService(AlumnoRepository alumnoRepository,GrupoRepository grupoRepository, InscripcionService inscripcionService) {
 		this.alumnoRepository = alumnoRepository;
 		this.grupoRepository = grupoRepository;
 		this.inscripcionService = inscripcionService;
+		this.grupoRepository = grupoRepository;
 	}
 
 	public List<Alumno> getStudentsPerGroup(String nombreGrupo) {
@@ -36,6 +38,7 @@ public class AlumnoService {
 	public List<Alumno> getAllAlumnos() {
 		return alumnoRepository.findStudents();
 	}
+
 	public Alumno getAlumno(String nickUsuario) {
 		return alumnoRepository.findById(nickUsuario).orElse(null);
 	}
@@ -49,20 +52,24 @@ public class AlumnoService {
 	}
 
 	@Transactional
-	public void deleteStudents(Alumno alumno) throws DataAccessException{
+	public void deleteStudents(Alumno alumno) throws DataAccessException {
+		alumno.setFechaMatriculacion(null);
 		alumno.setFechaBaja(LocalDate.now());
 		alumno.setGrupos(null);
 		alumno.setNumTareasEntregadas(0);
+		alumnoRepository.save(alumno);
 	}
+
 	@Transactional
 	public void deleteStudent(String id) throws DataAccessException {
 		alumnoRepository.deleteById(id);
 	}
+
 	@Transactional
 	public Alumno saveAlumno(Alumno alumno) throws DataAccessException {
-		if(alumno.getGrupos()==null) {
-		Grupo grupo = alumnoRepository.findById(alumno.getNickUsuario()).get().getGrupos();
-		alumno.setGrupos(grupo);
+		if (alumno.getGrupos() == null) {
+			Grupo grupo = alumnoRepository.findById(alumno.getNickUsuario()).get().getGrupos();
+			alumno.setGrupos(grupo);
 		}
 		return alumnoRepository.save(alumno);
 	}
@@ -102,7 +109,7 @@ public class AlumnoService {
 			Inscripcion i = new Inscripcion();
 			i.setId(idInscripcion);
 			i.setFecha(LocalDate.now());
-			if(type.equals("Internal"))
+			if (type.equals("Internal"))
 				i.setRegistrado(true);
 			else
 				i.setRegistrado(false);
@@ -111,7 +118,9 @@ public class AlumnoService {
 			inscripcionService.saveInscripcion(i);
 			idInscripcion++;
 		}
-    }
+	}
+   
 
 }
+
 
