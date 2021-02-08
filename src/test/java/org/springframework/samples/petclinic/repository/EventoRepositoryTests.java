@@ -5,12 +5,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Evento;
 
 @DataJpaTest
@@ -36,7 +39,8 @@ public class EventoRepositoryTests {
 	}
 	
 	@Test
-	void testFindAllEvents() {
+	@Transactional
+	void testFindAllEvents() throws DataAccessException{
 		eventoRepository.save(e);
 		
 		List<Evento> eventos = eventoRepository.findAllEvents();
@@ -45,7 +49,8 @@ public class EventoRepositoryTests {
 	}
 	
 	@Test
-	void testFindExistEvent() {
+	@Transactional
+	void testFindExistEvent() throws DataAccessException{
 		eventoRepository.save(e);
 		
 		Evento evento = eventoRepository.findExist(e.getTitle(), e.getStart());
@@ -55,7 +60,8 @@ public class EventoRepositoryTests {
 	}
 	
 	@Test
-	void testFindExistEventNull() {
+	@Transactional
+	void testFindExistEventNull() throws DataAccessException{
 		eventoRepository.save(e);
 		
 		Evento evento = eventoRepository.findExist(e.getTitle()+"prueba", e.getStart());

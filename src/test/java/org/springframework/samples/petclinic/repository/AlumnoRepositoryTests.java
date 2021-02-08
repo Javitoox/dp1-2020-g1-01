@@ -2,14 +2,19 @@ package org.springframework.samples.petclinic.repository;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
@@ -53,14 +58,37 @@ public class AlumnoRepositoryTests {
 		a.setContraseya("Pollito009");
 		a.setNumTelefonoUsuario("698898989");
 	}
+	
+	@Test
+	@Transactional
+	void testFindByNickAndNif() throws DataAccessException{
+		alumnoRepository.save(a);
+		
+		Alumno  alumno = alumnoRepository.findByNickAndNif("javialonso", "77777777U");
+		
+        assertThat(alumno.getNickUsuario()).isEqualTo("javialonso");
+	}
+	
+	@Test
+	@Transactional
+	void testFindByNickAndNifDuplicated() throws DataAccessException{
+		alumnoRepository.save(a);
+		a.setNickUsuario("JaviMartinez");
+		a.setDniUsuario("76567674T");
+		alumnoRepository.save(a);
+		
+		Exception exception = assertThrows(IncorrectResultSizeDataAccessException.class, () -> {alumnoRepository.findByNickAndNif("JaviMartinez", "99876566W");});
+		
+        assertThat(exception.getMessage())
+        .isEqualTo("query did not return a unique result: 2; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 2");
+	}
+	
 	@Test
 	void testReturnStudentsByGroup() {
-		Curso c = new Curso();
-		c.setCursoDeIngles("A1");
-		Curso curso = cursoRepository.save(c);
+		Curso c = cursoRepository.findById("A1").get();
 		Grupo g  = new Grupo();
 		g.setNombreGrupo("Grupo de evelyn");
-		g.setCursos(curso);
+		g.setCursos(c);
 		grupoRepository.save(g);
 		a.setGrupos(g);
 		alumnoRepository.save(a);
@@ -78,13 +106,10 @@ public class AlumnoRepositoryTests {
 
 	@Test
 	void testReturnStudentsByCourse() {
-		Curso c = new Curso();
-		c.setCursoDeIngles("A1");
-		Curso curso = cursoRepository.save(c);
-
+		Curso c = cursoRepository.findById("A1").get();
 		Grupo g  = new Grupo();
 		g.setNombreGrupo("mi grupo fav");
-		g.setCursos(curso);
+		g.setCursos(c);
 		Grupo grupo = grupoRepository.save(g);
 
 		a.setGrupos(grupo);
@@ -133,7 +158,7 @@ public class AlumnoRepositoryTests {
 		p3.setFecha(LocalDate.of(2020, 11, 11));
 		p3.setTipo(tipoPagoRepository.findById("Transfer").orElse(null));
 		p3.setAlumnos(a);
-		alumnoRepository.save(a);		
+		alumnoRepository.save(a);
 		pagoRepository.save(p);
 		pagoRepository.save(p2);
 		pagoRepository.save(p3);
