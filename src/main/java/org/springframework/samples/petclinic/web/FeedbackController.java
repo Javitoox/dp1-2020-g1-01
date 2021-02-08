@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Feedback;
 import org.springframework.samples.petclinic.service.FeedbackService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -61,20 +62,29 @@ public class FeedbackController {
 			@PathVariable("idMaterial") Integer idMaterial, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		if (userDetails.getUsername().equals(nickUser)) {
-			return ResponseEntity.ok(feedbackService.getFeedbackByMaterialAndStudent(nickUser, idMaterial));
+			Feedback f = feedbackService.getFeedbackByMaterialAndStudent(nickUser, idMaterial);
+            if(f.getComentario() == null){
+                f.setComentario("");
+            }
+            if(f.getValoracion() == null){
+                f.setValoracion(0);
+            }
+            return ResponseEntity.ok(f);
+
 		} else {
 			log.warn("El nick pasado por parámetros no coincide con el nick logeado");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-	} 
+	}
 
 	@PutMapping("/update")
 	public ResponseEntity<?> updateFeedback(@RequestParam(value = "comment", required = false) String comment,
 			@RequestParam(value = "rate", required = false) Integer rate, @RequestParam("id") Integer id) {
+        System.out.println("esto es un comentario:"+comment);
 		feedbackService.updateFeedback(comment, rate, id);
 		return ResponseEntity.ok().build();
 	}
-	
+
 	@PutMapping("/{idMaterial}/anadirAlumno")
 	public ResponseEntity<?> añadirAlumnoAMaterial(@PathVariable("idMaterial") Integer idMaterial, @RequestBody Alumno alumno) {
 		log.info("Asignando alumno a material...");
