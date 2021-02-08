@@ -153,7 +153,6 @@ public class AlumnoController {
 		return ResponseEntity.ok(allStudents);
 	}
 
-
 	@GetMapping("/getByCourse/{course}")
 	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") TipoCurso cursoDeIngles) {
 		log.info("Obteniendo alumnos del curso: " + cursoDeIngles);
@@ -181,21 +180,20 @@ public class AlumnoController {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
-	
-	@PutMapping("/assignStudent/{nickUsuario}/{nombreGrupo}")
-	public ResponseEntity<?> updateGroup(@PathVariable("nickUsuario") String nickUsuario, @PathVariable("nombreGrupo") String nombreGrupo) {
-		log.info("Editando el grupo del alumno: ", nickUsuario);
-			Alumno a = alumnoServ.getAlumno(nickUsuario);
-			Integer numAlumnosGrupo = grupoService.numAlumnos(nombreGrupo);
-			if (numAlumnosGrupo < 12) {
-				this.alumnoServ.saveAlumnAsign(a, nombreGrupo);
-				return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
-			} else {
-				return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED);
-			}
 
-		}
-	
+	@PutMapping("/assignStudent/{nickUsuario}/{nombreGrupo}")
+    public ResponseEntity<?> updateGroup(@PathVariable("nickUsuario") String nickUsuario, @PathVariable("nombreGrupo") String nombreGrupo) {
+        log.info("Editando el grupo del alumno: "+ nickUsuario);
+            Alumno a = alumnoServ.getAlumnoAssign(nickUsuario);
+            Integer numAlumnosGrupo = grupoService.numAlumnos(nombreGrupo);
+            if (numAlumnosGrupo < 12) {
+                this.alumnoServ.saveAlumnAsign(a, nombreGrupo);
+                return new ResponseEntity<>("Successful edit", HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>("El grupo tiene más de 12 alumnos", HttpStatus.ALREADY_REPORTED);
+            }
+
+        }
 
 	@DeleteMapping("/delete/{nickUsuario}")
 	public ResponseEntity<?> deleteStudent(@PathVariable("nickUsuario") String nickUsuario) {

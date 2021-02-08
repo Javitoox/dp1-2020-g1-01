@@ -48,7 +48,7 @@ public class AlumnoControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-
+	
 	private Alumno alumno;
 	private Grupo grupo;
 
@@ -73,38 +73,105 @@ public class AlumnoControllerTests {
 		alumno.setDireccionUsuario("Calle Papa");
 		alumno.setFechaNacimiento(LocalDate.parse("1999-08-13"));
 	}
-
+	
+	@MockBean
+	private PasswordEncoder passwordEncoder;
+	
 	@WithMockUser(value = "spring")
-	@Test
-	void testShouldEditStudent() throws Exception {
-		mockMvc.perform(put("/alumnos/editStudent").param("nickUsuario", "Javi").param("contraseya", "Bebesita7")
-				.param("dniUsuario", "55635286A").param("nombreCompletoUsuario", "Javi Martínez")
-				.param("correoElectronicoUsuario", "martinez@gmail.com").param("numTelefonoUsuario", "626222111")
-				.param("numTelefonoUsuario2", "665768567").param("direccionUsuario", "Calle El Punto Medio")
-				.param("fechaNacimiento", "2000/10/15").with(csrf()).sessionAttr("type", "profesor")).andDo(print())
-				.andDo(print()).andExpect(status().isOk());
-
+	@Test 
+	void testShouldEditStudent() throws Exception {	 
+		Alumno alumno = new Alumno();
+		alumno.setNickUsuario("JaviMartinez7");
+		alumno.setContraseya("JaviKuka787");
+		alumno.setCorreoElectronicoUsuario("javikua7@gmail.com");
+		alumno.setDireccionUsuario("Calle Pepe");
+		alumno.setDniUsuario("45676787Y");
+		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
+		alumno.setNombreCompletoUsuario("Javi Martinez");
+		alumno.setNumTareasEntregadas(3);
+		alumno.setNumTelefonoUsuario("677676676");
+		mockMvc.perform(put("/alumnos/editStudent")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(alumno.toJson())
+				.with(csrf()))
+		.andExpect(status().isCreated());
 	}
-
+	
 	@WithMockUser(value = "spring")
-	@Test
-	void testShouldntEditStudentBecauseUnauthorized() throws Exception {
-		mockMvc.perform(put("/alumnos/editStudent").param("nickUsuario", "Javi").param("contraseya", "Bebesita7")
-				.param("dniUsuario", "55635286A").param("nombreCompletoUsuario", "Javi Martínez")
-				.param("correoElectronicoUsuario", "martinez@gmail.com").param("numTelefonoUsuario", "626222111")
-				.param("numTelefonoUsuario2", "665768567").param("direccionUsuario", "Calle El Punto Medio")
-				.param("fechaNacimiento", "2000/10/15").with(csrf()).sessionAttr("type", "alumno")).andDo(print())
-				.andDo(print()).andExpect(status().isOk());
-
+	@Test 
+	void testShouldntEditStudentUnauthorized() throws Exception {	 
+		Alumno alumno = new Alumno();
+		alumno.setNickUsuario("JaviMartinez7");
+		alumno.setContraseya("JaviKuka787");
+		alumno.setCorreoElectronicoUsuario("javikua7@gmail.com");
+		alumno.setDireccionUsuario("Calle Pepe");
+		alumno.setDniUsuario("45676787Y");
+		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
+		alumno.setNombreCompletoUsuario("Javi Martinez");
+		alumno.setNumTareasEntregadas(3);
+		alumno.setNumTelefonoUsuario("6776766764234234234234");
+		mockMvc.perform(put("/alumnos/editStudent")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(alumno.toJson())
+				.with(csrf()))
+		.andExpect(status().isNonAuthoritativeInformation());
 	}
-
+	
 	@WithMockUser(value = "spring")
+	@Test 
+	void testShouldEditPersonalInfo() throws Exception {	 
+		Alumno alumno = new Alumno();
+		alumno.setNickUsuario("JaviMartinez7");
+		alumno.setContraseya("JaviKuka787");
+		alumno.setCorreoElectronicoUsuario("javikua7@gmail.com");
+		alumno.setDireccionUsuario("Calle Pepe");
+		alumno.setDniUsuario("45676787Y");
+		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
+		alumno.setNombreCompletoUsuario("Javi Martinez");
+		alumno.setNumTareasEntregadas(3);
+		alumno.setNumTelefonoUsuario("622119555");
+		mockMvc.perform(put("/alumnos/editPersonalInfo")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(alumno.toJson())
+				.with(csrf()))
+		.andExpect(status().isCreated());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test 
+	void testShoulntdEditPersonalInfoNonAuth() throws Exception {	 
+		Alumno alumno = new Alumno();
+		alumno.setNickUsuario("JaviMartinez7");
+		alumno.setContraseya("JaviKuka787");
+		alumno.setCorreoElectronicoUsuario("javikua7@gmail.com");
+		alumno.setDireccionUsuario("Calle Pepe");
+		alumno.setDniUsuario("45676787Y");
+		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
+		alumno.setNombreCompletoUsuario("Javi Martinez");
+		alumno.setNumTareasEntregadas(3);
+		alumno.setNumTelefonoUsuario("62211955532423432423423");
+		mockMvc.perform(put("/alumnos/editPersonalInfo")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(alumno.toJson())
+				.with(csrf()))
+		.andExpect(status().isNonAuthoritativeInformation());
+	}
+	
+	@WithMockUser(value  = "manolo", authorities= {"alumno"})
 	@Test
 	void testShowStudentInfo() throws Exception {
 		given(this.alumnoService.getAlumno(any(String.class))).willReturn(new Alumno());
 		mockMvc.perform(get("/alumnos/getStudentInfo/manolo")).andExpect(status().isOk());
 	}
-
+	
+	@WithMockUser(value  = "manolo", authorities= {"alumno"})
+	@Test
+	void testShowStudentInfoUnauthorized() throws Exception {
+		given(this.alumnoService.getAlumno(any(String.class))).willReturn(new Alumno());
+		mockMvc.perform(get("/alumnos/getStudentInfo/Javi")).andExpect(status().isUnauthorized());
+	}
+	
+	
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowListAllStudents() throws Exception {
@@ -118,15 +185,15 @@ public class AlumnoControllerTests {
 		given(this.alumnoService.getStudentsByCourse(any(TipoCurso.class))).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/alumnos/getByCourse/B1")).andExpect(status().isOk());
 	}
-
-	@WithMockUser(value = "marrambla2", roles = "tutor")
+	
+	@WithMockUser(username = "marrambla2", authorities ={"tutor"})	
 	@Test
 	void testShowListStudentsByTutor() throws Exception {
 		given(this.alumnoService.getAllMyStudents(any(String.class))).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/alumnos/marrambla2/allMyStudents")).andExpect(status().isOk());
 	}
-
-	@WithMockUser(value = "pepito", roles = "tutor")
+	
+	@WithMockUser(username = "pepito", authorities ={"tutor"})	
 	@Test
 	void testShowListStudentsByTutorNotEqualsThanLoguedUser() throws Exception {
 		given(this.alumnoService.getAllMyStudents(any(String.class))).willReturn(new ArrayList<>());

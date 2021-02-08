@@ -14,6 +14,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.Gson;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -47,5 +48,17 @@ public class Alumno extends Usuario{
     @OneToMany(cascade=CascadeType.ALL, mappedBy="alumno")
     @JsonIgnore
     private Collection<Inscripcion> inscripciones;
+
  
+	public String toJson() {
+		LocalDate copiaFechaNacimiento = getFechaNacimiento();
+		Gson json = new Gson();
+		this.setFechaNacimiento(null);
+		String jsonString = json.toJson(this);
+		String result = jsonString.substring(0, jsonString.length() - 1) + ",\"fechaNacimiento\":\""
+				+ copiaFechaNacimiento.toString() + "\"}";
+		this.setFechaNacimiento(copiaFechaNacimiento);
+		return result;
+	}
+
 }

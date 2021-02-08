@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.service.FeedbackService;
@@ -37,14 +38,6 @@ public class FeedbackController {
 		this.feedbackService = feedbackService;
 	};
 
-	@PutMapping("/{idMaterial}/añadirAlumno")
-	public ResponseEntity<?> añadirAlumnoAMaterial(@PathVariable("idMaterial") Integer idMaterial,
-			@Valid @RequestBody Alumno alumno) {
-		log.info("Asignando alumno a material...");
-		feedbackService.añadirAlumnoAMaterial(idMaterial, alumno);
-		return ResponseEntity.ok().build();
-	}
-
 	@DeleteMapping("/deleteMaterial/{idMaterial}")
 	public ResponseEntity<?> deleteMaterial(@PathVariable("idMaterial") Integer idMaterial) throws IOException {
 		log.info("Borrando material con id:" + idMaterial);
@@ -73,12 +66,19 @@ public class FeedbackController {
 			log.warn("El nick pasado por parámetros no coincide con el nick logeado");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-	}
+	} 
 
 	@PutMapping("/update")
 	public ResponseEntity<?> updateFeedback(@RequestParam(value = "comment", required = false) String comment,
 			@RequestParam(value = "rate", required = false) Integer rate, @RequestParam("id") Integer id) {
 		feedbackService.updateFeedback(comment, rate, id);
+		return ResponseEntity.ok().build();
+	}
+	
+	@PutMapping("/{idMaterial}/anadirAlumno")
+	public ResponseEntity<?> añadirAlumnoAMaterial(@PathVariable("idMaterial") Integer idMaterial, @RequestBody Alumno alumno) {
+		log.info("Asignando alumno a material...");
+		feedbackService.añadirAlumnoAMaterial(idMaterial, alumno);
 		return ResponseEntity.ok().build();
 	}
 

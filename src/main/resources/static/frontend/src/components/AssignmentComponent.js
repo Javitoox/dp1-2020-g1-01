@@ -12,4 +12,8 @@ export default class AssignmentComponent extends Component {
     return axios.delete(baseUrl + "/asignaciones/delete/" + nickUser + "/" + nombreGrupo).then(res => res.data);
   }
 
+  getTeacherByGroup(baseUrl, user) {
+    return axios.get(baseUrl + "/asignaciones/getNick/" + user).then(res => res.data);
+  }
+
 }

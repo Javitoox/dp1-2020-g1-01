@@ -72,7 +72,7 @@ public class SolicitudService {
 	}
 	
 	public Alumno getAlumno(String nickUsuario) {
-		return alumnoService.getAlumno(nickUsuario);
+		return alumnoService.getAlumno(nickUsuario); 
 	}
 	
 	public Alumno getAlumnoByIdOrNif(String nickUsuario, String nif) {

@@ -76,6 +76,10 @@ public class GrupoService {
 		return alumnoService.getStudentsPerGroup(nombreGrupo).isEmpty();
 	}
 	
+	public Grupo getGrupo(String id) {
+		return grupoRepository.findById(id).get();
+	}
+	
 	public Integer numAlumnos(String nombreGrupo) {
 		return grupoRepository.numAlumnosGrupo(nombreGrupo).size();
 	}

@@ -168,21 +168,21 @@ public class SolicitudServiceTests {
 	@Test
 	void shouldDenyPendingRequestWithoutTutor() {
 		solicitudService.declineRequest(ALUMNO_WITHOUT_TUTOR);
-		verify(alumnoService, times(1)).deleteStudent(any(String.class));
+		verify(alumnoService, times(1)).deleteStudent(ALUMNO_WITHOUT_TUTOR.getNickUsuario());
 		verify(tutorService, times(0)).delete(any(String.class));
 	}
 	 
 	@Test
 	void shouldDenyPendingRequestWithTutorWithoutMoreStudents() {
 		ALUMNO_WITH_TUTOR = new Alumno();
-		Tutor t = new Tutor();
+		Tutor t = new Tutor(); 
 		t.setNickUsuario("Manolo234");
 		ALUMNO_WITH_TUTOR.setTutores(t);
 		when(alumnoService.getAllMyStudents(any(String.class))).thenReturn(listWithoutStudents);
 		
 		solicitudService.declineRequest(ALUMNO_WITH_TUTOR);
 		
-		verify(alumnoService, times(1)).deleteStudent(any(String.class));
+		verify(alumnoService, times(1)).deleteStudent(ALUMNO_WITH_TUTOR.getNickUsuario());
 		verify(tutorService, times(1)).delete(any(String.class));
 	}
 	
@@ -196,7 +196,7 @@ public class SolicitudServiceTests {
 		
 		solicitudService.declineRequest(ALUMNO_WITH_TUTOR);
 		
-		verify(alumnoService, times(1)).deleteStudent(any(String.class));
+		verify(alumnoService, times(1)).deleteStudent(ALUMNO_WITH_TUTOR.getNickUsuario());
 		verify(tutorService, times(0)).delete(any(String.class));
 	}
 

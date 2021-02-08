@@ -16,7 +16,7 @@ public class ProfesorService {
 	}
 	
 	public Profesor getProfesor(String nickUsuario) {
-		return profesorRepository.findByNick(nickUsuario);
+		return profesorRepository.findById(nickUsuario).orElse(null);
 	}
 
 }

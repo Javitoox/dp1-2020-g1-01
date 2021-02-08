@@ -6,11 +6,11 @@ export default class MaterialComponent extends Component{
 
 
     crearMaterial(urlBase, nickUsuario,formData ){
-        return axios.post(urlBase+"/materiales/añadirMaterial/"+nickUsuario, formData);
+        return axios.post(urlBase+"/materiales/anadirMaterial/"+nickUsuario, formData);
     }
 
     asignarAlumnoMaterial(urlBase,id,alumno){
-        return axios.put(urlBase+"/feedback/"+id+"/añadirAlumno/",alumno);
+        return axios.put(urlBase+"/feedback/"+id+"/anadirAlumno/",alumno);
     }
 
     obtenerMaterialTeacher(urlBase,nickUsuario){
