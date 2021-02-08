@@ -36,6 +36,7 @@ public class FeedbackService {
 
 	
 	public void añadirAlumnoAMaterial(Integer idMaterial, @Valid Alumno alumno) {
+		alumno.setVersion(alumnoService.getAlumnoByIdOrNif(alumno.getNickUsuario(), alumno.getDniUsuario()).getVersion());
 		log.info("Asignando el material con id ",idMaterial, " al alumno ",alumno.getNickUsuario());
 		Material m = materialService.findMaterialById(idMaterial);
 		Feedback f = new Feedback();
