@@ -12,14 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Pago;
-import org.springframework.samples.petclinic.model.TipoPago;
 
 
 @DataJpaTest
 public class PagoRepositoryTests {
 	
 	private static Pago pago;
-	private static final String CONCEPTO= "Primera matricula";
+	private static final String CONCEPTO= "First Installment";
 	
 	@Autowired
 	protected PagoRepository pagoRepository;
@@ -73,14 +72,26 @@ public class PagoRepositoryTests {
 	}
 	
 	@Test
-	public void shouldReturnAllStudents() {
+	public void shouldReturnAllStudentsPayments() {
 		List<Alumno> alumns = pagoRepository.findStudentsByPago(CONCEPTO);
 		assertThat(alumns).isNotEmpty();
+	}
+	
+	@Test
+	public void shouldReturnAllStudentsPaymentsIsEmpty() {
+		List<Alumno> alumns = pagoRepository.findStudentsByPago("Viaje a UK");
+		assertThat(alumns).isEmpty();
 	}
 
 	@Test
 	public void shouldReturnAllStudentsWhoDoesntPaid() {
 		List<Alumno> alumns = pagoRepository.findStudentByNoPago(CONCEPTO);
+		assertThat(alumns.size()).isGreaterThan(0);
+	}
+	
+	@Test
+	public void shouldReturnAllStudentsWhoDoesntPaidisEmpty() {
+		List<Alumno> alumns = pagoRepository.findStudentByNoPago("Viaje a la nada");
 		assertThat(alumns.size()).isGreaterThan(0);
 	}
 	

@@ -59,6 +59,12 @@ public class AsignacionProfesorServiceTest {
 		when(asignacionProfRepository.getAsignacionesByProfesor(NICK_PROFESOR)).thenReturn(asignacionesProf);
 		assertThat(asignacionProfService.getAllAsignacionesByUser(NICK_PROFESOR)).isNotEmpty();
 	}
+	
+	@Test
+	void shouldShowAListWithAsignationsIsEmpty() {
+		when(asignacionProfRepository.getAsignacionesByProfesor(NICK_PROFESOR)).thenReturn(new ArrayList<>());
+		assertThat(asignacionProfService.getAllAsignacionesByUser(NICK_PROFESOR)).isEmpty();
+	}
 
 	@Test
 	void shouldSaveATeacherAsignation() {
@@ -119,5 +125,11 @@ public class AsignacionProfesorServiceTest {
 		g.setNombreGrupo("B2 A");
 		when(asignacionProfRepository.getAsignacionesByGroup(g.getNombreGrupo())).thenReturn(asignaciones);
 		assertThat(asignacionProfService.findAsignacionesByGroup(g.getNombreGrupo())).isEqualTo(asignaciones);
+	}
+	
+	@Test
+	void shoulReturnAsignationsNamesByGroupIsEmpty() {
+		when(asignacionProfRepository.getAsignacionesByGroup(any())).thenReturn(new ArrayList<>());
+		assertThat(asignacionProfService.findAsignacionesByGroup("B2 A")).isEmpty();
 	}
 }
