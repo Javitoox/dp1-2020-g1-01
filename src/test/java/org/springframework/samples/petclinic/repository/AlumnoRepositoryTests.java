@@ -96,6 +96,13 @@ public class AlumnoRepositoryTests {
         assertThat(alumnos.size()).isGreaterThan(0);
 
 	}
+	
+	@Test
+	void testReturnStudentsByGroupIsEmpty() {
+		alumnoRepository.save(a);
+		List<Alumno>alumnos = alumnoRepository.findByGroup("Grupo de evelyn");
+        assertThat(alumnos).isEmpty();
+	}
 
 	@Test
 	void testReturnListWithStudents() {
@@ -168,6 +175,19 @@ public class AlumnoRepositoryTests {
 		assertThat(allNames.size()).isEqualTo(1);
 		assertThat(allNames.size()).isGreaterThan(0);
 	}
+	
+	@Test
+	void testReturnAlumnsAbleToDeleteIsEmpty() {
+		alumnoRepository.save(a);
+		Pago p = new Pago();
+		p.setConcepto("Excursion");
+		p.setFecha(LocalDate.of(2020, 11, 11));
+		p.setTipo(tipoPagoRepository.findById("Bizum").orElse(null));
+		p.setAlumnos(a);
+		alumnoRepository.save(a);
+		List<String> allNames = alumnoRepository.findStudentsAbleToDelete();
+		assertThat(allNames.size()).isEqualTo(0);
+	}
 
 	@Test
 	void testReturnStudentsNamesWithNoGroups() {
@@ -185,6 +205,12 @@ public class AlumnoRepositoryTests {
 		List<String> allStudents = alumnoRepository.findSudentsWithNoGroups();
 		assertThat(allStudents.size()).isEqualTo(1);
 		assertThat(allStudents.size()).isGreaterThan(0);
+	}
+	
+	@Test
+	void testReturnStudentsWithNoGroupsMustBeEmpty() {
+		List<String> allStudents = alumnoRepository.findSudentsWithNoGroups();
+		assertThat(allStudents.size()).isEqualTo(0);
 	}
 
 }

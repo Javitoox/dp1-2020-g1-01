@@ -34,7 +34,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = AsignacionesProfesorController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
-public class AsignacionProfesorTests {
+public class AsignacionProfesorControllerTests {
 
 	private final static String NICK_USUARIO = "Evelyn";
 
@@ -60,7 +60,6 @@ public class AsignacionProfesorTests {
 		asignacionProfesorKey.setNombreGrupo("grupo7");
 		grupo = new Grupo();
 		Curso curso = new Curso();
-		curso.setCursoDeIngles("B2");
 		grupo.setNombreGrupo("grupo7");
 		grupo.setCursos(curso);
 		profesor = new Profesor();

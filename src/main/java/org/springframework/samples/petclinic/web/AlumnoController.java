@@ -184,7 +184,7 @@ public class AlumnoController {
 	@PutMapping("/assignStudent/{nickUsuario}/{nombreGrupo}")
     public ResponseEntity<?> updateGroup(@PathVariable("nickUsuario") String nickUsuario, @PathVariable("nombreGrupo") String nombreGrupo) {
         log.info("Editando el grupo del alumno: "+ nickUsuario);
-            Alumno a = alumnoServ.getAlumnoAssign(nickUsuario);
+            Alumno a = alumnoServ.getAlumno(nickUsuario);
             Integer numAlumnosGrupo = grupoService.numAlumnos(nombreGrupo);
             if (numAlumnosGrupo < 12) {
                 this.alumnoServ.saveAlumnAsign(a, nombreGrupo);

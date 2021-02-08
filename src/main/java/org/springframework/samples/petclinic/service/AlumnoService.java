@@ -40,10 +40,6 @@ public class AlumnoService {
 		return alumnoRepository.findById(nickUsuario).orElse(null);
 	}
 
-	public Alumno getAlumnoAssign(String nickUsuario) {
-		return alumnoRepository.findById(nickUsuario).get();
-	}
-
 	public Alumno getAlumnoByIdOrNif(String nickUsuario, String nif) {
 		return alumnoRepository.findByNickAndNif(nickUsuario, nif);
 	}
@@ -81,10 +77,10 @@ public class AlumnoService {
     }
 
 	@Transactional
-    public Alumno saveAlumnAsign(Alumno alumno, String nombreGrupo) throws DataAccessException {
+    public void saveAlumnAsign(Alumno alumno, String nombreGrupo) throws DataAccessException {
         Grupo g = grupoRepository.findById(nombreGrupo).get();
         alumno.setGrupos(g);
-        return alumnoRepository.save(alumno);
+        alumnoRepository.save(alumno);
     }
 
     public List<Alumno> getStudentsByCourse(String cursoDeIngles){

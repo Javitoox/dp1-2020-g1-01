@@ -145,21 +145,23 @@ public class AlumnoServiceTests {
 		List<Alumno> alumnos = alumnoService.getAllMyStudents(TUTOR_WITHOUT_STUDENTS);
 		assertThat(alumnos.size()).isEqualTo(0);
 	}
-//	@Test
-//	void shouldSaveStudentAssign() {
-//		Alumno a= new Alumno();
-//		a.setNickUsuario("Gonsalo");
-//		a.setContraseya("NahDeLocos99");
-//		a.setDniUsuario("20502441B");
-//		a.setCorreoElectronicoUsuario("nukescream@gmail.com");
-//		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
-//		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
-//		a.setNumTelefonoUsuario("622110555");
-//		Grupo g = new Grupo();
-//		when(grupoRepository.findById("Grupo2")).thenReturn(Optional.of(g));
-//
-//		verify(grupoRepository, times(1)).save(any());
-//	}
+	@Test
+	void shouldSaveStudentAssign() {
+		Alumno a= new Alumno();
+		a.setNickUsuario("Gonsalo");
+		a.setContraseya("NahDeLocos99");
+		a.setDniUsuario("20502441B");
+		a.setCorreoElectronicoUsuario("nukescream@gmail.com");
+		a.setFechaMatriculacion(LocalDate.of(2019, 10, 03));
+		a.setNombreCompletoUsuario("Gonzalo Alvarez Garcia");
+		a.setNumTelefonoUsuario("622110555");
+		Grupo g = new Grupo();
+		g.setNombreGrupo("Grupo2");
+		when(grupoRepository.findById("Grupo9")).thenReturn(Optional.of(g));
+		alumnoService.saveAlumnAsign(a, "Grupo9");
+		verify(alumnoRepository, times(1)).save(any());
+	}
+	
 	@Test
 	void shouldSaveStudent() {
 
