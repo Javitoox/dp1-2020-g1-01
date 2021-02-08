@@ -13,20 +13,19 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
-import org.springframework.samples.petclinic.model.TipoCurso;
 
 @DataJpaTest
 public class GrupoRepositoryTests {
-	
+
 	private static Grupo grupo;
-	private static final TipoCurso CURSO= TipoCurso.B1;
-	
+	private static final String CURSO= "B1";
+
 	@Autowired
 	protected GrupoRepository grupoRepository;
-	
+
 	@Autowired
 	protected AsignacionProfesorRepository asignacionPrRepository;
-	
+
 	@BeforeEach
 	void setup() {
 		grupo = new Grupo();
@@ -34,13 +33,13 @@ public class GrupoRepositoryTests {
 		Curso c = new Curso();
 		c.setCursoDeIngles(CURSO);
 		grupo.setCursos(c);
-		
+
 		Grupo g = new Grupo();
 		g.setNombreGrupo("Grupo H");
 		g.setCursos(c);
 		grupoRepository.save(g);
 
-		
+
 		List<Alumno> alumnos = new ArrayList<>();
 		Alumno a = new Alumno();
 		a.setNickUsuario("Bebelyn");
@@ -66,42 +65,42 @@ public class GrupoRepositoryTests {
 
 		alumnos.add(a); alumnos.add(a1);
 		grupo.setAlumnos(alumnos);
-		
-		
+
+
 		grupoRepository.save(grupo);
 
 	}
-	
+
 	@Test
 	void shouldReturnAllGroupNames() {
 		List<String> allGroupNames = grupoRepository.findAllGroupNames();
 		assertThat(allGroupNames).isNotEmpty();
 	}
-	
+
 	@Test
 	void shouldReturnGroupNamesByCourse() {
 		List<String> allGroupNamesByCourse = grupoRepository.findNameByCurso(CURSO);
 		assertThat(allGroupNamesByCourse).isNotEmpty();
 	}
-	
+
 	@Test
 	void shouldReturnAllCoursesByGroup() {
 		List<String> cursoPorGrupo = grupoRepository.findNameByGrupo(grupo.getNombreGrupo());
 		assertThat(cursoPorGrupo).isNotEmpty();
 	}
-	
+
 	@Test
 	void shouldReturnAllEmptyGroupNames() {
 		List<String> gruposVacios = grupoRepository.findAllEmptyGroups();
 		assertThat(gruposVacios).isNotEmpty();
 	}
-	
+
 	@Test
 	void shouldReturnAllGroupAlumns() {
 		List<Alumno> alumnos = grupoRepository.numAlumnosGrupo(grupo.getNombreGrupo());
 		assertThat(alumnos).isNotEmpty();
 	}
-	
+
 	@Test
 	void shoulReturnAllGroupNamesToAssignByStudent() {
 		List<String> grupoPorEstudiante = grupoRepository.findGroupsToAssign("Bebelyn");

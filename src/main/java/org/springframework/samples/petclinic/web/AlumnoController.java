@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.TipoCurso;
+import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.samples.petclinic.util.AlumnoValidator;
@@ -154,7 +154,7 @@ public class AlumnoController {
 	}
 
 	@GetMapping("/getByCourse/{course}")
-	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") TipoCurso cursoDeIngles) {
+	public ResponseEntity<?> listStudentsByCourse(@PathVariable("course") String cursoDeIngles) {
 		log.info("Obteniendo alumnos del curso: " + cursoDeIngles);
 		List<Alumno> allStudentsByCourse = alumnoServ.getStudentsByCourse(cursoDeIngles);
 		return ResponseEntity.ok(allStudentsByCourse);

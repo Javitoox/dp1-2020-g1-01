@@ -22,7 +22,6 @@ import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
-import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -35,9 +34,10 @@ import com.google.gson.Gson;
 public class GrupoControllerTests {
 
 	private final static String GROUP_NAME = "Grupo de Evelyn";
-	private final static TipoCurso CURSO = TipoCurso.A1;
+	private final static String CURSO = "A1";
 	private static Set<Grupo> listaGrupos;
 	private static List<String> nombresGrupos;
+
 
 	private static Grupo g;
 	private static Curso c;
@@ -47,7 +47,8 @@ public class GrupoControllerTests {
 	private AlumnoService alumnoService;
 
 	@Autowired
-	private MockMvc mockMvc;
+    private MockMvc mockMvc;
+
 
 	@BeforeEach
 	void setup() {

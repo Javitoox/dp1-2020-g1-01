@@ -28,7 +28,6 @@ import org.springframework.samples.petclinic.configuration.SecurityConfiguration
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
-import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -36,8 +35,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers = AlumnoController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
-@TestInstance(Lifecycle.PER_CLASS)
+@WebMvcTest(controllers=AlumnoController.class,
+excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
+excludeAutoConfiguration= SecurityConfiguration.class)
 public class AlumnoControllerTests {
 
 	@MockBean
@@ -58,7 +58,7 @@ public class AlumnoControllerTests {
 	@BeforeAll
 	void setup() {
 		Curso curso = new Curso();
-		curso.setCursoDeIngles(TipoCurso.A1);
+		curso.setCursoDeIngles("A1");
 		grupo = new Grupo();
 		grupo.setCursos(curso);
 		grupo.setNombreGrupo("Grupo C4");
@@ -76,8 +76,8 @@ public class AlumnoControllerTests {
 	
 	
 	@WithMockUser(value = "spring")
-	@Test 
-	void testShouldEditStudent() throws Exception {	 
+	@Test
+	void testShouldEditStudent() throws Exception {
 		Alumno alumno = new Alumno();
 		alumno.setNickUsuario("JaviMartinez7");
 		alumno.setContraseya("JaviKuka787");
@@ -94,10 +94,10 @@ public class AlumnoControllerTests {
 				.with(csrf()))
 		.andExpect(status().isCreated());
 	}
-	
+
 	@WithMockUser(value = "spring")
-	@Test 
-	void testShouldntEditStudentUnauthorized() throws Exception {	 
+	@Test
+	void testShouldntEditStudentUnauthorized() throws Exception {
 		Alumno alumno = new Alumno();
 		alumno.setNickUsuario("JaviMartinez7");
 		alumno.setContraseya("JaviKuka787");
@@ -114,10 +114,10 @@ public class AlumnoControllerTests {
 				.with(csrf()))
 		.andExpect(status().isNonAuthoritativeInformation());
 	}
-	
+
 	@WithMockUser(value = "spring")
-	@Test 
-	void testShouldEditPersonalInfo() throws Exception {	 
+	@Test
+	void testShouldEditPersonalInfo() throws Exception {
 		Alumno alumno = new Alumno();
 		alumno.setNickUsuario("JaviMartinez7");
 		alumno.setContraseya("JaviKuka787");
@@ -134,10 +134,10 @@ public class AlumnoControllerTests {
 				.with(csrf()))
 		.andExpect(status().isCreated());
 	}
-	
+
 	@WithMockUser(value = "spring")
-	@Test 
-	void testShoulntdEditPersonalInfoNonAuth() throws Exception {	 
+	@Test
+	void testShoulntdEditPersonalInfoNonAuth() throws Exception {
 		Alumno alumno = new Alumno();
 		alumno.setNickUsuario("JaviMartinez7");
 		alumno.setContraseya("JaviKuka787");
@@ -154,22 +154,22 @@ public class AlumnoControllerTests {
 				.with(csrf()))
 		.andExpect(status().isNonAuthoritativeInformation());
 	}
-	
+
 	@WithMockUser(value  = "manolo", authorities= {"alumno"})
 	@Test
 	void testShowStudentInfo() throws Exception {
 		given(this.alumnoService.getAlumno(any(String.class))).willReturn(new Alumno());
 		mockMvc.perform(get("/alumnos/getStudentInfo/manolo")).andExpect(status().isOk());
 	}
-	
+
 	@WithMockUser(value  = "manolo", authorities= {"alumno"})
 	@Test
 	void testShowStudentInfoUnauthorized() throws Exception {
 		given(this.alumnoService.getAlumno(any(String.class))).willReturn(new Alumno());
 		mockMvc.perform(get("/alumnos/getStudentInfo/Javi")).andExpect(status().isUnauthorized());
 	}
-	
-	
+
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowListAllStudents() throws Exception {
@@ -177,21 +177,22 @@ public class AlumnoControllerTests {
 		mockMvc.perform(get("/alumnos/all")).andExpect(status().isOk());
 	}
 
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowListStudentsByCourse() throws Exception {
-		given(this.alumnoService.getStudentsByCourse(any(TipoCurso.class))).willReturn(new ArrayList<>());
+		given(this.alumnoService.getStudentsByCourse(any(String.class))).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/alumnos/getByCourse/B1")).andExpect(status().isOk());
 	}
-	
-	@WithMockUser(username = "marrambla2", authorities ={"tutor"})	
+
+	@WithMockUser(username = "marrambla2", authorities ={"tutor"})
 	@Test
 	void testShowListStudentsByTutor() throws Exception {
 		given(this.alumnoService.getAllMyStudents(any(String.class))).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/alumnos/marrambla2/allMyStudents")).andExpect(status().isOk());
 	}
-	
-	@WithMockUser(username = "pepito", authorities ={"tutor"})	
+
+	@WithMockUser(username = "pepito", authorities ={"tutor"})
 	@Test
 	void testShowListStudentsByTutorNotEqualsThanLoguedUser() throws Exception {
 		given(this.alumnoService.getAllMyStudents(any(String.class))).willReturn(new ArrayList<>());
@@ -247,7 +248,7 @@ public class AlumnoControllerTests {
 		mockMvc.perform(delete("/alumnos/delete/{nickUsuario}","EvelynYY").with(csrf()))
 		.andExpect(status().isBadRequest());
 	}
-	
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testDeleteStudentOk() throws Exception{
@@ -258,5 +259,7 @@ public class AlumnoControllerTests {
 		.andExpect(status().isOk());
 	}
 	
+
+}
 
 }
