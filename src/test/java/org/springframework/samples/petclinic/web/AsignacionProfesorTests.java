@@ -34,7 +34,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = AsignacionesProfesorController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
-public class AsignacionProfesorControllerTests {
+public class AsignacionProfesorTests {
 
 	private final static String NICK_USUARIO = "Evelyn";
 
