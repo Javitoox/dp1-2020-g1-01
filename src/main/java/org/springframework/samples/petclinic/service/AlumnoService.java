@@ -7,10 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Evento;
-import org.springframework.samples.petclinic.model.Grupo;
-import org.springframework.samples.petclinic.model.Inscripcion;
+import org.springframework.samples.petclinic.model.*;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.samples.petclinic.repository.GrupoRepository;
 import org.springframework.stereotype.Service;
@@ -21,7 +18,7 @@ public class AlumnoService {
 	private AlumnoRepository alumnoRepository;
 	private GrupoRepository grupoRepository;
 	private InscripcionService inscripcionService;
-	
+
 
 	@Autowired
 	public AlumnoService(AlumnoRepository alumnoRepository,GrupoRepository grupoRepository, InscripcionService inscripcionService) {
@@ -71,7 +68,11 @@ public class AlumnoService {
 			Grupo grupo = alumnoRepository.findById(alumno.getNickUsuario()).get().getGrupos();
 			alumno.setGrupos(grupo);
 		}
-		return alumnoRepository.save(alumno);
+		if(alumno.getTutores()==null) {
+            Alumno a = alumnoRepository.findByNickAndNif(alumno.getNickUsuario(), alumno.getDniUsuario());
+            alumno.setTutores(a.getTutores());
+        }
+		    return alumnoRepository.save(alumno);
 	}
 
 	@Transactional
@@ -119,7 +120,7 @@ public class AlumnoService {
 			idInscripcion++;
 		}
 	}
-   
+
 
 }
 
