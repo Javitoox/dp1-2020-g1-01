@@ -6,6 +6,8 @@ import axios from 'axios';
 import {Password} from 'primereact/password';
 import Inject from './Inject';
 import Auth from './Auth';
+import { withRouter } from "react-router-dom";
+
 class EditStudent extends Component {
 
     username = this.username.bind(this);
@@ -48,7 +50,7 @@ class EditStudent extends Component {
         birthdateError:null,
         succes:null,
         exist:null,
-        comprobation: false,
+        comprobation: false
     }
     componentDidMount(){
         axios.get("http://localhost:8081/basicauth").then(res => {
@@ -135,7 +137,6 @@ class EditStudent extends Component {
             birthdateError:null,
             succes:null,
             exist:null
-
         })
 
         const alumno = {
@@ -150,7 +151,8 @@ class EditStudent extends Component {
             fechaNacimiento: this.state.birthdate,
             fechaMatriculacion: this.state.fechaMatriculacion,
             numTareasEntregadas: this.state.numTareasEntregadas,
-            fechaSolicitud: this.state.fechaSolicitud
+            fechaSolicitud: this.state.fechaSolicitud,
+            version : this.props.student.version
         }
         if(!this.state.buttonTel1){
             alumno.numTelefonoUsuario2 = null
@@ -174,9 +176,9 @@ class EditStudent extends Component {
                 telefono: this.state.telefono,
                 telefono2: this.state.telefono2,
                 address: this.state.address,
-                birthdate: this.state.birthdate,
-                succes: <div className="alert alert-success" role="alert">Modified Succesfully</div>
+                birthdate: this.state.birthdate
             })
+            this.props.history.push("/allStudents")
         }else{
          this.setState({exist: <div className="alert alert-danger" role="alert">{data}</div>})
         }
@@ -214,7 +216,7 @@ class EditStudent extends Component {
                     <div className="login request">
                     <form onSubmit={this.handleSubmit}>
                             {this.state.succes}
-                              {this.state.exist}
+                            {this.state.exist}
                             <div className="t"><div><h5>Modify</h5></div></div>
                             <div className="i">
                             {this.state.usernameError}
@@ -313,4 +315,4 @@ function mapStateToProps(state) { //metodo para poder pillar datos del store
     }
 }
 
-export default connect(mapStateToProps)(EditStudent);
+export default connect(mapStateToProps)(withRouter(EditStudent));
