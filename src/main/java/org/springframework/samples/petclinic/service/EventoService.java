@@ -12,7 +12,6 @@ import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Evento;
 import org.springframework.samples.petclinic.model.Inscripcion;
-import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.model.TipoEvento;
 import org.springframework.samples.petclinic.repository.EventoRepository;
 import org.springframework.samples.petclinic.util.Colors;
@@ -21,13 +20,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EventoService {
-	
+
 	private EventoRepository eventoRepository;
 	private TipoEventoService tipoEventoService;
 	private CursoService cursoService;
 	private AlumnoService alumnoService;
 	private InscripcionService inscripcionService;
-	
+
 	@Autowired
 	public EventoService(EventoRepository eventoRepository, TipoEventoService tipoEventoService, CursoService cursoService, AlumnoService alumnoService,
 			InscripcionService inscripcionService) {
@@ -37,11 +36,11 @@ public class EventoService {
 		this.alumnoService = alumnoService;
 		this.inscripcionService = inscripcionService;
 	}
-	
+
 	public List<Evento> getAll(){
 		return eventoRepository.findAllEvents();
 	}
-	
+
 	public List<Evento> getAlumEvents(String nick){
 		Alumno a = alumnoService.getAlumno(nick);
 		List<Evento> eventos = new ArrayList<>();
@@ -53,7 +52,7 @@ public class EventoService {
 		}
 		return eventos;
 	}
-	
+
 	@Transactional
 	public Evento updateDateEvent(Integer id, String s, String e) throws DataAccessException{
 		Evento evento = eventoRepository.findById(id).orElse(null);
@@ -66,13 +65,13 @@ public class EventoService {
 		}
 		return evento;
 	}
-	
+
 	public String getDescription(Integer id) {
 		Evento evento = eventoRepository.findById(id).orElse(null);
 		String result = null;
 		if(evento != null) {
 			List<Inscripcion> inscripciones = inscripcionService.inscripcionesEvento(id);
-			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo()+"/"+ 
+			result = evento.getDescripcion()+"/"+evento.getTipo().getTipo()+"/"+
 			(inscripciones.size()>0 ? inscripciones.get(0).getAlumno().getGrupos().getCursos().getCursoDeIngles().toString() : "");
 			for(Inscripcion i: inscripciones) {
 				if(i.getRegistrado()) result += "/"+i.getAlumno().getNombreCompletoUsuario();
@@ -80,7 +79,7 @@ public class EventoService {
 		}
 		return result;
 	}
-	
+
 	public String getDescriptionAlumno(Integer id, String nickUser) {
 		Alumno a = alumnoService.getAlumno(nickUser);
 		Evento evento = eventoRepository.findById(id).orElse(null);
@@ -91,16 +90,16 @@ public class EventoService {
 		}
 		return result;
 	}
-	
+
 	@Transactional
 	public void deleteDescription(Integer id) throws DataAccessException{
 		eventoRepository.deleteById(id);
 	}
-	
+
 	@Transactional
 	public Boolean assignEvent(Evento evento, String type, String curso) throws DataAccessException{
 		TipoEvento t = tipoEventoService.getType(type);
-		Curso c = cursoService.getCourseById(TipoCurso.valueOf(curso));
+		Curso c = cursoService.getCourseById(curso);
 		if(t != null && c != null) {
 			evento.setTipo(t);
 			evento.setColor(Colors.generateRandomColor());
@@ -113,12 +112,12 @@ public class EventoService {
 			return false;
 		}
 	}
-	
+
 	public Boolean existEvent(Evento evento) {
 		Evento result = eventoRepository.findExist(evento.getTitle(), evento.getStart());
 		return result != null ? true:false;
 	}
-	
+
 	public Evento eventByPersonalId(String title, LocalDate start) {
 		return eventoRepository.findExist(title, start);
 	}

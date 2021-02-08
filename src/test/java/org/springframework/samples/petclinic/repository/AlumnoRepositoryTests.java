@@ -14,7 +14,6 @@ import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Curso;
 import org.springframework.samples.petclinic.model.Grupo;
 import org.springframework.samples.petclinic.model.Pago;
-import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.model.Tutor;
 
 @DataJpaTest
@@ -22,9 +21,9 @@ public class AlumnoRepositoryTests {
 
 	private static Alumno a;
 
-	@Autowired 
+	@Autowired
 	protected AlumnoRepository alumnoRepository;
-	
+
 	@Autowired
 	protected TipoPagoRepository tipoPagoRepository;
 
@@ -36,13 +35,13 @@ public class AlumnoRepositoryTests {
 
 	@Autowired
 	protected TutorRepository tutorRepository;
-	
+
 	@Autowired
 	protected PagoRepository pagoRepository;
 
 
 	@BeforeEach
-	void data() { 
+	void data() {
 		a = new Alumno();
 		a.setNickUsuario("javialonso");
 		a.setFechaMatriculacion(LocalDate.of(2019, 03, 13));
@@ -57,7 +56,7 @@ public class AlumnoRepositoryTests {
 	@Test
 	void testReturnStudentsByGroup() {
 		Curso c = new Curso();
-		c.setCursoDeIngles(TipoCurso.A1);
+		c.setCursoDeIngles("A1");
 		Curso curso = cursoRepository.save(c);
 		Grupo g  = new Grupo();
 		g.setNombreGrupo("Grupo de evelyn");
@@ -67,7 +66,7 @@ public class AlumnoRepositoryTests {
 		alumnoRepository.save(a);
 		List<Alumno>alumnos = alumnoRepository.findByGroup("Grupo de evelyn");
         assertThat(alumnos.size()).isGreaterThan(0);
-		
+
 	}
 
 	@Test
@@ -80,7 +79,7 @@ public class AlumnoRepositoryTests {
 	@Test
 	void testReturnStudentsByCourse() {
 		Curso c = new Curso();
-		c.setCursoDeIngles(TipoCurso.A1);
+		c.setCursoDeIngles("A1");
 		Curso curso = cursoRepository.save(c);
 
 		Grupo g  = new Grupo();
@@ -91,7 +90,7 @@ public class AlumnoRepositoryTests {
 		a.setGrupos(grupo);
 		alumnoRepository.save(a);
 
-		List<Alumno>alumnos = alumnoRepository.findStudentsByCourse(TipoCurso.A1);
+		List<Alumno>alumnos = alumnoRepository.findStudentsByCourse("A1");
         assertThat(alumnos.size()).isGreaterThan(0);
 	}
 
@@ -115,10 +114,10 @@ public class AlumnoRepositoryTests {
 		List<Alumno>alumnos = alumnoRepository.findStudentsByTutor(tutor.getNickUsuario());
         assertThat(alumnos.size()).isGreaterThan(0);
 	}
-	
+
 	@Test
 	void testReturnStudentsNamesAbleToDelete() {
-		alumnoRepository.save(a);		
+		alumnoRepository.save(a);
 		Pago p = new Pago();
 		p.setId(1);
 		p.setConcepto("Pago matricula");
@@ -131,14 +130,14 @@ public class AlumnoRepositoryTests {
 		p2.setFecha(LocalDate.of(2020, 11, 11));
 		p2.setTipo(tipoPagoRepository.findById("bizum").orElse(null));
 		p2.setAlumnos(a);
-		
+
 		pagoRepository.save(p);
 		pagoRepository.save(p2);
 
 		List<String> allNames = alumnoRepository.findStudentsAbleToDelete();
 		assertThat(allNames.size()).isGreaterThan(0);
 	}
-	
+
 	@Test
 	void testReturnStudentsNamesWithNoGroups() {
 		List<String> allStudents = alumnoRepository.findSudentsWithNoGroups();

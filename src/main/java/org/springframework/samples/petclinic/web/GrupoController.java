@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Grupo;
-import org.springframework.samples.petclinic.model.TipoCurso;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,7 +42,7 @@ public class GrupoController {
 	}
 
 	@GetMapping("/nombresGrupo/{curso}")
-	public ResponseEntity<List<String>> listaNombreGruposPorCurso(@PathVariable("curso") TipoCurso curso) {
+	public ResponseEntity<List<String>> listaNombreGruposPorCurso(@PathVariable("curso") String curso) {
 		List<String> gruposCurso = grupoService.getNameGruposByCourse(curso);
 		return ResponseEntity.ok(gruposCurso);
 	}
