@@ -1,8 +1,8 @@
-export default function (state = null, action) {
+export default function UserSelectedReducer(state = null, action) {
     switch (action.type) {
-            case "USER_SELECTED": 
-                    return action.payload; //de aqui pillamos el objeto y se lo pasamos al index
-                    break;
-    } return state;
-    
+        case "USER_SELECTED":
+            return action.payload;
+        default: return state;
+    }
+
 }

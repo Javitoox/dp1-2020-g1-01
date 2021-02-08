@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Alumno;
-import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.GrupoService;
 import org.springframework.samples.petclinic.util.AlumnoValidator;
@@ -183,7 +182,7 @@ public class AlumnoController {
 	@PutMapping("/assignStudent/{nickUsuario}/{nombreGrupo}")
     public ResponseEntity<?> updateGroup(@PathVariable("nickUsuario") String nickUsuario, @PathVariable("nombreGrupo") String nombreGrupo) {
         log.info("Editando el grupo del alumno: "+ nickUsuario);
-            Alumno a = alumnoServ.getAlumnoAssign(nickUsuario);
+            Alumno a = alumnoServ.getAlumno(nickUsuario);
             Integer numAlumnosGrupo = grupoService.numAlumnos(nombreGrupo);
             if (numAlumnosGrupo < 12) {
                 this.alumnoServ.saveAlumnAsign(a, nombreGrupo);

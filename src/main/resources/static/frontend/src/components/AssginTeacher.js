@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 import moment from 'moment';
-
 import AlumnoComponent from './AlumnoComponent';
-
 import GrupoComponent from './GrupoComponent';
-
 import AssignmentComponent from './AssignmentComponent';
 import Auth from './Auth';
-
 export default class AssignTeacher extends Component {
 
     constructor(props) {
@@ -34,16 +30,7 @@ export default class AssignTeacher extends Component {
     this.asignaciones = new AssignmentComponent();
     this.form=this.form.bind(this);
     this.mostrarTabla = this.mostrarTabla.bind(this);
-
-
     }
-
-    
-    
-    
-      
-
-    
 
     componentDidMount() {
         this.mostrarTabla()

@@ -4,10 +4,12 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,11 +31,6 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.google.gson.Gson;
-
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @WebMvcTest(controllers = AsignacionesProfesorController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
@@ -48,6 +45,8 @@ public class AsignacionProfesorControllerTests {
 	private ProfesorService profesorService;
 
 	private AsignacionProfesor asignacionProfesor;
+	private Profesor profesor;
+	private Grupo grupo;
 
 	@Autowired
     private MockMvc mockMvc;
@@ -56,63 +55,110 @@ public class AsignacionProfesorControllerTests {
 	@BeforeEach
 	void setup() {
 		asignacionProfesor = new AsignacionProfesor();
-		Grupo grupo = new Grupo();
-		Curso curso = new Curso();
 		AsignacionProfesorKey asignacionProfesorKey = new AsignacionProfesorKey();
 		asignacionProfesorKey.setNickProfesor(NICK_USUARIO);
 		asignacionProfesorKey.setNombreGrupo("grupo7");
+		grupo = new Grupo();
+		Curso curso = new Curso();
 		grupo.setNombreGrupo("grupo7");
 		grupo.setCursos(curso);
-		Profesor profesor = new Profesor();
-		profesor.setNickUsuario("JaviMartinez7");
-		profesor.setContraseya("JaviKuka787");
-		profesor.setDniUsuario("45676787Y");
-		profesor.setNombreCompletoUsuario("Javi Martinez");
-		profesor.setCorreoElectronicoUsuario("javikua7@gmail.com");
-		profesor.setNumTelefonoUsuario("677676676");
-		profesor.setDireccionUsuario("Calle Pepe");
-		profesor.setFechaNacimiento(LocalDate.parse("2000-08-13"));
-		asignacionProfesor.setProfesor(profesor);
-		asignacionProfesor.setFecha(LocalDate.now());
+		profesor = new Profesor();
+		profesor.setNickUsuario(NICK_USUARIO);
+		asignacionProfesor.setFecha(LocalDate.of(2020, 11, 11));
 		asignacionProfesor.setGrupo(grupo);
 		asignacionProfesor.setId(asignacionProfesorKey);
+		
 	}
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = NICK_USUARIO, authorities = {"profesor"})
 	@Test
 	void testShowAssignationListByTeacher() throws Exception {
-		given(this.asignacionProfesorService.getAllAsignacionesByUser(NICK_USUARIO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/asignaciones/{user}", NICK_USUARIO).sessionAttr("type","profesor")).andExpect(status().isOk());
+		List<AsignacionProfesor> asignaciones = new ArrayList<>();
+		asignaciones.add(asignacionProfesor);
+		given(this.asignacionProfesorService.getAllAsignacionesByUser(NICK_USUARIO)).willReturn(asignaciones);
+		mockMvc.perform(get("/asignaciones/get/{user}", NICK_USUARIO)).andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = NICK_USUARIO, authorities = {"profesor"})
+	@Test
+	void testShowAssignationListByTeacherIsUnauthorized() throws Exception {
+		List<AsignacionProfesor> asignaciones = new ArrayList<>();
+		asignaciones.add(asignacionProfesor);
+		given(this.asignacionProfesorService.getAllAsignacionesByUser(NICK_USUARIO)).willReturn(asignaciones);
+		mockMvc.perform(get("/asignaciones/get/{user}", "JavierM")).andExpect(status().isUnauthorized());
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testDontShowAssignationListByTeacherIfLoggedAsAlumn() throws Exception {
-		given(this.asignacionProfesorService.getAllAsignacionesByUser(NICK_USUARIO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/asignaciones/{user}", NICK_USUARIO).sessionAttr("type","alumno")).andExpect(status().isUnauthorized());
+	void testShowTeachersNameByGroup() throws Exception {
+		List<String> profesores = new ArrayList<>();
+		profesores.add(profesor.getNickUsuario());
+		given(this.asignacionProfesorService.findAsignacionesByGroup(grupo.getNombreGrupo())).willReturn(profesores);
+		mockMvc.perform(get("/asignaciones/getNick/{nombreGrupo}", grupo.getNombreGrupo())).andExpect(status().isOk());
 	}
-
-	@WithMockUser(value = "spring")
-    @Test
-    void testDontShowAListGroupIfNotLogged() throws Exception{
-		mockMvc.perform(get("/asignaciones/{user}", NICK_USUARIO).sessionAttr("type","null")).andExpect(status().isUnauthorized());
-	}
-
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testSendingNewAssignmentucces() throws Exception{
-		Gson gson = new Gson();
-		String jsonString = gson.toJson(asignacionProfesor);
-		log.info("Informa: "+jsonString);
-
+	void testSendingNewAssignmentSucces() throws Exception{
 		mockMvc.perform(post("/asignaciones/new")
 				.contentType(MediaType.APPLICATION_JSON)
-			    .content(jsonString)
+			    .content(asignacionProfesor.toJson())
 			    .with(csrf()))
-		.andExpect(status().isOk());
+		.andExpect(status().isCreated());
 	}
-
-
-
-	/*Quedan los del post*/
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testSendingNewAssignmentIsNotOk() throws Exception{
+		Grupo g = new Grupo();
+		g.setNombreGrupo("");
+		asignacionProfesor.setGrupo(g);;
+		profesor.setNickUsuario("Maria");
+		mockMvc.perform(post("/asignaciones/new")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content(asignacionProfesor.toJson())
+			    .with(csrf()))
+		.andExpect(status().isImUsed());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testSendingNewAssignmentIsNotOK2() throws Exception{
+		Grupo g = new Grupo();
+		g.setNombreGrupo(null);
+		asignacionProfesor.setGrupo(g);;
+		profesor.setNickUsuario("Maria");
+		mockMvc.perform(post("/asignaciones/new")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content(asignacionProfesor.toJson())
+			    .with(csrf()))
+		.andExpect(status().isImUsed());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testSendingNewAssignmentIsNonAuthoritative() throws Exception{
+		AsignacionProfesorKey id2 = new AsignacionProfesorKey();
+		id2.setNickProfesor("");
+		id2.setNombreGrupo("");
+		asignacionProfesor.setId(id2);
+		mockMvc.perform(post("/asignaciones/new")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content(asignacionProfesor.toJson())
+			    .with(csrf()))
+		.andExpect(status().isNonAuthoritativeInformation());
+	}
+	
+	@WithMockUser(value = NICK_USUARIO, authorities = {"profesor"})
+	@Test
+	void testDeletingAssignationIsOk() throws Exception{
+		mockMvc.perform(delete("/asignaciones/delete/{nickProfesor}/{nombreGrupo}", NICK_USUARIO, grupo.getNombreGrupo())
+				.with(csrf())).andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = NICK_USUARIO, authorities = {"profesor"})
+	@Test
+	void testDeletingAssignationIsUnauthorized() throws Exception{
+		mockMvc.perform(delete("/asignaciones/delete/{nickProfesor}/{nombreGrupo}", "Paco", grupo.getNombreGrupo())
+				.with(csrf())).andExpect(status().isUnauthorized());
+	}
 }

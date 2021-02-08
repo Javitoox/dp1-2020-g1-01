@@ -306,10 +306,10 @@ class AssignStudent extends Component  {
     }
 }
 
-function mapStateToProps(state) { //metodo para poder pillar datos del store
+function mapStateToProps(state) {
     return {
         astudent: state.astudent,
-        cgselected: state.cgselected //le pasamos a nuestra variable student la informacion del estudiante almacenada en el store
+        cgselected: state.cgselected
     }
 }
 
