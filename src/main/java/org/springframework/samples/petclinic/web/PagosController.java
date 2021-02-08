@@ -67,19 +67,14 @@ public class PagosController {
 	public ResponseEntity<List<String>> listadoNoPagosPorAlumnoByStudent(@PathVariable("nickUsuario") String nickUsuario,
 			Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		if (userDetails.getUsername().equals(nickUsuario)) {
+		if (userDetails.getUsername().equals(nickUsuario) || 
+				userDetails.getAuthorities().iterator().next().getAuthority().equals("profesor")) {
 			List<String> all = pagoService.getNoPaymentByStudent(nickUsuario);
 			return ResponseEntity.ok(all);
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
 		}
-	}
-	
-	@GetMapping("/notPaidProfesor/{nickUsuario}") /*HAY QUE LINKEAR ESTE MÉTODO CON EL FRONTEND PARA LA VISTA DEL PROFESOR*/
-	public ResponseEntity<List<String>> listadoNoPagosPorAlumnoByProfesor(@PathVariable("nickUsuario") String nickUsuario) {
-			List<String> all = pagoService.getNoPaymentByStudent(nickUsuario);
-			return ResponseEntity.ok(all);
 	}
 
 	@GetMapping("/paidByStudent/{nickUsuario}")

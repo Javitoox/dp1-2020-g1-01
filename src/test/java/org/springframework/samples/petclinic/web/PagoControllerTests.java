@@ -107,6 +107,13 @@ public class PagoControllerTests {
 		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", NICK_USUARIO)).andExpect(status().isOk());
 	}
 	
+	@WithMockUser(value = "JaviDeKuka", authorities = {"profesor"})
+	@Test
+	void testNotPaidListByStudentIsOkAsTeacher() throws Exception {
+		given(this.pagoService.getNoPaymentByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
+		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", "Paco")).andExpect(status().isOk());
+	}
+	
 	@WithMockUser(value = "Evelyn", authorities = {"alumno"})
 	@Test
 	void testNotPaidListByStudentIsUnauthorized() throws Exception {
@@ -114,12 +121,6 @@ public class PagoControllerTests {
 		mockMvc.perform(get("/pagos/notPaidByStudent/{nickUsuario}", "Paco")).andExpect(status().isUnauthorized());
 	}
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testNotPaidListByProfesor() throws Exception {
-		given(this.pagoService.getNoPaymentByStudent(NICK_USUARIO)).willReturn(new ArrayList<>());
-		mockMvc.perform(get("/pagos/notPaidProfesor/{nickUsuario}", NICK_USUARIO)).andExpect(status().isOk());
-	}
 	
 	
 	@WithMockUser(value = "Evelyn", authorities = {"alumno"})
@@ -138,7 +139,7 @@ public class PagoControllerTests {
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testStudentsHaveNotPaidListIfLoggedAsAlumn() throws Exception {
+	void testStudentsHaveNotPaidList() throws Exception {
 		given(this.pagoService.getNameStudentByNoPago()).willReturn(new ArrayList<>());
 		mockMvc.perform(get("/pagos/studentsNotPaid")).andExpect(status().isOk());
 	}

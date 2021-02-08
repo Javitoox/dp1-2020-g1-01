@@ -74,8 +74,6 @@ public class AlumnoControllerTests {
 		alumno.setFechaNacimiento(LocalDate.parse("1999-08-13"));
 	}
 	
-	@MockBean
-	private PasswordEncoder passwordEncoder;
 	
 	@WithMockUser(value = "spring")
 	@Test 
