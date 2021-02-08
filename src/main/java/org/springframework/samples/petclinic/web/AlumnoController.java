@@ -92,7 +92,6 @@ public class AlumnoController {
 
 			return new ResponseEntity<>(errors, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		} else {
-			log.info("Entra aqui con contraseña : " + alumno.getContraseya());
 			if (comprobation == true) {
 				alumno.setContraseya(passwordEncoder.encode(alumno.getContraseya()));
 			}
@@ -121,7 +120,7 @@ public class AlumnoController {
 		}
 	}
 
-	
+
 
 	@GetMapping("/getStudentInfo/{nickUsuario}")
 	public ResponseEntity<Alumno> getStudentInfo(@PathVariable("nickUsuario") String nick,

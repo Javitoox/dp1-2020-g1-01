@@ -164,9 +164,7 @@ public class SolicitudController {
 				log.info("New student´s request with username: " + solicitud.getAlumno().getNickUsuario());
 				log.info("New tutor´s request with username: " + solicitud.getTutor().getNickUsuario());
 				return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
-			} else if (alumno != null
-					&& passwordEncoder.matches(solicitud.getAlumno().getContraseya(), alumno.getContraseya())
-					&& alumno.getNickUsuario().equals(solicitud.getAlumno().getNickUsuario()) && tutor == null) {
+			} else if (alumno != null && passwordEncoder.matches(solicitud.getAlumno().getContraseya(), alumno.getContraseya()) && alumno.getNickUsuario().equals(solicitud.getAlumno().getNickUsuario()) && tutor == null) {
 				solicitud.getAlumno().setContraseya(passwordEncoder.encode(solicitud.getAlumno().getContraseya()));
 				solicitud.getAlumno().setTutores(solicitud.getTutor());
 				solicitud.getTutor().setFechaSolicitud(LocalDate.now());
