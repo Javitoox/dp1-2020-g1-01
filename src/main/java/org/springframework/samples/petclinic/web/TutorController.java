@@ -18,17 +18,17 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class TutorController {
-	
+
 	private TutorService tutorService;
 	@Autowired
 	public TutorController(TutorService tutorService) {
 		this.tutorService = tutorService;
 	}
-	
+
 	@GetMapping("/teacherByGroup/{nombreGrupo}")
 	public ResponseEntity<?> getTeacherByGroup(@PathVariable("nombreGrupo") String nombreGrupo){
-		List<String> profesores = tutorService.getTeacherByGroup(nombreGrupo);
-		log.info("Profesores del grupo : "+nombreGrupo+": "+profesores);
-		return ResponseEntity.ok(profesores);
+		List<String> correoProfesores = tutorService.getTeacherByGroup(nombreGrupo);
+		log.info("Email de los profesores del grupo : "+nombreGrupo+": "+correoProfesores);
+		return ResponseEntity.ok(correoProfesores);
 	}
 }
