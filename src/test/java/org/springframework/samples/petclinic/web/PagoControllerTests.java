@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,8 +29,7 @@ import org.springframework.samples.petclinic.service.TipoPagoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-
-import com.google.gson.Gson;
+import org.springframework.validation.BindingResult;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,9 +43,7 @@ public class PagoControllerTests {
 	private final static String NICK_USUARIO = "Evelyn";
 	
 	private static Pago p;
-	@MockBean
-	private  TipoPagoService tipoPagoService;
-	
+		
 	@MockBean
 	private PagoService pagoService;
 	
@@ -53,7 +51,13 @@ public class PagoControllerTests {
     private MockMvc mockMvc;
 	
 	@MockBean
+	private  TipoPagoService tipoPagoService;
+	
+	@MockBean
 	private AlumnoService alumnoService;
+	
+	@MockBean
+	private BindingResult bindingResult;
 	
 	@BeforeEach
 	void setup() {
@@ -67,15 +71,14 @@ public class PagoControllerTests {
 		alumno.setNumTelefonoUsuario("677676676");
 		alumno.setDireccionUsuario("Calle Pepe");
 		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
-		alumno.setFechaSolicitud(LocalDate.now());
-		TipoPago tipoPago = tipoPagoService.getType("Bizum");
+		alumno.setFechaSolicitud(LocalDate.parse("2018-08-13"));
+		alumno.setVersion(0);
+		TipoPago tipoPago = new TipoPago();
 		p.setTipo(tipoPago);
 		p.setConcepto(CONCEPTO);
 		p.setFecha(LocalDate.now());
-		p.setId(30);
-		
-		p.setTipo(tipoPago);
-		p.setAlumnos(alumno);
+		p.setId(30);		
+    	p.setAlumnos(alumno);
 		
 	}
 	@WithMockUser(value = "spring")
@@ -146,23 +149,142 @@ public class PagoControllerTests {
 	
 	
 	/*HAY QUE CORREGIR ESTO*/
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities = {"profesor"})
 	@Test
 	void testSendingNewPaymentSucces() throws Exception{
-		Gson gson = new Gson();
-		String jsonString = gson.toJson(p);
-		log.info("Informa: "+jsonString);
+		
+		p = new Pago();
+		Alumno alumno = new Alumno();
+		alumno.setNickUsuario("JaviMartinez7");
+		TipoPago tipoPago = new TipoPago();
+		p.setTipo(tipoPago);
+		p.setConcepto(CONCEPTO);
+		p.setFecha(LocalDate.now());
+		p.setId(30);		
+    	p.setAlumnos(alumno);
+    	
+		given(this.alumnoService.getAlumno(any(String.class))).willReturn(alumno);  
 		
 		mockMvc.perform(post("/pagos/new")
 				.contentType(MediaType.APPLICATION_JSON)
-			    .content(jsonString)
-			    .with(csrf()).sessionAttr("type", "profesor"))
-		.andExpect(status().isOk());
+			    .content(p.toJson())
+			    .with(csrf()))
+		.andExpect(status().isCreated());
 	}
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities = {"profesor"})
 	@Test
-	void testCreatePayment() throws Exception{
+	void testSendingNewPaymentSuccesWithNicknameNull() throws Exception{
 		
+		p = new Pago();
+		Alumno alumno = new Alumno();
+		alumno.setNickUsuario("");
+		TipoPago tipoPago = new TipoPago();
+		p.setTipo(tipoPago);
+		p.setConcepto(CONCEPTO);
+		p.setFecha(LocalDate.now());
+		p.setId(30);		
+    	p.setAlumnos(alumno);
+    	
+		given(this.alumnoService.getAlumno(any(String.class))).willReturn(alumno);  
+		
+		mockMvc.perform(post("/pagos/new")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content(p.toJson())
+			    .with(csrf()))
+		.andExpect(status().isNonAuthoritativeInformation());
+	}
+	
+	@WithMockUser(value = "spring", authorities = {"profesor"})
+	@Test
+	void testSendingNewPaymentSuccesWithConceptNull() throws Exception{
+		
+		p = new Pago();
+		Alumno alumno = new Alumno();
+		alumno.setNickUsuario("JaviMartinez7");
+		TipoPago tipoPago = new TipoPago();
+		p.setTipo(tipoPago);
+		p.setConcepto("");
+		p.setFecha(LocalDate.now());
+		p.setId(30);		
+    	p.setAlumnos(alumno);
+    	
+		given(this.alumnoService.getAlumno(any(String.class))).willReturn(alumno);  
+		
+		mockMvc.perform(post("/pagos/new")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content(p.toJson())
+			    .with(csrf()))
+		.andExpect(status().isNonAuthoritativeInformation());
+	}
+	
+	@WithMockUser(value = "spring", authorities = {"profesor"})
+	@Test
+	void testSendingNewPaymentSuccesWithTypeNull() throws Exception{
+		
+		p = new Pago();
+		Alumno alumno = new Alumno();
+		alumno.setNickUsuario("JaviMartinez7");
+		TipoPago tipoPago = new TipoPago();
+		p.setTipo(tipoPago);
+		p.setConcepto(CONCEPTO);
+		p.setFecha(LocalDate.now());
+		p.setId(30);		
+    	p.setAlumnos(alumno);
+    	
+		given(this.alumnoService.getAlumno(any(String.class))).willReturn(alumno);  
+		
+		mockMvc.perform(post("/pagos/new")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content(p.toJson2())
+			    .with(csrf()))
+		.andExpect(status().isNonAuthoritativeInformation());
+	}
+	
+	@WithMockUser(value = "spring", authorities = {"profesor"})
+	@Test
+	void testSendingNewPaymentSuccesWithStudentNull() throws Exception{
+		
+		p = new Pago();
+		Alumno alumno = new Alumno();
+		alumno.setNickUsuario("JaviMartinez7");
+		TipoPago tipoPago = new TipoPago();
+		p.setTipo(tipoPago);
+		p.setConcepto(CONCEPTO);
+		p.setFecha(LocalDate.now());
+		p.setId(30);		
+    	p.setAlumnos(alumno);
+    	
+		given(this.alumnoService.getAlumno(any(String.class))).willReturn(null);  
+		
+		mockMvc.perform(post("/pagos/new")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content(p.toJson())
+			    .with(csrf()))
+		.andExpect(status().isNoContent());
+	}
+	
+	@WithMockUser(value = "spring", authorities = {"profesor"})
+	@Test
+	void testSendingNewPaymentSuccesWithStudentWithdrawnDateNull() throws Exception{
+		
+		p = new Pago();
+		Alumno alumno = new Alumno();
+		alumno.setNickUsuario("JaviMartinez7");
+		alumno.setFechaBaja(LocalDate.parse("2018-01-01"));
+		TipoPago tipoPago = new TipoPago();
+		p.setTipo(tipoPago);
+		p.setConcepto(CONCEPTO);
+		p.setFecha(LocalDate.parse("2018-02-01"));
+		p.setId(30);		
+    	p.setAlumnos(alumno);
+    	
+		given(this.alumnoService.getAlumno(any(String.class))).willReturn(alumno);  
+		
+		mockMvc.perform(post("/pagos/new")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content(p.toJson3())
+			    .with(csrf()))
+		.andExpect(status().isNoContent());
 	}
 	/*
 	 * @WithMockUser(value = "spring")
