@@ -59,8 +59,8 @@ public class Alumno extends Usuario{
 		Gson json = new Gson();
 		this.setFechaNacimiento(null);
 		String jsonString = json.toJson(this);
-		String result = jsonString.substring(0, jsonString.length() - 1) + ",\"fechaNacimiento\":\""
-				+ copiaFechaNacimiento.toString() + "\"}";
+		String result = jsonString.substring(0, jsonString.length() - 2) + "\",\"fechaNacimiento\":\""
+				+ copiaFechaNacimiento.toString() + "\",\"version\":" + 0 + "}";
 		this.setFechaNacimiento(copiaFechaNacimiento);
 		return result;
 	}

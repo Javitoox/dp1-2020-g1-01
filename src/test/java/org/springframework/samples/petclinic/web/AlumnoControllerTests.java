@@ -78,20 +78,22 @@ public class AlumnoControllerTests {
 	@Test
 	void testShouldEditStudent() throws Exception {
 		Alumno alumno = new Alumno();
+		alumno.setVersion(0);
 		alumno.setNickUsuario("JaviMartinez7");
 		alumno.setContraseya("JaviKuka787");
 		alumno.setCorreoElectronicoUsuario("javikua7@gmail.com");
 		alumno.setDireccionUsuario("Calle Pepe");
-		alumno.setDniUsuario("45676787Y");
+		alumno.setDniUsuario("45000787Y");
 		alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
 		alumno.setNombreCompletoUsuario("Javi Martinez");
 		alumno.setNumTareasEntregadas(3);
 		alumno.setNumTelefonoUsuario("677676676");
+		given(alumnoService.getAlumnoByIdOrNif(any(), any())).willReturn(alumno);
+		
 		mockMvc.perform(put("/alumnos/editStudent")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(alumno.toJson())
-				.with(csrf()))
-		.andExpect(status().isCreated());
+				.with(csrf())).andExpect(status().isCreated());
 	}
 
 	@WithMockUser(value = "spring")
@@ -118,6 +120,7 @@ public class AlumnoControllerTests {
 	@Test
 	void testShouldEditPersonalInfo() throws Exception {
 		Alumno alumno = new Alumno();
+		alumno.setVersion(0);
 		alumno.setNickUsuario("JaviMartinez7");
 		alumno.setContraseya("JaviKuka787");
 		alumno.setCorreoElectronicoUsuario("javikua7@gmail.com");
@@ -127,6 +130,8 @@ public class AlumnoControllerTests {
 		alumno.setNombreCompletoUsuario("Javi Martinez");
 		alumno.setNumTareasEntregadas(3);
 		alumno.setNumTelefonoUsuario("622119555");
+		given(alumnoService.getAlumnoByIdOrNif(any(), any())).willReturn(alumno);
+		
 		mockMvc.perform(put("/alumnos/editPersonalInfo")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(alumno.toJson())

@@ -50,12 +50,12 @@ class EditStudent extends Component {
         birthdateError:null,
         succes:null,
         exist:null,
-        comprobation: false
+        comprobation: true
     }
     componentDidMount(){
         axios.get("http://localhost:8081/basicauth").then(res => {
             if(res.data==="profesor"){
-                this.setState({comprobation: true})
+                this.setState({comprobation: false})
             }
             })
     }
@@ -207,7 +207,7 @@ class EditStudent extends Component {
     }
        
     render() {
-        if (!this.state.comprobation) {
+        if (this.state.comprobation) {
             return <Auth authority="profesor"></Auth>
         } else {
         return (

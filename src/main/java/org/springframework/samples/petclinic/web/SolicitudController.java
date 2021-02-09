@@ -114,11 +114,14 @@ public class SolicitudController {
 			}else if(alumno.getFechaMatriculacion() != null) {
 				return new ResponseEntity<>("The student already belongs to the academy",
 						HttpStatus.OK);
+			}else if(alumno.getFechaBaja() != null) {
+				return new ResponseEntity<>("The student has already been withdrawn",
+						HttpStatus.OK);
 			}
 			else if (passwordEncoder.matches(solicitud.getAlumno().getContraseya(), alumno.getContraseya())
 					&& alumno.getNickUsuario().equals(solicitud.getAlumno().getNickUsuario())) {
 				solicitud.getAlumno().setContraseya(passwordEncoder.encode(solicitud.getAlumno().getContraseya()));
-				solicitud.getAlumno().setVersion(0);
+				solicitud.getAlumno().setVersion(alumno.getVersion());
 				solicitudServ.saveRequest(solicitud);
 				log.info("Update student´s request with username: " + solicitud.getAlumno().getNickUsuario());
 				return new ResponseEntity<>("Successful shipment", HttpStatus.CREATED);
@@ -162,6 +165,7 @@ public class SolicitudController {
 			}
 			if (alumno == null && tutor == null) {
 				solicitud.getAlumno().setContraseya(passwordEncoder.encode(solicitud.getAlumno().getContraseya()));
+				solicitud.getTutor().setContraseya(passwordEncoder.encode(solicitud.getTutor().getContraseya()));
 				solicitud.getAlumno().setTutores(solicitud.getTutor());
 				solicitud.getAlumno().setFechaSolicitud(LocalDate.now());
 				solicitud.getTutor().setFechaSolicitud(LocalDate.now());
@@ -173,13 +177,16 @@ public class SolicitudController {
 			} else if(alumno != null && alumno.getFechaMatriculacion() != null) {
 				return new ResponseEntity<>("The student already belongs to the academy",
 						HttpStatus.OK);
+			}else if(alumno != null && alumno.getFechaBaja() != null) {
+				return new ResponseEntity<>("The student has already been withdrawn",
+						HttpStatus.OK);
 			}else if (alumno != null
 					&& passwordEncoder.matches(solicitud.getAlumno().getContraseya(), alumno.getContraseya())
 					&& alumno.getNickUsuario().equals(solicitud.getAlumno().getNickUsuario()) && tutor == null) {
 				solicitud.getAlumno().setContraseya(passwordEncoder.encode(solicitud.getAlumno().getContraseya()));
 				solicitud.getAlumno().setTutores(solicitud.getTutor());
 				solicitud.getTutor().setFechaSolicitud(LocalDate.now());
-				solicitud.getAlumno().setVersion(0);
+				solicitud.getAlumno().setVersion(alumno.getVersion());
 				solicitudServ.saveRequest(solicitud);
 				log.info("Update student´s request with username: " + solicitud.getAlumno().getNickUsuario());
 				log.info("New tutor´s request with username: " + solicitud.getTutor().getNickUsuario());
@@ -203,7 +210,7 @@ public class SolicitudController {
 				solicitud.getAlumno().setContraseya(passwordEncoder.encode(solicitud.getAlumno().getContraseya()));
 				solicitud.getTutor().setContraseya(passwordEncoder.encode(solicitud.getTutor().getContraseya()));
 				solicitud.getAlumno().setTutores(solicitud.getTutor());
-				solicitud.getAlumno().setVersion(0);
+				solicitud.getAlumno().setVersion(alumno.getVersion());
 				solicitudServ.saveRequest(solicitud);
 				log.info("Update student´s request with username: " + solicitud.getAlumno().getNickUsuario());
 				log.info("Update tutor´s request with username: " + solicitud.getTutor().getNickUsuario());

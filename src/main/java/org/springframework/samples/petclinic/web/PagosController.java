@@ -128,6 +128,7 @@ public class PagosController {
 			} else {
 				LocalDate fb = alumno.getFechaBaja();
 				if (fb == null) {
+					resource.setAlumnos(alumno);
 					pagoService.savePayment(resource);
 					return new ResponseEntity<>("Pago creado correctamente", HttpStatus.CREATED);
 				} else {

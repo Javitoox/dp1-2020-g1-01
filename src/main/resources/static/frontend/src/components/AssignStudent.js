@@ -10,10 +10,12 @@ import { Dialog } from 'primereact/dialog';
 
 class AssignStudent extends Component  {
    
-    constructor(props){
-    super(props);
-        this.state = {   
-        nickUsuario:this.props.astudent.nickUsuario,
+    nickUsuario = this.nickUsuario.bind(this);
+    alumnos = new AlumnoComponent();
+    grupos = new GrupoComponent();
+    handleNG = this.handleNG.bind(this);
+        state = {   
+        nickUsuario: this.props.astudent === null ? "":this.props.astudent.nickUsuario,
         grupos: {
             nombreGrupo: "",
             cursos: {
@@ -23,9 +25,7 @@ class AssignStudent extends Component  {
         listaGrupos:{
            nombreGrupo: ""
         },
-        listaSinGrupos:{
-               
-        },            
+        listaSinGrupos: this.props.cgselected === null ? "":this.props.cgselected,            
         cursoS:"",
         succes:null,
         comprobation: true,
@@ -51,19 +51,11 @@ class AssignStudent extends Component  {
         APRENDIZAJELIBRE:{
             nombreGrupo: "",
         }
-        
-        
     }
-    this.nickUsuario = this.nickUsuario.bind(this);
-    this.alumnos = new AlumnoComponent();
-    this.grupos = new GrupoComponent();
-    this.handleNG = this.handleNG.bind(this); 
-
-}
          
     componentDidMount() {
         this.alumnos.getAlumnosSinGrupo(this.props.urlBase).then(data =>  this.setState({ listaSinGrupos: data }) ).catch(error => this.setState({ comprobation: false }));
-        if(!this.props.cgselected.includes(this.props.astudent.nickUsuario)){
+        if(!this.state.listaSinGrupos.includes(this.state.nickUsuario)){
             this.grupos.getAssignmentGroupsByStudent(this.state.nickUsuario).then(data => this.setState({ listaGrupos: data })); 
         }else{
             this.grupos.getAllGroupNames().then(data => this.setState({ listaGrupos: data }));   
@@ -236,7 +228,7 @@ class AssignStudent extends Component  {
                 this.setState({displayConfirmation: true})    
     
             }else{
-             axios.put(this.props.urlBase + "/alumnos/assignStudent/"+this.props.astudent.nickUsuario+"/"+cc).then(res => {
+             axios.put(this.props.urlBase + "/alumnos/assignStudent/"+this.state.nickUsuario+"/"+cc).then(res => {
                 this.respuesta(res.status, res.data)
                 })
             }    
@@ -282,7 +274,7 @@ class AssignStudent extends Component  {
                             <div className="t"><div><h5>Assign Student</h5></div></div>
                             <div className="i">
                                 <div className="p-inputgroup">
-                                    <InputText placeholder="Username" readOnly={true} name="alumno.nickUsuario" type="text" value={this.props.astudent.nickUsuario} onChange={this.nickUsuario}  />
+                                    <InputText placeholder="Username" name="alumno.nickUsuario" type="text" value={this.state.nickUsuario} onChange={this.nickUsuario}  />
                                  </div>
                                  </div>
 
