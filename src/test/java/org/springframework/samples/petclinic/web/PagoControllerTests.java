@@ -173,7 +173,7 @@ public class PagoControllerTests {
 	}
 	@WithMockUser(value = "spring", authorities = {"profesor"})
 	@Test
-	void testSendingNewPaymentSuccesWithNicknameNull() throws Exception{
+	void testSendingNewPaymentNoSuccesWithNicknameNull() throws Exception{
 		
 		p = new Pago();
 		Alumno alumno = new Alumno();
@@ -196,7 +196,7 @@ public class PagoControllerTests {
 	
 	@WithMockUser(value = "spring", authorities = {"profesor"})
 	@Test
-	void testSendingNewPaymentSuccesWithConceptNull() throws Exception{
+	void testSendingNewPaymentNOSuccesWithConceptNull() throws Exception{
 		
 		p = new Pago();
 		Alumno alumno = new Alumno();
@@ -219,7 +219,7 @@ public class PagoControllerTests {
 	
 	@WithMockUser(value = "spring", authorities = {"profesor"})
 	@Test
-	void testSendingNewPaymentSuccesWithTypeNull() throws Exception{
+	void testSendingNewPaymentNoSuccesWithTypeNull() throws Exception{
 		
 		p = new Pago();
 		Alumno alumno = new Alumno();
@@ -242,7 +242,7 @@ public class PagoControllerTests {
 	
 	@WithMockUser(value = "spring", authorities = {"profesor"})
 	@Test
-	void testSendingNewPaymentSuccesWithStudentNull() throws Exception{
+	void testSendingNewPaymentNoSuccesWithStudentNull() throws Exception{
 		
 		p = new Pago();
 		Alumno alumno = new Alumno();
@@ -286,23 +286,4 @@ public class PagoControllerTests {
 			    .with(csrf()))
 		.andExpect(status().isNoContent());
 	}
-	/*
-	 * @WithMockUser(value = "spring")
-	 * 
-	 * @Test void testSendingNewPaymentSuccesIfLoggedAsAlumno() throws Exception{
-	 * Gson gson = new Gson(); String jsonString = gson.toJson(p);
-	 * log.info("Informa: "+jsonString);
-	 * 
-	 * mockMvc.perform(post("/pagos/new") .contentType(MediaType.APPLICATION_JSON)
-	 * .content(jsonString) .with(csrf()).sessionAttr("type", "alumno"))
-	 * .andExpect(status().isUnauthorized());
-	 * 
-	 * // Gson gson = new Gson(); // String jsonString = gson.toJson(g);
-	 * 
-	 * // mockMvc.perform(post("/grupos/new") //
-	 * .contentType(MediaType.APPLICATION_JSON) // .content(jsonString) //
-	 * .with(csrf()).sessionAttr("type",
-	 * "alumno")).andExpect(status().isUnauthorized()); }
-	 */
-
 }
