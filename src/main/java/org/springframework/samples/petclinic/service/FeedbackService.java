@@ -7,8 +7,6 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Feedback;
@@ -35,7 +33,7 @@ public class FeedbackService {
 	}
 
 	
-	public void añadirAlumnoAMaterial(Integer idMaterial, @Valid Alumno alumno) {
+	public void añadirAlumnoAMaterial(Integer idMaterial, Alumno alumno) {
 		alumno.setVersion(alumnoService.getAlumnoByIdOrNif(alumno.getNickUsuario(), alumno.getDniUsuario()).getVersion());
 		log.info("Asignando el material con id ",idMaterial, " al alumno ",alumno.getNickUsuario());
 		Material m = materialService.findMaterialById(idMaterial);

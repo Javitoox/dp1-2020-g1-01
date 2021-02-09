@@ -72,9 +72,11 @@ public class AlumnoRepositoryTests {
 	@Test
 	@Transactional
 	void testFindByNickAndNifDuplicated() throws DataAccessException{
+		a.setVersion(0);
 		alumnoRepository.save(a);
 		a.setNickUsuario("JaviMartinez");
 		a.setDniUsuario("76567674T");
+		a.setVersion(0);
 		alumnoRepository.save(a);
 		
 		Exception exception = assertThrows(IncorrectResultSizeDataAccessException.class, () -> {alumnoRepository.findByNickAndNif("JaviMartinez", "99876566W");});
@@ -87,6 +89,7 @@ public class AlumnoRepositoryTests {
 	void testReturnStudentsByGroup() {
 		Curso c = cursoRepository.findById("A1").get();
 		Grupo g  = new Grupo();
+		a.setVersion(0);
 		g.setNombreGrupo("Grupo de evelyn");
 		g.setCursos(c);
 		grupoRepository.save(g);
@@ -94,7 +97,6 @@ public class AlumnoRepositoryTests {
 		alumnoRepository.save(a);
 		List<Alumno>alumnos = alumnoRepository.findByGroup("Grupo de evelyn");
         assertThat(alumnos.size()).isGreaterThan(0);
-
 	}
 	
 	@Test

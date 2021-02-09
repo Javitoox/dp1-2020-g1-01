@@ -50,9 +50,6 @@ export class FeedbackAlumno extends Component{
         formData.append('rate', this.state.rate) ;
         formData.append('comment', this.state.comment) ;
         formData.append('id', this.state.id);
-        console.log(this.state.rate);
-        console.log(this.state.comment);
-        console.log(this.state.id);
 
         this.materiales.updateFeedback(this.props.urlBase, formData).then(() => this.setState({
             succes: <div className="alert alert-success" role="alert">The feedback has been send successfully</div>
