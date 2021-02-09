@@ -288,6 +288,12 @@ public class AlumnoServiceTests {
 		assertThat(alumnoService.getStudentsWithNoGroups().size()).isGreaterThan(0);
 		assertThat(alumnoService.getStudentsWithNoGroups().size()).isEqualTo(2);
 	}
+	
+	@Test
+	void shouldReturnAllStudentsNamesWithNoGroupsIsEmpty() {
+		when(alumnoRepository.findSudentsWithNoGroups()).thenReturn(new ArrayList<>());
+		assertThat(alumnoService.getStudentsWithNoGroups().size()).isEqualTo(0);
+	}
 
 	@Test
 	void shoulReturnAllStudentsNameAbleToDelete(){
@@ -296,6 +302,13 @@ public class AlumnoServiceTests {
 		when(alumnoRepository.findStudentsAbleToDelete()).thenReturn(students);
 		assertThat(alumnoService.getStudentsToDelete().size()).isEqualTo(2);
 		assertThat(alumnoService.getStudentsToDelete()).isNotEmpty();
+	}
+	
+	@Test
+	void shoulReturnAllStudentsNameAbleToDeleteIsEmpty(){
+		when(alumnoRepository.findStudentsAbleToDelete()).thenReturn(new ArrayList<>());
+		assertThat(alumnoService.getStudentsToDelete().size()).isEqualTo(0);
+		assertThat(alumnoService.getStudentsToDelete()).isEmpty();
 	}
 
 }

@@ -95,6 +95,12 @@ public class PagoServiceTests {
 	}
 	
 	@Test
+	void testPaymentsNotPaidListIsEmpty() {
+		when(pagoRepository.findStudentsByPago(CONCEPTO)).thenReturn(new ArrayList<>());
+		assertThat(pagoService.getStudentsByPayment(CONCEPTO)).isEmpty();
+	}
+	
+	@Test
 	void testRegisterAPayment() {
 		pagoService.savePayment(p);
 		verify(pagoRepository).save(p);		
@@ -114,6 +120,11 @@ public class PagoServiceTests {
 		assertThat(pagoService.getStudentsNoPayment(CONCEPTO)).isNotEmpty();
 	}
 
+	@Test
+	void testStudentsByNoPagoIsEmpty() {
+		when(pagoRepository.findStudentByNoPago(CONCEPTO)).thenReturn(new ArrayList<>());
+		assertThat(pagoService.getStudentsNoPayment(CONCEPTO)).isEmpty();
+	}
 	
 	@Test
 	void testStudentsNamesByNoPago() {
@@ -140,5 +151,14 @@ public class PagoServiceTests {
 		List<Pago> allPagosMade = pagoService.getPaymentsByStudent("Javiel");
 		assertThat(allPagosMade).hasSize(1);
 		assertThat(allPagosMade).isNotEmpty();
+	}
+	
+	@Test
+	void testPaymentsMadeByStudentIsEmpty() {
+		List<Pago> pagos = new ArrayList<>();
+		when(pagoRepository.findPaymentsByStudent("Javiel")).thenReturn(pagos);
+		List<Pago> allPagosMade = pagoService.getPaymentsByStudent("Javiel");
+		assertThat(allPagosMade).hasSize(0);
+		assertThat(allPagosMade).isEmpty();
 	}
 }
