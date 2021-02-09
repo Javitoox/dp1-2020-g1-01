@@ -59,8 +59,11 @@ public class FeedbackServiceTests {
 	
 	@Test
 	void shouldAñadirAlumnoAMaterial() {
+		Alumno a = new Alumno();
+		a.setVersion(1);
 		when(materialService.findMaterialById(any(Integer.class))).thenReturn(new Material());
-		feedbackService.añadirAlumnoAMaterial(1, new Alumno());
+		when(alumnoService.getAlumnoByIdOrNif(any(), any())).thenReturn(a);
+		feedbackService.añadirAlumnoAMaterial(1, a);
 		verify(feedbackRepository, times(1)).save(any(Feedback.class));
 	}
 	
