@@ -237,8 +237,6 @@ export class Solicitudes extends Component {
         }
 
         if (this.state.button) {
-            console.log("El alumno es : " + alumno)
-            console.log(tutor)
             axios.post(this.props.urlBase + "/requests/sendingAll", {alumno, tutor}).then(res => {
                 this.respuesta(res.status, res.data)
             })

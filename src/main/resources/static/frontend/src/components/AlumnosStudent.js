@@ -15,36 +15,36 @@ export class AlumnosStudent extends Component {
         super(props);
         this.state = {
             alumno:{
-            nickUsuario: "",
-            contraseya: "",
-            dniUsuario: "",
-            nombreCompletoUsuario: "",
-            correoElectronicoUsuario:"",
-            numTelefonoUsuario: "",
-            numTelefonoUsuario2: "",
-            direccionUsuario: "",
-            fechaNacimiento: "",
-            numTareasEntregadas:"",
-            fechaMatriculacion: "",
-            fechaSolicitud:"",
-            fechaBaja:"",
-            tutores:{
                 nickUsuario: "",
                 contraseya: "",
                 dniUsuario: "",
                 nombreCompletoUsuario: "",
-                correoElectronicoUsuario: "",
+                correoElectronicoUsuario:"",
                 numTelefonoUsuario: "",
                 numTelefonoUsuario2: "",
                 direccionUsuario: "",
                 fechaNacimiento: "",
-            },
-            grupos: {
-                nombreGrupo: "",
-                cursos: {
-                    cursoDeIngles:""
-            }
-            }
+                numTareasEntregadas:"",
+                fechaMatriculacion: "",
+                fechaSolicitud:"",
+                fechaBaja:"",
+                tutores:{
+                    nickUsuario: "",
+                    contraseya: "",
+                    dniUsuario: "",
+                    nombreCompletoUsuario: "",
+                    correoElectronicoUsuario: "",
+                    numTelefonoUsuario: "",
+                    numTelefonoUsuario2: "",
+                    direccionUsuario: "",
+                    fechaNacimiento: "",
+                },
+                grupos: {
+                    nombreGrupo: "",
+                    cursos: {
+                        cursoDeIngles:""
+                }
+                }
             },
             rowDataInfo:null,
             comprobation: true,
@@ -65,14 +65,18 @@ export class AlumnosStudent extends Component {
 
     componentDidMount() {
         this.alumnos.getAlumnoInfo(this.props.urlBase, this.props.nickUser).then(data => this.setState({ alumno: data })).catch(error => this.setState({ comprobation: false }));
-        this.mostrarTabla();
-        this.alumnos.getAlumnoInfo(this.props.urlBase, this.props.nickUser).then(data => this.asig.getTeacherByGroup(this.props.urlBase,data.grupos.nombreGrupo).then(data => this.setState({ profesor: data })));
 
+        if(this.state.alumno.grupos.nombreGrupo !== ""){
+            this.mostrarTabla();
+            this.alumnos.getAlumnoInfo(this.props.urlBase, this.props.nickUser).then(data => this.asig.getTeacherByGroup(this.props.urlBase,data.grupos.nombreGrupo).then(data => this.setState({ profesor: data })));
+        }
     }
- 
-    
+
     mostrarTabla(){
-        this.alumnos.getAlumnoInfo(this.props.urlBase, this.props.nickUser).then(data => this.alumnos.getStudentsByNameOfGroup(this.props.urlBase, data.grupos.nombreGrupo).then(data => this.setState({ alumnos: data })));
+        console.log(this.state.alumno.grupos)
+        if(this.state.alumno.grupos.nombreGrupo !== "") {
+            this.alumnos.getAlumnoInfo(this.props.urlBase, this.props.nickUser).then(data => this.alumnos.getStudentsByNameOfGroup(this.props.urlBase, data.grupos.nombreGrupo).then(data => this.setState({alumnos: data})));
+        }
     }
 
    
@@ -127,7 +131,7 @@ export class AlumnosStudent extends Component {
 
       }
       info(){
-          if(this.state.alumno.grupos.nombreGrupo!==null && this.state.profesor!==null){
+          if(this.state.alumno.grupos!==null && this.state.profesor!==null){
             return <div>
             <h5>Group:</h5> {this.state.alumno.grupos.nombreGrupo}
             <h5>Course:</h5> {this.state.alumno.grupos.cursos.cursoDeIngles}
@@ -135,7 +139,7 @@ export class AlumnosStudent extends Component {
             <h5>Number of homeworks delivered:</h5> {this.state.alumno.numTareasEntregadas}
             <h5>Enrolment date:</h5> {this.state.alumno.fechaMatriculacion}
             </div>
-          }else if(this.state.alumno.grupos.nombreGrupo===null){
+          }else if(this.state.alumno.grupos===null){
             return <div>
             <h5>Group:</h5> --
             <h5>Course:</h5> --
@@ -143,7 +147,7 @@ export class AlumnosStudent extends Component {
             <h5>Number of homeworks delivered:</h5> {this.state.alumno.numTareasEntregadas}
             <h5>Enrolment date:</h5> {this.state.alumno.fechaMatriculacion}
             </div>
-          }else if(this.state.alumno.grupos.nombreGrupo!==null && this.state.profesor===null){
+          }else if(this.state.alumno.grupos!==null && this.state.profesor===null){
             return <div>
             <h5>Group:</h5> {this.state.alumno.grupos.nombreGrupo}
             <h5>Course:</h5> {this.state.alumno.grupos.cursos.cursoDeIngles}
@@ -204,4 +208,3 @@ export class AlumnosStudent extends Component {
                 )
             }
         }
-    
