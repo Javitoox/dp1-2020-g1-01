@@ -32,7 +32,7 @@ public class Solicitud {
 
 	public String toJson2() {
 		LocalDate copiaFechaNacimientoAlumno = alumno.getFechaNacimiento();
-		LocalDate copiaFechaNacimientoTutor = tutor.getFechaNacimiento();
+		//LocalDate copiaFechaNacimientoTutor = tutor.getFechaNacimiento();
 		Gson json = new Gson();
 		alumno.setFechaNacimiento(null);
 		tutor.setFechaNacimiento(null);
@@ -61,6 +61,20 @@ public class Solicitud {
             + copiaFechaNacimiento.toString() + "\"" +  "," + "\"fechaMatriculacion\"" + ":" + "\"" + copiaFechaMatriculacion.toString() + "\""  + "}" + "}";
         alumno.setFechaNacimiento(copiaFechaNacimiento);
         alumno.setFechaMatriculacion(copiaFechaMatriculacion);
+        System.out.println("El result es " + result);
+        return result;
+    }
+    public String toJson3_1() {
+        LocalDate copiaFechaNacimiento = alumno.getFechaNacimiento();
+        LocalDate copiaFechaBaja = alumno.getFechaBaja();
+        Gson json = new Gson();
+        alumno.setFechaNacimiento(null);
+        alumno.setFechaBaja(null);
+        String jsonString = json.toJson(this);
+        String result = jsonString.substring(0, jsonString.length() - 2) + ",\"fechaNacimiento\":\""
+            + copiaFechaNacimiento.toString() + "\"" +  "," + "\"fechaBaja\"" + ":" + "\"" + copiaFechaBaja.toString() + "\""  + "}" + "}";
+        alumno.setFechaNacimiento(copiaFechaNacimiento);
+        alumno.setFechaBaja(copiaFechaBaja);
         System.out.println("El result es " + result);
         return result;
     }
