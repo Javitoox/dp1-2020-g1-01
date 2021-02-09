@@ -30,6 +30,7 @@ class AssignStudent extends Component  {
         succes:null,
         comprobation: true,
         displayConfirmation: false,
+        displayConfirmation2: false,
         A1:{
             nombreGrupo: "",
         },
@@ -226,6 +227,10 @@ class AssignStudent extends Component  {
             
             if(cc===""){
                 this.setState({displayConfirmation: true})    
+
+            }else if(this.state.nickUsuario===""){
+
+                this.setState({displayConfirmation2: true})    
     
             }else{
              axios.put(this.props.urlBase + "/alumnos/assignStudent/"+this.state.nickUsuario+"/"+cc).then(res => {
@@ -269,6 +274,12 @@ class AssignStudent extends Component  {
                          <div className="confirmation-content">
                              <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
                                <span>You must select a group</span>
+                         </div>
+                         </Dialog>
+                         <Dialog header="Confirmation" visible={this.state.displayConfirmation2} style={{ width: '350px' }} footer={this.renderFooter('displayConfirmation2')} onHide={() => this.setState({displayConfirmation2: false})}>
+                         <div className="confirmation-content">
+                             <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                               <span>You must select a name</span>
                          </div>
                          </Dialog>
                             <div className="t"><div><h5>Assign Student</h5></div></div>
