@@ -26,22 +26,22 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Alumno extends Usuario{
-	
+
 	@Column(name="num_tareas_entregadas")
 	private Integer numTareasEntregadas;
-	
+
 	@Column(name="fecha_matriculacion")
 	private LocalDate fechaMatriculacion;
-	
+
 	@Column(name="fecha_solicitud")
 	private LocalDate fechaSolicitud;
-	
+
 	@Column(name="fecha_baja")
 	private LocalDate fechaBaja;
-	
+
 	@Version
 	private Integer version;
-	
+
     @ManyToOne(optional=true)
     private Tutor tutores;
 
@@ -53,7 +53,7 @@ public class Alumno extends Usuario{
     @JsonIgnore
     private Collection<Inscripcion> inscripciones;
 
- 
+
 	public String toJson() {
 		LocalDate copiaFechaNacimiento = getFechaNacimiento();
 		Gson json = new Gson();

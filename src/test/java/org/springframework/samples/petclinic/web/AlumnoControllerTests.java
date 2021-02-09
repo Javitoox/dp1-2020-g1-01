@@ -1,13 +1,13 @@
 package org.springframework.samples.petclinic.web;
 
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -89,12 +89,32 @@ public class AlumnoControllerTests {
 		alumno.setNumTareasEntregadas(3);
 		alumno.setNumTelefonoUsuario("677676676");
 		given(alumnoService.getAlumnoByIdOrNif(any(), any())).willReturn(alumno);
-		
 		mockMvc.perform(put("/alumnos/editStudent")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(alumno.toJson())
 				.with(csrf())).andExpect(status().isCreated());
 	}
+    @WithMockUser(value = "spring")
+    @Test
+    void testShouldntEditStudentVersionado() throws Exception {
+        Alumno alumno = new Alumno();
+        alumno.setVersion(99);
+        alumno.setNickUsuario("JaviMartinez7");
+        alumno.setContraseya("JaviKuka787");
+        alumno.setCorreoElectronicoUsuario("javikua7@gmail.com");
+        alumno.setDireccionUsuario("Calle Pepe");
+        alumno.setDniUsuario("45000787Y");
+        alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
+        alumno.setNombreCompletoUsuario("Javi Martinez");
+        alumno.setNumTareasEntregadas(3);
+        alumno.setNumTelefonoUsuario("677676676");
+        given(alumnoService.getAlumnoByIdOrNif(any(), any())).willReturn(alumno);
+        mockMvc.perform(put("/alumnos/editStudent")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(alumno.toJson())
+            .with(csrf())).andExpect(status().isOk())
+            .andExpect(jsonPath("$", is("Concurrent modification of student! Try again!")));
+    }
 
 	@WithMockUser(value = "spring")
 	@Test
@@ -131,7 +151,7 @@ public class AlumnoControllerTests {
 		alumno.setNumTareasEntregadas(3);
 		alumno.setNumTelefonoUsuario("622119555");
 		given(alumnoService.getAlumnoByIdOrNif(any(), any())).willReturn(alumno);
-		
+
 		mockMvc.perform(put("/alumnos/editPersonalInfo")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(alumno.toJson())
@@ -158,6 +178,27 @@ public class AlumnoControllerTests {
 				.with(csrf()))
 		.andExpect(status().isNonAuthoritativeInformation());
 	}
+    @WithMockUser(value = "spring")
+    @Test
+    void testShouldntEditPersonalInfo() throws Exception {
+        Alumno alumno = new Alumno();
+        alumno.setVersion(99);
+        alumno.setNickUsuario("JaviMartinez7");
+        alumno.setContraseya("JaviKuka787");
+        alumno.setCorreoElectronicoUsuario("javikua7@gmail.com");
+        alumno.setDireccionUsuario("Calle Pepe");
+        alumno.setDniUsuario("45000787Y");
+        alumno.setFechaNacimiento(LocalDate.parse("2000-08-13"));
+        alumno.setNombreCompletoUsuario("Javi Martinez");
+        alumno.setNumTareasEntregadas(3);
+        alumno.setNumTelefonoUsuario("677676676");
+        given(alumnoService.getAlumnoByIdOrNif(any(), any())).willReturn(alumno);
+        mockMvc.perform(put("/alumnos/editPersonalInfo")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(alumno.toJson())
+            .with(csrf())).andExpect(status().isOk())
+            .andExpect(jsonPath("$", is("Concurrent modification of student! Try again!")));
+    }
 
 	@WithMockUser(value  = "manolo", authorities= {"alumno"})
 	@Test
